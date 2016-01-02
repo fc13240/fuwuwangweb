@@ -1,0 +1,597 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.platform.mapper.GoodsMapper">
+
+	<sql id="find_goods_little">
+	    <![CDATA[
+			SELECT goods_id,goods_name,goods_img,goods_price
+	    ]]>
+	</sql>
+
+	<sql id="from_xxx">
+	    <![CDATA[
+	    	FROM t_goods
+	    ]]>
+
+	</sql>
+
+	<sql id="where_xxx">
+	    <![CDATA[
+	    	WHERE 1=1
+	    ]]>
+	</sql>
+	<sql id="find_xxx">
+	    <![CDATA[
+			SELECT goods_id,goods_name,goods_desc,goods_img,goods_price,store_id,goods_return_ticket,goods_return_type,goods_return_standard,goods_create_time,goods_update_time,type2_id
+	    ]]>
+	</sql>
+
+	<!-- 添加商品 -->
+	<insert id="addGoods" parameterType="com.platform.entity.Goods"
+		keyProperty="goods_id">
+		INSERT INTO t_goods
+		(goods_id,goods_name,goods_desc,goods_img,goods_price_LB,goods_price,store_id,goods_return_ticket,goods_return_type,goods_return_standard,goods_create_time,goods_update_time,goods_type2_id,goods_check_state,goods_delete_state,goods_check_time,goods_purchase_notes)
+		VALUES
+		(#{goods_id},#{goods_name},#{goods_desc},#{goods_img},#{goods_price_LB},#{goods_price},#{store_id},#{goods_return_ticket},#{goods_return_type},#{goods_return_standard},now(),now(),#{goods_type2_id},#{goods_check_state},#{goods_delete_state},#{goods_check_time},#{goods_purchase_notes})
+	</insert>
+
+	<!-- 更新商品基本信息 -->
+	<update id="updateGoods" parameterType="com.platform.entity.Goods">
+		UPDATE t_goods SET
+		goods_name = #{goods_name},
+		goods_desc = #{goods_desc},
+		goods_price =
+		#{goods_price},
+		goods_price_LB = #{goods_price_LB},
+		goods_return_ticket
+		= #{goods_return_ticket},
+		goods_pay_type = #{goods_pay_type},
+		goods_return_type = #{goods_return_type},
+		goods_return_standard =
+		#{goods_return_standard},
+		goods_purchase_notes=#{goods_purchase_notes},
+		goods_update_time = now()
+		WHERE goods_id = #{goods_id}
+	</update>
+
+	<!-- 更新商品图片 -->
+	<update id="updateGoodsImg" parameterType="com.platform.entity.Goods">
+		UPDATE t_goods SET
+		goods_img = #{goods_img},
+		goods_update_time = now()
+		WHERE goods_id =
+		#{goods_id}
+	</update>
+
+	<!-- 删除商品 -->
+	<update id="deleteGoods" parameterType="com.platform.entity.Goods">
+		UPDATE t_goods SET
+		goods_delete_state = #{goods_delete_state},
+		goods_update_time = now()
+		WHERE goods_id = #{goods_id}
+	</update>
+
+	<!-- 审核商品 -->
+	<update id="updatecheckgoods" parameterType="com.platform.entity.Goods">
+		UPDATE t_goods SET
+		goods_check_state = #{goods_check_state},
+		goods_check_user=#{goods_check_user},
+		goods_check_time = now(),
+		goods_update_time = now()
+
+		WHERE goods_id = #{goods_id}
+	</update>
+
+	<!-- 根据商品名获取商品列表 (限制删除状态和审核状态，不限制用户)提供给app -->
+
+	<select id="findGoodsByName" parameterType="String"
+		resultType="com.platform.entity.vo.GoodsVo">
+		SELECT tg.*,tm.merchant_type,ts.store_name from t_goods as
+		tg,t_merchant_info as tm,t_store as ts
+		WHERE tg.goods_name LIKE
+		CONCAT(CONCAT('%', #{goods_name}), '%')
+		and tg.goods_delete_state=0
+		and
+		tg.goods_check_state=1
+		and tm.user_id in(
+		select user_id from t_store
+		where store_id=tg.store_id)
+		and tg.store_id=ts.store_id
+	</select>
+
+
+	<!-- 根据商品名加用户ID 获取商品列表 (限制删除状态=正常状态，不限制审核状态)提供商家商品管理 -->
+	<select id="findGoodsByName_UserId" parameterType="String"
+		resultType="com.platform.entity.vo.GoodsForWeb">
+		SELECT * from t_goods as tg,t_store as ts
+		WHERE
+		tg.goods_name LIKE CONCAT(CONCAT('%', #{goods_name}), '%')
+		and
+		tg.goods_delete_state=0
+		and tg.store_id in(select store_id from t_store
+		where user_id
+		=#{user_id})
+		and ts.store_id=tg.store_id
+	</select>
+	<!-- 根据商品名获取商品列表 (限制删除状态和审核状态，不限制用户)提供给管理员 商品管理 -->
+	<select id="findGoodsByNameForAdmin" parameterType="String"
+		resultType="com.platform.entity.vo.GoodsForWeb">
+		SELECT tg.*,ts.store_name from t_goods as tg ,t_store as ts
+		WHERE
+		tg.goods_name LIKE CONCAT(CONCAT('%', #{goods_name}), '%')
+		and
+		tg.store_id=ts.store_id
+		order by tg.goods_check_state
+	</select>
+
+
+	<!-- 根据店铺Id获取商品列表 -->
+	<select id="findGoodsByStoreId" parameterType="String"
+		resultType="com.platform.entity.vo.GoodsForWeb">
+
+		SELECT tg.*,ts.store_name from t_goods as tg,t_store as ts
+		WHERE tg.store_id =#{store_id}
+		and tg.goods_delete_state=0
+		and
+		tg.store_id=ts.store_id
+	</select>
+
+
+	<!-- 根据店铺Id获取商品列表提供给app -->
+	<select id="findGoodsByStoreIdForApp" parameterType="String"
+		resultType="com.platform.entity.vo.GoodsVo">
+		SELECT tg.*,tm.merchant_type from t_goods as
+		tg,t_merchant_info as tm
+		WHERE tg.store_id =#{store_id}
+		and
+		tg.goods_delete_state=0
+		and tg.goods_check_state=1
+		and tm.user_id in(
+		select user_id from t_store where store_id=tg.store_id)
+	</select>
+
+
+
+
+	<!-- 根据用户Id获取商品列表 -->
+	<select id="findGoodsByUserId" parameterType="String"
+		resultType="com.platform.entity.vo.GoodsForWeb">
+		SELECT tg.*,ts.store_name from t_goods as tg,t_store as ts
+		WHERE tg.goods_delete_state=0
+		and tg.store_id in(select store_id from
+		t_store where user_id=#{user_id})
+		and tg.store_id=ts.store_id
+	</select>
+
+	<!-- 根据商家Id获取商品信息 -->
+	<select id="findGoodsinfoByGoodsId" parameterType="String"
+		resultType="com.platform.entity.vo.GoodsForWeb">
+
+		SELECT tg.*,tm.merchant_type,ts.store_name from t_goods AS
+		tg
+		JOIN t_store AS ts ON tg.store_id=ts.store_id
+		JOIN t_merchant_info AS
+		tm ON tm.user_id = ts.user_id
+		WHERE tg.goods_id = #{goods_id}
+
+
+	</select>
+
+	<!-- 根据商品名获取商品列表 (限制删除状态和审核状态，不限制用户)提供给app -->
+
+	<select id="findGoodsByNameAndCityId" resultType="com.platform.entity.vo.GoodsVo">
+		SELECT
+		tg.*,tm.merchant_type,ts.store_name from t_goods as
+		tg,t_merchant_info
+		as tm,t_store as ts,t_street as tr
+		WHERE tg.goods_name LIKE
+		CONCAT(CONCAT('%', #{goods_name}), '%')
+		and tg.goods_delete_state=0
+		and
+		tg.goods_check_state=1
+		and ts.street_id=tr.street_id
+		and tr.region_id
+		in(select region_id from t_region where city_id=
+		#{city_id}
+		)
+		and
+		tm.user_id in(
+		select user_id from t_store where store_id=tg.store_id)
+		and tg.store_id=ts.store_id
+	</select>
+
+
+	<!-- 根据支付类别获取龙币商品 -->
+	<select id="findGoodsByPayType" parameterType="Integer"
+		resultType="com.platform.entity.vo.GoodsVo">
+		SELECT * from t_goods as tg,t_merchant_info as tm
+		WHERE
+		tg.goods_pay_type = #{goods_pay_type}
+		and tg.goods_delete_state=0
+		and
+		tg.goods_check_state=1
+		and tm.user_id in(
+		select user_id from t_store
+		where store_id=tg.store_id)
+	</select>
+
+
+	<!-- 获得所有商品 -->
+	<select id="findAllGoods" resultType="com.platform.entity.vo.GoodsForWeb">
+		SELECT tg.*,ts.store_name
+		from t_goods as tg,t_store as ts
+		where
+		tg.goods_delete_state=0
+		and
+		tg.store_id=ts.store_id
+		order by tg.goods_check_state
+	</select>
+
+	<!-- 根据店铺分类和城市获取商品推荐列表 -->
+	<select id="findGoodsrecommendBycity_type" resultType="com.platform.entity.vo.GoodsVo">
+		select
+		tg.*,tst.street_name,tm.merchant_type from t_goods as
+		tg,t_merchant_info as tm,t_street as tst
+		where tg.goods_id in(
+		select
+		goods_id from t_goods_recommend
+		where goods_id
+		in(
+		select goods_id from
+		t_goods where store_id
+		in (
+		select store_id from storeview
+		where
+		city_name=#{city_name}
+		and store_type2_id
+		in (select store_type2_id from
+		t_store_type2
+		where store_type1_id=#{store_type1_id}
+		)
+		)
+		)
+		and
+		goods_recommend_state='1')
+		and tg.goods_delete_state=0
+		and
+		tg.goods_check_state=1
+		and tm.user_id in(
+		select user_id from t_store
+		where store_id=tg.store_id)
+		and tst.street_id in(select street_id from
+		t_store where
+		store_id=tg.store_id)
+	</select>
+	<!-- 根据店铺分类和城市获取商品推荐列表 -->
+	<select id="findGoodsrecommendByCity_id" resultType="com.platform.entity.vo.GoodsVo">
+		select
+		tg.*,tst.street_name,tm.merchant_type from t_goods as
+		tg,t_merchant_info as tm,t_street as tst
+		where tg.goods_id in(
+		select
+		goods_id from t_goods_recommend
+		where goods_id
+		in(
+		select goods_id from
+		t_goods where store_id
+		in (
+		select store_id from t_store
+		where
+		street_id=tst.street_id
+		and street_id in(
+		select street_id from t_street
+		where region_id
+		in(
+		select region_id from t_region
+		where
+		city_id=#{city_id})
+		)and store_type2_id
+		in (select store_type2_id from
+		t_store_type2
+		where store_type1_id=#{store_type1_id}
+		)
+		)
+		)
+		and
+		goods_recommend_state='1')
+		and tg.goods_delete_state=0
+		and
+		tg.goods_check_state=1
+		and tm.user_id in(
+		select user_id from t_store
+		where store_id=tg.store_id)
+		and tst.street_id in(select street_id from
+		t_store where
+		store_id=tg.store_id)
+	</select>
+
+	<!-- 根据城市获取商品推荐列表 -->
+	<select id="findAllGoodsrecommendByCityName" resultType="com.platform.entity.vo.GoodsVo">
+		select
+		tg.*,tm.merchant_type ,tst.street_name from t_goods as tg
+		,t_merchant_info as tm ,t_street as tst
+		where tg.goods_id in(
+		select
+		goods_id from t_goods_recommend where goods_id
+		in(
+		select goods_id from
+		t_goods where store_id
+		in (
+		select store_id from storeview
+		where
+		city_name=#{city_name}
+		)and goods_delete_state=0 and
+		goods_check_state=1
+		)
+		and goods_recommend_state='1')
+		and tm.user_id in(
+		select user_id from t_store where store_id=tg.store_id)
+		and tg.store_id
+		in(select store_id from t_store where street_id
+		=tst.street_id)
+	</select>
+	<!-- 根据城市获取商品推荐列表 -->
+	<select id="findAllGoodsrecommendByCityId" resultType="com.platform.entity.vo.GoodsVo">
+		select
+		tg.*,tm.merchant_type ,tst.street_name from t_goods as tg
+		,t_merchant_info as tm ,t_street as tst
+		where tg.goods_id in(
+		select
+		goods_id from t_goods_recommend where goods_id
+		in(
+		select goods_id from
+		t_goods where store_id
+		in (
+		select store_id from t_store
+		where
+		street_id=tst.street_id
+		and street_id in(
+		select street_id from t_street
+		where region_id
+		in(
+		select region_id from t_region
+		where
+		city_id=#{city_id})
+		)and goods_delete_state=0 and goods_check_state=1
+		)
+		and goods_recommend_state='1')
+		and tm.user_id in( select user_id from
+		t_store where
+		store_id=tg.store_id)
+		and tg.store_id in(select store_id
+		from t_store where street_id
+		=tst.street_id))
+	</select>
+
+	<!-- 获取商品推荐列表根据推荐商品状态排序 -->
+	<select id="findAllGoodsrecommendOrderBystate" resultType="com.platform.entity.vo.GoodsRecommendVo">
+		select
+		tg.goods_id,tg.goods_name,tg.goods_img,tg.goods_price,tg.goods_price_LB,tgr.goods_recommend_id,ts.store_name,tgr.goods_position
+		from t_goods as tg ,t_goods_recommend as tgr ,t_store as ts
+		where
+		tg.goods_id=tgr.goods_id and tg.goods_delete_state=0 and
+		tg.store_id=ts.store_id
+		and tgr.goods_recommend_state='1' and
+		tg.goods_delete_state='0'
+		order by tgr.goods_position
+	</select>
+	<!-- 判断商品是否推荐商品 -->
+	<select id="judge_Goods_Recommend" parameterType="String"
+		resultType="com.platform.entity.GoodsRecommend">
+		select * from t_goods_recommend
+		where goods_id=#{goods_id}
+	</select>
+
+	<!-- 删除推荐商品 -->
+	<update id="deteleGoodsRecommend" parameterType="com.platform.entity.GoodsRecommend">
+		UPDATE
+		t_goods_recommend SET
+		goods_recommend_state =
+		#{goods_recommend_state},goods_position=#{goods_position}
+		WHERE
+		goods_id = #{goods_id}
+	</update>
+
+	<!-- 修改推荐商品位置 -->
+	<update id="updateGoodsRecommend_position" parameterType="com.platform.entity.GoodsRecommend">
+		UPDATE
+		t_goods_recommend SET
+		goods_position=#{goods_position}
+		WHERE goods_id =
+		#{goods_id}
+	</update>
+	<!-- 添加推荐商品 -->
+	<insert id="addGoodsRecommend" parameterType="com.platform.entity.GoodsRecommend"
+		keyProperty="goods_recommend_id">
+		INSERT INTO t_goods_recommend
+		(goods_recommend_id,goods_recommend_type,goods_id,goods_recommend_state,goods_position)
+		VALUES
+		(#{goods_recommend_id},#{goods_recommend_type},#{goods_id},#{goods_recommend_state},#{goods_position})
+	</insert>
+
+
+	<!-- 根据商家Id获取商品信息 -->
+	<select id="findGoodsinfoForPay" parameterType="String"
+		resultType="com.platform.entity.vo.GoodsForPay">
+
+		SELECT tg.*,tm.merchant_type,ts.store_name ,tu.userLogin
+		FROM t_goods AS
+		tg,t_merchant_info AS tm,t_store AS ts ,t_user AS tu
+		WHERE tg.goods_id = #{goods_id}
+		AND tm.user_id IN(
+		SELECT user_id FROM
+		t_store WHERE store_id=tg.store_id)
+		AND tg.store_id=ts.store_id
+		AND
+		tu.user_id=tm.user_id
+
+	</select>
+
+
+	<!-- leo -->
+
+	<!-- 根据店铺Id获取商品列表提供给app -->
+
+	<select id="getGoodsByStoreIdForApp" parameterType="java.util.HashMap"
+		resultType="com.platform.entity.vo.GoodsVo">
+		SELECT tg.*,tm.merchant_type,ts.store_name
+		<include refid="getdGoodsByStoreIdForAppSql" />
+		AND tg.store_id =#{store_id}
+		<if test="pageSize != null and offset!=null">
+			LIMIT #{pageSize} OFFSET #{offset}
+		</if>
+
+	</select>
+
+	<select id="getGoodsCountByStoreIdForApp" parameterType="String"
+		resultType="java.lang.Integer">
+		SELECT COUNT(*)
+		<include refid="getdGoodsByStoreIdForAppSql" />
+		AND
+		tg.store_id =#{store_id}
+	</select>
+
+	<sql id="getdGoodsByStoreIdForAppSql">
+		FROM t_goods AS tg
+		JOIN t_store AS ts ON
+		ts.store_id=tg.store_id
+		JOIN t_merchant_info AS tm ON tm.user_id
+		=ts.user_id
+		WHERE
+		tg.goods_delete_state=0
+		AND
+		tg.goods_check_state=1
+		AND
+		ts.store_state=3
+	</sql>
+
+	<!-- 根据商品名获取商品列表 (限制删除状态和审核状态，不限制用户)提供给app -->
+	<select id="getGoodsBySearchNameAndCityName" parameterType="java.util.HashMap"
+		resultType="com.platform.entity.vo.GoodsVo">
+
+		SELECT tg.*,tm.merchant_type,ts.store_name
+
+		<include refid="getGoodsBySearchNameAndCityNameSql" />
+
+		AND
+		tg.goods_name LIKE
+		CONCAT(CONCAT('%', #{searchName}), '%')
+
+		<if test="pageSize != null and offset!=null">
+			LIMIT #{pageSize} OFFSET #{offset}
+		</if>
+	</select>
+
+	<select id="getGoodsCountBySearchNameAndCityName" parameterType="java.util.HashMap"
+		resultType="java.lang.Integer">
+		SELECT COUNT(*)
+
+		<include refid="getGoodsBySearchNameAndCityNameSql" />
+		
+		AND
+		tg.goods_name LIKE
+		CONCAT(CONCAT('%', #{searchName}), '%')
+
+	</select>
+
+	<sql id="getGoodsBySearchNameAndCityNameSql">
+		FROM t_goods AS tg
+		JOIN t_store AS ts ON
+		ts.store_id=tg.store_id
+		JOIN t_merchant_info AS tm ON
+		tm.user_id=ts.user_id
+		JOIN t_street tst ON tst.street_id=ts.street_id
+		JOIN t_region tr ON tr.region_id=tst.region_id
+		JOIN t_city tc ON
+		tc.city_id=tr.city_id
+		WHERE
+		tg.goods_delete_state=0
+		AND
+		tg.goods_check_state=1
+		AND
+		ts.store_state=3
+		AND
+		tc.city_name=#{cityName}
+	</sql>
+
+	<!-- 根据支付类别获取龙币商品 -->
+	<select id="getLongBiGoodsByCityName" parameterType="java.util.HashMap"
+		resultType="com.platform.entity.vo.GoodsVo">
+		
+		SELECT tg.*,tm.merchant_type,ts.store_name
+		
+		<include refid="getGoodsBySearchNameAndCityNameSql" />
+		
+		AND
+		tg.goods_pay_type = 1
+		
+		<if test="pageSize != null and offset!=null">
+			LIMIT #{pageSize} OFFSET #{offset}
+		</if>
+		
+	</select>
+	
+	<!-- 根据支付类别获取龙币商品 -->
+	<select id="getLongBiGoodsCountByCityName" parameterType="java.lang.String"
+		resultType="java.lang.Integer">
+		
+		SELECT COUNT(*)
+		
+		<include refid="getGoodsBySearchNameAndCityNameSql" />
+		
+		AND
+		tg.goods_pay_type = 1
+		
+	</select>
+	
+	<!-- 根据店铺分类和城市获取商品推荐列表 -->
+	<select id="getGoodsRecommendByCityNameAndCategory" 
+		parameterType="java.util.HashMap" 
+		resultType="com.platform.entity.vo.GoodsVo">
+		select tg.*,tst.street_name,tm.merchant_type,ts.store_name 
+		<include refid="getGoodsRecommendByCityNameAndCategorySql" />
+		
+		<if test="pageSize != null and offset!=null">
+			LIMIT #{pageSize} OFFSET #{offset}
+		</if>
+		
+	</select>
+	
+	<select id="getGoodsRecommendCountByCityNameAndCategory" 
+		parameterType="java.util.HashMap" 
+		resultType="java.lang.Integer">
+		
+		SELECT COUNT(*) 
+		<include refid="getGoodsRecommendByCityNameAndCategorySql" />
+	
+	</select>
+	
+	<sql id="getGoodsRecommendByCityNameAndCategorySql">
+		FROM t_goods AS tg
+		JOIN t_store AS ts ON ts.store_id=tg.store_id
+		JOIN t_merchant_info AS tm ON tm.user_id=ts.user_id
+		JOIN t_street tst ON tst.street_id=ts.street_id
+		JOIN t_region tr ON tr.region_id=tst.region_id
+		JOIN t_city tc ON 	tc.city_id=tr.city_id
+		JOIN t_goods_recommend tgr ON tgr.goods_id = tg.goods_id
+		JOIN t_store_type2 tstt ON ts.store_type2_id=tstt.store_type2_id
+		JOIN t_store_type1  tsto ON tsto.store_type1_id = tstt.store_type1_id
+		WHERE
+		tg.goods_delete_state=0
+		AND
+		tg.goods_check_state=1
+		AND
+		ts.store_state=3
+		AND 
+		tgr.goods_recommend_state=1
+		AND
+		tc.city_name=#{cityName}
+		<if test="store_type1_id != null">
+		 tsto.store_type1_id=#{store_type1_id}
+		</if>
+	</sql>
+
+</mapper>

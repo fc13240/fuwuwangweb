@@ -1,0 +1,22 @@
+Log4j:[2015-11-27 14:07:57]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-11-27 14:08:24]  WARN PageNotFound:1110 - No mapping found for HTTP request with URI [/shop/goods/list] in DispatcherServlet with name 'dispatcherServlet'
+Log4j:[2015-11-27 14:18:20]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-11-27 14:18:26]  WARN PageNotFound:1110 - No mapping found for HTTP request with URI [/shop/app/ad/ad_cllick] in DispatcherServlet with name 'dispatcherServlet'
+Log4j:[2015-11-27 14:22:19]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-11-27 14:29:44]  WARN PageNotFound:1110 - No mapping found for HTTP request with URI [/shop/platform/app/userlogin] in DispatcherServlet with name 'dispatcherServlet'
+Log4j:[2015-11-27 14:34:58]  WARN PageNotFound:1110 - No mapping found for HTTP request with URI [/shop/platform/app/oneFileUpload] in DispatcherServlet with name 'dispatcherServlet'
+Log4j:[2015-11-27 14:35:12]  WARN PageNotFound:1110 - No mapping found for HTTP request with URI [/shop/platform/app/oneFileUpload] in DispatcherServlet with name 'dispatcherServlet'
+Log4j:[2015-11-27 14:55:13]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-11-27 15:04:57]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-11-27 15:16:08]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-11-27 15:37:37]  WARN PageNotFound:1110 - No mapping found for HTTP request with URI [/shop/goods/list] in DispatcherServlet with name 'dispatcherServlet'
+Log4j:[2015-11-27 15:38:25]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-11-27 15:48:51]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-11-27 16:01:57]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-11-27 16:11:57]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-11-27 16:16:17]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-11-27 16:23:51]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-11-27 16:26:09]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-11-27 16:28:00]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-11-27 16:59:10]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-11-27 17:09:21]  INFO DruidDataSource:638 - {dataSource-1} inited

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.platform.mapper.StoreTypeMapper">
+
+
+	<!-- 获得所有店铺一级分类 -->
+	<select id="findAllStore_type1" resultType="com.platform.entity.Store_type1">
+		SELECT * from t_store_type1
+	</select>
+
+	<!-- 根据 city_id 获得所有店铺二级分类  -->
+	<select id="selectStore_type2" parameterType="Integer"
+		resultType="com.platform.entity.Store_type2">
+		SELECT * FROM t_store_type2 WHERE store_type1_id = #{store_type1_id}
+	</select>
+</mapper>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.platform.mapper.TerritoryMapper">
+
+
+	<!-- 获得所有城市 -->
+	<select id="findAllCity" resultType="com.platform.entity.City">
+		SELECT * from t_city
+	</select>
+	<!-- 获得所有城市 -->
+	<select id="getCityByName" parameterType="java.lang.String" resultType="com.platform.entity.City">
+		SELECT * from t_city tc where tc.city_name =#{city_name} 
+	</select>
+
+	<!-- 根据 city_id 获取 ”地区“ 信息 -->
+	<select id="selectRegion" parameterType="Integer"
+		resultType="com.platform.entity.Region">
+		SELECT * FROM t_region WHERE city_id = #{city_id}
+	</select>
+
+
+
+	<!-- 根据地区获取 “街道” 信息 -->
+	<select id="selectStreet" parameterType="Integer"
+		resultType="com.platform.entity.Street">
+
+		SELECT * FROM t_street WHERE region_id=#{region_id}
+
+	</select>
+	
+	
+	
+
+</mapper>

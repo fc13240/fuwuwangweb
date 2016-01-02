@@ -1,0 +1,8 @@
+Log4j:[2015-11-29 14:36:37]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-11-29 15:07:37]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-11-29 16:01:27]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-11-29 16:13:28]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-11-29 16:14:44]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-11-29 17:44:34]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-11-29 18:03:57]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-11-29 21:15:15]  INFO DruidDataSource:1288 - {dataSource-1} closed

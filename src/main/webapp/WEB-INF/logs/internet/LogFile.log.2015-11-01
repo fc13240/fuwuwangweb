@@ -1,0 +1,2 @@
+Log4j:[2015-11-01 13:34:51]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-11-01 13:34:52]  WARN PageNotFound:1110 - No mapping found for HTTP request with URI [/favicon.ico] in DispatcherServlet with name 'dispatcherServlet'

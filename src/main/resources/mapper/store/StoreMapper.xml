@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.platform.mapper.StoreMapper">
+
+
+	<!-- 商家开店 -->
+	<insert id="storerigester" parameterType="com.platform.entity.Store"
+		keyProperty="id">
+		INSERT INTO
+		t_store
+		(store_id,store_name,store_desc,store_img,user_id,store_state,store_create_time,store_check_time,check_user_id,street_id,store_type2_id,store_phone,store_address)
+		VALUES
+		(#{store_id},#{store_name},#{store_desc},#{store_img},#{user_id},#{store_state},now(),now(),#{check_user_id},#{street_id},#{store_type2_id},#{store_phone},#{store_address})
+	</insert>
+
+
+	<!-- 更新店铺 -->
+	<update id="updateStore" parameterType="com.platform.entity.Store">
+		UPDATE t_store
+		<set>
+			<if test="store_name != null and store_name!='' ">
+				store_name = #{store_name},
+			</if>
+			<if test="store_phone != null and store_phone!='' ">
+				store_phone = #{store_phone},
+			</if>
+			<if test="store_img != null and store_img!='' ">
+				store_img = #{store_img},
+			</if>
+			<if test="store_desc != null and store_desc!='' ">
+				store_desc = #{store_desc},
+			</if>
+			<if test="store_address != null and store_address!='' ">
+				store_address = #{store_address},
+			</if>
+			<if test="store_type2_id != null and store_type2_id!='' ">
+				store_type2_id = #{store_type2_id},
+			</if>
+			<if test="street_id != null and street_id!='' ">
+				street_id = #{street_id},
+			</if>
+		</set>
+		WHERE store_id = #{store_id}
+	</update>
+
+
+	<!-- 审核店铺 -->
+	<update id="updateStoreState" parameterType="com.platform.entity.Store_state">
+		UPDATE t_store
+		<set>
+			<if test="store_state != null and store_state!='' ">
+				store_state = #{store_state},
+			</if>
+			<if test="check_user_id != null and check_user_id!='' ">
+				check_user_id = #{check_user_id},
+			</if>
+		</set>
+		WHERE store_id = #{store_id}
+	</update>
+
+
+
+	<!-- select t_store 工具 -->
+	<sql id="find_xxx">
+	    <![CDATA[
+			SELECT * FROM t_store 
+	    ]]>
+	</sql>
+
+
+	<!-- 根据 city_name 获取 city_id 信息 -->
+	<select id="selectcity_id" parameterType="String"
+		resultType="com.platform.entity.City">
+		SELECT city_id FROM t_city WHERE city_name = #{city_name}
+	</select>
+
+
+	<!-- 根据 city_id 获取 ”地区“ 信息 -->
+	<select id="selectregion" parameterType="Integer"
+		resultType="com.platform.entity.Region">
+		SELECT * FROM t_region WHERE city_id = #{city_id}
+	</select>
+
+
+
+	<!-- 根据地区获取 “街道” 信息 -->
+	<select id="selectstreet" parameterType="Integer"
+		resultType="com.platform.entity.Street">
+
+		SELECT * FROM t_street WHERE region_id=#{region_id}
+
+	</select>
+
+
+	<!-- 根据街道获取 “店铺” 信息 -->
+	<select id="selectstore" parameterType="Store_help"
+		resultType="com.platform.entity.vo.StoreForApp">
+		SELECT ts.*,tc.city_name,tr.region_name,tst.street_name
+		from t_store as ts,t_city as tc,t_region as tr,t_street as tst
+		WHERE ts.street_id=#{street_id}
+		AND store_type2_id in
+		(SELECT store_type2_id FROM t_store_type2 WHERE
+		store_type1_id=#{store_type1_id})
+		and ts.street_id=tst.street_id
+		and tr.region_id=tst.region_id
+		and tc.city_id=tr.city_id
+		and ts.store_state='3'
+	</select>
+
+	<!-- 根据商家ID获取所有 “店铺” 信息 -->
+	<select id="findstoreByid" parameterType="String"
+		resultType="com.platform.entity.Store">
+		SELECT * FROM t_store WHERE user_id=#{user_id} and
+		store_state='3'
+
+	</select>
+	<!-- 根据商家ID获取所有 “店铺” 信息 -->
+	<select id="findstoreByUserId" parameterType="String"
+		resultType="com.platform.entity.Store">
+		SELECT * FROM t_store WHERE user_id=#{user_id} and
+		store_state='3'
+
+	</select>
+
+	<!-- web根据Storename获取模糊查找 “店铺” 信息 -->
+	<select id="findstoreByname" parameterType="String"
+		resultType="com.platform.entity.vo.StoreForWeb">
+		select ts.*,tu.userLogin from t_store as ts,t_user as tu
+		WHERE ts.store_name LIKE CONCAT(CONCAT('%', #{store_name}), '%')
+		and ts.user_id=tu.user_id
+	</select>
+	<select id="findstoreByNameAndCity_id" resultType="com.platform.entity.vo.StoreForWeb">
+		select ts.*,tu.userLogin from t_store as ts
+		join t_user as tu on ts.user_id=tu.user_id
+		join t_street as tst on ts.street_id=tst.street_id
+		join t_region as tr on tr.region_id=tst.region_id
+		join t_city as tc on tc.city_id=tr.city_id
+		WHERE ts.store_name LIKE CONCAT(CONCAT('%', #{store_name}), '%')
+		and ts.store_state='3'
+		and tc.city_id =#{city_id}
+
+	</select>
+
+	<!-- 安卓根据Storename获取模糊查找 “店铺” 信息 -->
+	<select id="selectstoreByname" parameterType="String"
+		resultType="com.platform.entity.vo.StoreForApp">
+		SELECT ts.*,tc.city_name,tr.region_name,tst.street_id
+		FROM
+		t_store as ts ,t_city as tc,t_region as tr,t_street as tst
+		WHERE ts.store_name LIKE CONCAT(CONCAT('%', #{likename}),'%')
+		and ts.street_id=tst.street_id
+		and tst.region_id=tr.region_id
+		and tr.city_id=tc.city_id
+		and ts.store_state='3'
+	</select>
+	<!-- 安卓根据Storename获取模糊查找 “店铺” 信息 -->
+	<select id="selectstoreByNameAndCity_id" resultType="com.platform.entity.vo.StoreForApp">
+		SELECT ts.*,tc.city_name,tr.region_name,tst.street_id
+		FROM t_store as ts
+		,t_city as tc,t_region as tr,t_street as tst
+		WHERE ts.store_name LIKE CONCAT(CONCAT('%', #{likename}),'%')
+		and ts.street_id=tst.street_id
+		and tst.region_id=tr.region_id
+		and tr.city_id=tc.city_id
+		and tc.city_id=#{city_id}
+		and ts.store_state='3'
+	</select>
+
+	<!-- 安卓根据type1_id and street_id获取模糊查找 “店铺” 信息 -->
+	<select id="findStoreByType_Street" parameterType="com.platform.entity.Store_help"
+		resultType="com.platform.entity.vo.StoreForApp">
+		SELECT ts.*,tc.city_name,tr.region_name,tst.street_name
+		from t_store as ts,t_city as tc,t_region as tr,t_street as tst
+		WHERE street_id=#{street_id}
+		AND store_type2_id in
+		(SELECT store_type2_id FROM t_store_type2 WHERE
+		store_type1_id=#{store_type1_id})
+		and ts.street_id=tst.street_id
+		and tr.region_id=tst.region_id
+		and tc.city_id=tr.city_id
+	</select>
+
+	<!-- 查 表t_store_type1中的 六个 类 -->
+	<select id="selectClass_1" resultType="com.platform.entity.Store_type1">
+		SELECT * FROM
+		t_store_type1
+
+	</select>
+
+
+	<!-- 根据type1 查 type2 -->
+	<select id="selectClass_2" parameterType="Integer"
+		resultType="com.platform.entity.Store_type2">
+		SELECT * FROM t_store_type2 WHERE store_type1_id =
+		#{store_type1_id}
+
+	</select>
+
+
+	<!-- 根据type2 查 店铺 -->
+	<select id="selectStoreBytype2" parameterType="Integer"
+		resultType="com.platform.entity.vo.StoreForApp">
+		SELECT ts.*,tc.city_name,tr.region_name,tst.street_name
+		from t_store as ts,t_city as tc,t_region as tr,t_street as tst
+		WHERE ts.store_type2_id = #{store_type2_id}
+		and ts.street_id=tst.street_id
+		and tr.region_id=tst.region_id
+		and tc.city_id=tr.city_id
+
+
+	</select>
+
+
+	<!-- 根据type2 and street_id 查 店铺 -->
+	<select id="selectStoreBytype2_street" parameterType="com.platform.entity.Store_help"
+		resultType="com.platform.entity.vo.StoreForApp">
+
+		SELECT ts.*,tc.city_name,tr.region_name,tst.street_name
+		from t_store as ts,t_city as tc,t_region as tr,t_street as tst
+		WHERE ts.store_type2_id = #{store_type2_id} AND ts.street_id = #{street_id}
+		and ts.street_id=tst.street_id
+		and tr.region_id=tst.region_id
+		and tc.city_id=tr.city_id
+
+	</select>
+	<!-- 根据street_id 查 店铺提供给App -->
+	<select id="findStoreinfoByStore_idForApp" parameterType="String"
+		resultType="com.platform.entity.vo.StoreForApp">
+		SELECT ts.*,tc.city_name,tr.region_name,tst.street_name ,tu.userLogin
+		FROM
+		t_store AS ts
+		JOIN t_street AS tst ON ts.street_id=tst.street_id
+		JOIN t_region AS tr ON tr.region_id=tst.region_id
+		JOIN t_city AS tc ON tc.city_id=tr.city_id
+		JOIN t_user AS tu ON
+		ts.user_id=tu.user_id
+		WHERE ts.store_id = #{store_id}
+	</select>
+
+	<!-- 根据电话号码获取商家 -->
+	<select id="findStoreByPhone" parameterType="String"
+		resultType="com.platform.entity.Store">
+		<include refid="find_xxx" />
+		<![CDATA[
+			WHERE store_phone = #{store_phone}
+		]]>
+	</select>
+
+	<!-- 根据用户状态查询 -->
+	<select id="findStoreByStatus" parameterType="Integer"
+		resultType="com.platform.entity.Store">
+		<include refid="find_xxx" />
+		<![CDATA[
+			WHERE store_state = #{store_state}
+		]]>
+	</select>
+
+	<!-- 根据店铺id 查询简单信息 -->
+	<select id="findStoreSimpleinfoByStore_id" parameterType="String"
+		resultType="com.platform.entity.Store">
+		<include refid="find_xxx" />
+		<![CDATA[
+			WHERE store_id = #{store_id}
+		]]>
+	</select>
+	<!-- 根据店铺id 查询简单信息 -->
+	<select id="findStoreinfoByStore_id" parameterType="String"
+		resultType="com.platform.entity.vo.StoreVo">
+
+		SELECT ts.store_id,ts.store_name,ts.store_desc , ts.store_phone
+		,st1.store_type1_name,st2.store_type2_name
+		,city.city_name,region.region_name,street.street_name,ts.store_address,tu.userLogin,ts.store_create_time
+		FROM t_store as ts
+		, t_store_type2 as st2,t_store_type1 as st1
+		,t_city as city,t_region as region,t_street as street,t_user as tu
+		where
+		ts.store_type2_id =st2.store_type2_id
+		and st1.store_type1_id=st2.store_type1_id
+		and ts.street_id=street.street_id
+		and region.region_id=street.region_id
+		and city.city_id=region.city_id
+		and ts.store_id =#{store_id}
+		and ts.user_id=tu.user_id
+	</select>
+	<select id="findStoreOrderByStatus" resultType="com.platform.entity.vo.StoreForWeb">
+		SELECT ts.*,tu.userLogin
+		from t_store as ts,t_user as tu
+		where ts.user_id=tu.user_id order by store_state
+	</select>
+
+
+
+
+	<!-- leo  -->
+
+
+
+	<!-- 根据城市 街道 一级分类 二级分类 获取 正常状态下的 “店铺” 信息 -->
+	<select id="selectStoreByConditions" parameterType="Store_help"
+		resultType="com.platform.entity.vo.StoreForApp">
+		SELECT ts.*,tc.city_name,tr.region_name,tst.street_name
+		<include refid="selectStoreByConditionsSql" />
+		<if test="pageSize != null and offset!=null">
+			LIMIT #{pageSize} OFFSET #{offset}
+		</if>
+	</select>
+
+	<!-- 根据城市 街道 一级分类 二级分类 获取 正常状态下的 “店铺总数” 信息 -->
+	<select id="selectStoreCountByConditions" parameterType="Store_help"
+		resultType="java.lang.Integer">
+		SELECT COUNT(*)
+		<include refid="selectStoreByConditionsSql" />
+	</select>
+
+	<sql id="selectStoreByConditionsSql">
+		FROM t_store AS ts
+		JOIN t_street AS tst ON ts.street_id=tst.street_id
+		JOIN t_region AS tr ON tr.region_id=tst.region_id
+		JOIN t_city AS tc ON
+		tc.city_id=tr.city_id
+		WHERE ts.store_state=3
+		<if test="cityName != null">
+			AND tc.city_name=#{cityName}
+		</if>
+		<if test="region_id != null">
+			AND tr.region_id=#{region_id}
+		</if>
+		<if test="street_id != null">
+			AND ts.street_id=#{street_id}
+		</if>
+		<if test="store_type1_id != null">
+			AND store_type2_id in
+			(SELECT store_type2_id FROM
+			t_store_type2 WHERE
+			store_type1_id=#{store_type1_id})
+		</if>
+		<if test="store_type2_id != null">
+			AND store_type2_id = #{store_type2_id}
+		</if>
+	</sql>
+	
+
+	<!-- 安卓根据Storename获取模糊查找 “店铺” 信息 -->
+	<select id="selectStoreByNameAndCityName" resultType="com.platform.entity.vo.StoreForApp">
+		SELECT
+		ts.*,tc.city_name,tr.region_name,tst.street_id
+		<include refid="selectstoreByNameAndCityNameSql" />
+		<if test="pageSize != null and offset!=null">
+			LIMIT #{pageSize} OFFSET #{offset}
+		</if>
+	</select>
+
+	<select id="selectStoreCountByNameAndCityName" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+		<include refid="selectstoreByNameAndCityNameSql" />
+	</select>
+	
+	<sql id="selectstoreByNameAndCityNameSql">
+
+		FROM t_store AS ts
+		JOIN t_street AS tst ON ts.street_id=tst.street_id
+		JOIN
+		t_region AS tr ON tst.region_id=tr.region_id
+		JOIN t_city AS tc ON
+		tr.city_id=tc.city_id
+		WHERE ts.store_state=3
+		AND ts.store_name LIKE
+		CONCAT(CONCAT('%', #{searchName}),'%')
+		AND tc.city_name=#{city_name}
+
+	</sql>
+
+</mapper>

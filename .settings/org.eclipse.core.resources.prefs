@@ -1,0 +1,17 @@
+eclipse.preferences.version=1
+encoding//src/main/java=UTF-8
+encoding//src/main/java/com/platform/common/listener/LmsSessionListener.java=UTF-8
+encoding//src/main/java/com/platform/entity/City.java=UTF-8
+encoding//src/main/java/com/platform/entity/Goods.java=UTF-8
+encoding//src/main/java/com/platform/entity/Region.java=UTF-8
+encoding//src/main/java/com/platform/entity/Store.java=UTF-8
+encoding//src/main/java/com/platform/entity/Street.java=UTF-8
+encoding//src/main/java/com/platform/entity/User.java=UTF-8
+encoding//src/main/java/com/platform/entity/vo/GoodsForWeb.java=UTF-8
+encoding//src/main/java/com/platform/entity/vo/GoodsRecommendVo.java=UTF-8
+encoding//src/main/java/com/platform/entity/vo/GoodsVo.java=UTF-8
+encoding//src/main/java/com/platform/entity/vo/StoreForApp.java=UTF-8
+encoding//src/main/java/com/platform/entity/vo/StoreForWeb.java=UTF-8
+encoding//src/main/resources=UTF-8
+encoding//src/test/java=UTF-8
+encoding/<project>=UTF-8

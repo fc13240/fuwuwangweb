@@ -1,0 +1,18 @@
+Log4j:[2015-11-23 11:40:02]  WARN PageNotFound:1110 - No mapping found for HTTP request with URI [/favicon.ico] in DispatcherServlet with name 'dispatcherServlet'
+Log4j:[2015-11-23 11:40:05]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-11-23 13:37:08]  WARN PageNotFound:1110 - No mapping found for HTTP request with URI [/favicon.ico] in DispatcherServlet with name 'dispatcherServlet'
+Log4j:[2015-11-23 13:37:11]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-11-23 13:59:35]  WARN PageNotFound:198 - Request method 'POST' not supported
+Log4j:[2015-11-23 13:59:55]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-11-23 14:00:05]  WARN PageNotFound:198 - Request method 'POST' not supported
+Log4j:[2015-11-23 14:00:29]  WARN PageNotFound:198 - Request method 'POST' not supported
+Log4j:[2015-11-23 14:00:40]  WARN PageNotFound:198 - Request method 'POST' not supported
+Log4j:[2015-11-23 14:02:21]  WARN PageNotFound:198 - Request method 'POST' not supported
+Log4j:[2015-11-23 14:03:29]  WARN PageNotFound:198 - Request method 'POST' not supported
+Log4j:[2015-11-23 14:03:36]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-11-23 14:28:12]  WARN PageNotFound:198 - Request method 'POST' not supported
+Log4j:[2015-11-23 14:29:45]  WARN PageNotFound:198 - Request method 'POST' not supported
+Log4j:[2015-11-23 14:33:44]  WARN PageNotFound:198 - Request method 'POST' not supported
+Log4j:[2015-11-23 14:40:36]  WARN PageNotFound:198 - Request method 'POST' not supported
+Log4j:[2015-11-23 14:43:14]  WARN PageNotFound:198 - Request method 'POST' not supported
+Log4j:[2015-11-23 16:43:39]  WARN PageNotFound:1110 - No mapping found for HTTP request with URI [/favicon.ico] in DispatcherServlet with name 'dispatcherServlet'

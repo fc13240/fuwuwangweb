@@ -1,0 +1,27 @@
+Log4j:[2015-11-21 08:53:42]  WARN PageNotFound:198 - Request method 'GET' not supported
+Log4j:[2015-11-21 08:53:53]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-11-21 08:56:57]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-11-21 09:36:37]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-11-21 10:51:09]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-11-21 10:57:44]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-11-21 11:33:12]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-11-21 11:40:22]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-11-21 11:40:22]  WARN PageNotFound:1110 - No mapping found for HTTP request with URI [/merchant/store/list] in DispatcherServlet with name 'dispatcherServlet'
+Log4j:[2015-11-21 11:42:11]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-11-21 11:48:57]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-11-21 12:38:51]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-11-21 13:16:35]  WARN PageNotFound:1110 - No mapping found for HTTP request with URI [/admin/user] in DispatcherServlet with name 'dispatcherServlet'
+Log4j:[2015-11-21 13:16:51]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-11-21 13:16:55]  WARN PageNotFound:198 - Request method 'GET' not supported
+Log4j:[2015-11-21 13:17:12]  WARN PageNotFound:1110 - No mapping found for HTTP request with URI [/admin/mechantchange] in DispatcherServlet with name 'dispatcherServlet'
+Log4j:[2015-11-21 13:19:04]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-11-21 13:19:07]  WARN PageNotFound:198 - Request method 'GET' not supported
+Log4j:[2015-11-21 13:19:49]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-11-21 13:41:53]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-11-21 14:16:43]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-11-21 19:11:52]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-11-21 19:13:02]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-11-21 19:14:44]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-11-21 21:14:07]  WARN PageNotFound:1110 - No mapping found for HTTP request with URI [/favicon.ico] in DispatcherServlet with name 'dispatcherServlet'
+Log4j:[2015-11-21 21:14:13]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-11-21 21:18:53]  INFO DruidDataSource:638 - {dataSource-1} inited

@@ -1,0 +1,42 @@
+Log4j:[2015-10-23 08:31:51]  WARN PageNotFound:1110 - No mapping found for HTTP request with URI [/] in DispatcherServlet with name 'dispatcherServlet'
+Log4j:[2015-10-23 08:31:52]  WARN PageNotFound:1110 - No mapping found for HTTP request with URI [/favicon.ico] in DispatcherServlet with name 'dispatcherServlet'
+Log4j:[2015-10-23 08:31:54]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-10-23 08:32:44]  WARN PageNotFound:1110 - No mapping found for HTTP request with URI [/favicon.ico] in DispatcherServlet with name 'dispatcherServlet'
+Log4j:[2015-10-23 08:34:23]  WARN PageNotFound:1110 - No mapping found for HTTP request with URI [/favicon.ico] in DispatcherServlet with name 'dispatcherServlet'
+Log4j:[2015-10-23 08:34:56]  WARN PageNotFound:1110 - No mapping found for HTTP request with URI [/favicon.ico] in DispatcherServlet with name 'dispatcherServlet'
+Log4j:[2015-10-23 08:57:07]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-10-23 08:59:57]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-10-23 09:01:04]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-10-23 09:02:06]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-10-23 09:02:51]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-10-23 09:03:05]  WARN PageNotFound:1110 - No mapping found for HTTP request with URI [/favicon.ico] in DispatcherServlet with name 'dispatcherServlet'
+Log4j:[2015-10-23 09:03:05]  WARN PageNotFound:1110 - No mapping found for HTTP request with URI [/favicon.ico] in DispatcherServlet with name 'dispatcherServlet'
+Log4j:[2015-10-23 09:03:05]  WARN PageNotFound:1110 - No mapping found for HTTP request with URI [/favicon.ico] in DispatcherServlet with name 'dispatcherServlet'
+Log4j:[2015-10-23 09:03:05]  WARN PageNotFound:1110 - No mapping found for HTTP request with URI [/favicon.ico] in DispatcherServlet with name 'dispatcherServlet'
+Log4j:[2015-10-23 09:03:06]  WARN PageNotFound:1110 - No mapping found for HTTP request with URI [/favicon.ico] in DispatcherServlet with name 'dispatcherServlet'
+Log4j:[2015-10-23 09:03:06]  WARN PageNotFound:1110 - No mapping found for HTTP request with URI [/favicon.ico] in DispatcherServlet with name 'dispatcherServlet'
+Log4j:[2015-10-23 09:03:06]  WARN PageNotFound:1110 - No mapping found for HTTP request with URI [/favicon.ico] in DispatcherServlet with name 'dispatcherServlet'
+Log4j:[2015-10-23 10:18:43]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-10-23 10:18:45]  WARN PageNotFound:1110 - No mapping found for HTTP request with URI [/favicon.ico] in DispatcherServlet with name 'dispatcherServlet'
+Log4j:[2015-10-23 10:39:31]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-10-23 10:42:13]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-10-23 10:43:51]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-10-23 10:44:31]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-10-23 10:46:00]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-10-23 10:46:36]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-10-23 10:55:54]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-10-23 10:56:36]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-10-23 10:58:33]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-10-23 11:00:37]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-10-23 11:08:33]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-10-23 11:13:31]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-10-23 11:13:57]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-10-23 11:14:16]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-10-23 11:15:12]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-10-23 11:15:49]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-10-23 11:17:00]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-10-23 11:17:49]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-10-23 11:19:00]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-10-23 11:32:40]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-10-23 13:35:38]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-10-23 13:35:40]  WARN PageNotFound:1110 - No mapping found for HTTP request with URI [/favicon.ico] in DispatcherServlet with name 'dispatcherServlet'

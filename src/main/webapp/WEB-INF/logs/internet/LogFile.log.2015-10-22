@@ -1,0 +1,74 @@
+Log4j:[2015-10-22 17:15:35]  WARN PageNotFound:1110 - No mapping found for HTTP request with URI [/] in DispatcherServlet with name 'dispatcherServlet'
+Log4j:[2015-10-22 17:15:36]  WARN PageNotFound:1110 - No mapping found for HTTP request with URI [/] in DispatcherServlet with name 'dispatcherServlet'
+Log4j:[2015-10-22 17:15:36]  WARN PageNotFound:1110 - No mapping found for HTTP request with URI [/favicon.ico] in DispatcherServlet with name 'dispatcherServlet'
+Log4j:[2015-10-22 17:15:47]  WARN PageNotFound:1110 - No mapping found for HTTP request with URI [/resources/style/pure-min.css] in DispatcherServlet with name 'dispatcherServlet'
+Log4j:[2015-10-22 17:15:47]  WARN PageNotFound:1110 - No mapping found for HTTP request with URI [/resources/style/paopao.css] in DispatcherServlet with name 'dispatcherServlet'
+Log4j:[2015-10-22 17:15:47]  WARN PageNotFound:1110 - No mapping found for HTTP request with URI [/resources/img/logo.png] in DispatcherServlet with name 'dispatcherServlet'
+Log4j:[2015-10-22 17:15:47]  WARN PageNotFound:1110 - No mapping found for HTTP request with URI [/resources/scripts/jquery.validate.js] in DispatcherServlet with name 'dispatcherServlet'
+Log4j:[2015-10-22 17:15:47]  WARN PageNotFound:1110 - No mapping found for HTTP request with URI [/resources/scripts/jquery.validate.merchant.js] in DispatcherServlet with name 'dispatcherServlet'
+Log4j:[2015-10-22 17:15:47]  WARN PageNotFound:1110 - No mapping found for HTTP request with URI [/resources/scripts/jquery-1.8.3.js] in DispatcherServlet with name 'dispatcherServlet'
+Log4j:[2015-10-22 17:15:47]  WARN PageNotFound:1110 - No mapping found for HTTP request with URI [/resources/img/favicon.ico] in DispatcherServlet with name 'dispatcherServlet'
+Log4j:[2015-10-22 17:43:43]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-10-22 17:44:27]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-10-22 17:57:23]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-10-22 17:57:24]  WARN PageNotFound:1110 - No mapping found for HTTP request with URI [/favicon.ico] in DispatcherServlet with name 'dispatcherServlet'
+Log4j:[2015-10-22 17:58:15]  WARN PageNotFound:1110 - No mapping found for HTTP request with URI [/favicon.ico] in DispatcherServlet with name 'dispatcherServlet'
+Log4j:[2015-10-22 17:58:55]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-10-22 18:00:49]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-10-22 18:12:28]  WARN PageNotFound:1110 - No mapping found for HTTP request with URI [/favicon.ico] in DispatcherServlet with name 'dispatcherServlet'
+Log4j:[2015-10-22 18:15:30] ERROR DispatcherServlet:492 - Context initialization failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'merchantController' defined in file [/Users/Angely/git/platform/platform/target/classes/com/platform/web/controller/merchant/MerchantController.class]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Could not instantiate bean class [com.platform.web.controller.merchant.MerchantController]: Constructor threw exception; nested exception is java.lang.Error: Unresolved compilation problem: 
+	The import com.contract cannot be resolved
+
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateBean(AbstractAutowireCapableBeanFactory.java:1076)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1021)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:504)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:475)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:304)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:228)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:300)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:195)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:703)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:760)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:482)
+	at org.springframework.web.servlet.FrameworkServlet.configureAndRefreshWebApplicationContext(FrameworkServlet.java:658)
+	at org.springframework.web.servlet.FrameworkServlet.createWebApplicationContext(FrameworkServlet.java:624)
+	at org.springframework.web.servlet.FrameworkServlet.createWebApplicationContext(FrameworkServlet.java:672)
+	at org.springframework.web.servlet.FrameworkServlet.initWebApplicationContext(FrameworkServlet.java:543)
+	at org.springframework.web.servlet.FrameworkServlet.initServletBean(FrameworkServlet.java:484)
+	at org.springframework.web.servlet.HttpServletBean.init(HttpServletBean.java:136)
+	at javax.servlet.GenericServlet.init(GenericServlet.java:241)
+	at org.mortbay.jetty.servlet.ServletHolder.initServlet(ServletHolder.java:440)
+	at org.mortbay.jetty.servlet.ServletHolder.doStart(ServletHolder.java:263)
+	at org.mortbay.component.AbstractLifeCycle.start(AbstractLifeCycle.java:50)
+	at org.mortbay.jetty.servlet.ServletHandler.initialize(ServletHandler.java:736)
+	at org.mortbay.jetty.servlet.Context.startContext(Context.java:140)
+	at org.mortbay.jetty.webapp.WebAppContext.startContext(WebAppContext.java:1282)
+	at org.mortbay.jetty.handler.ContextHandler.doStart(ContextHandler.java:518)
+	at org.mortbay.jetty.webapp.WebAppContext.doStart(WebAppContext.java:499)
+	at org.mortbay.component.AbstractLifeCycle.start(AbstractLifeCycle.java:50)
+	at org.mortbay.jetty.handler.HandlerWrapper.doStart(HandlerWrapper.java:130)
+	at org.mortbay.jetty.Server.doStart(Server.java:224)
+	at org.mortbay.component.AbstractLifeCycle.start(AbstractLifeCycle.java:50)
+	at runjettyrun.Bootstrap.main(Bootstrap.java:97)
+Caused by: org.springframework.beans.BeanInstantiationException: Could not instantiate bean class [com.platform.web.controller.merchant.MerchantController]: Constructor threw exception; nested exception is java.lang.Error: Unresolved compilation problem: 
+	The import com.contract cannot be resolved
+
+	at org.springframework.beans.BeanUtils.instantiateClass(BeanUtils.java:164)
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:89)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateBean(AbstractAutowireCapableBeanFactory.java:1069)
+	... 30 more
+Caused by: java.lang.Error: Unresolved compilation problem: 
+	The import com.contract cannot be resolved
+
+	at com.platform.web.controller.merchant.MerchantController.<init>(MerchantController.java:13)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:526)
+	at org.springframework.beans.BeanUtils.instantiateClass(BeanUtils.java:148)
+	... 32 more
+Log4j:[2015-10-22 18:15:43]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-10-22 18:21:04]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-10-22 18:22:13]  INFO DruidDataSource:638 - {dataSource-1} inited
+Log4j:[2015-10-22 18:22:45]  INFO DruidDataSource:638 - {dataSource-1} inited

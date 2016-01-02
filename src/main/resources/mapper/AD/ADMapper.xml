@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.platform.mapper.ADMapper">
+	
+	
+	<!-- App and  Web 传 ad_position，查 ad_weight ：1 2 3 -->
+	<select id="select_ad" parameterType="com.platform.entity.AD" resultType="com.platform.entity.vo.ADVo">
+		
+		SELECT *  FROM t_ad   WHERE  ad_position= #{ad_position} AND ad_state = #{ad_state}  ORDER BY ad_weight 
+	</select>
+	<select id="select_adByCity_id" parameterType="com.platform.entity.AD" resultType="com.platform.entity.vo.ADVo">
+		
+		SELECT *  FROM t_ad   WHERE  ad_position= #{ad_position} AND ad_state = #{ad_state} AND city_id=#{city_id} ORDER BY ad_weight 
+	</select>
+	
+	
+	
+	<!-- web 查看 未发布 和 正常 的广告 -->
+	<select id="selectAD_state" parameterType="Integer" resultType="com.platform.entity.AD">
+		
+		SELECT *  FROM t_ad   WHERE  ad_state  != #{ad_state} ORDER BY ad_state ASC , ad_position  ASC ,ad_state ASC, ad_weight ASC
+	</select>
+	
+	<!-- web 查看 删除的广告 -->
+	<select id="selectAD_Delete" parameterType="Integer" resultType="com.platform.entity.AD">
+		
+		SELECT *  FROM t_ad   WHERE  ad_state  = #{ad_state} ORDER BY   ad_position ASC, ad_weight ASC
+	</select>
+	
+	<!-- web 查看广告 点击次数 -->
+	<select id="selectAD_click" parameterType="String" resultType="com.platform.entity.AD_click">
+		
+		SELECT *  FROM t_ad_clicks   WHERE  ad_id  = #{ad_id} 
+	</select>
+	
+	
+	<!-- web  根据时间端查所有的广告-->
+	<select id="selectAD_time" parameterType="com.platform.entity.AD_time" resultType="com.platform.entity.AD">
+		
+		SELECT *  FROM t_ad   WHERE  ad_create_time >=STR_TO_DATE(CONCAT(#{ad_create_start},'0:0:0'),'%Y-%m-%d %H:%i:%s')AND STR_TO_DATE(CONCAT(#{ad_create_end},'23:59:59'),'%Y-%m-%d %H:%i:%s')>=ad_create_time
+    AND ad_state= 2  
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	<!--广告删除-->
+	<update id="updateAD" parameterType="com.platform.entity.AD">
+		UPDATE t_ad
+		<set>
+			<if test="ad_state != null and ad_state !='' ">
+				ad_state = #{ad_state},
+			</if>	
+		</set>
+			WHERE ad_id = #{ad_id}	
+	</update>
+	
+	
+	<!-- 广告添加_t_ad -->
+	<insert id="addAD" parameterType="com.platform.entity.AD" keyProperty="id">
+		INSERT INTO 
+			t_ad 
+		(ad_id, ad_img, ad_position, ad_weight, ad_state, ad_type, ad_pid , ad_pd,city_id,ad_create_time)
+			VALUES
+		(#{ad_id},#{ad_img},#{ad_position},#{ad_weight},#{ad_state},#{ad_type},#{ad_pid},#{ad_pd},#{city_id},now())
+	</insert>
+	
+	
+	
+	<!-- 广告点击次数 -->
+	<insert id="addAD_click" parameterType="String" keyProperty="id">
+		INSERT INTO 
+			t_ad_clicks 
+		(ad_id,click_time)
+			VALUES
+		(#{ad_id},now())
+	</insert>
+	
+	
+	
+	
+	
+	
+	
+	
+</mapper>
