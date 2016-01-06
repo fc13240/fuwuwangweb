@@ -2,6 +2,7 @@ package com.platform.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -39,7 +40,7 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserMapper userMapper;
-	
+
 	@Autowired
 	private IOSTokenMapper iostokenMapper;
 
@@ -49,11 +50,10 @@ public class UserServiceImpl implements UserService {
 	 * app用户登录
 	 */
 	public User addapplogin(String userLogin, String userPass, String type) {
-		
-		User user = new User() ;
+
+		User user = new User();
 		/*** VIP ****/
 		if ("4".equals(type)) {
-
 
 			System.out.println("进入 vip 登录.....会员帐号：" + userLogin + "   会员密码 ： " + userPass);
 
@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService {
 					+ userPass;
 
 			HttpResponse httpResponse = null;
-			User   user_vip = mapper.findUser(userLogin); // 获取登陆人的所有信息;
+			User user_vip = mapper.findUser(userLogin); // 获取登陆人的所有信息;
 			try {
 				HttpPost httpPost = new HttpPost(url);
 
@@ -78,7 +78,6 @@ public class UserServiceImpl implements UserService {
 					JSONObject aObject = JSON.parseObject(result);
 					if (aObject.get("Successful").toString().equals("true")) {
 
-						
 						if (null == user_vip) {
 							System.out.println(" 这个 会员在本地没有保存数据....... 把他的数据插入到数据库中。。。。");
 							User uu = new User();
@@ -89,13 +88,13 @@ public class UserServiceImpl implements UserService {
 							uu.setUser_state(Constants.USER_ACTIVE); // 活跃
 							System.out.println("U  :" + uu.getUser_id() + "   " + uu.getUser_type());
 							userMapper.userrigester_user(uu); // 注册的会员插入到
-						    uu.setRealName("--");
-						    uu.setIdCard("--");
-						    uu.setDq("--");
-						    uu.setZy("--");
-						    uu.setUser_email("--");
-						    uu.setUser_img(".jpg");
-						    userMapper.userrigester_userinfo(uu);
+							uu.setRealName("--");
+							uu.setIdCard("--");
+							uu.setDq("--");
+							uu.setZy("--");
+							uu.setUser_email("--");
+							uu.setUser_img(".jpg");
+							userMapper.userrigester_userinfo(uu);
 
 						}
 
@@ -107,11 +106,11 @@ public class UserServiceImpl implements UserService {
 
 						user_vip.setDianzibi(select_dianzibi(token));
 						user_vip.setLongbi(select_longbi(token));
-						//user_vip.setSession_id(session.getId());
-						//session.setAttribute("session_user", user_vip);
+						// user_vip.setSession_id(session.getId());
+						// session.setAttribute("session_user", user_vip);
 
 					} else {
-						user_vip = new User() ;  
+						user_vip = new User();
 						user_vip.setResults(aObject.get("Error").toString());
 					}
 
@@ -131,8 +130,6 @@ public class UserServiceImpl implements UserService {
 			User user_putong = mapper.findUser(userLogin); // 获取登陆人的所有信息
 			System.out.println("--------" + userLogin);
 			if ((null) != user_putong) {
-				
-				
 
 				if (user_putong.getUser_type().equals("3")) { // 普通用户
 
@@ -143,13 +140,14 @@ public class UserServiceImpl implements UserService {
 							user_putong.setUserLogin(userLogin);
 							user_putong.setResults("登录成功");
 
-					
-							System.out.println("服务层修改用户"+user_putong.getUser_id()+"登录状态");
-							
+							System.out.println("服务层修改用户" + user_putong.getUser_id() + "登录状态");
+
 							System.out.println("普通用户的ID：" + user_putong.getUser_id());
-							//session.setAttribute("session_user", user_putong); // 密码正确
-																		// 登录成功
-							//user_putong.setSession_id(session.getId()); // 加入ID；
+							// session.setAttribute("session_user",
+							// user_putong); // 密码正确
+							// 登录成功
+							// user_putong.setSession_id(session.getId()); //
+							// 加入ID；
 
 						} else {
 							user_putong.setResults("账户或密码错误！"); // 密码错误
@@ -159,12 +157,10 @@ public class UserServiceImpl implements UserService {
 					}
 
 				}
-				
-				else  {
+
+				else {
 					user_putong.setResults("非法帐号"); // 商人 && 管理员 de 帐号不让登陆app
 				}
-				
-				
 
 			}
 			if (null == user_putong) {
@@ -174,15 +170,13 @@ public class UserServiceImpl implements UserService {
 			System.out.println("User 普通用户登录后 ： " + user_putong);
 			return user_putong;
 
-		}
-		else{
-			
+		} else {
+
 			user.setResults("请求错误");
-			return  user ;
-			
+			return user;
+
 		}
-		
-		
+
 	}
 
 	/**
@@ -198,7 +192,7 @@ public class UserServiceImpl implements UserService {
 				if (user.getPassWord().equals(Md5.getVal_UTF8(passWord))) {
 
 					session.setAttribute("bean", user);
-					
+
 					results = "成功"; // 密码正确
 				} else {
 
@@ -210,9 +204,9 @@ public class UserServiceImpl implements UserService {
 				user = mapper.findByUsername(userLogin);
 
 				if (user.getPassWord().equals(Md5.getVal_UTF8(passWord))) {
-					
+
 					session.setAttribute("bean", user);
-					
+
 					results = "管理员成功"; // 密码正确
 				} else {
 
@@ -462,61 +456,97 @@ public class UserServiceImpl implements UserService {
 		userMapper.updauser_img(user);
 
 	}
+
 	/***
 	 * 修改app普通用户邮箱
 	 */
 	public void updateEmail(User user) {
-		userMapper.updateEmail(user);		
+		userMapper.updateEmail(user);
 	}
-	/****用户 修改用户登录状态****/
+
+	/**** 用户 修改用户登录状态 ****/
 	public void update_login_state(User user) {
 		userMapper.updatelogin_state(user);
-		
+
 	}
-	
-	
-	/****插入token*******/
+
+	/**** 插入token *******/
 	public void add_token(User user) {
-		
+
 		iostokenMapper.add_token(user);
 	}
 
-	/******取出token****/
+	/****** 取出token ****/
 	public User select_token(String token) {
-		
+
 		return iostokenMapper.select_token(token);
 	}
 
-	
-	/****取出所有token******/
+	/**** 取出所有token ******/
 	public User_token select_UsertokenByUserid(String user_id) {
-		
+
 		return iostokenMapper.select_UsertokenByUserid(user_id);
 	}
 
-	/*****根据user_id 修改 token******/
+	/***** 根据user_id 修改 token ******/
 	public void update_token(User_token user_token) {
-		
-		iostokenMapper.update_token(user_token); 
+
+		iostokenMapper.update_token(user_token);
 	}
 
-	/***添加验证码****/
+	/*** 添加验证码 ****/
 	public void add_YZM(User_token user) {
-		
+
 		iostokenMapper.add_YZM(user);
 	}
 
-	/*****获取单个验证码******/
+	/***** 获取单个验证码 ******/
 	public User_token select_YZM(String user_id) {
-		
+
 		return iostokenMapper.select_YZM(user_id);
 	}
 
-
-
-	/****修改验证码****/
+	/**** 修改验证码 ****/
 	public void update_YZM(User_token user_token) {
 		iostokenMapper.update_YZM(user_token);
-		
+
 	}
+
+	// leo
+
+	/**
+	 * 根据验证帐号是否存在
+	 * 
+	 * @param user_email
+	 * @return
+	 */
+	public Integer chechUserIsExist(String userLogin) {
+
+		return mapper.chechUserIsExist(userLogin);
+	}
+
+	/**
+	 * 根据验证邮箱是否存在
+	 * 
+	 * @param user_email
+	 * @return
+	 */
+	public Integer chechUserEmailIsExist(String user_email) {
+		return mapper.chechUserEmailIsExist(user_email);
+	}
+
+	
+	/**
+	 * 用户登录验证
+	 * @param map
+	 * @return
+	 */
+	public User login(Map<String,String> map){
+		return mapper.login(map);
+	}
+	
+
+	
+	
+	
 }

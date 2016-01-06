@@ -1,6 +1,7 @@
 package com.platform.service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -149,8 +150,30 @@ public interface UserService {
 	
 	
 	
+	/**
+	 * 根据验证帐号是否存在
+	 * 
+	 * @param user_email
+	 * @return
+	 */
+	public Integer chechUserIsExist(String userLogin);
+
+	/**
+	 * 根据验证邮箱是否存在
+	 * 
+	 * @param user_email
+	 * @return
+	 */
+	public Integer chechUserEmailIsExist(String user_email);
+
 	
-	
+	/**
+	 * 用户登录验证
+	 * @param map
+	 * @return
+	 */
+	public User login(Map<String,String> map);
+
 	
 	
 }

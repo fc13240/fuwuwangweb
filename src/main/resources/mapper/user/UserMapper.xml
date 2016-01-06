@@ -159,4 +159,29 @@
 	<update id="updatelogin_state" parameterType="com.platform.entity.User">
 		UPDATE t_user set login_state = #{login_state} WHERE user_id = #{user_id}
 	</update>
+	
+	
+	
+	<!-- Leo -->
+	
+	
+		<!-- 根据验证帐号是否存在 -->
+	<select id="chechUserIsExist" parameterType="String" resultType="java.lang.Integer">
+		SELECT COUNT(*)   FROM t_user tu WHERE  tu.userLogin= #{userLogin}
+	</select>
+	
+		<!-- 根据验证邮箱是否存在 -->
+	<select id="chechUserEmailIsExist" parameterType="String" resultType="java.lang.Integer">
+		SELECT COUNT(*)   FROM t_userinfo tui  WHERE  tui.user_email= #{user_email}
+	</select>
+	
+	<!-- 根据userLogin获取登陆人——基本信息 -->
+	<select id="login" parameterType="java.util.Map" resultType="com.platform.entity.User">
+		SELECT tu.* ,tui.* FROM t_user tu JOIN t_userinfo tui ON tu.user_id=tui.user_id 
+		WHERE tu.userLogin=#{userLogin}
+		AND tu.passWord=#{passWord}
+		AND (tu.user_state='2' OR tu.user_state='3')
+	</select>
+	
+	
 </mapper>
