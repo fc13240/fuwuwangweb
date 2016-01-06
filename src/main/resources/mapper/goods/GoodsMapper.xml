@@ -590,7 +590,7 @@
 		AND
 		tc.city_name=#{cityName}
 		<if test="store_type1_id != null">
-		 tsto.store_type1_id=#{store_type1_id}
+		 AND tsto.store_type1_id=#{store_type1_id}
 		</if>
 	</sql>
 

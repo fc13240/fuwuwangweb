@@ -56,6 +56,35 @@ public class AppUserController {
 
 	@Autowired
 	private UserService userService;
+	
+	
+	@RequestMapping(value = "register", method = RequestMethod.POST,produces={"application/json"},consumes={"application/json"})
+	@ResponseBody
+	public BaseModelJson<User> testR(@RequestBody User user){
+			
+		BaseModelJson<User> result = new BaseModelJson<User>();
+		
+		
+		
+		if(user.getUserLogin()==null || user.getUserLogin().isEmpty()){
+			
+			
+		}else if(user.getPassWord()==null || user.getPassWord().isEmpty()){
+			
+		}else if(user.getPassWordConfirm()==null || user.getPassWordConfirm().isEmpty()){
+			
+		}else if(user.getUser_type() ==null || user.getUser_type().isEmpty()){
+			
+		}else{
+			
+		}
+
+		
+		
+		return result;
+	}
+	
+	
 
 	/**
 	 * ---------Leo 建议： @RequestBody 应该可以 直接放一个 用户对象 加： 方式注释，参数 注释
@@ -74,13 +103,13 @@ public class AppUserController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "userRegiser", method = RequestMethod.POST)
+	@RequestMapping(value = "userRegiser", method = RequestMethod.POST,produces={"application/json"},consumes={"application/json"})
 	@ResponseBody
-	public Map<String, Object> userRegiser(@RequestBody String userLogin, @RequestBody String passWord,
+	public Map<String, Object> userRegiser( @RequestBody String userLogin, @RequestBody String passWord,
 			@RequestBody String passWordConfirm, @RequestBody String zy, @RequestBody String type,
 			@RequestBody String email) throws Exception {
-
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object>
+		map = new HashMap<String, Object>();
 		if(null==userLogin||null==passWord||null==passWordConfirm||null==type){
 			map.put("Successful", false);
 			map.put("Data", "");
@@ -883,5 +912,13 @@ public class AppUserController {
 
 		return R;
 	}
+	
+	public boolean checkIsExist(String username){
+		
+		
+		
+		return false;
+	}
+	
 
 }

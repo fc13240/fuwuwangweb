@@ -37,6 +37,8 @@ public class User {
 	
 	private Integer login_state;
 	
+	private String passWordConfirm;
+	
 	public User() {
 		super();
 	}
@@ -365,6 +367,17 @@ public class User {
 
 	public void setLogin_state(Integer login_state) {
 		this.login_state = login_state;
+	}
+	
+
+	public String getPassWordConfirm() {
+		return passWordConfirm;
+	}
+
+
+
+	public void setPassWordConfirm(String passWordConfirm) {
+		this.passWordConfirm = passWordConfirm;
 	}
 
 

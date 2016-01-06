@@ -74,7 +74,4 @@
     <error-code>403</error-code>
     <location>/500.jsp</location>
   </error-page>
- <!--  <listener>
-    <listener-class>com.platform.common.listener.LmsSessionListener</listener-class>
-  </listener> -->
 </web-app>
