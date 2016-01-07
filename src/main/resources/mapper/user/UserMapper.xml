@@ -235,6 +235,7 @@
 		<include refid="userInfoSql" />
 		AND tut.userLogin=#{userLogin}
 		AND tut.YZM=#{code}
+		AND tu.user_type='3'
 	</select>
 
 	<sql id="userInfoSql">
@@ -244,6 +245,7 @@
 		JOIN t_user_token tut ON
 		tu.user_id=tut.user_id
 		WHERE (tu.user_state='2' OR tu.user_state='1')
+		AND tu.user_type='3'
 	</sql>
 
 
