@@ -214,14 +214,6 @@
 		AND tu.passWord=#{passWord}
 	</select>
 
-	<!-- 根据userLogin获取登陆人——基本信息 -->
-	<select id="login" parameterType="java.util.Map" resultType="com.platform.entity.User">
-		<include refid="userInfoSql" />
-		AND tu.userLogin=#{userLogin}
-		AND tu.passWord=#{passWord}
-	</select>
-
-
 	<!-- 根据 token查询用户 -->
 	<select id="getUserInforByToken" parameterType="java.lang.String"
 		resultType="com.platform.entity.User">
@@ -230,14 +222,14 @@
 	</select>
 
 	<!-- 根据 用户名和邮箱查询用户 -->
-	<select id="getUserInforByToken" parameterType="com.platform.entity.User"
+	<select id="getUserInforByUserNameAndEmail" parameterType="com.platform.entity.User"
 		resultType="com.platform.entity.User">
 		<include refid="userInfoSql" />
 		AND tut.userLogin=#{userLogin}
 		AND tu.user_email=#{user_email}
 	</select>
 
-	<!-- 根据 用户名和邮箱查询用户 -->
+	<!-- 根据 用户名和验证码查询用户 -->
 	<select id="getUserInforByUserNameAndCode" parameterType="java.util.Map"
 		resultType="com.platform.entity.User">
 		<include refid="userInfoSql" />

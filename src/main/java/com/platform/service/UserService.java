@@ -150,7 +150,7 @@ public interface UserService {
 	public User getUserInforByToken(String token);
 
 	/**
-	 * 根据 用户名和邮箱查询用户
+	 * 根据 token查询用户
 	 * 
 	 * @param map
 	 * @return
@@ -159,6 +159,14 @@ public interface UserService {
 
 	/**
 	 * 根据 用户名和邮箱查询用户
+	 * 
+	 * @param map
+	 * @return
+	 */
+	public User getUserInforByUserNameAndEmail(User user);
+
+	/**
+	 * 根据 用户名和验证码查询用户
 	 * 
 	 * @param map
 	 * @return

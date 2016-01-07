@@ -535,42 +535,54 @@ public class UserServiceImpl implements UserService {
 		return mapper.chechUserEmailIsExist(user_email);
 	}
 
-	
 	/**
 	 * 用户登录验证
+	 * 
 	 * @param map
 	 * @return
 	 */
-	public User login(Map<String,String> map){
+	public User login(Map<String, String> map) {
 		return mapper.login(map);
 	}
-	
 
 	/**
 	 * 根据 token查询用户
+	 * 
 	 * @param token
 	 * @return
 	 */
-	public User getUserInforByToken(String token){
+	public User getUserInforByToken(String token) {
 		return mapper.getUserInforByToken(token);
 	}
-	
+
 	/**
-	 * 根据 用户名和邮箱查询用户
+	 * 根据 用tokenId查询用户
+	 * 
 	 * @param map
 	 * @return
 	 */
-	public User getUserInforByToken(User user){
+	public User getUserInforByToken(User user) {
 		return mapper.getUserInforByToken(user);
 	}
-	
+
 	/**
-	 * 根据 用户名和邮箱查询用户 
+	 * 根据 用户名和邮箱查询用户
+	 * 
 	 * @param map
 	 * @return
 	 */
-	public User getUserInforByUserNameAndCode(Map<String,String> map){
+	public User getUserInforByUserNameAndEmail(User user) {
+		return mapper.getUserInforByUserNameAndEmail(user);
+	}
+
+	/**
+	 * 根据 用户名和邮箱查询用户
+	 * 
+	 * @param map
+	 * @return
+	 */
+	public User getUserInforByUserNameAndCode(Map<String, String> map) {
 		return mapper.getUserInforByUserNameAndCode(map);
 	}
-	
+
 }

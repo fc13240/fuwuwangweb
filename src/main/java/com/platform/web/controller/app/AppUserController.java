@@ -320,9 +320,9 @@ public class AppUserController {
 	 *            令牌
 	 * @param userLogin
 	 *            用户名
-	 * @param email
+	 * @param user_email
 	 *            新邮箱
-	 * @param password
+	 * @param passWord
 	 *            密码
 	 * @return
 	 * @throws Exception
@@ -388,7 +388,7 @@ public class AppUserController {
 			result.Error = "邮箱不能为空";
 			return result;
 		}
-		User u = userService.getUserInforByToken(user);
+		User u = userService.getUserInforByUserNameAndEmail(user);
 		if (u == null) {
 			result.Error = "用户名和邮箱不正确";
 			return result;

@@ -93,11 +93,19 @@ public interface UserMapper {
 	public User login(Map<String,String> map);
 	
 	/**
-	 * 根据 用户名和邮箱查询用户
+	 *  根据 token查询用户
 	 * @param map
 	 * @return
 	 */
 	public User getUserInforByToken(User user);
+	
+	
+	/**
+	 * 根据 用户名和邮箱查询用户
+	 * @param map
+	 * @return
+	 */
+	public User getUserInforByUserNameAndEmail(User user);
 
 	
 	/**
@@ -108,7 +116,7 @@ public interface UserMapper {
 	public User getUserInforByToken(String token);
 	
 	/**
-	 * 根据 用户名和邮箱查询用户 
+	 * 根据 用户名和验证码询用户 
 	 * @param map
 	 * @return
 	 */
