@@ -225,8 +225,8 @@ public class AppUserController {
 			} else {
 				String txt = uu.getUserLogin() + uu.getPassWord() + DateUtil.getDays();
 				String token = New_token.newToken(txt);
-				uu.setToken(uu.getToken());
-				User_token lTokens =new User_token();
+				uu.setToken(token);
+				User_token lTokens = new User_token();
 				lTokens.setToken(token);
 				lTokens.setUser_id(uu.getUser_id());
 				userService.select_UsertokenByUserid(uu.getUser_id());
@@ -299,15 +299,20 @@ public class AppUserController {
 		}
 		User tokenUser = userService.getUserInforByToken(token);
 		if (tokenUser == null) {
-			result.Error = "身份验证失败";
+			result.Error = "身份验证失败!请重新登录";
 			return result;
 		}
 		if (Md5.getVal_UTF8(user.getPassWord()).equals(tokenUser.getPassWord())) {
 			tokenUser.setPassWord(Md5.getVal_UTF8(user.getPassWordConfirm()));
 			userService.updatepass(tokenUser);
+			User_token user_token= new User_token();
+			String txt = user.getUserLogin() + user.getPassWord() + DateUtil.getDays();
+			user_token.setToken(New_token.newToken(txt));
+			user_token.setUser_id(tokenUser.getUser_id());
+			userService.update_token(user_token);
 			tokenUser.setResults("成功");
 			result.Successful = true;
-			result.Data = "修改成功";
+			result.Data = user_token.getToken();
 		} else {
 			result.Error = "旧密码不正确";
 		}
