@@ -238,12 +238,12 @@
 	</select>
 
 	<sql id="userInfoSql">
-		SELECT tu.* ,tui.* ,tokenFROM t_user tu
+		SELECT tu.* ,tui.* ,token FROM t_user tu
 		JOIN t_userinfo tui
 		ON tu.user_id=tui.user_id
 		JOIN t_user_token tut ON
 		tu.user_id=tut.user_id
-		WHERE (tu.user_state='2' OR tu.user_state='3')
+		WHERE (tu.user_state='2' OR tu.user_state='1')
 	</sql>
 
 

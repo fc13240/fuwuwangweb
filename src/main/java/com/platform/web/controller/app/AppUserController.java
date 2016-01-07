@@ -132,7 +132,7 @@ public class AppUserController {
 			result.Error = bm.Error;
 			return result;
 		}
-		if ("4".equals(user.getUser_type())) {
+		if (Constants.USER_VIP.equals(user.getUser_type())) {
 			BaseModelJson<String> bmj = register(user.getUserLogin(), user.getPassWord(), user.getPassWordConfirm(),
 					user.getZy());
 			if (bmj.Successful) {
@@ -142,12 +142,16 @@ public class AppUserController {
 				result.Error = bmj.Error;
 			}
 		}
-		if ("3".equals(user.getUser_type())) {
+		if (Constants.USER_.equals(user.getUser_type())) {
 			user.setUser_id(UUIDUtil.getRandom32PK()); // id
 			user.setPassWord(Md5.getVal_UTF8(user.getPassWord())); // 密码md5 加密
 			user.setUser_state(Constants.USER_ACTIVE); // 活跃
 			user.setUser_type(Constants.USER_); // 普通用户
+			String txt = user.getUserLogin() + user.getPassWord() + DateUtil.getDays();
+			String token = New_token.newToken(txt);
+			user.setToken(token);
 			userService.adduser(user);
+			userService.add_token(user);
 			result.Successful = true;
 			result.Data = "注册成功";
 		}
@@ -173,7 +177,7 @@ public class AppUserController {
 			result.Error = "登录信息不全";
 			return result;
 		}
-		if ("4".equals(type)) {
+		if (Constants.USER_VIP.equals(type)) {
 			BaseModelJson<String> bmj = sigIn(userLogin, passWord);
 			if (bmj.Successful) {
 				User uu = userService.findUser(userLogin);
@@ -209,31 +213,28 @@ public class AppUserController {
 			}
 			return result;
 		}
-		if ("3".equals(type)) {
+		if (Constants.USER_.equals(type)) {
 			Map<String, String> map = new HashMap<>();
 			map.put("userLogin", userLogin);
 			map.put("passWord", Md5.getVal_UTF8(passWord));
 			User uu = userService.login(map);
 			if (uu == null) {
 				result.Error = "用户名或者密码错误";
-			} else if ("2".equals(uu.getUser_state())) {
+			} else if (Constants.USER_LOCK.equals(uu.getUser_state())) {
 				result.Error = "用户名已被锁定";
 			} else {
 				String txt = uu.getUserLogin() + uu.getPassWord() + DateUtil.getDays();
 				String token = New_token.newToken(txt);
 				uu.setToken(uu.getToken());
-				User_token lTokens = userService.select_UsertokenByUserid(uu.getUser_id());
-				if (lTokens != null) {
-					lTokens.setToken(token);
-					userService.update_token(lTokens);
-				} else {
-					userService.add_token(uu); // 插入token
-				}
+				User_token lTokens =new User_token();
+				lTokens.setToken(token);
+				lTokens.setUser_id(uu.getUser_id());
+				userService.select_UsertokenByUserid(uu.getUser_id());
+				userService.update_token(lTokens);
 				result.Successful = true;
 				result.Data = uu;
 			}
 		}
-		result.Error = "参数错误";
 		return result;
 	}
 
@@ -257,7 +258,7 @@ public class AppUserController {
 			result.Error = "该账号已在其他客户端登录，请重新登陆";
 			return result;
 		}
-		if ("2".equals(user.getUser_state())) {
+		if (Constants.USER_LOCK.equals(user.getUser_state())) {
 			result.Error = "该账号已被锁定，请联系客服";
 			return result;
 		}
