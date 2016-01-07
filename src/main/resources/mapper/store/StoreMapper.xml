@@ -210,7 +210,7 @@
 		and ts.street_id=tst.street_id
 		and tr.region_id=tst.region_id
 		and tc.city_id=tr.city_id
-
+		and ts.store_state='3'
 
 	</select>
 
@@ -225,6 +225,7 @@
 		and ts.street_id=tst.street_id
 		and tr.region_id=tst.region_id
 		and tc.city_id=tr.city_id
+		and ts.store_state=3
 
 	</select>
 	<!-- 根据street_id 查 店铺提供给App -->
@@ -239,6 +240,7 @@
 		JOIN t_user AS tu ON
 		ts.user_id=tu.user_id
 		WHERE ts.store_id = #{store_id}
+		and ts.store_state='3'
 	</select>
 
 	<!-- 根据电话号码获取商家 -->
