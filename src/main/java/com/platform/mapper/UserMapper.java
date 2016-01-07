@@ -91,5 +91,28 @@ public interface UserMapper {
 	 * @return
 	 */
 	public User login(Map<String,String> map);
+	
+	/**
+	 * 根据 用户名和邮箱查询用户
+	 * @param map
+	 * @return
+	 */
+	public User getUserInforByToken(User user);
 
+	
+	/**
+	 * 根据 token查询用户
+	 * @param token
+	 * @return
+	 */
+	public User getUserInforByToken(String token);
+	
+	/**
+	 * 根据 用户名和邮箱查询用户 
+	 * @param map
+	 * @return
+	 */
+	public User getUserInforByUserNameAndCode(Map<String,String> map);
+	
+	
 }

@@ -154,12 +154,15 @@ public class AppUserController {
 		return result;
 	}
 
-	
 	/**
 	 * 功能：用户登录
-	 * @param userLogin 用户名
-	 * @param passWord 密码
-	 * @param type 用户类别 参数 3.普通用户 4.vip会员
+	 * 
+	 * @param userLogin
+	 *            用户名
+	 * @param passWord
+	 *            密码
+	 * @param type
+	 *            用户类别 参数 3.普通用户 4.vip会员
 	 * @return
 	 */
 	@RequestMapping(value = "login", method = RequestMethod.GET)
@@ -182,15 +185,15 @@ public class AppUserController {
 					uu.setUser_type(Constants.USER_VIP); // 会员用户
 					uu.setUser_state(Constants.USER_ACTIVE); // 活跃
 					mapper.userrigester_user(uu); // 注册的会员插入到
-
-					uu.setRealName("--");
-					uu.setIdCard("--");
-					uu.setDq("--");
-					uu.setZy("--");
-					uu.setUser_email("--");
+					BaseModelJson<FwwUser> fww = getFwwUserInfo(bmj.Data);
+					if (fww.Successful) {
+						uu.setRealName(fww.Data.getM_realrName());
+						uu.setIdCard(fww.Data.getM_idCard());
+						uu.setDq("--");
+						uu.setUser_email(fww.Data.getM_Email());
+					}
 					uu.setUser_img(".jpg");
 					mapper.userrigester_userinfo(uu);
-
 					uu.setToken(bmj.Data);
 					userService.add_token(uu); // 插入token
 				} else {
@@ -230,244 +233,86 @@ public class AppUserController {
 				result.Data = uu;
 			}
 		}
-		result.Error="参数错误";
+		result.Error = "参数错误";
 		return result;
 	}
 
 	/**
-	 * ---------Leo type是什么？ 应当是０，１之类的 × 登录成功后别忘了 返回 token(你们自己的)和 调用的接口获取到的 加：
-	 * 方式注释，参数 注释
-	 */
-	/**
-	 * (未处理完，token) userlogin 功能：用户登录
-	 * 
-	 * @param userLogin
-	 *            用户名
-	 * @param passWord
-	 *            密码
-	 * @param type
-	 *            用户类别 参数 3.普通用户 4.vip会员
-	 * @return
-	 */
-	@RequestMapping(value = "userlogin", method = RequestMethod.GET)
-	@ResponseBody
-	public Map<String, Object> login1(String userLogin, String passWord, String type) {
-
-		System.out.println("帐号" + userLogin + "  密码" + passWord + "  类别" + type);
-		Map<String, Object> map = new HashMap<String, Object>();
-		if (null == userLogin || null == passWord || null == type) {
-			map.put("Successful", false);
-			map.put("Data", "");
-			map.put("Error", "登录信息不全");
-			return map;
-		}
-		User results = userService.addapplogin(userLogin, passWord, type);
-
-		// 开发人声明的错误信息提示
-		if (results.getResults().equals("登录成功")) {
-
-			if ("4".equals(results.getUser_type())) { // 会员登录
-				User_token lTokens = userService.select_UsertokenByUserid(results.getUser_id());
-				boolean falg = false;
-				if (null != lTokens) {
-
-					User_token token_agui = new User_token();
-
-					System.out.println(
-							" 修改token ：" + " Token :" + results.getToken() + "  user_id :" + results.getUser_id());
-					token_agui.setToken(results.getToken());
-					token_agui.setUser_id(results.getUser_id());
-					userService.update_token(token_agui);
-					falg = true;
-				}
-				if (!falg) { // token 不存在 插入 token
-					System.out.println(
-							" 插入token ：" + " Token :" + results.getToken() + "  user_id :" + results.getUser_id());
-					results.setToken(results.getToken());
-					results.setUser_id(results.getUser_id());
-					userService.add_token(results); // 插入token
-				}
-
-			} else {
-				String txt = results.getUserLogin() + results.getPassWord() + DateUtil.getDays();
-				String token = New_token.newToken(txt);
-				System.out.println("本地生成的token  ：" + token);
-				User_token lTokens = userService.select_UsertokenByUserid(results.getUser_id());
-				boolean falg = false;
-				if (null != lTokens) {
-
-					User_token token_agui = new User_token();
-
-					System.out.println(" 修改token ：" + " Token :" + token + "  user_id :" + results.getUser_id());
-					token_agui.setToken(token);
-					token_agui.setUser_id(results.getUser_id());
-					userService.update_token(token_agui);
-					falg = true;
-					results.setToken(token);
-				}
-				if (!falg) { // token 不存在 插入 token
-					System.out.println(" 插入token ：" + " Token :" + token + "  user_id :" + results.getUser_id());
-					results.setToken(token);
-					results.setUser_id(results.getUser_id());
-					userService.add_token(results); // 插入token
-				}
-
-			}
-
-			map.put("Successful", true);
-			map.put("Data", results);
-			map.put("Error", "");
-
-		} else if (results.getResults().equals("账户或密码错误！")) {
-
-			map.put("Successful", false);
-			map.put("Data", results);
-			map.put("Error", "账户  密码 不匹配！");
-
-		} else if (results.getResults().equals("用户冻结")) {
-
-			map.put("Successful", false);
-			map.put("Data", results);
-			map.put("Error", "用户冻结");
-
-		} else if (results.getResults().equals("非法帐号")) {
-
-			map.put("Successful", false);
-			map.put("Data", results);
-			map.put("Error", "非法帐号");
-
-		} else if (results.getResults().equals("帐号不存在")) {
-
-			map.put("Successful", false);
-			map.put("Data", results);
-			map.put("Error", "帐号不存在");
-
-		} else if (results.getResults().equals("请求错误")) {
-			map.put("Successful", false);
-			map.put("Data", results);
-			map.put("Error", "请求错误");
-		} else { // 注意 ： 这个错误信息 是 会员登录时 web调用 公司 接口，公司给的错误信息
-
-			map.put("Successful", false);
-			map.put("Data", results);
-			map.put("Error", results.getResults());
-		}
-
-		System.out.println("登录时传给app 的token:" + results.getToken());
-
-		return map;
-	}
-
-	/**
-	 * getUserInformation 功能：获取用户信息
+	 * 获取用户信息
 	 * 
 	 * @param token
-	 *            令牌
 	 * @return
 	 */
 	@RequestMapping(value = "getUserInformation", method = RequestMethod.GET)
 	@ResponseBody
-	public Map<String, Object> getUserInformation(@RequestHeader String token) {
-
-		Map<String, Object> map = new HashMap<String, Object>();
-
-		System.out.println(" 得到的token ： " + token);
+	public BaseModelJson<User> getUserInformation(@RequestHeader String token) {
+		BaseModelJson<User> result = new BaseModelJson<>();
 
 		if (null == token || "".equals(token)) {
-			map.put("Successful", false);
-			map.put("Data", "");
-			map.put("Error", "token失效");
-			return map;
+			result.Error = "没有权限访问";
+			return result;
 		}
-
-		User agui_token1 = userService.select_token(token);
-		if (null == agui_token1) {
-
-			map.put("Successful", false);
-			map.put("Data", "");
-			map.put("Error", "该账号已在其他客户端登录，请重新登陆！");
-			return map;
+		User user = userService.getUserInforByToken(token);
+		if (null == user) {
+			result.Error = "该账号已在其他客户端登录，请重新登陆";
+			return result;
 		}
-		User agui_token2 = userService.finduserById(agui_token1.getUser_id());
-
-		User user_2 = userService.usermsg(agui_token2.getUserLogin());
-
-		map.put("Successful", true);
-		map.put("Data", user_2);
-		map.put("Error", "");
-
-		return map;
+		if ("2".equals(user.getUser_state())) {
+			result.Error = "该账号已被锁定，请联系客服";
+			return result;
+		}
+		result.Data = user;
+		result.Successful = true;
+		return result;
 	}
 
 	/**
-	 * ---------Leo 改：查询成功返回 true ，失败返回 false 并且给 失败原因 加： 方式注释，参数 注释
-	 */
-	/**
-	 * updatePass 功能： 修改密码
+	 * 修改密码
 	 * 
 	 * @param token
-	 *            令牌
-	 * @param passWord
-	 *            密码
-	 * @param newpass
-	 *            确认密码
+	 * @param user
+	 *            ---- passWord:旧密码 passWordConfirm:新密码
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "updatePass", method = RequestMethod.POST)
+	@RequestMapping(value = "changePassword", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> updatePass(@RequestHeader String token, @RequestBody String passWord,
-			@RequestBody String newpass) throws Exception {
+	public BaseModelJson<String> changePassword(@RequestHeader String token, @RequestBody User user) throws Exception {
+		BaseModelJson<String> result = new BaseModelJson<>();
 
-		Map<String, Object> map = new HashMap<String, Object>();
-		User u = new User();
-
-		System.out.println(" 得到的token ： " + token);
-
-		User agui_token1 = userService.select_token(token);
-		if (null == agui_token1) {
-
-			map.put("Successful", false);
-			map.put("Data", "");
-			map.put("Error", "该账号已在其他客户端登录，请重新登陆！");
-			return map;
+		if (token == null) {
+			result.Error = "没有权限访问";
+			return result;
 		}
-		User agui_token2 = userService.finduserById(agui_token1.getUser_id());
-
-		if (null == token || null == passWord || null == newpass) {
-			map.put("Successful", false);
-			map.put("Data", "");
-			map.put("Error", "修改信息不全");
-			return map;
+		if (user == null) {
+			result.Error = "参数错误";
+			return result;
 		}
-
-		// 老密码正确
-		if (Md5.getVal_UTF8(passWord).equals(agui_token2.getPassWord())) {
-
-			u.setUserLogin(agui_token2.getUserLogin());
-			u.setPassWord(Md5.getVal_UTF8(newpass));
-			userService.updatepass(u);
-			u.setResults("成功");
-
-			System.out.println("大长脸");
-			map.put("Successful", true);
-			map.put("Data", u);
-			map.put("Error", "");
-
+		if (user.getPassWord() == null) {
+			result.Error = "旧密码不能为空";
+			return result;
+		}
+		if (user.getPassWordConfirm() == null) {
+			result.Error = "新密码不能为空";
+			return result;
+		}
+		User tokenUser = userService.getUserInforByToken(token);
+		if (tokenUser == null) {
+			result.Error = "身份验证失败";
+			return result;
+		}
+		if (Md5.getVal_UTF8(user.getPassWord()).equals(tokenUser.getPassWord())) {
+			tokenUser.setPassWord(Md5.getVal_UTF8(user.getPassWordConfirm()));
+			userService.updatepass(tokenUser);
+			tokenUser.setResults("成功");
+			result.Successful = true;
+			result.Data = "修改成功";
 		} else {
-			System.out.println("大长脸密码错误");
-			u.setResults("失败");
-			map.put("Successful", false);
-			map.put("Data", "");
-			map.put("Error", "旧密码错误");
+			result.Error = "旧密码不正确";
 		}
-
-		return map;
+		return result;
 	}
 
-	/**
-	 * ---------Leo 加： 方式注释，参数 注释
-	 */
 	/**
 	 * updateEmail 功能：修改app普通用户邮箱
 	 * 
@@ -476,61 +321,190 @@ public class AppUserController {
 	 * @param userLogin
 	 *            用户名
 	 * @param email
-	 *            邮箱
+	 *            新邮箱
 	 * @param password
 	 *            密码
-	 * @param newEmail
-	 *            新邮箱
 	 * @return
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "updateEmail", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> updateEmail(@RequestHeader String token, @RequestBody String userLogin,
-			@RequestBody String email, @RequestBody String password, @RequestBody String newEmail) throws Exception {
-
-		Map<String, Object> map = new HashMap<String, Object>();
-		User u = new User();
-		if (userLogin == null || ("").equals(userLogin) || ("").equals(email) || email == null || password == null
-				|| ("").equals(password) || newEmail == null || ("").equals(newEmail)) {
-			map.put("Successful", false);
-			map.put("Error", "信息不全");
-			return map;
+	public BaseModelJson<String> updateEmail(@RequestHeader String token, @RequestBody User user) throws Exception {
+		BaseModelJson<String> result = new BaseModelJson<>();
+		if (token == null) {
+			result.Error = "没有权限访问";
+			return result;
 		}
-
-		User user1 = userService.usermsg(userLogin);
-
-		if (null == token) {
-			map.put("Successful", false);
-			map.put("Error", "token失效");
-			return map;
-		} else {
-			if (user1.getUser_type().equals("3")) {
-
-				if (user1.getUser_email().equals(email) && user1.getPassWord().equals(Md5.getVal_UTF8(password))) {
-					u.setUser_id(user1.getUser_id());
-					u.setUser_email(newEmail);
-					userService.updateEmail(u);
-				} else {
-					map.put("Successful", false);
-					map.put("Error", "所填信息有误");
-					return map;
-				}
-
-			} else {
-				map.put("Successful", false);
-				map.put("Error", "对不起，暂时没有这项服务");
-				return map;
-			}
+		if (user == null) {
+			result.Error = "参数错误";
+			return result;
 		}
-
-		map.put("Successful", true);
-		map.put("Error", "");
-		return map;
+		if (user.getUser_email() == null || user.getUser_email().isEmpty()) {
+			result.Error = "新邮箱不能为空";
+			return result;
+		}
+		if (user.getPassWord() == null || user.getPassWord().isEmpty()) {
+			result.Error = "密码不能为空";
+			return result;
+		}
+		User u = userService.getUserInforByToken(token);
+		if (null == u) {
+			result.Error = "该账号已在其他客户端登录，请重新登陆";
+			return result;
+		}
+		if ("2".equals(user.getUser_state())) {
+			result.Error = "该账号已被锁定，请联系客服";
+			return result;
+		}
+		if (u.getPassWord().equals(Md5.getVal_UTF8(user.getPassWord()))) {
+			u.setUser_email(user.getUser_email());
+			userService.updateEmail(u);
+			result.Successful = true;
+			result.Data = "修改成功";
+		}
+		return result;
 	}
+
 	/**
-	 * ---------Leo 这个方法是干什么用的？ 加： 方式注释，参数 注释
+	 * 发验证码
+	 * 
+	 * @param user
+	 *            --- userLogin 和 user_email
+	 * @return
 	 */
+	@ResponseBody
+	@RequestMapping(value = "sendCode", method = RequestMethod.POST)
+	public BaseModelJson<String> sendCode(@RequestBody User user) {
+		BaseModelJson<String> result = new BaseModelJson<>();
+		if (user == null) {
+			result.Error = "参数错误";
+			return result;
+		}
+		if (user.getUserLogin() == null || user.getUserLogin().isEmpty()) {
+			result.Error = "用户名不能为空";
+			return result;
+		}
+		if (user.getUser_email() == null || user.getUser_email().isEmpty()) {
+			result.Error = "邮箱不能为空";
+			return result;
+		}
+		User u = userService.getUserInforByToken(user);
+		if (u == null) {
+			result.Error = "用户名和邮箱不正确";
+			return result;
+		}
+		int yzm = Tools.getRandomNum();
+		String sender = "fuwuwang86@126.com";// fuwuwangapp@163.com
+		//// bjfww86@126.com
+		String subject = "服务网找回密码";
+		String userName = sender;
+		String password = "86fuwuwang";
+		Properties props = new Properties();
+		props.put("mail.debug", "true");
+		props.put("mail.smtp.host", "smtp.126.com");
+		props.put("mail.smtp.port", "25");
+		props.put("mail.smtp.auth", "true");
+		// 授权用户和密码可以在这设置，也可以在发送时直接设置
+		Session session1 = Session.getDefaultInstance(props, null);
+		Message message = new MimeMessage(session1);
+		try {
+			Address sendAddress = new InternetAddress(sender);
+			message.setFrom(sendAddress);
+			// 支持发送多个收件人
+			// String [] recipients = recipient.split(";");
+			// Address[] recipientAddress = new Address[recipients.length];
+			// for (int i = 0; i < recipients.length; i++) {
+			// recipientAddress[i] = new InternetAddress(recipients[i]);
+			// }
+			message.setRecipient(Message.RecipientType.TO, new InternetAddress(user.getUser_email()));
+			message.setSubject(subject);
+			// 以html发送
+			BodyPart bodyPart = new MimeBodyPart();
+			bodyPart.setContent("<h5>" + "尊敬的用户，您的服务网的验证码为：" + yzm + "<h5>", "text/html; charset=utf-8");
+			Multipart multipart = new MimeMultipart();
+			multipart.addBodyPart(bodyPart);
+			// 单纯发送文本的用setText即可
+			// message.setText("服务网找回密码的验证码：1234");
+			message.setContent(multipart);
+			Transport.send(message, userName, password);
+			User_token YZMuser = new User_token();
+			YZMuser.setUser_id(u.getUser_id());
+			YZMuser.setYZM(String.valueOf(yzm));
+			userService.update_YZM(YZMuser);
+			result.Successful = true;
+			result.Data = "发送成功";
+		} catch (MessagingException e) {
+			e.printStackTrace();
+			result.Error = "发送邮件失败";
+			return result;
+		}
+		return result;
+	}
+
+	/**
+	 * 找回密码
+	 * 
+	 * @param model
+	 *            应该传的值为下面
+	 * 
+	 * @param userLogin
+	 *            用户名
+	 * @param code
+	 *            验证码
+	 * @param passWord
+	 *            密码
+	 * @param repassWord
+	 *            确认密码
+	 * @return
+	 */
+	@RequestMapping(value = "resetPassword", method = RequestMethod.POST)
+	@ResponseBody
+	public BaseModelJson<String> resetPassword(@RequestBody BodyModel model) {
+		BaseModelJson<String> result = new BaseModelJson<>();
+		if (model == null) {
+			result.Error = "参数错误";
+			return result;
+		}
+		if (model.getUserLogin() == null || model.getUserLogin().isEmpty()) {
+			result.Error = "帐号不能为空";
+			return result;
+		}
+		if (model.getPassword() == null || model.getPassword().isEmpty()) {
+			result.Error = "密码不能为空";
+			return result;
+		}
+		if (model.getConfirmPassword() == null || model.getConfirmPassword().isEmpty()) {
+			result.Error = "确认密码不能为空";
+			return result;
+		}
+		if (model.getCode() == null || model.getCode().isEmpty()) {
+			result.Error = "验证码不能为空";
+			return result;
+		}
+		if (!model.getConfirmPassword().equals(model.getPassword())) {
+			result.Error = "两次密码输入不一致不能为空";
+			return result;
+		}
+		Map<String, String> map = new HashMap<>();
+		map.put("userLogin", model.getUserLogin());
+		map.put("code", model.getCode());
+		User user = userService.getUserInforByUserNameAndCode(map);
+		if (user == null) {
+			result.Error = "验证码错误";
+			return result;
+		}
+		try {
+			user.setPassWord(Md5.getVal_UTF8(model.getPassword()));
+			userService.updatepass(user);
+			result.Successful = true;
+			result.Data = "密码修改成功";
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			result.Data = "服务器繁忙";
+		}
+		return result;
+	}
 
 	/**
 	 * sendYZM 功能：找回密码第一步，发送邮件
@@ -653,18 +627,7 @@ public class AppUserController {
 
 		}
 	}
-	/**
-	 * ---------Leo 这个方法是干什么用的？ 加： 方式注释，参数 注释
-	 */
 
-	/**
-	 * @author 李嘉伟
-	 * @param Integer
-	 *            YZM String passWord String userLogin
-	 *            app/ResetPassword?userLogin=wwwxxx&YZM=953643&passWord=aaaaaa&
-	 *            repassWord=aaaaaa
-	 * @RequestBody
-	 */
 	/**
 	 * ResetPassword 功能：找回密码第二步
 	 * 
@@ -765,13 +728,6 @@ public class AppUserController {
 		}
 
 	}
-	/**
-	 * ---------Leo 改: @RequestMapping(value = "uploadAvatar" , method
-	 * =RequestMethod.POST) 改： uploadAvatar( @RequestBody String
-	 * userLogin,@RequestBody MultipartFile file, HttpSession session
-	 * , @RequestHeader String token) 通过token 应该可以只知道这个人的 唯一标识 然后查处这个人信息
-	 * userLogin 是干什么的？？？？ 加： 方式注释，参数 注释
-	 */
 
 	/**
 	 * uploadAvatar 功能：上传头像
@@ -880,6 +836,8 @@ public class AppUserController {
 		return R;
 	}
 
+	/*** 调用服务网 接口 **/
+
 	/**
 	 * 验证用户名是否存在
 	 * 
@@ -910,6 +868,19 @@ public class AppUserController {
 		return bm;
 	}
 
+	/**
+	 * 会员注册
+	 * 
+	 * @param userLogin
+	 *            帐号
+	 * @param passWord
+	 *            密码
+	 * @param passWordConfirm
+	 *            去人密码
+	 * @param zy
+	 *            服务专员
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	public BaseModelJson<String> register(String userLogin, String passWord, String passWordConfirm, String zy) {
 		String url = path + "Content/RegisterNew";
@@ -942,6 +913,15 @@ public class AppUserController {
 		return bmj;
 	}
 
+	/**
+	 * 登录
+	 * 
+	 * @param userLogin
+	 *            帐号
+	 * @param passWord
+	 *            密码
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	public BaseModelJson<String> sigIn(String userLogin, String passWord) {
 		String url = path + "Content/SignIn?userLogin=" + userLogin + "&userPass=" + passWord;
@@ -968,6 +948,12 @@ public class AppUserController {
 		return bmj;
 	}
 
+	/**
+	 * 根据token获取 会员信息
+	 * 
+	 * @param token
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	public BaseModelJson<FwwUser> getFwwUserInfo(String token) {
 		String url = path + "Member/GetZcUserById";

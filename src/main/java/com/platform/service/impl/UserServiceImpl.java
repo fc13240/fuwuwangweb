@@ -546,7 +546,31 @@ public class UserServiceImpl implements UserService {
 	}
 	
 
+	/**
+	 * 根据 token查询用户
+	 * @param token
+	 * @return
+	 */
+	public User getUserInforByToken(String token){
+		return mapper.getUserInforByToken(token);
+	}
 	
+	/**
+	 * 根据 用户名和邮箱查询用户
+	 * @param map
+	 * @return
+	 */
+	public User getUserInforByToken(User user){
+		return mapper.getUserInforByToken(user);
+	}
 	
+	/**
+	 * 根据 用户名和邮箱查询用户 
+	 * @param map
+	 * @return
+	 */
+	public User getUserInforByUserNameAndCode(Map<String,String> map){
+		return mapper.getUserInforByUserNameAndCode(map);
+	}
 	
 }

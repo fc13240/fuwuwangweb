@@ -4,184 +4,255 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.platform.mapper.UserMapper">
-	
-	
-	
+
+
+
 	<!-- 根据userLogin获取登陆人——t_user信息 -->
 	<select id="findUser" parameterType="String" resultType="com.platform.entity.User">
-		
-		SELECT t_user.*  FROM t_user     WHERE  t_user.`userLogin`= #{userLogin}
+
+		SELECT
+		t_user.* FROM t_user WHERE t_user.`userLogin`= #{userLogin}
 	</select>
-	
-	
-	
+
+
+
 	<!-- 根据userLogin获取登陆人——基本信息 -->
-	<select id="findByUsername" parameterType="String" resultType="com.platform.entity.User">
-		
-		SELECT t_user.* , t_userinfo.*  FROM t_user , t_userinfo    WHERE t_user.`user_id` = t_userinfo.`user_id` AND t_user.`userLogin`= #{userLogin}
+	<select id="findByUsername" parameterType="String"
+		resultType="com.platform.entity.User">
+
+		SELECT t_user.* , t_userinfo.* FROM t_user , t_userinfo
+		WHERE
+		t_user.`user_id` = t_userinfo.`user_id` AND t_user.`userLogin`=
+		#{userLogin}
 	</select>
-	
-	
+
+
 	<!-- 商人登录人——基本信息 -->
-	<select id="findmerchantByuserlogin" parameterType="String" resultType="com.platform.entity.User">
-		
-		SELECT t_user.* , t_merchant_info.*  FROM t_user , t_merchant_info    WHERE t_user.`user_id` = t_merchant_info.`user_id` 
-		                                       AND t_user.`userLogin`= #{userLogin} 
+	<select id="findmerchantByuserlogin" parameterType="String"
+		resultType="com.platform.entity.User">
+
+		SELECT t_user.* , t_merchant_info.* FROM t_user ,
+		t_merchant_info WHERE
+		t_user.`user_id` = t_merchant_info.`user_id`
+		AND
+		t_user.`userLogin`= #{userLogin}
 	</select>
-	
-	
-	<!-- name  模糊查用户 -->
-	<select id="finduserByname"  resultType="com.platform.entity.User" parameterType="String" >
-		
-		SELECT t_user.* , t_userinfo.*  FROM t_user , t_userinfo    WHERE t_user.`user_id` = t_userinfo.`user_id` AND userLogin LIKE CONCAT(CONCAT('%', #{phone}), '%')
-		
+
+
+	<!-- name 模糊查用户 -->
+	<select id="finduserByname" resultType="com.platform.entity.User"
+		parameterType="String">
+
+		SELECT t_user.* , t_userinfo.* FROM t_user , t_userinfo
+		WHERE
+		t_user.`user_id` = t_userinfo.`user_id` AND userLogin LIKE
+		CONCAT(CONCAT('%', #{phone}), '%')
+
 	</select>
-	
-	
+
+
 	<!-- user_id查用户 -->
-	<select id="finduserById"  resultType="com.platform.entity.User" parameterType="String" >
-		
-		SELECT   *  FROM  t_user    WHERE  user_id = #{user_id}
-		
+	<select id="finduserById" resultType="com.platform.entity.User"
+		parameterType="String">
+
+		SELECT * FROM t_user WHERE user_id = #{user_id}
+
 	</select>
-	
-	
-	
+
+
+
 	<!-- 查看所有用户 -->
-	<select id="userlist"  resultType="com.platform.entity.User">
-		
-		SELECT t_user.* , t_userinfo.*  FROM t_user , t_userinfo  
-		  WHERE t_user.`user_id` = t_userinfo.`user_id` AND t_user.user_type != 1 ORDER BY user_state
-		
+	<select id="userlist" resultType="com.platform.entity.User">
+
+		SELECT t_user.* , t_userinfo.*
+		FROM t_user , t_userinfo
+		WHERE t_user.`user_id` = t_userinfo.`user_id`
+		AND t_user.user_type != 1
+		ORDER BY user_state
+
 	</select>
-	
-	
-	
+
+
+
 	<!-- 根据商人注册，验证帐号是否存在 -->
-	<select id="selectUserlogin" parameterType="String" resultType="com.platform.entity.User">
-		
-		SELECT t_user.*   FROM t_user     WHERE  t_user.`userLogin`= #{userLogin}
+	<select id="selectUserlogin" parameterType="String"
+		resultType="com.platform.entity.User">
+
+		SELECT t_user.* FROM t_user WHERE t_user.`userLogin`=
+		#{userLogin}
 	</select>
-	
-	<select id="selectUser_merchant_account" parameterType="String" resultType="String">
-		
-		SELECT t_merchant_info.merchant_account  FROM   t_merchant_info    WHERE  merchant_account= #{merchant_account}
+
+	<select id="selectUser_merchant_account" parameterType="String"
+		resultType="String">
+
+		SELECT t_merchant_info.merchant_account FROM
+		t_merchant_info WHERE
+		merchant_account= #{merchant_account}
 	</select>
-	
-	
-	
+
+
+
 	<!-- APP 用户注册_t_user -->
-	<insert id="userrigester_user" parameterType="com.platform.entity.User" keyProperty="id">
-		INSERT INTO 
-			t_user 
-		(user_id, userLogin,passWord,user_type,user_state)
-			VALUES
+	<insert id="userrigester_user" parameterType="com.platform.entity.User"
+		keyProperty="id">
+		INSERT INTO
+		t_user
+		(user_id,
+		userLogin,passWord,user_type,user_state)
+		VALUES
 		(#{user_id},#{userLogin},#{passWord},#{user_type},#{user_state})
 	</insert>
-	
-	
+
+
 	<!-- APP 用户注册_t_userinfo -->
-	<insert id="userrigester_userinfo" parameterType="com.platform.entity.User" keyProperty="id">
-		INSERT INTO 
-			t_userinfo 
+	<insert id="userrigester_userinfo" parameterType="com.platform.entity.User"
+		keyProperty="id">
+		INSERT INTO
+		t_userinfo
 		(realName,idCard,dq,zy,user_id,user_email , user_img)
-			VALUES
+		VALUES
 		(#{realName},#{idCard},#{dq},#{zy},#{user_id},#{user_email},#{user_img})
 	</insert>
-	
+
 	<!-- WEB 商人注册_t_merchant_info -->
-	<insert id="userrigester_merchantinfo" parameterType="com.platform.entity.User" keyProperty="merchant_id">
-		INSERT INTO 
-			t_merchant_info 
+	<insert id="userrigester_merchantinfo" parameterType="com.platform.entity.User"
+		keyProperty="merchant_id">
+		INSERT INTO
+		t_merchant_info
 		(user_id,merchant_desc,merchant_add_user,merchant_add_time,merchant_phone,service_man,merchant_account,merchant_type)
-			VALUES
+		VALUES
 		(#{user_id},#{merchant_desc},#{merchant_add_user},now(),#{merchant_phone},#{service_man},#{merchant_account},#{merchant_type})
 	</insert>
-	
-	
-	
-	
-	
-	
-	<!--用户锁定，解锁，删除-->
+
+
+
+
+
+
+	<!--用户锁定，解锁，删除 -->
 	<update id="updateuser_state" parameterType="com.platform.entity.User">
 		UPDATE t_user
 		<set>
 			<if test="user_state != null and user_state !='' ">
 				user_state = #{user_state}
-			</if>	
+			</if>
 		</set>
-			WHERE user_id = #{user_id}	
+		WHERE user_id = #{user_id}
 	</update>
-	
-	
-	
-	<!--修改密码-->
+
+
+
+	<!--修改密码 -->
 	<update id="updatepass" parameterType="com.platform.entity.User">
 		UPDATE t_user
 		<set>
 			<if test="passWord != null and passWord !='' ">
 				passWord = #{passWord},
-			</if>	
+			</if>
 		</set>
-			WHERE userLogin = #{userLogin}	
+		WHERE userLogin = #{userLogin}
 	</update>
-	
-	
-<!--修改个人头像user_img字段-->
+
+
+	<!--修改个人头像user_img字段 -->
 	<update id="updauser_img" parameterType="com.platform.entity.User">
 		UPDATE t_userinfo
 		<set>
 			<if test="user_img != null and user_img  !='' ">
-				user_img  = #{user_img },
-			</if>	
+				user_img = #{user_img },
+			</if>
 		</set>
-			WHERE user_id = #{user_id}	
+		WHERE user_id = #{user_id}
 	</update>
-	
-	
-	
-	
-	
-	<!--修改app普通用户邮箱-->
+
+
+
+
+
+	<!--修改app普通用户邮箱 -->
 	<update id="updateEmail" parameterType="com.platform.entity.User">
 		UPDATE t_userinfo
 		<set>
 			<if test="user_email != null and user_email !='' ">
 				user_email = #{user_email},
-			</if>	
+			</if>
 		</set>
-			WHERE user_id = #{user_id}	
+		WHERE user_id = #{user_id}
 	</update>
-	
-	
-	<!--修改用户登录状态-->
+
+
+	<!--修改用户登录状态 -->
 	<update id="updatelogin_state" parameterType="com.platform.entity.User">
-		UPDATE t_user set login_state = #{login_state} WHERE user_id = #{user_id}
+		UPDATE t_user set
+		login_state = #{login_state} WHERE user_id = #{user_id}
 	</update>
-	
-	
-	
+
+
+
 	<!-- Leo -->
-	
-	
-		<!-- 根据验证帐号是否存在 -->
+
+
+
+
+	<!-- 根据验证帐号是否存在 -->
 	<select id="chechUserIsExist" parameterType="String" resultType="java.lang.Integer">
-		SELECT COUNT(*)   FROM t_user tu WHERE  tu.userLogin= #{userLogin}
+		SELECT COUNT(*) FROM t_user tu WHERE tu.userLogin= #{userLogin}
 	</select>
-	
-		<!-- 根据验证邮箱是否存在 -->
-	<select id="chechUserEmailIsExist" parameterType="String" resultType="java.lang.Integer">
-		SELECT COUNT(*)   FROM t_userinfo tui  WHERE  tui.user_email= #{user_email}
+
+	<!-- 根据验证邮箱是否存在 -->
+	<select id="chechUserEmailIsExist" parameterType="String"
+		resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM t_userinfo tui WHERE tui.user_email=
+		#{user_email}
 	</select>
-	
+
+
 	<!-- 根据userLogin获取登陆人——基本信息 -->
 	<select id="login" parameterType="java.util.Map" resultType="com.platform.entity.User">
-		SELECT tu.* ,tui.* FROM t_user tu JOIN t_userinfo tui ON tu.user_id=tui.user_id 
-		WHERE tu.userLogin=#{userLogin}
+		<include refid="userInfoSql" />
+		AND tu.userLogin=#{userLogin}
 		AND tu.passWord=#{passWord}
-		AND (tu.user_state='2' OR tu.user_state='3')
 	</select>
-	
-	
+
+	<!-- 根据userLogin获取登陆人——基本信息 -->
+	<select id="login" parameterType="java.util.Map" resultType="com.platform.entity.User">
+		<include refid="userInfoSql" />
+		AND tu.userLogin=#{userLogin}
+		AND tu.passWord=#{passWord}
+	</select>
+
+
+	<!-- 根据 token查询用户 -->
+	<select id="getUserInforByToken" parameterType="java.lang.String"
+		resultType="com.platform.entity.User">
+		<include refid="userInfoSql" />
+		AND tut.token=#{token}
+	</select>
+
+	<!-- 根据 用户名和邮箱查询用户 -->
+	<select id="getUserInforByToken" parameterType="com.platform.entity.User"
+		resultType="com.platform.entity.User">
+		<include refid="userInfoSql" />
+		AND tut.userLogin=#{userLogin}
+		AND tu.user_email=#{user_email}
+	</select>
+
+	<!-- 根据 用户名和邮箱查询用户 -->
+	<select id="getUserInforByUserNameAndCode" parameterType="java.util.Map"
+		resultType="com.platform.entity.User">
+		<include refid="userInfoSql" />
+		AND tut.userLogin=#{userLogin}
+		AND tut.YZM=#{code}
+	</select>
+
+	<sql id="userInfoSql">
+		SELECT tu.* ,tui.* ,tokenFROM t_user tu
+		JOIN t_userinfo tui
+		ON tu.user_id=tui.user_id
+		JOIN t_user_token tut ON
+		tu.user_id=tut.user_id
+		WHERE (tu.user_state='2' OR tu.user_state='3')
+	</sql>
+
+
 </mapper>
