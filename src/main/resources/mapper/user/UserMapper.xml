@@ -225,17 +225,16 @@
 	<select id="getUserInforByUserNameAndEmail" parameterType="com.platform.entity.User"
 		resultType="com.platform.entity.User">
 		<include refid="userInfoSql" />
-		AND tut.userLogin=#{userLogin}
-		AND tu.user_email=#{user_email}
+		AND tu.userLogin=#{userLogin}
+		AND tui.user_email=#{user_email}
 	</select>
 
 	<!-- 根据 用户名和验证码查询用户 -->
 	<select id="getUserInforByUserNameAndCode" parameterType="java.util.Map"
 		resultType="com.platform.entity.User">
 		<include refid="userInfoSql" />
-		AND tut.userLogin=#{userLogin}
+		AND tu.userLogin=#{userLogin}
 		AND tut.YZM=#{code}
-		AND tu.user_type='3'
 	</select>
 
 	<sql id="userInfoSql">

@@ -2,6 +2,8 @@ package com.platform.web.controller.merchant;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -230,4 +232,17 @@ public class GoodsController extends BaseController {
 		return goods;
 	}
 
+	
+	public static void main(String[] args) {    
+	    
+		//电子邮件    
+		 String check = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";    
+		 Pattern regex = Pattern.compile(check);    
+		 Matcher matcher = regex.matcher("361769045qq.com");    
+		 boolean isMatched = matcher.matches();    
+		 System.out.println(isMatched);
+		 
+	}
+	
+	
 }
