@@ -176,7 +176,7 @@
 		JOIN t_merchant_info AS
 		tm ON tm.user_id = ts.user_id
 		WHERE tg.goods_id = #{goods_id}
-
+		
 
 	</select>
 

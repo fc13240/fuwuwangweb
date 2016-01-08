@@ -174,13 +174,14 @@
 		resultType="com.platform.entity.vo.StoreForApp">
 		SELECT ts.*,tc.city_name,tr.region_name,tst.street_name
 		from t_store as ts,t_city as tc,t_region as tr,t_street as tst
-		WHERE street_id=#{street_id}
+		WHERE tst.street_id=#{street_id}
 		AND store_type2_id in
 		(SELECT store_type2_id FROM t_store_type2 WHERE
 		store_type1_id=#{store_type1_id})
 		and ts.street_id=tst.street_id
 		and tr.region_id=tst.region_id
 		and tc.city_id=tr.city_id
+        and ts.store_state='3'
 	</select>
 
 	<!-- 查 表t_store_type1中的 六个 类 -->
@@ -209,7 +210,7 @@
 		and ts.street_id=tst.street_id
 		and tr.region_id=tst.region_id
 		and tc.city_id=tr.city_id
-
+		and ts.store_state='3'
 
 	</select>
 
@@ -224,6 +225,7 @@
 		and ts.street_id=tst.street_id
 		and tr.region_id=tst.region_id
 		and tc.city_id=tr.city_id
+		and ts.store_state=3
 
 	</select>
 	<!-- 根据street_id 查 店铺提供给App -->
@@ -238,6 +240,7 @@
 		JOIN t_user AS tu ON
 		ts.user_id=tu.user_id
 		WHERE ts.store_id = #{store_id}
+		and ts.store_state='3'
 	</select>
 
 	<!-- 根据电话号码获取商家 -->
