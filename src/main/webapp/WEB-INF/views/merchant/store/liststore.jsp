@@ -3,7 +3,7 @@
 <%@ include file="../../common/mheader.jsp"%>
 <%@ include file="../../common/cmenu.jsp"%>
 <style>
- .table th, .table td { 
+ .table th { 
 				text-align: center; 
 			}
 </style>
@@ -26,19 +26,19 @@
 					<c:forEach items="${page.list}" var="list" varStatus="vs">
 
 						<tr id="mer_${list.store_id}">
-							<td>${vs.index+1}</td>
-							<td><img
+							<td align="right">${vs.index+1}</td>
+							<td align="center"><img
 								src="${pageContext.request.contextPath}/resources/upload/store/${list.store_id}${list.store_img}"
 								width="80" height="80"><br> <a data-toggle="modal"
 								data-target="#changeImg"
 								onclick="getgoods_id('${list.store_id}')">点击修改</a></td>
-							<td><a data-toggle="modal" data-target="#infoModal"
+							<td align="left"><a data-toggle="modal" data-target="#infoModal"
 								onclick="modifyEmp('${list.store_id}','${list.store_id}')">
 									${list.store_name} </a></td>
-							<td>${list.store_phone}</td>
-							<td><a class="btn btn-success" href="${pageContext.request.contextPath}/merchant/goods/goodslistbystore?store_id=${list.store_id}">
+							<td align="right">${list.store_phone}</td>
+							<td align="right"><a class="btn btn-success" href="${pageContext.request.contextPath}/merchant/goods/goodslistbystore?store_id=${list.store_id}">
 									点击查看商品 </a></td>
-							<td id="text_${list.store_id}">
+							<td id="text_${list.store_id}" align="right">
 								<button class="btn btn-info" data-toggle="modal"
 									data-target="#updateinfoModal"
 									onclick="modifyEmp1('${list.store_id}','${list.store_id}');">修改</button>

@@ -41,28 +41,29 @@ function fanquan(paramstoreId){
 
 					<c:forEach items="${order}" var="list" varStatus="vs">
 						<tr id="mer_${list.order_id}">
-							<td class="col-md-1">1</td>
-							<td class="col-md-1">${list.goods_price}</td>
-							<td class="col-md-1">${list.return_number}</td>
-							<td class="col-md-1"><c:if test="${list.order_state ==1}">已消费</c:if>
+							<td class="col-md-1" align="right">1</td>
+							<td class="col-md-1" align="right">￥<fmt:formatNumber value="${list.goods_price/100}"
+										pattern="#,###,##0.00#" /></td>
+							<td class="col-md-1" align="right">${list.return_number}</td>
+							<td class="col-md-1" align="left"><c:if test="${list.order_state ==1}">已消费</c:if>
 								<c:if test="${list.order_state ==2}">未支付</c:if> <c:if
 									test="${list.order_state ==3}">未消费</c:if></td>
 
-							<td class="col-md-1" style="text-align: center;"><c:if
+							<td class="col-md-1" align="left"><c:if
 									test="${list.pay_type ==0}">无</c:if> <c:if
 									test="${list.pay_type ==1}">银联</c:if> <c:if
 									test="${list.pay_type ==2}">银联、龙币、电子币</c:if> <c:if
 									test="${list.pay_type ==3}">龙币、电子币</c:if></td>
 
-							<td class="col-md-2">${list.electronics_evidence}</td>
+							<td class="col-md-2" align="right">${list.electronics_evidence}</td>
 
 
-							<td class="col-md-2"><c:if
+							<td class="col-md-2" align="center"><c:if
 									test="${not empty list.order_time}">
 									<fmt:formatDate value="${list.order_time}"
 										pattern="yyyy-MM-dd hh:mm:ss" />
 								</c:if></td>
-							<td class="col-md-3">
+							<td class="col-md-3" align="right">
 								<form class="form-horizontal"
 									action="${pageContext.request.contextPath}/merchant/order/Return_ticket"
 									method="GET">

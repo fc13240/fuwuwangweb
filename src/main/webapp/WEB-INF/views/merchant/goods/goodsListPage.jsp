@@ -5,8 +5,8 @@
 <script type="text/javascript">
 	function check1() {
 		var txt_goods_name = $.trim($("#goods_name").attr("value"));
-		if (txt_goods_name.length == 0 || txt_goods_name.length > 20) {
-
+		if (txt_goods_name.length > 20) {
+			alert("查询依据不能超过20个字");
 			return false;
 		} else {
 			return true;
@@ -72,7 +72,7 @@
 	}
 </script>
 <style>
-.table th, .table td {
+.table th{
 	text-align: center;
 }
 </style>
@@ -126,20 +126,20 @@
 						<c:forEach items="${page.list}" var="list" varStatus="vs">
 							<input type="hidden" value="${list.goods_id}" id="delg_id" />
 							<tr id="${list.goods_id}">
-								<td>${vs.index+1}</td>
-								<td><img
+								<td align="right">${vs.index+1}</td>
+								<td align="center"><img
 									src="${pageContext.request.contextPath}/resources/upload/goods/${list.goods_id}${list.goods_img}"
 									width="80px" height="80px" /> <br> <a data-toggle="modal"
 									data-target="#updateImg"
 									onclick="getgoods_id('${list.goods_id}')">点击修改</a></td>
-								<td><a data-toggle="modal" data-target="#infoModal"
+								<td align="left"><a data-toggle="modal" data-target="#infoModal"
 									onclick="modifyEmp1('${list.goods_id}','1')">${list.goods_name}
 								</a></td>
-								<td>￥<fmt:formatNumber value="${list.goods_price/100}"
-										pattern="#,##0.00#" /></td>
-								<td>${list.goods_price_LB}</td>
-								<td>${list.store_name}</td>
-								<td><button class="btn btn-info" data-toggle="modal"
+								<td align="right">￥<fmt:formatNumber value="${list.goods_price/100}"
+										pattern="#,###,##0.00#" /></td>
+								<td align="right">${list.goods_price_LB}</td>
+								<td align="left">${list.store_name}</td>
+								<td align="right"><button class="btn btn-info" data-toggle="modal"
 										data-target="#updateModal"
 										onclick="modifyEmp('${list.goods_id}','${list.goods_id}+11')"<%-- href="${pageContext.request.contextPath}/merchant/goods/goodsinfo?goods_id=${list.goods_id}&type=${list.goods_id}+1" --%> 
 									>修改</button>

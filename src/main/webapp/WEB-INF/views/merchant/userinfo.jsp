@@ -64,39 +64,50 @@ function check(){ /* passWord newpass */
 		<font size="3" color="red">${result}</font>
 		<div class="form-group">
 			<label for="userLogin" class="col-sm-2 control-label">帐号</label>
-			<div class="col-sm-4">
+			<div class="col-sm-3">
 				<input type="text" class="form-control" name="userLogin" id="userLogin"
 					value="${bean.userLogin}" readonly="readonly">
+			</div>
+			<div class="col-sm-3">
 					<label  id="userLoginLabel"></label>
 			</div>
 		</div>
 		<div class="form-group">
 			<label for="passWordLabel" class="col-sm-2 control-label">旧密码</label>
-			<div class="col-sm-4">
+			<div class="col-sm-3">
 				<input type="password" name="passWord" class="form-control" id="passWord"
-					placeholder="请输入旧密码" ><label  id="passWordLabel"></label>
+					placeholder="请输入旧密码" >
+			</div>
+			<div class="col-sm-3">
+					<label  id="passWordLabel"></label>
 			</div>
 		</div>
 
 		<div class="form-group">
 			<label for="newpass" class="col-sm-2 control-label">新密码</label>
-			<div class="col-sm-4">
+			<div class="col-sm-3">
 				<input type="password" class="form-control" name="newpass" id="newpass"
-					placeholder="请输入新密码"><label  id="newpassLabel"></label>
+					placeholder="请输入新密码">
+			</div>
+			<div class="col-sm-3">
+					<label  id="newpassLabel"></label>
 			</div>
 		</div>
 		<div class="form-group">
 			<label for="newpass" class="col-sm-2 control-label">确认新密码</label>
-			<div class="col-sm-4">
+			<div class="col-sm-3">
 				<input type="password" class="form-control" name="newpass2" id="newpass2"
-					placeholder="请输入新密码" onpaste="return false" ondragenter="return false" oncontextmenu="return false;" style="ime-mode:disabled"><label  id="newpassLabel2"></label>
+					placeholder="请输入新密码" onpaste="return false" ondragenter="return false" oncontextmenu="return false;" style="ime-mode:disabled">
+			</div>
+			<div class="col-sm-3">
+					<label  id="newpassLabel2"></label>
 			</div>
 		</div>
 		<div class="row form-group">
-			<div class="col-md-2 col-md-offset-2">
+			<div class="col-md-3 col-md-offset-2">
 				<input type="submit" class="form-control btn btn-success" value="提交"  />
 			</div>
-			<div class="col-md-2">
+			<div class="col-md-3">
 				<input type="reset" class="form-control btn btn-success" value="重置" />
 			</div>
 		</div>

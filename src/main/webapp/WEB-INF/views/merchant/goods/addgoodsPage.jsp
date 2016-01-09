@@ -17,48 +17,56 @@
 		action="${pageContext.request.contextPath}/merchant/goods/addgoods"
 		method="post" enctype="multipart/form-data">
 		<div class="form-group">
-			<label for="inputGoodsName" class="col-sm-2 control-label">选择店铺</label>
-			<div class="col-sm-4">
+			<label for="inputGoodsName" class="col-sm-offset-1 col-sm-1 control-label" style="text-align:right">选择店铺</label>
+			<div class="col-sm-3">
 				<select class="form-control" name="store_id" id="store_name"
-					></select> <label id="store_nameLabel"></label>
+					></select> 
 			</div>
+			<div class="col-sm-3"><label id="store_nameLabel"></label></div>
 		</div>
-		<div class="form-group">
-			<label for="inputGoodsName" class="col-sm-2 control-label">商品名</label>
-			<div class="col-sm-4">
+		<div class="form-group" >
+			<label for="inputGoodsName" class="col-sm-offset-1 col-sm-1 control-label" style="text-align:right" >商品名</label>
+			<div class="col-sm-3">
 				<input type="text" class="form-control" name="goods_name"
-					id="goods_name" placeholder="商品名称"> <label
-					id="goods_nameLabel"></label>
+					id="goods_name" placeholder="商品名称">
+			</div>
+			<div class="col-sm-3">
+					 <label	id="goods_nameLabel"></label>
 			</div>
 		</div>
 
 		<div class="form-group">
-			<label for="inputGoodsImg" class="col-sm-2 control-label">商品图片</label>
-			<div class="col-sm-4">
+			<label for="inputGoodsImg" class="col-sm-offset-1 col-sm-1 control-label"  style="text-align:right" >商品图片</label>
+			<div class="col-sm-3">
 				<input type="file" class="form-control" name="goods_img"
 					id="goods_img" placeholder="上传商品图片" onchange="getPhoto()"> 
-					<label style="color:red;">*图片格式须为JPG,JPEG或PNG格式</label><br>
-					<label id="goods_imgLabel"></label>
+			</div>
+			<div class="col-sm-3">
+					<label id="goods_imgLabel" style="color:red;">*图片格式须为JPG,JPEG或PNG格式</label>
 			</div>
 		</div>
 		<div class="form-group">
-			<label for="inputGoodsDesc" class="col-sm-2 control-label">商品描述</label>
-			<div class="col-sm-4">
+			<label for="inputGoodsDesc" class="col-sm-offset-1 col-sm-1 control-label"  style="text-align:right" >商品描述</label>
+			<div class="col-sm-3">
 				<textarea name="goods_desc" cols="50" id="goods_desc"
 					placeholder="商品描述" class="form-control"></textarea>
+			</div>
+			<div class="col-sm-3">
 				<label id="goods_descLabel"></label>
 			</div>
 		</div>
 		<div class="form-group">
-			<label for="inputGoodsPrice" class="col-sm-2 control-label">商品价格</label>
-			<div class="col-sm-4">
+			<label for="inputGoodsPrice" class="col-sm-offset-1 col-sm-1 control-label"  style="text-align:right" >商品价格</label>
+			<div class="col-sm-3">
 				<input type="text" class="form-control" name="goods_price"
-					id="goods_price" placeholder="商品价格" onkeyup="clearNoNum(this)">(单位：元) <label
-					id="goods_priceLabel"></label>
+					id="goods_price" placeholder="商品价格" onkeyup="clearNoNum(this)">
+			</div>
+			<div class="col-sm-3">
+					<label id="goods_priceLabel" style="color:red;">*(单位：元)</label>
 			</div>
 		</div>
 		<div class="form-group" id="longbi_name">
-			<label for="inputGoodsDesc" class="col-sm-2 control-label">龙币商品</label>
+			<label for="inputGoodsDesc" class="col-sm-offset-1 col-sm-1 control-label"  style="text-align:right" >龙币商品</label>
 			<div class="checkbox col-sm-1">
 				<label> <input name="goods_pay_type" type="checkbox"
 					value="1" id="goods_pay_type1" />
@@ -67,58 +75,64 @@
 		</div>
 
 		<div class="form-group" id="longbi_number">
-			<label for="inputGoodsPriceLB" class="col-sm-2 control-label">商品龙币价格</label>
-			<div class="col-sm-4">
+			<label for="inputGoodsPriceLB" class="col-sm-offset-1 col-sm-1 control-label"  style="text-align:right" >商品龙币价格</label>
+			<div class="col-sm-3">
 				<input type="text" class="form-control" name="goods_price_LB"
-					id="goods_price_LB" placeholder="商品龙币价格" onkeyup="this.value=this.value.replace(/[^\d]/g,'')">(单位：个) <label
-					id="goods_price_LB"></label>
+					id="goods_price_LB" placeholder="商品龙币价格" onkeyup="this.value=this.value.replace(/[^\d]/g,'')">(单位：个) 
+			</div>
+			<div class="col-sm-3">
+					<label id="goods_price_LB"></label>
 			</div>
 		</div>
 		<div class="form-group">
-			<label for="inputGoodsDesc" class="col-sm-2 control-label">返券依据</label>
-			<div class="radio col-sm-4">
+			<label for="inputGoodsDesc" class="col-sm-offset-1 col-sm-1 control-label"  style="text-align:right" >返券依据</label>
+			<div class="radio col-sm-3">
 				<label> <input type="radio" name="goods_return_type"
 					id="optionsRadios1" value="0" checked> 根据数量返券
 				</label> <label> <input type="radio" name="goods_return_type"
 					id="optionsRadios2" value="1"> 根据金额返券
 				</label>
-
 			</div>
-
 		</div>
 
 		<div class="form-group">
-			<label for="inputGoodsPrice" class="col-sm-2 control-label">返券标准</label>
-			<div class="col-sm-4">
+			<label for="inputGoodsPrice" class="col-sm-offset-1 col-sm-1 control-label"  style="text-align:right" >返券标准</label>
+			<div class="col-sm-3">
 				<input type="text" class="form-control" name="goods_return_standard"
-					id="goods_return_standard" placeholder="返券标准" onkeyup="this.value=this.value.replace(/[^\d]/g,'')"> <label
-					id="goods_return_standardLabel" style="color:red;">*请输入数字</label>
+					id="goods_return_standard" placeholder="返券标准" onkeyup="this.value=this.value.replace(/[^\d]/g,'')">
+			</div>
+			<div class="col-sm-3">
+					 <label id="goods_return_standardLabel" style="color:red;">*请输入数字</label>
 			</div>
 		</div>
 
 		<div class="form-group">
-			<label for="inputGoodsPrice" class="col-sm-2 control-label">返券数量</label>
-			<div class="col-sm-4">
+			<label for="inputGoodsPrice" class="col-sm-offset-1 col-sm-1 control-label"  style="text-align:right" >返券数量</label>
+			<div class="col-sm-3">
 				<input type="text" class="form-control" name="goods_return_ticket"
-					id="goods_return_ticket" placeholder="返券数量" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" > <label
-					id="goods_return_ticketLabel" style="color:red;">*请输入数字</label>
+					id="goods_return_ticket" placeholder="返券数量" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" > 
+			</div>
+			<div class="col-sm-3">
+					<label id="goods_return_ticketLabel" style="color:red;">*请输入数字</label>
 			</div>
 		</div>
 		
 		<div class="form-group">
-			<label for="inputGoodsDesc" class="col-sm-2 control-label">购买须知</label>
-			<div class="col-sm-4">
+			<label for="inputGoodsDesc" class="col-sm-offset-1 col-sm-1 control-label"  style="text-align:right" >购买须知</label>
+			<div class="col-sm-3">
 				<textarea name="goods_purchase_notes" cols="50" id="goods_purchase_notes"
 					placeholder="购买须知" class="form-control"></textarea>
+			</div>
+			<div class="col-sm-3">
 				<label id="goods_purchase_notesLabel"></label>
 			</div>
 		</div>
 		<div class="row form-group">
-			<div class="col-md-2 col-md-offset-2">
+			<div class="col-md-3 col-md-offset-2">
 				<button type="submit" class="btn btn-success form-control"
 					onclick="return check()">提交</button>
 			</div>
-			<div class="col-md-2">
+			<div class="col-md-3">
 				<button type="reset" class="btn btn-default form-control">重置</button>
 			</div>
 		</div>

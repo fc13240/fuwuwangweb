@@ -3,7 +3,7 @@
 <%@ include file="../../common/header.jsp"%>
 <%@ include file="../../common/menu.jsp"%>
 <style>
-.table th, .table td {
+.table th {
 	text-align: center;
 }
 </style>
@@ -21,8 +21,8 @@
 	}
 	function check() {
 		var txt_goods_name = $.trim($("#goods_name").attr("value"));
-		if (txt_goods_name.length == 0 || txt_goods_name.length > 15) {
-
+		if (txt_goods_name.length > 15) {
+			alert("查询条件不能超过15个字");
 			return false;
 		} else {
 			return true;
@@ -66,23 +66,23 @@
 
 							<input type="hidden" value="${list.goods_id}" id="delg_id" />
 							<tr id="${list.goods_id}">
-								<td>${vs.index+1}</td>
-								<td><img
+								<td align="right">${vs.index+1}</td>
+								<td align="center"><img
 									src="${pageContext.request.contextPath}/resources/upload/goods/${list.goods_id}${list.goods_img}"
 									width="80px" height="80px" />
-								<td><a data-toggle="modal" data-target="#infoModal"
+								<td align="left"><a data-toggle="modal" data-target="#infoModal"
 									onclick="modifyEmp1('${list.goods_id}','1')">${list.goods_name}
 								</a></td>
-								<td>￥<fmt:formatNumber value="${list.goods_price/100}"
+								<td align="right">￥<fmt:formatNumber value="${list.goods_price/100}"
 										pattern="#,##0.00#" /></td>
-								<td>${list.goods_price_LB}</td>
-								<td>${list.store_name}</td>
-								<td id="text_${list.goods_id}"><c:if
+								<td align="right">${list.goods_price_LB}</td>
+								<td align="left">${list.store_name}</td>
+								<td id="text_${list.goods_id}" align="left"><c:if
 										test="${list.goods_check_state=='0'}">待审核</c:if> <c:if
 										test="${list.goods_check_state=='1'}">审核通过</c:if> <c:if
 										test="${list.goods_check_state=='2'}">审核未通过</c:if></td>
 
-								<td id="btn_${list.goods_id}"><c:if
+								<td id="btn_${list.goods_id}" align="right"><c:if
 										test="${list.goods_check_state=='0'}">
 										<button class="btn btn-info" data-toggle="modal"
 											data-target="#passModal"

@@ -4,7 +4,7 @@
 <%@ include file="../../common/menu.jsp"%>
 <!--body wrapper start-->
 <style>
-.table th, .table td {
+.table th {
 	text-align: center;
 }
 </style>
@@ -28,7 +28,8 @@
 	function check() {
 		var txt_phone = $.trim($("#phone").attr("value"));
 
-		if (txt_phone.length == 0 || txt_phone.length > 15) {
+		if (txt_phone.length > 15) {
+			alert("查询条件不能超过15个字");
 			return false;
 		} else {
 			return true;
@@ -70,23 +71,23 @@
 
 							<tr id="mer_${list.store_id}">
 
-								<td>${vs.index+1}</td>
+								<td align="right">${vs.index+1}</td>
 
-								<td><img
+								<td align="center"><img
 									src="${pageContext.request.contextPath}/resources/upload/store/${list.store_id}${list.store_img}"
 									width="80" height="80"></td>
-								<td><a data-toggle="modal" data-target="#infoModal"
+								<td align="left"><a data-toggle="modal" data-target="#infoModal"
 									onclick="javasript:modifyEmp('${list.store_id}','${list.store_id}');">
 										${list.store_name} </a></td>
-								<td>${list.store_phone}</td>
-								<td>${list.userLogin}</td>
-								<td id="text_${list.store_id}"><c:if
+								<td align="right">${list.store_phone}</td>
+								<td align="left">${list.userLogin}</td>
+								<td id="text_${list.store_id}" align="left"><c:if
 										test="${list.store_state=='1'}">待审核</c:if> <c:if
 										test="${list.store_state=='3'}">正常运营</c:if> <c:if
 										test="${list.store_state=='4'}">审核未通过</c:if> <c:if
 										test="${list.store_state=='2'}">违规店铺</c:if></td>
 
-								<td id="btn_${list.store_id}"><c:if
+								<td id="btn_${list.store_id}" align="right"><c:if
 										test="${list.store_state=='1'}">
 										<button class="btn btn-info" data-toggle="modal"
 											data-target="#passModal"

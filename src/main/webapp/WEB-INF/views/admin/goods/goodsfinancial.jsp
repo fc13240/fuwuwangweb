@@ -25,7 +25,7 @@ function checkdate(){
 }
 </script>
 <style>
- .table th, .table td { 
+ .table th { 
 				text-align: center; 
 			}
 </style>
@@ -101,31 +101,31 @@ function checkdate(){
 								<c:when test="${vs.last}">
 
 									<tr id="mer_${list.order_id}">
-										<td class="col-md-1">合计</td>
+										<td class="col-md-1" align="right">合计</td>
 
-										<td class="col-md-1">-</td>
-										<td class="col-md-1">-</td>
-											<td class="col-md-1">${list.LB_money}</td>
-									<td class="col-md-1">￥<fmt:formatNumber value="${list.electronics_money / 100}"
+										<td class="col-md-1" align="left">-</td>
+										<td class="col-md-1" align="right">-</td>
+											<td class="col-md-1" align="right">${list.LB_money}</td>
+									<td class="col-md-1" align="right">￥<fmt:formatNumber value="${list.electronics_money / 100}"
 										pattern="#,##0.00#" /></td>
-									<td class="col-md-1">￥<fmt:formatNumber value="${list.unionpay_money / 100}"
+									<td class="col-md-1" align="right">￥<fmt:formatNumber value="${list.unionpay_money / 100}"
 										pattern="#,##0.00#" /></td>
-										<td class="col-md-1"></td>
+										<td class="col-md-1" align="center"></td>
 
 									</tr>
 								</c:when>
 								<c:otherwise>
 									<tr id="mer_${list.order_id}">
-										<td class="col-md-1">${vs.index+1}</td>
+										<td class="col-md-1" align="right">${vs.index+1}</td>
 
-										<td class="col-md-1">${list.goods_name}</td>
-										<td class="col-md-1">${list.gooods_number}</td>
-										<td class="col-md-1">${list.LB_money}</td>
-									<td class="col-md-1">￥<fmt:formatNumber value="${list.electronics_money / 100}"
+										<td class="col-md-1" align="left">${list.goods_name}</td>
+										<td class="col-md-1" align="right">${list.gooods_number}</td>
+										<td class="col-md-1" align="right">${list.LB_money}</td>
+									<td class="col-md-1" align="right">￥<fmt:formatNumber value="${list.electronics_money / 100}"
 										pattern="#,##0.00#" /></td>
-									<td class="col-md-1">￥<fmt:formatNumber value="${list.unionpay_money / 100}"
+									<td class="col-md-1" align="right">￥<fmt:formatNumber value="${list.unionpay_money / 100}"
 										pattern="#,##0.00#" /></td>
-										<td class="col-md-1"><c:if
+										<td class="col-md-1" align="center"><c:if
 												test="${not empty list.order_time}">
 												<fmt:formatDate value="${list.order_time}" type="both" />
 											</c:if></td>

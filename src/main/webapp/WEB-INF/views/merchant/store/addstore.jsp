@@ -263,7 +263,7 @@ function check(){
 	$("#txtstore_phoneLabel").css({"color":"red"}); 
 	isSuccess = 0; 
 	} else{
-		if(!(new RegExp("^[0-9]{11}$")).test(txtstore_phone)
+		if(!(new RegExp("^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(17([5-8]))|(18[0,5-9]))\\d{8}$")).test(txtstore_phone)
 				&& !(new RegExp("^[0-9]{3,4}-[0-9]{7,8}$")).test(txtstore_phone)){
 			$("#txtstore_phoneLabel").text("店铺电话格式有误！") 
 			$("#txtstore_phoneLabel").css({"color":"red"}); 
@@ -294,54 +294,63 @@ function check(){
 		action="${pageContext.request.contextPath}/merchant/store/addStore"
 		method="post" enctype="multipart/form-data" onsubmit = "return check();">
 		<div class="form-group">
-			<label for="inputGoodsName" class="col-sm-2 control-label">店铺名</label>
-			<div class="col-sm-4">
+			<label for="inputGoodsName" class="col-sm-offset-1 col-sm-1 control-label" style="text-align:right">店铺名</label>
+			<div class="col-sm-3">
 				<input type="text" class="form-control" name="store_name" id="txtstore_name"
 					placeholder="店铺名">
+			</div>
+			<div class="col-sm-3">
 				<label id="txtstore_nameLabel"></label>
 			</div>
 		</div>
 
 		<div class="form-group">
-			<label for="inputGoodsImg" class="col-sm-2 control-label">店铺图片</label>
-			<div class="col-sm-4">
+			<label for="inputGoodsImg" class="col-sm-offset-1 col-sm-1 control-label" style="text-align:right">店铺图片</label>
+			<div class="col-sm-3">
 				<input type="file" class="form-control" name="store_img"
 					placeholder="上传店铺图片" id="txtstore_img" onchange="getPhoto()">
-					<label style="color:red;">*图片格式必须为JPG,JPEG或PNG格式</label><br>
-					<label id="txtstore_imgLabel"></label>
+			</div>
+			<div class="col-sm-3">
+					<label id="txtstore_imgLabel" style="color:red">*图片格式必须为JPG,JPEG或PNG格式</label>
 			</div>
 		</div>
 		<div class="form-group">
-			<label for="inputGoodsDesc" class="col-sm-2 control-label">店铺描述</label>
-			<div class="col-sm-4">
+			<label for="inputGoodsDesc" class="col-sm-offset-1 col-sm-1 control-label" style="text-align:right">店铺描述</label>
+			<div class="col-sm-3">
 				<textarea  id="txtstore_desc" name="store_desc" cols="10"  class="form-control"
 					placeholder="店铺描述"></textarea>
+			</div>
+			<div class="col-sm-3">
 					<label id="txtstore_descLabel"></label>
 			</div>
 		</div>
 		<div class="form-group">
-			<label for="inputGoodsPrice" class="col-sm-2 control-label">店铺分类</label>
-			<div class="col-sm-4">
+			<label for="inputGoodsPrice" class="col-sm-offset-1 col-sm-1 control-label" style="text-align:right">店铺分类</label>
+			<div class="col-sm-3">
 				<select class="form-control" id="type1" onchange="changeType1()">
 
 				</select> 
 				<select name="store_type2_id" class="form-control" id="type2">
 
 				</select>
+			</div>
+			<div class="col-sm-3">
 				<label id="type2Label"></label>
 			</div>
 		</div>
 		<div class="form-group">
-			<label for="inputGoodsPrice" class="col-sm-2 control-label">店铺电话</label>
-			<div class="col-sm-4">
+			<label for="inputGoodsPrice" class="col-sm-offset-1 col-sm-1 control-label" style="text-align:right">店铺电话</label>
+			<div class="col-sm-3">
 				<input type="text" class="form-control" name="store_phone" id="txtstore_phone"
 					placeholder="店铺电话">
-			<label id="txtstore_phoneLabel"></label>
 			</div> 
+			<div class="col-sm-3">
+			<label id="txtstore_phoneLabel"></label>
+			</div>
 		</div>
 		<div class="form-group">
-			<label for="inputGoodsPrice" class="col-sm-2 control-label">店铺区域</label>
-			<div class="col-sm-4">
+			<label for="inputGoodsPrice" class="col-sm-offset-1 col-sm-1 control-label" style="text-align:right">店铺区域</label>
+			<div class="col-sm-3">
 				<select class="form-control" id="city" onchange="changeCity()">
 
 				</select> 
@@ -351,23 +360,30 @@ function check(){
 				<select name="street_id" class="form-control" id="street">
 
 				</select> 
+			</div>
+			<div class="col-sm-3">
 				<label id="streetLabel"></label>
 			</div>
 		</div>
 
 		<div class="form-group">
-			<label for="inputGoodsPrice" class="col-sm-2 control-label">店铺地址</label>
-			<div class="col-sm-4">
+			<label for="inputGoodsPrice" class=" col-sm-offset-1 col-sm-1 control-label" style="text-align:right">店铺地址</label>
+			<div class="col-sm-3">
 				<input type="text" class="form-control" name="store_address"
 					placeholder="店铺地址" id="txtstore_address">
-			<label id="txtstore_addressLabel"></label>
 			</div> 
+			<div class="col-sm-3">
+			<label id="txtstore_addressLabel"></label>
+			</div>
 		</div> 
  
-		<div class="form-group">
-			<div class="col-sm-offset-2 col-sm-10">
-				<button type="submit" class="btn btn-success">提交</button>
-				<button type="reset" class="btn btn-default">重置</button>
+		<div class="form-group row ">
+			<div class="col-md-3 col-md-offset-2">
+				<button type="submit" class="btn btn-success form-control"
+					onclick="return check()">提交</button>
+			</div>
+			<div class="col-md-3">
+				<button type="reset" class="btn btn-default form-control">重置</button>
 			</div>
 		</div>
 	</form>

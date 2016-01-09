@@ -25,21 +25,12 @@ function getPhoto(){
 }
 	var ad_p_state=0;
 	function searchbyname() {
-		var txt_city_id = $.trim($("#city_id").attr("value"));
+
 		var txt_likename = $.trim($("#likename").attr("value"));
 
 		var flag = false;
 		var txt_store_value = $("input[name='type']:checked").val();
 		//var txt_goods_value = $.trim($("#goods_value").attr("value")) ;
-		if (txt_city_id == 0) {
-			$("#city_idLabel").text("请选择广告所在城市！")
-			$("#city_idLabel").css({
-				"color" : "red"
-			});
-			flag = false;
-		}else{
-			flag = true;
-		}
 		if (txt_store_value.length > 0) {
 			//alert(txt_store_value);
 			flag = true;
@@ -61,7 +52,7 @@ function getPhoto(){
 						type : "POST",
 						datatype : "text",
 						data : "type=" + txt_store_value + "&likename="
-								+ txt_likename+"&city_id="+txt_city_id,
+								+ txt_likename,
 						error : function(XMLHttpRequest, textStatus,
 								errorThrown) {
 							//alert(XMLHttpRequest.status);
@@ -71,11 +62,7 @@ function getPhoto(){
 						success : function(data) {
 							var data1 = eval(data);
 							//var data1=JSON.parse(data);
-							console.log(data);
-							if(data1.list[0]==null){
-								$("#content_store_goods").html("");
-								$("#content_store_goods").html("没有查询到结果");
-							}else{
+							
 							if (data1.type == 1) {
 								//alert(data1.list[0].store_img);
 								$("#content_store_goods").html("");
@@ -131,15 +118,14 @@ function getPhoto(){
 															+"\" id=\"store_goods\" style=\"width: 26px; height: 26px;\" />"
 															+ "</td>" +
 															"</tr>");
-								}}
+								}
 							}
 						}
 					})
 					ad_p_state=1;
 		}
 	}
-	function check(){ 
-		var txt_city_id = $.trim($("#city_id").attr("value"));
+	function check(){ /* ad_img ad_position ad_weight store_goods*/
 		var txt_ad_img = $.trim($("#ad_img").attr("value")) ;
 		var txt_ad_position = $.trim($("#ad_position").attr("value")) ;
 		var txt_ad_weight = $.trim($("#ad_weight").attr("value")) ;
@@ -158,13 +144,6 @@ function getPhoto(){
 		$("#store_goodsLabel").text(""); 
 
 		var isSuccess = 0; 
-		if (txt_city_id == 0) {
-			$("#city_idLabel").text("请选择广告所在城市！")
-			$("#city_idLabel").css({
-				"color" : "red"
-			});
-			isSuccess = 0;
-		}
 		if(txt_ad_img.length == 0) 
 		{ 
 		$("#ad_imgLabel").text("广告图片不能为空！") 
@@ -226,38 +205,6 @@ function getPhoto(){
 		}
 		
 		} 
-	window.onload = function() {
-		
-
-		var base = "${pageContext.request.contextPath}";
-		$.ajax({
-			url : base + "/admin/ad/getAllCity",
-			type : "GET",
-			datatype : "text",
-			error : function(XMLHttpRequest, textStatus, errorThrown) {
-				/* alert(XMLHttpRequest.status);
-				alert(XMLHttpRequest.readyState);
-				alert(textStatus); */
-			},
-			success : function(data) {
-				var data1 =data;
-				//alert(data1[0].city_name);
-			
-				//console.log(data1);
-				//console.log(data1.list);
-				$("#city_id").empty();
-
-				$('#city_id').append(
-						$("<option></option>").attr("value", 0).text("请选择广告所在城市"));
-				for (var i = 0; i < data1.length; i++) {
-					$('#city_id').append(
-							$("<option></option>").attr("value",
-									data1[i].city_id)
-									.text(data1[i].city_name));
-				}
-			}
-		})
-	}
 </script>
 <h1>
 	<label class="text-info">添加广告</label>
@@ -273,26 +220,13 @@ function getPhoto(){
 				method="post" enctype="multipart/form-data"  onsubmit = "return check();">
 				<div class="row form-group">
 					<div class="col-md-2">
-						<label for="inputCity_Id" class=" control-label ">请选择广告所在城市</label>
-					</div>
-					<div class="col-md-6">
-						<select name="city_id" class="form-control" id="city_id">
-							<option value='0'>请选择广告所在城市</option>
-							
-							
-							
-						</select> <label id="city_idLabel"></label>
-					</div>
-
-				</div>
-				<div class="row form-group">
-					<div class="col-md-2">
 						<label for="inputGoodsName" class=" control-label ">请选择图片</label>
 					</div>
-					<div class="col-md-6">
+					<div class="col-md-4">
 						<input name="ad_img" type="file" class="form-control" id="ad_img" onchange="getPhoto()">
-						<label style="color:red;">*图片格式必须为JPG,JPEG或PNG格式</label><br>
-						<label id="ad_imgLabel"></label>
+					</div>
+					<div class="col-md-4">
+						<label id="ad_imgLabel" style="color:red;">*图片格式必须为JPG,JPEG或PNG格式</label>
 					</div>
 
 				</div>
@@ -300,7 +234,7 @@ function getPhoto(){
 					<div class="col-md-2">
 						<label for="inputGoodsName" class="control-label">请选择位置</label>
 					</div>
-					<div class="col-md-6">
+					<div class="col-md-4">
 						<select name="ad_position" class="form-control" id="ad_position">
 							<option value='0'>请选择位置</option>
 							<option value='1'>首页</option>
@@ -311,20 +245,26 @@ function getPhoto(){
 							<option value='6'>美食页</option>
 							
 							
-						</select> <label id="ad_positionLabel"></label>
+						</select>
+					</div>
+					<div class="col-md-4">
+						 <label id="ad_positionLabel"></label>
 					</div>
 				</div>
 				<div class="row form-group">
 					<div class="col-md-2">
 						<label for="inputGoodsName" class="control-label">请选择权重</label>
 					</div>
-					<div class="col-md-6">
+					<div class="col-md-4">
 						<select name="ad_weight" class="form-control" id="ad_weight">
 							<option value='0'>请选择权重</option>
 							<option value='1'>第一排</option>
 							<option value='2'>第二排</option>
 							<option value='3'>第三排</option>
-						</select> <label id="ad_weightLabel"></label>
+						</select> 
+					</div>
+					<div class="col-md-4">
+						<label id="ad_weightLabel"></label>
 					</div>
 
 				</div>
@@ -332,13 +272,16 @@ function getPhoto(){
 					<div class="col-md-2">
 						<label for="inputGoodsName" class="control-label">请选择具体位置</label>
 					</div>
-					<div class="col-md-6">
+					<div class="col-md-4">
 						<select name="ad_pd" class="form-control" id="ad_pd">
 							<option value='0'>请选择具体位置</option>
 							<option value='1'>第一位</option>
 							<option value='2'>第二位</option>
 							<option value='3'>第三位</option>
-						</select> <label id="ad_pdLabel"></label>
+						</select> 
+					</div>
+					<div class="col-md-4">
+						<label id="ad_pdLabel"></label>
 					</div>
 
 				</div>

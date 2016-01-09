@@ -20,7 +20,7 @@ function release(paramstoreId){
 
 </script>
 <style>
-.table th, .table td {
+.table th {
 	text-align: center;
 }
 </style>
@@ -50,16 +50,16 @@ function release(paramstoreId){
 						<c:forEach items="${page.list}" var="list" varStatus="vs">
 
 							<tr id="mer_${list.ad_id}">
-								<td>${vs.index+1}</td>
-								<td><img
+								<td align="right">${vs.index+1}</td>
+								<td align="center"><img
 									src="${pageContext.request.contextPath}/resources/upload/ad/${list.ad_id}${list.ad_img}"
 									width="80px" height="80px" /></td>
-								<td><c:if test="${list.ad_state ==1}">正常</c:if> <c:if
+								<td align="left"><c:if test="${list.ad_state ==1}">正常</c:if> <c:if
 										test="${list.ad_state ==0}">未发布</c:if></td>
 
-								<td><c:if test="${list.ad_type ==1}">店铺</c:if> <c:if
+								<td align="left"><c:if test="${list.ad_type ==1}">店铺</c:if> <c:if
 										test="${list.ad_type ==2}">商品</c:if></td>
-								<td>
+								<td align="left">
 									<c:if test="${list.ad_position ==1}">首页</c:if>
 									<c:if test="${list.ad_position ==2}">休闲娱乐页</c:if>
 									<c:if test="${list.ad_position ==3}">丽人页</c:if>
@@ -67,21 +67,21 @@ function release(paramstoreId){
 									<c:if test="${list.ad_position ==5}">龙币页</c:if>
 									<c:if test="${list.ad_position ==6}">美食页</c:if>
 								</td>
-								<td>
+								<td align="left">
 									<c:if test="${list.ad_weight ==1}">第一层</c:if>
 									<c:if test="${list.ad_weight ==2}">第二层</c:if>
 									<c:if test="${list.ad_weight ==3}">第三层</c:if>
 								</td>
-								<td>
+								<td align="left">
 									<c:if test="${list.ad_pd ==1}">第一位</c:if>
 									<c:if test="${list.ad_pd ==2}">第二位</c:if>
 									<c:if test="${list.ad_pd ==3}">第三位</c:if>
 								</td>
-								<td><c:if test="${not empty list.ad_create_time}">
+								<td align="center"><c:if test="${not empty list.ad_create_time}">
 										<fmt:formatDate value="${list.ad_create_time}" type="both" />
 									</c:if></td>
 
-								<td id="btn_${list.ad_id}"><c:if
+								<td id="btn_${list.ad_id}" align="right"><c:if
 										test="${list.ad_state ==1}">
 
 										<button class="btn btn-danger" data-toggle="modal"

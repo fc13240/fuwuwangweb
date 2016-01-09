@@ -4,7 +4,7 @@
 <%@ include file="../../common/cmenu.jsp"%>
 <!--body wrapper start-->
 <style>
-.table th, .table td {
+.table th {
 	text-align: center;
 }
 </style>
@@ -36,22 +36,23 @@
 						<c:forEach items="${page.list}" var="list" varStatus="vs">
 
 							<tr id="mer_${list.order_id}">
-								<td class="col-md-1">${vs.index+1}</td>
-								<td class="col-md-1">${list.goods_name}</td>
-								<td class="col-md-1">${list.goods_price}</td>
-								<td class="col-md-1">${list.gooods_number}</td>
-								<td class="col-md-1"><c:if test="${list.order_state ==1}">已消费</c:if>
+								<td class="col-md-1" align="right">${vs.index+1}</td>
+								<td class="col-md-1" align="left">${list.goods_name}</td>
+								<td class="col-md-1" align="right">￥<fmt:formatNumber value="${list.goods_price/100}"
+										pattern="#,###,##0.00#" /></td>
+								<td class="col-md-1" align="right">${list.gooods_number}</td>
+								<td class="col-md-1" align="left"><c:if test="${list.order_state ==1}">已消费</c:if>
 									<c:if test="${list.order_state ==2}">未支付</c:if> <c:if
 										test="${list.order_state ==3}">未消费</c:if></td>
 
-								<td class="col-md-1"><c:if test="${list.pay_type ==0}">无</c:if>
+								<td class="col-md-2" align="left"><c:if test="${list.pay_type ==0}">无</c:if>
 									<c:if test="${list.pay_type ==1}">银联</c:if> <c:if
 										test="${list.pay_type ==2}">银联、龙币、电子币</c:if> <c:if
 										test="${list.pay_type ==3}">龙币、电子币</c:if></td>
 
-								<td class="col-md-1" style="text-align: center;">${list.electronics_evidence}</td>
+								<td class="col-md-1" align="right">${list.electronics_evidence}</td>
 
-								<td class="col-md-1"><fmt:formatDate
+								<td class="col-md-1" align="center"><fmt:formatDate
 										value="${list.order_time}" type="both" /></td>
 								<td class="col-md-1"><fmt:formatDate
 										value="${list.pay_time}" type="both" /></td>

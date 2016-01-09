@@ -3,7 +3,7 @@
 <%@ include file="../../common/header.jsp"%>
 <%@ include file="../../common/menu.jsp"%>
 <style>
- .table th, .table td { 
+ .table th{ 
 				text-align: center; 
 			}
 </style>
@@ -76,15 +76,15 @@
 					<c:forEach items="${page.list}" var="list" varStatus="vs">
 
 						<tr id="${list.goods_id}">
-							<td>${vs.index+1}</td>
-							<td><img
+							<td align="right">${vs.index+1}</td>
+							<td align="center"><img
 								src="${pageContext.request.contextPath}/resources/upload/goods/${list.goods_id}${list.goods_img}"
 								width="80px" height="80px" />
-							<td>${list.goods_name}</td>
-							<td>￥<fmt:formatNumber value="${list.goods_price/100}" pattern="#,##0.00#"/></td>
-							<td>${list.goods_price_LB}</td>
-							<td>${list.store_name}</td>
-							<td>
+							<td align="left">${list.goods_name}</td>
+							<td align="right">￥<fmt:formatNumber value="${list.goods_price/100}" pattern="#,##0.00#"/></td>
+							<td align="right">${list.goods_price_LB}</td>
+							<td align="left">${list.store_name}</td>
+							<td align="center">
 								<c:if test="${vs.index+1!=1}">
 								<button type="button" class="btn btn-default btn-lg" onclick="change_position('${vs.index+1}','${list.goods_id}','1')">
 									<span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
@@ -96,7 +96,7 @@
 								</button>
 								</c:if>
 							</td>
-							<td>
+							<td align="right">
 								<button class="btn btn-danger" data-toggle="modal"
 									data-target="#failModal"
 									onclick="getgoodsid('${list.goods_id}')">取消推荐</button>

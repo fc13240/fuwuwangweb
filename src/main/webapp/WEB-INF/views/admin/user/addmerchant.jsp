@@ -77,7 +77,7 @@ function check(){ /* passWord newpass */
 	$("#phoneLabel").css({"color":"red"}); 
 	isSuccess = 0; 
 	}else{
-		if(!(new RegExp("^[0-9]{11}$")).test(txt_phone)
+		if(!(new RegExp("^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(17([5-8]))|(18[0,5-9]))\\d{8}$")).test(txt_phone)
 				&& !(new RegExp("^[0-9]{3,4}-[0-9]{7,8}$")).test(txt_phone)){
 			$("#phoneLabel").text("店铺电话格式有误！") 
 			$("#phoneLabel").css({"color":"red"}); 
@@ -132,9 +132,11 @@ function check(){ /* passWord newpass */
 		<font size="3" color="red">${yes}</font>
 		<div class="form-group">
 			<label for="inputGoodsName" class="col-sm-2 control-label">帐号</label>
-			<div class="col-sm-4">
+			<div class="col-sm-3">
 				<input type="text" class="form-control" name="userLogin" id="userLogin"
 					placeholder="请输入帐号"  onpaste="return false" ondragenter="return false" oncontextmenu="return false;" style="ime-mode:disabled">
+			</div>
+			<div class="col-sm-3">
 					<label  id="userLoginLabel"></label>
 			</div>
 		</div>
@@ -142,27 +144,33 @@ function check(){ /* passWord newpass */
 
 		<div class="form-group">
 			<label for="inputGoodsDesc" class="col-sm-2 control-label">密码</label>
-			<div class="col-sm-4">
+			<div class="col-sm-3">
 				<input type="password" name="password" class="form-control" id="password"
 					placeholder="请输入密码" onpaste="return false" ondragenter="return false" oncontextmenu="return false;" style="ime-mode:disabled">
+			</div>
+			<div class="col-sm-3">
 					<label id="passwordLabel"></label>
 			</div>
 		</div>
 
 		<div class="form-group">
 			<label for="inputGoodsPrice" class="col-sm-2 control-label">重复密码</label>
-			<div class="col-sm-4">
+			<div class="col-sm-3">
 				<input type="password" class="form-control" name="password_agin" id="repassword"
 					placeholder="请重新输入密码" onpaste="return false" ondragenter="return false" oncontextmenu="return false;" style="ime-mode:disabled">
+			</div>
+			<div class="col-sm-3">
 					<label id="repasswordLabel"></label>
 			</div>
 		</div>
 
 		<div class="form-group">
 			<label for="inputGoodsPrice" class="col-sm-2 control-label">电话</label>
-			<div class="col-sm-4">
+			<div class="col-sm-3">
 				<input type="text" class="form-control" name="phone" id="phone"
 					placeholder="请输入电话">
+			</div>
+			<div class="col-sm-3">
 					<label id="phoneLabel"></label>
 			</div>
 		</div>
@@ -170,9 +178,11 @@ function check(){ /* passWord newpass */
 
 		<div class="form-group">
 			<label for="inputGoodsPrice" class="col-sm-2 control-label">描述</label>
-			<div class="col-sm-4">
+			<div class="col-sm-3">
 				<textarea class="form-control" name="merchant_desc" id="merchant_desc"
 					placeholder="请输入描述信息"></textarea>
+			</div>
+			<div class="col-sm-3">
 				<label id="merchant_descLabel"></label>
 			</div>
 		</div>
@@ -180,26 +190,30 @@ function check(){ /* passWord newpass */
 
 		<div class="form-group">
 			<label for="inputGoodsPrice" class="col-sm-2 control-label">商城帐号</label>
-			<div class="col-sm-4">
+			<div class="col-sm-3">
 				<input type="text" class="form-control" name="merchant_account" id="merchant_account"
 					placeholder="请输入商城帐号">
+			</div>
+			<div class="col-sm-3">
 					<label id="merchant_accountLabel"></label>
 			</div>
 		</div>
 
 		<div class="form-group">
 			<label for="inputGoodsPrice" class="col-sm-2 control-label">联系人</label>
-			<div class="col-sm-4">
+			<div class="col-sm-3">
 				<input type="text" class="form-control" name="service_man" id="service_man"
 					placeholder="请输入联系人">
+			</div>
+			<div class="col-sm-3">
 					<label id="service_manLabel"></label>
 			</div>
 		</div>
 		<div class="form-group">
-			<div class="col-sm-2 col-sm-offset-2">
+			<div class="col-sm-3 col-sm-offset-2">
 				<input type="submit" class="form-control btn btn-success" value="注册"  />
 			</div>
-			<div class="col-sm-2">
+			<div class="col-sm-3">
 				<input type="reset" class="form-control btn btn-success" value="重置" />
 			</div>
 		</div>
