@@ -514,8 +514,18 @@ SELECT  u.`userLogin` userLogin,o.`order_time`,g.`goods_name`,o.`gooods_number`,
 	</update>
 	
 	
+	 <!-- leo -->
 	 
-	 
+	 <!-- 添加订单 -->
+	<insert id="addOrderInfo" parameterType="com.platform.entity.Order"   keyProperty="id">
+		INSERT INTO 
+			t_order 
+		(order_id, user_id, goods_id, gooods_number, goods_price, return_number, order_state , pay_type,LB_money,electronics_money,Unionpay_money
+		,chrCode,transId,electronics_evidence,order_time,dianzibi_pay_state,yinlian_pay_state ,longbi_pay_state)
+			VALUES
+		(#{order_id},#{user_id},#{goods_id},#{gooods_number},#{goods_price},#{return_number},#{order_state},#{pay_type},#{LB_money},#{electronics_money}
+		,#{Unionpay_money}, #{chrCode}, #{transId}, #{electronics_evidence}, now(),#{dianzibi_pay_state},#{yinlian_pay_state},#{longbi_pay_state})
+	</insert>
 	
 	
 </mapper>

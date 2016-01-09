@@ -527,4 +527,15 @@ public class OrderServiceImpl implements OrderService {
 
 	}
 
+	/**
+	 * 用户下单
+	 * 
+	 * @param order
+	 */
+	@Override
+	public void addOrderInfo(Order order) {
+		// TODO Auto-generated method stub
+		orderMapper.addOrderInfo(order);
+	}
+
 }

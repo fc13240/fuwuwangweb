@@ -61,14 +61,12 @@ public class AppOrderController {
 	/**
 	 * takeOrder 功能：下订单
 	 * 
-	 * @param number
+	 * @param gooods_number
 	 *            商品数量
 	 * @param goods_id
 	 *            商品ID
-	 * @param dianzibi_number
-	 *            电子币数量
-	 * @param yinlian_number
-	 *            银联数量
+	 * @param electronics_money
+	 *            使用的电子币数量   以分为单位
 	 * @param token
 	 *            令牌
 	 * @return
@@ -76,7 +74,102 @@ public class AppOrderController {
 	 */
 	@RequestMapping(value = "takeOrder", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> takeOrder(@RequestBody Integer number, @RequestBody String goods_id,
+	public BaseModelJson<String> takeOrder(@RequestBody Order order, @RequestHeader String token) {
+		BaseModelJson<String> result = new BaseModelJson<>();
+		if (token == null) {
+			result.Error = "没有权限访问";
+			return result;
+		}
+		if (order == null) {
+			result.Error = "参数错误";
+			return result;
+		}
+		if (order.getGoods_id() == null || order.getGoods_id().isEmpty()) {
+			result.Error = "参数错误";
+			return result;
+		}
+		if (order.getGooods_number() == null || order.getGooods_number() < 0) {
+			result.Error = "订单数量不能为0";
+			return result;
+		}
+		User u = userService.getUserInforByToken(token);
+		if (null == u) {
+			result.Error = "该账号已在其他客户端登录，请重新登陆";
+			return result;
+		}
+		GoodsForWeb gfw = goodsService.findGoodsinfoByGoodsId(order.getGoods_id());
+		if (gfw == null) {
+			result.Error = "该商品不存在，或者已下架";
+			return result;
+		}
+		if (Constants.GOODS_DETELE.equals(gfw.getGoods_delete_state())) {
+			result.Error = "该商品已下架";
+			return result;
+		}
+		if (Constants.USER_.equals(u.getUser_type()) && ("1".equals(gfw.getGoods_pay_type())
+				|| order.getElectronics_money() != null || order.getElectronics_money() > 0)) {
+			result.Error = "该商品只要VIP会员才可以购买";
+			return result;
+		}
+		order.setGoods_price(gfw.getGoods_price());
+		order.setGoods_name(gfw.getGoods_name());
+		order.setOrder_id(UUIDUtil.getRandom32PK());
+		order.setUser_id(u.getUser_id());
+		order.setOrder_state(Constants.ORDER_STATE_02);
+		order.setLB_money(gfw.getGoods_price_LB() * order.getGooods_number());
+		int temp = order.getGoods_price() * order.getGooods_number()
+				- (order.getElectronics_money() == null ? 0 : order.getElectronics_money());
+		if (temp < 0) {
+			result.Error = "订单商品总价小于使用的电子币数量";
+			return result;
+		}
+		order.setReturn_number_state(Constants.ORDER_RETURN_NUMBER_STATE_01); // 不是会员无返券
+		order.setReturn_number(0);
+		if (Constants.USER_VIP.equals(u.getUser_type())) {
+			order.setReturn_number_state(Constants.ORDER_RETURN_NUMBER_STATE_02); // 未返券
+			if (gfw.getGoods_return_type() == 0) { // 根据数量返券
+				if (gfw.getGoods_return_standard() < order.getGooods_number()) {
+					order.setReturn_number(gfw.getGoods_return_ticket());
+				}
+			} else if (gfw.getGoods_return_type() == 1) { // 根据金额返券
+				if (gfw.getGoods_return_standard() < order.getGooods_number() * (gfw.getGoods_price() * 1.00 / 100)) {
+					order.setReturn_number(gfw.getGoods_return_ticket());
+				}
+			}
+		}
+		order.setUnionpay_money(temp);
+		order.setElectronics_evidence("0");
+		order.setChrCode("");
+		order.setTransId("");
+		order.setPay_type(0);
+		order.setDianzibi_pay_state(0);
+		order.setYinlian_pay_state(0);
+		order.setLongbi_pay_state(0);
+		orderService.addOrderInfo(order);
+		result.Successful=true;
+		result.Data=order.getOrder_id();
+		return result;
+	}
+
+	/**
+	 * takeOrder 功能：下订单
+	 * 
+	 * @param number
+	 *            商品数量
+	 * @param goods_id
+	 *            商品ID
+	 * @param dianzibi_number
+	 *            使用的电子币数量
+	 * @param yinlian_number
+	 *            银联数量
+	 * @param token
+	 *            令牌
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "addOrder", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> addOrder(@RequestBody Integer number, @RequestBody String goods_id,
 			@RequestBody Integer dianzibi_number, @RequestBody Integer yinlian_number, @RequestHeader String token)
 					throws Exception {
 
@@ -978,7 +1071,6 @@ public class AppOrderController {
 			e.printStackTrace();
 		}
 	}
-
 
 	/**
 	 * applyForRefunds 功能：申请退款

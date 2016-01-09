@@ -143,4 +143,15 @@ public interface OrderService {
 	  * 支付成功后修改 订单 消费码
 	  */
 	 public  void  updateElectronics_evidenceByid(Order  order);
+	 
+	 
+	 //***************leo**********************
+	 
+	 /**
+	  * 用户下单
+	  * @param order
+	  */
+	 public  void  addOrderInfo(Order  order);
+	 
+	 
 }
