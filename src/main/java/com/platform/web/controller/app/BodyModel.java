@@ -16,6 +16,10 @@ public class BodyModel implements Serializable{
 	private String userLogin;
 
 	private String confirmPassword;
+	
+	private String order_id;
+	
+	private String payPass;
 
 	public String getCode() {
 		return code;
@@ -49,4 +53,19 @@ public class BodyModel implements Serializable{
 		this.confirmPassword = confirmPassword;
 	}
 
+	public String getOrder_id() {
+		return order_id;
+	}
+
+	public void setOrder_id(String order_id) {
+		this.order_id = order_id;
+	}
+
+	public String getPayPass() {
+		return payPass;
+	}
+
+	public void setPayPass(String payPass) {
+		this.payPass = payPass;
+	}
 }

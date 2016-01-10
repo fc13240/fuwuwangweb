@@ -27,8 +27,10 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.chinaums.pay.api.PayException;
 import com.chinaums.pay.api.entities.NoticeEntity;
+import com.chinaums.pay.api.entities.OrderEntity;
 import com.chinaums.pay.api.impl.DefaultSecurityService;
 import com.chinaums.pay.api.impl.UMSPayServiceImpl;
+import com.google.gson.Gson;
 import com.platform.common.contants.Constants;
 import com.platform.common.utils.DateUtil;
 import com.platform.common.utils.UUIDUtil;
@@ -44,6 +46,10 @@ import com.platform.service.GoodsService;
 import com.platform.service.OrderService;
 import com.platform.service.UserService;
 import com.platform.service.impl.UserServiceImpl;
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
 @Controller
 @RequestMapping("/app/order/")
@@ -58,6 +64,14 @@ public class AppOrderController {
 	@Autowired
 	private GoodsService goodsService;
 
+	String path = "http://124.254.56.58:8007/api/";
+
+	OkHttpClient client = new OkHttpClient();
+
+	public static final MediaType JSONTPYE = MediaType.parse("application/json; charset=utf-8");
+
+	Gson gson = new Gson();
+
 	/**
 	 * takeOrder 功能：下订单
 	 * 
@@ -66,7 +80,7 @@ public class AppOrderController {
 	 * @param goods_id
 	 *            商品ID
 	 * @param electronics_money
-	 *            使用的电子币数量   以分为单位
+	 *            使用的电子币数量 以分为单位
 	 * @param token
 	 *            令牌
 	 * @return
@@ -74,8 +88,8 @@ public class AppOrderController {
 	 */
 	@RequestMapping(value = "takeOrder", method = RequestMethod.POST)
 	@ResponseBody
-	public BaseModelJson<String> takeOrder(@RequestBody Order order, @RequestHeader String token) {
-		BaseModelJson<String> result = new BaseModelJson<>();
+	public BaseModelJson<Order> takeOrder(@RequestBody Order order, @RequestHeader String token) {
+		BaseModelJson<Order> result = new BaseModelJson<>();
 		if (token == null) {
 			result.Error = "没有权限访问";
 			return result;
@@ -111,20 +125,32 @@ public class AppOrderController {
 			result.Error = "该商品只要VIP会员才可以购买";
 			return result;
 		}
+
 		order.setGoods_price(gfw.getGoods_price());
 		order.setGoods_name(gfw.getGoods_name());
 		order.setOrder_id(UUIDUtil.getRandom32PK());
 		order.setUser_id(u.getUser_id());
 		order.setOrder_state(Constants.ORDER_STATE_02);
 		order.setLB_money(gfw.getGoods_price_LB() * order.getGooods_number());
+		order.setPay_type(Constants.ORDER_TYPE_01);
 		int temp = order.getGoods_price() * order.getGooods_number()
 				- (order.getElectronics_money() == null ? 0 : order.getElectronics_money());
 		if (temp < 0) {
 			result.Error = "订单商品总价小于使用的电子币数量";
 			return result;
 		}
+		order.setUnionpay_money(temp);
+		order.setElectronics_evidence("0");
+		order.setChrCode("");
+		order.setTransId("");
+		order.setDianzibi_pay_state(0);
+		order.setYinlian_pay_state(0);
+		order.setLongbi_pay_state(0);
 		order.setReturn_number_state(Constants.ORDER_RETURN_NUMBER_STATE_01); // 不是会员无返券
 		order.setReturn_number(0);
+		order.setOrder_time(new Date());
+		order.setDeal_time(new Date());
+
 		if (Constants.USER_VIP.equals(u.getUser_type())) {
 			order.setReturn_number_state(Constants.ORDER_RETURN_NUMBER_STATE_02); // 未返券
 			if (gfw.getGoods_return_type() == 0) { // 根据数量返券
@@ -136,18 +162,90 @@ public class AppOrderController {
 					order.setReturn_number(gfw.getGoods_return_ticket());
 				}
 			}
+			// 判断商家是不是 服务网会员 如果不是则不能使用电子币和龙币
+			if (order.getElectronics_money() > 0 || order.getLB_money() > 0) {
+				GoodsForPay goodsForPay = goodsService.findGoodsinfoForPay(order.getGoods_id());
+				if (Constants.MERCHANT_TYPE_2 == goodsForPay.getMerchant_type()) {
+					result.Successful = false;
+					result.Error = "该商家不是服务网商家，不能使用电子币和龙币支付";
+					return result;
+				}
+			}
+			// 设置支付类型
+			if ((order.getElectronics_money() > 0 || order.getLB_money() > 0) && order.getUnionpay_money() > 0) {
+				order.setPay_type(Constants.ORDER_TYPE_02);
+			} else if ((order.getElectronics_money() > 0 || order.getLB_money() > 0)
+					&& order.getUnionpay_money() == 0) {
+				order.setPay_type(Constants.ORDER_TYPE_03);
+			}
 		}
-		order.setUnionpay_money(temp);
-		order.setElectronics_evidence("0");
-		order.setChrCode("");
-		order.setTransId("");
-		order.setPay_type(0);
-		order.setDianzibi_pay_state(0);
-		order.setYinlian_pay_state(0);
-		order.setLongbi_pay_state(0);
+
+		// 向银联下单
+		if (order.getUnionpay_money() > 0) {
+			DefaultSecurityService ss = new DefaultSecurityService(); // 设置签名的商户私钥，验签的银商公钥
+			ss.setSignKeyModHex(Constants.SIGNKEY_MOD);// 签名私钥 Mod
+			ss.setSignKeyExpHex(Constants.SIGNKEY_EXP);// 签名私钥 Exp
+			ss.setVerifyKeyExpHex(Constants.VERIFYKEY_EXP);
+			ss.setVerifyKeyModHex(Constants.VERIFYKEY_MOD);
+			UMSPayServiceImpl service = new UMSPayServiceImpl();
+			service.setSecurityService(ss);
+			service.setOrderServiceURL(Constants.YINLIAN_ADDRESS_01); // 下单地址
+			OrderEntity orderEntity = new OrderEntity();
+			orderEntity.setOrderTime(DateUtil.getHHmmss(order.getOrder_time()));// 订单时间curreTime.substring(8)
+			orderEntity.setEffectiveTime("0");// 订单有效期期限（秒），值小于等于 0 表示订单长期有效
+			orderEntity.setOrderDate(DateUtil.getyymmdd(order.getDeal_time()));// 订单日期curreTime.substring(0,8)
+			orderEntity.setMerOrderId(order.getOrder_id());// 订单号，商户根据自己的规则生成最长32位
+			orderEntity.setTransType("NoticePay");// 固定值
+			orderEntity.setTransAmt(order.getUnionpay_money() + "");// 订单金额(单位分)
+			orderEntity.setMerId(Constants.MERID);// 商户号
+			orderEntity.setMerTermId(Constants.MERTERMID);// 终端号
+			// "http://172.19.180.117:8080/platform/app/order/receiveOrder";
+			orderEntity.setNotifyUrl("http://124.254.56.58:8080/shop/app/order/receiveOrder");// 通知商户地址，保证外网能够访问
+			orderEntity.setOrderDesc(order.getGoods_name());// 订单描述
+			orderEntity.setMerSign(ss.sign(orderEntity.buildSignString()));
+			OrderEntity respOrder = new OrderEntity();
+			try {
+				// 发送创建订单请求,该方法中已经封装了签名验签的操作，我们不需要关心，只 需要设置好公私钥即可
+				respOrder = service.createOrder(orderEntity);
+			} catch (Exception e) {
+				e.printStackTrace();
+				result.Successful = false;
+				result.Error = "服务器繁忙";
+				return result;
+			}
+			System.out.println("下单返回数据：" + respOrder);
+			String transId = respOrder.getTransId();
+			String chrcode = respOrder.getChrCode();
+			String merorderId = respOrder.getMerOrderId();
+			String RespMsg = respOrder.getRespMsg(); // 响应码描述
+			String RespCode = respOrder.getRespCode(); // 响应码
+			String Reserve = respOrder.getReserve(); // 备用字段
+			String merId = respOrder.getMerId(); // 商户号
+			String signtrue = respOrder.getMerSign(); // 签名
+			String content = ss.sign(transId + chrcode); // content 作为商户 app
+															// 调用全民付收银台客户端的参数，由商户后台传给商户客户端
+			/*
+			 * + "|" + chrcode + "|" + transId + "|" + merId;
+			 */
+			System.out.println("Content :" + content);
+			// 验签
+			StringBuffer buf = new StringBuffer();
+			buf.append(merorderId).append(chrcode);
+			buf.append(transId).append(Reserve).append(RespCode).append(RespMsg);
+			boolean falg = Yanqian.testMerSignVerify(buf.toString());
+			if (!falg) {
+				System.out.println("验签失败");
+				result.Successful = false;
+				result.Error = "非法订单";
+				return result;
+			}
+			order.setChrCode(chrcode);
+			order.setTransId(transId);
+			order.setMerSign(content);
+		}
 		orderService.addOrderInfo(order);
-		result.Successful=true;
-		result.Data=order.getOrder_id();
+		result.Successful = true;
+		result.Data = order;
 		return result;
 	}
 
@@ -236,6 +334,95 @@ public class AppOrderController {
 	}
 
 	/**
+	 * 
+	 * @param model
+	 *            order_id 订单编号
+	 *            payPass 支付密码（可为空）
+	 * @param token
+	 * @return
+	 */
+	@RequestMapping(value = "payOrder", method = RequestMethod.POST)
+	@ResponseBody
+	public BaseModelJson<String> payOrder(@RequestBody BodyModel model, @RequestHeader String token) {
+		BaseModelJson<String> result = new BaseModelJson<>();
+		if (token == null) {
+			result.Error = "没有权限访问";
+			return result;
+		}
+		if (model == null || model.getOrder_id() == null || model.getOrder_id().isEmpty()) {
+			result.Error = "参数错误";
+			return result;
+		}
+		User u = userService.getUserInforByToken(token);
+		if (null == u) {
+			result.Error = "该账号已在其他客户端登录，请重新登陆";
+			return result;
+		}
+		Order order = orderService.findOrderById(model.getOrder_id());
+		if (order == null) {
+			result.Error = "该订单不存在";
+			return result;
+		}
+		if (order.getPay_type() == Constants.ORDER_STATE_01 || order.getPay_type() == Constants.ORDER_STATE_03) {
+			result.Error = "该订单已支付";
+			return result;
+		}
+		if (u.getUser_type() == Constants.USER_ && order.getPay_type() != Constants.ORDER_TYPE_01) {
+			result.Error = "您不是VIP会员，不可使用电子币或者龙币";
+			return result;
+		}
+		GoodsForWeb gfw = goodsService.findGoodsinfoByGoodsId(order.getGoods_id());
+		if (gfw == null) {
+			result.Error = "该商品不存在，或者已下架";
+			return result;
+		}
+		if (Constants.GOODS_DETELE.equals(gfw.getGoods_delete_state())) {
+			result.Error = "该商品已下架";
+			return result;
+		}
+		if ((order.getElectronics_money() > 0 || order.getLB_money() > 0)
+				&& (model.getPayPass() == null || model.getPayPass().isEmpty())) {
+			result.Error = "请输入支付密码";
+			return result;
+		}
+		if ((order.getElectronics_money() > 0 || order.getLB_money() > 0) && order.getUnionpay_money() <= 0) {
+			GoodsForPay g1 = goodsService.findGoodsinfoForPay(order.getGoods_id());
+			BaseModelJson<String> bmj = memberLongBiAndEPayment(token, ((double) order.getElectronics_money()) / 100,
+					order.getLB_money(), g1.getUserLogin(), model.getPayPass());
+			if (!bmj.Successful) {
+				result.Successful = false;
+				result.Error = bmj.Error;
+			} else {
+				order.setDianzibi_pay_state(1);
+				order.setLongbi_pay_state(1);
+				order.setOrder_state(Constants.ORDER_STATE_03);
+				String xiaofeima = DateUtil.getXiaoFeiMa();
+				order.setElectronics_evidence(xiaofeima);
+				orderService.updateElectronics_evidenceByid(order);
+				result.Successful = true;
+				result.Data = xiaofeima;
+			}
+		} else if ((order.getElectronics_money() > 0 || order.getLB_money() > 0) && order.getUnionpay_money() > 0) {
+			GoodsForPay g1 = goodsService.findGoodsinfoForPay(order.getGoods_id());
+			BaseModelJson<String> bmj = memberLongBiAndEPayment(token, ((double) order.getElectronics_money()) / 100,
+					order.getLB_money(), g1.getUserLogin(), model.getPayPass());
+			if (!bmj.Successful) {
+				result.Successful = false;
+				result.Error = bmj.Error;
+			} else {
+				order.setDianzibi_pay_state(1);
+				order.setLongbi_pay_state(1);
+				order.setYinlian_pay_state(0);
+				order.setOrder_state(Constants.ORDER_STATE_02);
+				orderService.updateElectronics_evidenceByid(order);
+				result.Successful = true;
+				result.Data = "";
+			}
+		}
+		return result;
+	}
+
+	/**
 	 * payOrder 功能：支付
 	 * 
 	 * @param order_id
@@ -254,9 +441,9 @@ public class AppOrderController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "payOrder", method = RequestMethod.POST)
+	@RequestMapping(value = "payOrder1", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> payOrder(@RequestBody String order_id, @RequestBody String goods_id,
+	public Map<String, Object> payOrder1(@RequestBody String order_id, @RequestBody String goods_id,
 			@RequestBody Integer longbi_number, @RequestBody Integer dianzibi_number,
 			@RequestBody Integer yinlian_number, @RequestBody String payPass, @RequestHeader String token,
 			HttpSession session) throws Exception {
@@ -867,7 +1054,7 @@ public class AppOrderController {
 			ss.setVerifyKeyModHex(Constants.VERIFYKEY_MOD);
 			if ((null != o.getTransId() & !"".equals(o.getTransId()))
 					&& (null != o.getChrCode() & !"".equals(o.getChrCode()))) {
-				o.setContent(ss.sign(o.getTransId() + o.getChrCode()));
+				o.setMerSign(ss.sign(o.getTransId() + o.getChrCode()));
 
 			}
 			System.out.println("查订单的签名  ：" + o.getChrCode());
@@ -936,11 +1123,11 @@ public class AppOrderController {
 			ss.setVerifyKeyModHex(Constants.VERIFYKEY_MOD);
 			if ((null != o.getTransId() & !"".equals(o.getTransId()))
 					&& (null != o.getChrCode() & !"".equals(o.getChrCode()))) {
-				o.setContent(ss.sign(o.getTransId() + o.getChrCode()));
+				o.setMerSign(ss.sign(o.getTransId() + o.getChrCode()));
 				System.out.println("Transid :" + o.getTransId() + "   chrcode :" + o.getChrCode());
 			}
 
-			System.out.println("查订单的签名  ：" + o.getContent());
+			System.out.println("查订单的签名  ：" + o.getMerSign());
 
 		}
 
@@ -1135,11 +1322,8 @@ public class AppOrderController {
 			map.put("Data", null);
 			map.put("Error", falg1 + " & " + falg2);
 			System.out.println("退款失败后，，给app 返回 龙币，电子币的 失败信息 ：" + falg1 + " & " + falg2);
-
 		}
-
 		return map;
-
 	}
 
 	/**** 返回龙币 *****/
@@ -1230,6 +1414,117 @@ public class AppOrderController {
 
 		return jieguo;
 
+	}
+
+	/**
+	 * 电子币付款
+	 * 
+	 * @param token
+	 * @param money
+	 * @param recipientname
+	 * @param pw
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public BaseModelJson<String> memberElectronicMoneyPayment(String token, double money, String recipientname,
+			String pw) {
+		String url = path + "Member/MemberElectronicMoneyPayment?money=" + money + "&recipientname=" + recipientname
+				+ "&pw=" + pw;
+		JSONObject param = new JSONObject();
+		com.squareup.okhttp.RequestBody body = com.squareup.okhttp.RequestBody.create(JSONTPYE, gson.toJson(param));
+		Request request = new Request.Builder().url(url).addHeader("Token", token).post(body).build();
+		BaseModelJson<String> bmj = null;
+		try {
+			Response response = client.newCall(request).execute();
+			if (response.isSuccessful()) {
+				bmj = gson.fromJson(response.body().string(), BaseModelJson.class);
+			} else {
+				bmj = new BaseModelJson<>();
+				bmj.Successful = false;
+				bmj.Error = "服务器繁忙";
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			bmj = new BaseModelJson<>();
+			bmj.Successful = false;
+			bmj.Error = "服务器繁忙";
+		}
+		return bmj;
+	}
+
+	/**
+	 * 龙币付款
+	 * 
+	 * @param token
+	 * @param money
+	 * @param recipientname
+	 * @param pw
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public BaseModelJson<String> memberLongBiPayment(String token, int money, String recipientname, String pw) {
+		String url = path + "Member/MemberLongBiPayment?money=" + money + "&recipientname=" + recipientname + "&pw="
+				+ pw;
+		JSONObject param = new JSONObject();
+		com.squareup.okhttp.RequestBody body = com.squareup.okhttp.RequestBody.create(JSONTPYE, gson.toJson(param));
+		Request request = new Request.Builder().url(url).addHeader("Token", token).post(body).build();
+		BaseModelJson<String> bmj = null;
+		try {
+			Response response = client.newCall(request).execute();
+			if (response.isSuccessful()) {
+				bmj = gson.fromJson(response.body().string(), BaseModelJson.class);
+			} else {
+				bmj = new BaseModelJson<>();
+				bmj.Successful = false;
+				bmj.Error = "服务器繁忙";
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			bmj = new BaseModelJson<>();
+			bmj.Successful = false;
+			bmj.Error = "服务器繁忙";
+		}
+		return bmj;
+	}
+
+	/**
+	 * 龙币，电子币混合支付
+	 * 
+	 * @param token
+	 * @param money
+	 * @param lbcount
+	 * @param recipientname
+	 * @param pw
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public BaseModelJson<String> memberLongBiAndEPayment(String token, double money, int lbcount, String recipientname,
+			String pw) {
+		String url = path + "Member/MemberLongBiAndEPayment?money=" + money + "&lbcount=" + lbcount + "&recipientname="
+				+ recipientname + "&pw=" + pw;
+		JSONObject param = new JSONObject();
+		com.squareup.okhttp.RequestBody body = com.squareup.okhttp.RequestBody.create(JSONTPYE, gson.toJson(param));
+		Request request = new Request.Builder().url(url).addHeader("Token", token).post(body).build();
+		BaseModelJson<String> bmj = null;
+		try {
+			Response response = client.newCall(request).execute();
+			if (response.isSuccessful()) {
+				bmj = gson.fromJson(response.body().string(), BaseModelJson.class);
+			} else {
+				bmj = new BaseModelJson<>();
+				bmj.Successful = false;
+				bmj.Error = "服务器繁忙";
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			bmj = new BaseModelJson<>();
+			bmj.Successful = false;
+			bmj.Error = "服务器繁忙";
+		}
+		return bmj;
 	}
 
 }
