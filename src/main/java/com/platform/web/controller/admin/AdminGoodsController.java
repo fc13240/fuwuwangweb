@@ -105,14 +105,14 @@ public class AdminGoodsController extends BaseController {
 	public String checkgoods_pass(Model model, String goods_id,HttpSession session)
 			throws Exception{
 		User user=(User) session.getAttribute("bean");
-		goodsService.updatecheckgoods(goods_id,user.getUser_id(),Constants.GOODS_ACTIVE);
+		goodsService.updatecheckgoods(goods_id,user.getUser_id(),Constants.GOODS_ACTIVE,Constants.GOODS_NORMAL);
 		return "redirect:/admin/goods/list";
 	}
 	@RequestMapping(value="checkgoods_fail", method= RequestMethod.POST)
 	public String checkgoods_fail(Model model, String goods_id,HttpSession session)
 			throws Exception{	 	
 		User user=(User) session.getAttribute("bean");
-		goodsService.updatecheckgoods(goods_id,user.getUser_id(),Constants.GOODS_FAILURE);
+		goodsService.updatecheckgoods(goods_id,user.getUser_id(),Constants.GOODS_FAILURE,Constants.GOODS_DETELE);
 		return "redirect:/admin/goods/list";
 	}
 	

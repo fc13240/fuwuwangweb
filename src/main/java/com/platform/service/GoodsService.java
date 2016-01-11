@@ -130,7 +130,7 @@ public interface GoodsService {
 	 * @param goods_id
 	 * @return
 	 */
-	public void updatecheckgoods(String goods_id,String user_id,Integer goods_check_state) throws Exception;
+	public void updatecheckgoods(String goods_id,String user_id,Integer goods_check_state,Integer goods_delete_state) throws Exception;
 	
 	/**
 	 * 根据支付方式查询龙币商品
