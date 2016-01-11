@@ -79,6 +79,7 @@
 		UPDATE t_goods SET
 		goods_check_state = #{goods_check_state},
 		goods_check_user=#{goods_check_user},
+		goods_delete_state=#{goods_delete_state},
 		goods_check_time = now(),
 		goods_update_time = now()
 
@@ -132,11 +133,23 @@
 	<select id="findGoodsByStoreId" parameterType="String"
 		resultType="com.platform.entity.vo.GoodsForWeb">
 
-		SELECT tg.*,ts.store_name from t_goods as tg,t_store as ts
-		WHERE tg.store_id =#{store_id}
+		SELECT tg.*,ts.store_name
+		 from t_goods as tg join t_store as ts
+			on tg.store_id=ts.store_id
+			WHERE tg.store_id =#{store_id}
 		and tg.goods_delete_state=0
-		and
-		tg.store_id=ts.store_id
+		
+		
+	</select>
+	<!-- 根据店铺Id获取商品列表 -->
+	<select id="findGoodsByGoods_state" 
+		resultType="com.platform.entity.vo.GoodsForWeb">
+		SELECT tg.*,ts.store_name
+		 from t_goods as tg join t_store as ts
+			on tg.store_id=ts.store_id
+			WHERE ts.user_id =#{user_id}
+			and tg.goods_check_state=#{goods_check_state}
+			and tg.goods_delete_state=0
 	</select>
 
 
@@ -222,12 +235,17 @@
 	<!-- 获得所有商品 -->
 	<select id="findAllGoods" resultType="com.platform.entity.vo.GoodsForWeb">
 		SELECT tg.*,ts.store_name
-		from t_goods as tg,t_store as ts
+		from t_goods as tg join t_store as ts on tg.store_id=ts.store_id
 		where
 		tg.goods_delete_state=0
-		and
-		tg.store_id=ts.store_id
 		order by tg.goods_check_state
+	</select>
+	<select id="selectGoodsByGoods_state" parameterType="Integer" resultType="com.platform.entity.vo.GoodsForWeb">
+	SELECT tg.*,ts.store_name
+		from t_goods as tg join t_store as ts on tg.store_id=ts.store_id
+		where
+		tg.goods_delete_state=0
+		and tg.goods_check_state=#{goods_check_state}
 	</select>
 
 	<!-- 根据店铺分类和城市获取商品推荐列表 -->

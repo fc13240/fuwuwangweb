@@ -47,12 +47,14 @@ public interface GoodsMapper {
 	
 	
 	Page<GoodsForWeb> findGoodsByStoreId(String store_id);//根据商铺id查询
+	Page<GoodsForWeb> findGoodsByGoods_state(@Param(value="goods_check_state") Integer goods_check_state,@Param(value="user_id") String user_id);//根据商铺id查询
 	
 	Page<GoodsForWeb> findGoodsByUserId(String user_id);//根据用户id查询
 	
 	List<GoodsVo> findGoodsByPayType(Integer goods_pay_type);//根据商品支付查找龙币商品
 	
 	Page<GoodsForWeb> findAllGoods();//查找所有商品
+	Page<GoodsForWeb> selectGoodsByGoods_state(Integer goods_check_state);
 	
 	GoodsForWeb findGoodsinfoByGoodsId(String goods_id);//根据商品id查询商品信息
 	

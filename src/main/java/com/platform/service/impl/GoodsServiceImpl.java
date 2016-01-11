@@ -68,6 +68,10 @@ public class GoodsServiceImpl implements GoodsService {
 	public Page<GoodsForWeb> findGoodsByStoreId(String store_id) throws Exception {
 		return mapper.findGoodsByStoreId(store_id);
 	}
+	
+	public Page<GoodsForWeb> goodslistbyGoods_state(Integer  goods_check_state,String user_id) throws Exception {
+		return mapper.findGoodsByGoods_state(goods_check_state,user_id);
+	}
 
 	/**
 	 * 根据店铺ID获取商品列表
@@ -130,15 +134,18 @@ public class GoodsServiceImpl implements GoodsService {
 		// TODO Auto-generated method stub
 		return mapper.findAllGoods();
 	}
-
+	public Page<GoodsForWeb> selectGoodsByGoods_state(Integer goods_check_state) throws Exception{
+		return mapper.selectGoodsByGoods_state(goods_check_state);
+	}
 	/**
 	 * 审核商品作用于web 审核商品后，创建时间被改变
 	 */
-	public void updatecheckgoods(String goods_id, String user_id, Integer goods_check_state) throws Exception {
+	public void updatecheckgoods(String goods_id, String user_id, Integer goods_check_state,Integer goods_delete_state) throws Exception {
 		Goods goods = new Goods();
 		goods.setGoods_id(goods_id);
 		goods.setGoods_check_state(goods_check_state);
 		goods.setGoods_check_user(user_id);
+		goods.setGoods_delete_state(goods_delete_state);
 		mapper.updatecheckgoods(goods);
 
 	}
@@ -391,5 +398,7 @@ public class GoodsServiceImpl implements GoodsService {
 	public Integer getGoodsRecommendCountByCityNameAndCategory(HashMap<String, Object> map) {
 		return mapper.getGoodsRecommendCountByCityNameAndCategory(map);
 	}
+
+
 
 }

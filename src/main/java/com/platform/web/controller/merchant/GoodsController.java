@@ -78,7 +78,7 @@ public class GoodsController extends BaseController {
 		}
 		PageInfo<GoodsForWeb> page = new PageInfo<GoodsForWeb>(goods);
 		model.addAttribute("page", page);
-
+		model.addAttribute("goods_state", 4);
 		return "merchant/goods/goodsListPage";
 	}
 
@@ -100,6 +100,34 @@ public class GoodsController extends BaseController {
 		PageHelper.startPage(pageNum, pageSize);
 		PageInfo<GoodsForWeb> page = new PageInfo<GoodsForWeb>(goods);
 		model.addAttribute("page", page);
+		model.addAttribute("goods_state", 4);
+		return "merchant/goods/goodsListPage";
+	}
+	@RequestMapping(value = "goodslistbyGoods_state", method = RequestMethod.GET)
+	public String goodslistbyGoods_state(Model model, Integer goods_state, Integer pageNum, Integer pageSize
+		,HttpSession session	) throws Exception {
+		System.out.println("根据店铺id 查询商品");
+		
+		// String store_id,
+		if (pageNum == null)
+			pageNum = 1;
+		if (pageSize == null)
+			pageSize = Constants.PAGE_SIZE;
+		
+		Page<GoodsForWeb> goods = new Page<GoodsForWeb>();
+		User user=(User) session.getAttribute("bean");
+		PageHelper.startPage(pageNum, pageSize);
+		goods = goodsService.goodslistbyGoods_state(goods_state,user.getUser_id());
+		System.out.println("结果 ：" + goods);
+		PageInfo<GoodsForWeb> page = new PageInfo<GoodsForWeb>(goods);
+		model.addAttribute("page", page);
+		model.addAttribute("goods_state", goods_state);
+		List<String> params = new ArrayList<String>();
+		if (goods_state != null) {
+			String param1 = "goods_state=" + goods_state + "&";
+			params.add(param1);
+		}
+		model.addAttribute("params", params);
 		return "merchant/goods/goodsListPage";
 	}
 
@@ -166,7 +194,7 @@ public class GoodsController extends BaseController {
 			String goods_purchase_notes, HttpSession session) throws Exception {
 		Goods goods = new Goods();
 		goods.setGoods_id(goods_id);
-		goods.setGoods_check_state(Constants.GOODS_ACTIVE);
+		goods.setGoods_check_state(Constants.GOODS_WAIT);
 		goods.setGoods_delete_state(Constants.GOODS_NORMAL);
 		goods.setGoods_type2_id(1);
 
