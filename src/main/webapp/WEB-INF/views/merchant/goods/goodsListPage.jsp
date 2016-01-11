@@ -22,20 +22,17 @@
 			window.location.href = base
 					+ '/merchant/goods/goodslistbystore?store_id=' + id;
 		}
-		/* $.ajax({
-			url : base + "/merchant/goods/goodslistbystore",
-			type : "GET",
-			datatype : "text",
-			data : "store_id=" + id,
-			error : function(XMLHttpRequest, textStatus, errorThrown) {
-				 alert(XMLHttpRequest.status);
-				alert(XMLHttpRequest.readyState);
-				alert(textStatus); 
-			},
-			success : function(data) {
-				}
-		}) */
+	}
+	function getGoodsByGoods_state() {
+		var base = "${pageContext.request.contextPath}";
+		var goods_state = $('#goods_state').val();
+		if (goods_state == 4) {
+			return false;
+		} else {
 
+			window.location.href = base
+					+ '/merchant/goods/goodslistbyGoods_state?goods_state=' + goods_state;
+		}
 	}
 	window.onload = function() {
 		var id = $('#user_id').val();
@@ -98,6 +95,34 @@
 		</select>
 	</div>
 </div>
+<div class=" searchform">
+	<div class="col-md-3">
+		<select class="form-control" onchange="getGoodsByGoods_state()"
+			id="goods_state">
+			<c:if test="${goods_state==4}">
+			<option value="4" selected="selected">根据商品审核状态查询</option>
+			<option value="0" >查询待审核的商品</option>
+			<option value="1">查询审核通过的商品</option>
+			</c:if>
+			<c:if test="${goods_state==0}">
+			<option value="4">根据商品审核状态查询</option>
+			<option value="0" selected="selected">查询待审核的商品</option>
+			<option value="1">查询审核通过的商品</option>
+			</c:if>
+			<c:if test="${goods_state==1}">
+			<option value="4">根据商品审核状态查询</option>
+			<option value="0" >查询待审核的商品</option>
+			<option value="1" selected="selected">查询审核通过的商品</option>
+			</c:if>
+			<c:if test="${goods_state==2}">
+			<option value="4">根据商品审核状态查询</option>
+			<option value="0" >查询待审核的商品</option>
+			<option value="1">查询审核通过的商品</option>
+			<option value="2" selected="selected">查询审核失败的商品</option>
+			</c:if>
+		</select>
+	</div>
+</div>
 <div class="container-fluid">
 	<div class="wrapper">
 
@@ -117,6 +142,7 @@
 							<th>商品价格</th>
 							<th>商品龙币价格</th>
 							<th>所属店铺</th>
+							<th>商品状态</th>
 							<th>操作</th>
 						</tr>
 
@@ -139,6 +165,10 @@
 										pattern="#,###,##0.00#" /></td>
 								<td align="right">${list.goods_price_LB}</td>
 								<td align="left">${list.store_name}</td>
+										<td id="text_${list.goods_id}" align="left"><c:if
+										test="${list.goods_check_state=='0'}">待审核</c:if> <c:if
+										test="${list.goods_check_state=='1'}">审核通过</c:if> <c:if
+										test="${list.goods_check_state=='2'}">审核未通过</c:if></td>
 								<td align="right"><button class="btn btn-info" data-toggle="modal"
 										data-target="#updateModal"
 										onclick="modifyEmp('${list.goods_id}','${list.goods_id}+11')"<%-- href="${pageContext.request.contextPath}/merchant/goods/goodsinfo?goods_id=${list.goods_id}&type=${list.goods_id}+1" --%> 

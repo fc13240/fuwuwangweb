@@ -28,42 +28,48 @@ function check(){ /* passWord newpass */
 	var isSuccess = 1; 
 	if(txt_userLogin.length == 0) 
 	{ 
-	$("#userLoginLabel").text("商人帐号不能为空！") 
+	$("#userLoginLabel").text("商人帐号不允许为空！") 
 	$("#userLoginLabel").css({"color":"red"}); 
 	isSuccess = 0; 
-	} 
-	if(txt_userLogin.length>16||txt_userLogin.length<2) 
-	{ 
-	$("#userLoginLabel").text("商人帐号应为2-16位！") 
-	$("#userLoginLabel").css({"color":"red"}); 
-	isSuccess = 0; 
-	} 
+	} else{
+		if(txt_userLogin.length>16||txt_userLogin.length<2) 
+		{ 
+		$("#userLoginLabel").text("商人帐号应为2-16位！") 
+		$("#userLoginLabel").css({"color":"red"}); 
+		isSuccess = 0; 
+		} 
+	}
+
 	
 	if(txt_password.length == 0) 
 	{ 
-	$("#passwordLabel").text("密码不能为空！") 
+	$("#passwordLabel").text("密码不能不允许为空！") 
 	$("#passwordLabel").css({"color":"red"}); 
 	isSuccess = 0; 
-	} 
-	if(txt_password.length < 6||txt_password.length >8) 
-	{ 
-	$("#passwordLabel").text("密码应为6-8位！") 
-	$("#passwordLabel").css({"color":"red"}); 
-	isSuccess = 0; 
-	} 
+	} else{
+		if(txt_password.length < 6||txt_password.length >8) 
+		{ 
+		$("#passwordLabel").text("密码应为6-8位！") 
+		$("#passwordLabel").css({"color":"red"}); 
+		isSuccess = 0; 
+		} 
+	}
+
 	
 	if(txt_repassword.length == 0) 
 	{ 
-	$("#repasswordLabel").text("确认密码不能为空！") 
+	$("#repasswordLabel").text("确认密码不允许为空！") 
 	$("#repasswordLabel").css({"color":"red"}); 
 	isSuccess = 0; 
-	} 
-	if(txt_repassword.length <6||txt_repassword.length >8) 
-	{ 
-	$("#repasswordLabel").text("密码应为6-8位！") 
-	$("#repasswordLabel").css({"color":"red"}); 
-	isSuccess = 0; 
-	} 
+	} else{
+		if(txt_repassword.length <6||txt_repassword.length >8) 
+		{ 
+		$("#repasswordLabel").text("密码应为6-8位！") 
+		$("#repasswordLabel").css({"color":"red"}); 
+		isSuccess = 0; 
+		} 
+	}
+
 	if(txt_repassword!=txt_password) 
 	{ 
 	$("#repasswordLabel").text("密码不一致！") 
@@ -73,7 +79,7 @@ function check(){ /* passWord newpass */
 	
 	if(txt_phone.length == 0) 
 	{ 
-	$("#phoneLabel").text("商人电话不能为空！") 
+	$("#phoneLabel").text("商人电话不允许为空！") 
 	$("#phoneLabel").css({"color":"red"}); 
 	isSuccess = 0; 
 	}else{
@@ -87,7 +93,7 @@ function check(){ /* passWord newpass */
 	
 	if(txt_merchant_desc.length ==0) 
 	{ 
-	$("#merchant_descLabel").text("商人描述不能为空！") 
+	$("#merchant_descLabel").text("商人描述不允许为空！") 
 	$("#merchant_descLabel").css({"color":"red"}); 
 	isSuccess = 0; 
 	}
@@ -96,7 +102,7 @@ function check(){ /* passWord newpass */
 	{ 
 		if(txt_service_man.length ==0) 
 		{ 
-		$("#service_manLabel").text("联系人不能为空！") 
+		$("#service_manLabel").text("联系人不允许为空！") 
 		$("#service_manLabel").css({"color":"red"}); 
 		isSuccess = 0; 
 		} 
@@ -107,7 +113,7 @@ function check(){ /* passWord newpass */
 	{ 
 		if(txt_merchant_account.length==0) 
 		{ 
-		$("#merchant_accountLabel").text("商城帐号不能为空！") 
+		$("#merchant_accountLabel").text("商城帐号不允许为空！") 
 		$("#merchant_accountLabel").css({"color":"red"}); 
 		isSuccess = 0; 
 		}
@@ -129,7 +135,7 @@ function check(){ /* passWord newpass */
 	<form class="form-horizontal"
 		action="${pageContext.request.contextPath}/admin/user/register_merchant"
 		method="post" enctype="multipart/form-data" onsubmit="return check()">
-		<font size="3" color="red">${yes}</font>
+		<font size="3" color="red">${info}</font>
 		<div class="form-group">
 			<label for="inputGoodsName" class="col-sm-2 control-label">帐号</label>
 			<div class="col-sm-3">

@@ -34,6 +34,8 @@ public interface GoodsService {
 	 * 
 	 */
 	public Page<GoodsForWeb> findAllGoods() throws Exception;//查找所有商品
+	public Page<GoodsForWeb> selectGoodsByGoods_state(Integer goods_check_state) throws Exception;//查找所有商品
+	
 	
 	/**
 	 * 更新商品信息
@@ -55,6 +57,13 @@ public interface GoodsService {
 	 * @return
 	 */
 	public Page<GoodsForWeb> findGoodsByStoreId(String store_id) throws Exception;
+	
+	/**
+	 * 根据店铺ID获取商品列表
+	 * @param store_id
+	 * @return
+	 */
+	public Page<GoodsForWeb> goodslistbyGoods_state(Integer goods_check_state,String user_id) throws Exception;
 	
 	/**
 	 * 根据店铺ID获取商品列表
@@ -121,7 +130,7 @@ public interface GoodsService {
 	 * @param goods_id
 	 * @return
 	 */
-	public void updatecheckgoods(String goods_id,String user_id,Integer goods_check_state) throws Exception;
+	public void updatecheckgoods(String goods_id,String user_id,Integer goods_check_state,Integer goods_delete_state) throws Exception;
 	
 	/**
 	 * 根据支付方式查询龙币商品

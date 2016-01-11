@@ -291,7 +291,9 @@
 	<select id="findStoreOrderByStatus" resultType="com.platform.entity.vo.StoreForWeb">
 		SELECT ts.*,tu.userLogin
 		from t_store as ts,t_user as tu
-		where ts.user_id=tu.user_id order by store_state
+		where ts.user_id=tu.user_id 
+		and store_state!=4
+		order by store_state
 	</select>
 
 
