@@ -122,6 +122,12 @@ public class GoodsController extends BaseController {
 		PageInfo<GoodsForWeb> page = new PageInfo<GoodsForWeb>(goods);
 		model.addAttribute("page", page);
 		model.addAttribute("goods_state", goods_state);
+		List<String> params = new ArrayList<String>();
+		if (goods_state != null) {
+			String param1 = "goods_state=" + goods_state + "&";
+			params.add(param1);
+		}
+		model.addAttribute("params", params);
 		return "merchant/goods/goodsListPage";
 	}
 
