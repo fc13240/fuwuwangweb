@@ -28,6 +28,17 @@
 			return true;
 		}
 	}
+	function getGoodsByGoods_state() {
+		var base = "${pageContext.request.contextPath}";
+		var goods_state = $('#goods_state').val();
+		if (goods_state == 4) {
+			return false;
+		} else {
+
+			window.location.href = base
+					+ '/merchant/goods/goodslistbyGoods_state?goods_state=' + goods_state;
+		}
+	}
 </script>
 <!--body wrapper start-->
 <div class="wrapper">
@@ -39,7 +50,34 @@
 			placeholder="请输入商品名" id="goods_name" /> <input type="submit"
 			class="form-control btn btn-success" value="查找" />
 	</form>
-
+<div class=" searchform">
+	<div class="col-md-3">
+		<select class="form-control" onchange="getGoodsByGoods_state()"
+			id="goods_state">
+			<c:if test="${goods_state==4}">
+			<option value="4" selected="selected">根据商品审核状态查询</option>
+			<option value="0" >查询待审核的商品</option>
+			<option value="1">查询审核通过的商品</option>
+			</c:if>
+			<c:if test="${goods_state==0}">
+			<option value="4">根据商品审核状态查询</option>
+			<option value="0" selected="selected">查询待审核的商品</option>
+			<option value="1">查询审核通过的商品</option>
+			</c:if>
+			<c:if test="${goods_state==1}">
+			<option value="4">根据商品审核状态查询</option>
+			<option value="0" >查询待审核的商品</option>
+			<option value="1" selected="selected">查询审核通过的商品</option>
+			</c:if>
+			<c:if test="${goods_state==2}">
+			<option value="4">根据商品审核状态查询</option>
+			<option value="0" >查询待审核的商品</option>
+			<option value="1">查询审核通过的商品</option>
+			<option value="2" selected="selected">查询审核失败的商品</option>
+			</c:if>
+		</select>
+	</div>
+</div>
 
 
 	<div class="container-fluid">

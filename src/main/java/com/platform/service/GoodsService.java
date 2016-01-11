@@ -35,6 +35,7 @@ public interface GoodsService {
 	 */
 	public Page<GoodsForWeb> findAllGoods() throws Exception;//查找所有商品
 	
+	
 	/**
 	 * 更新商品信息
 	 * @param goods_id  //商品ID
@@ -55,6 +56,13 @@ public interface GoodsService {
 	 * @return
 	 */
 	public Page<GoodsForWeb> findGoodsByStoreId(String store_id) throws Exception;
+	
+	/**
+	 * 根据店铺ID获取商品列表
+	 * @param store_id
+	 * @return
+	 */
+	public Page<GoodsForWeb> goodslistbyGoods_state(Integer goods_check_state,String user_id) throws Exception;
 	
 	/**
 	 * 根据店铺ID获取商品列表

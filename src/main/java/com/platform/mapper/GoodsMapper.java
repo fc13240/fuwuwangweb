@@ -47,6 +47,7 @@ public interface GoodsMapper {
 	
 	
 	Page<GoodsForWeb> findGoodsByStoreId(String store_id);//根据商铺id查询
+	Page<GoodsForWeb> findGoodsByGoods_state(@Param(value="goods_check_state") Integer goods_check_state,@Param(value="user_id") String user_id);//根据商铺id查询
 	
 	Page<GoodsForWeb> findGoodsByUserId(String user_id);//根据用户id查询
 	

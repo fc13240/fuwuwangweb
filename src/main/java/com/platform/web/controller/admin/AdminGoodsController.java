@@ -74,10 +74,31 @@ public class AdminGoodsController extends BaseController {
 		//PageHelper.startPage(pageNum, pageSize, false);
 		PageInfo<GoodsForWeb> page = new PageInfo<GoodsForWeb>(goods);
 		model.addAttribute("page", page);
+		model.addAttribute("goods_state", 4);
 		return "admin/goods/goodsList";
 	}
 
-	
+	@RequestMapping(value = "goodslistbyGoods_state", method = RequestMethod.GET)
+	public String goodslistbyGoods_state(Model model, Integer goods_state, Integer pageNum, Integer pageSize
+		,HttpSession session	) throws Exception {
+		System.out.println("根据店铺id 查询商品");
+		
+		// String store_id,
+		if (pageNum == null)
+			pageNum = 1;
+		if (pageSize == null)
+			pageSize = Constants.PAGE_SIZE;
+		
+		Page<GoodsForWeb> goods = new Page<GoodsForWeb>();
+		User user=(User) session.getAttribute("bean");
+		PageHelper.startPage(pageNum, pageSize);
+		goods = goodsService.goodslistbyGoods_state(goods_state,user.getUser_id());
+		System.out.println("结果 ：" + goods);
+		PageInfo<GoodsForWeb> page = new PageInfo<GoodsForWeb>(goods);
+		model.addAttribute("page", page);
+		model.addAttribute("goods_state", goods_state);
+		return "merchant/goods/goodsListPage";
+	}
 
 
 	@RequestMapping(value="checkgoods_pass", method= RequestMethod.POST)

@@ -182,13 +182,10 @@ System.out.println("用户查看订单 ： " + username + "   ");
 
 			}
 		}
-		
-		
-		
         // 本地帐号是否重复
 		User u = userService.selectUserlogin(userLogin);
 		if (null != u) {
-System.out.println("管理员注册商人 ，本地这边验证帐号是否存在");
+			System.out.println("管理员注册商人 ，本地这边验证帐号是否存在");
 			request.setAttribute("no", "帐号已存在");
 			return "admin/user/addmerchant"; 
 		} 
