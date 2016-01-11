@@ -134,7 +134,9 @@ public class GoodsServiceImpl implements GoodsService {
 		// TODO Auto-generated method stub
 		return mapper.findAllGoods();
 	}
-
+	public Page<GoodsForWeb> selectGoodsByGoods_state(Integer goods_check_state) throws Exception{
+		return mapper.selectGoodsByGoods_state(goods_check_state);
+	}
 	/**
 	 * 审核商品作用于web 审核商品后，创建时间被改变
 	 */

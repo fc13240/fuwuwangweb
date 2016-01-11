@@ -54,6 +54,7 @@ public interface GoodsMapper {
 	List<GoodsVo> findGoodsByPayType(Integer goods_pay_type);//根据商品支付查找龙币商品
 	
 	Page<GoodsForWeb> findAllGoods();//查找所有商品
+	Page<GoodsForWeb> selectGoodsByGoods_state(Integer goods_check_state);
 	
 	GoodsForWeb findGoodsinfoByGoodsId(String goods_id);//根据商品id查询商品信息
 	

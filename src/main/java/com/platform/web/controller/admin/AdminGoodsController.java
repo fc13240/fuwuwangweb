@@ -92,12 +92,12 @@ public class AdminGoodsController extends BaseController {
 		Page<GoodsForWeb> goods = new Page<GoodsForWeb>();
 		User user=(User) session.getAttribute("bean");
 		PageHelper.startPage(pageNum, pageSize);
-		goods = goodsService.goodslistbyGoods_state(goods_state,user.getUser_id());
+		goods = goodsService.selectGoodsByGoods_state(goods_state);
 		System.out.println("结果 ：" + goods);
 		PageInfo<GoodsForWeb> page = new PageInfo<GoodsForWeb>(goods);
 		model.addAttribute("page", page);
 		model.addAttribute("goods_state", goods_state);
-		return "merchant/goods/goodsListPage";
+		return "admin/goods/goodsList";
 	}
 
 

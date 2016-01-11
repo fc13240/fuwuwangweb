@@ -36,7 +36,7 @@
 		} else {
 
 			window.location.href = base
-					+ '/merchant/goods/goodslistbyGoods_state?goods_state=' + goods_state;
+					+ '/admin/goods/goodslistbyGoods_state?goods_state=' + goods_state;
 		}
 	}
 </script>

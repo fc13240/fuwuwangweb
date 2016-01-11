@@ -34,6 +34,7 @@ public interface GoodsService {
 	 * 
 	 */
 	public Page<GoodsForWeb> findAllGoods() throws Exception;//查找所有商品
+	public Page<GoodsForWeb> selectGoodsByGoods_state(Integer goods_check_state) throws Exception;//查找所有商品
 	
 	
 	/**
