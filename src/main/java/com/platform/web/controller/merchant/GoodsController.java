@@ -166,7 +166,7 @@ public class GoodsController extends BaseController {
 			String goods_purchase_notes, HttpSession session) throws Exception {
 		Goods goods = new Goods();
 		goods.setGoods_id(goods_id);
-		goods.setGoods_check_state(Constants.GOODS_ACTIVE);
+		goods.setGoods_check_state(Constants.GOODS_WAIT);
 		goods.setGoods_delete_state(Constants.GOODS_NORMAL);
 		goods.setGoods_type2_id(1);
 
