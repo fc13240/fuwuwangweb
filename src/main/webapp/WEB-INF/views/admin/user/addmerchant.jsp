@@ -135,7 +135,7 @@ function check(){ /* passWord newpass */
 	<form class="form-horizontal"
 		action="${pageContext.request.contextPath}/admin/user/register_merchant"
 		method="post" enctype="multipart/form-data" onsubmit="return check()">
-		<font size="3" color="red">${yes}</font>
+		<font size="3" color="red">${info}</font>
 		<div class="form-group">
 			<label for="inputGoodsName" class="col-sm-2 control-label">帐号</label>
 			<div class="col-sm-3">

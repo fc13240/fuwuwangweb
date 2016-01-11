@@ -171,13 +171,13 @@ System.out.println("用户查看订单 ： " + username + "   ");
 		
 		if(AppUserController.yanzheng_userLogin(userLogin).equals("请求错误")){
 
-			request.setAttribute("no", "连接失败");
+			request.setAttribute("info", "连接失败");
 			return "admin/user/addmerchant"; 
 		}else{
 			// 判断公司 帐号是否重复
 			if (AppUserController.yanzheng_userLogin(userLogin).equals("true")) {
 	System.out.println("管理员注册商人 ，公司那边验证帐号是否存在");
-				request.setAttribute("no", "帐号已存在");
+				request.setAttribute("info", "帐号已存在");
 				return "admin/user/addmerchant"; 
 
 			}
@@ -186,11 +186,11 @@ System.out.println("用户查看订单 ： " + username + "   ");
 		User u = userService.selectUserlogin(userLogin);
 		if (null != u) {
 			System.out.println("管理员注册商人 ，本地这边验证帐号是否存在");
-			request.setAttribute("no", "帐号已存在");
+			request.setAttribute("info", "帐号已存在");
 			return "admin/user/addmerchant"; 
 		} 
 
-		
+		User userbean=(User) session.getAttribute("bean");
 		if(password.equals(password_agin)){
 			
 			User  user = new User();
@@ -201,7 +201,7 @@ System.out.println("用户查看订单 ： " + username + "   ");
 			user.setPassWord(Md5.getVal_UTF8(password));
 			user.setService_man(service_man);
 			user.setMerchant_account(merchant_account);
-			user.setMerchant_add_user(u.getUser_id());    // 办理人  的 ID   u.getUser_id()
+			user.setMerchant_add_user(userbean.getUser_id());    // 办理人  的 ID   u.getUser_id()
 			user.setMerchant_phone(phone);
 			user.setMerchant_desc(merchant_desc);
 			System.out.println("merchant_account  :"+ merchant_account);	
@@ -234,11 +234,11 @@ System.out.println("用户查看订单 ： " + username + "   ");
                 	result = "信息填写不全" ;
                 }
             }
-			request.setAttribute("yes", result);
+			request.setAttribute("info", result);
 			
 		}
 		else  
-			request.setAttribute("no", "两次密码不一致");
+			request.setAttribute("info", "两次密码不一致");
 		
 		
 		 return "admin/user/addmerchant"; 
