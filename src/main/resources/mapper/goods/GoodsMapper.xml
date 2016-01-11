@@ -79,7 +79,7 @@
 		UPDATE t_goods SET
 		goods_check_state = #{goods_check_state},
 		goods_check_user=#{goods_check_user},
-		goods_delete_state=#{goods_delete_state}
+		goods_delete_state=#{goods_delete_state},
 		goods_check_time = now(),
 		goods_update_time = now()
 
