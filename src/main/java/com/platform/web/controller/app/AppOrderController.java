@@ -418,6 +418,8 @@ public class AppOrderController {
 				result.Successful = true;
 				result.Data = "";
 			}
+		}else{
+			result.Successful = true;
 		}
 		return result;
 	}
