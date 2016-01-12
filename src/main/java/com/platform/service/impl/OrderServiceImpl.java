@@ -538,4 +538,13 @@ public class OrderServiceImpl implements OrderService {
 		orderMapper.addOrderInfo(order);
 	}
 
+	/**
+	 * 更新订单
+	 * @param order
+	 */
+	@Override
+	public void updateOrder(Order order){
+		orderMapper.updateOrder(order);
+	}
+	
 }
