@@ -19,25 +19,28 @@
 		//alert(id);
 	
 	}
-	function change_position(position,goods_id,update_position_type){
+	function change_position(pageNum,position,goods_id,update_position_type){
 	//	alert("位置"+position+"    商品id"+goods_id+"     类型"+update_position_type);
 		 var base = "${pageContext.request.contextPath}";
-			$.ajax({
+			window.location = base
+			+ '/admin/goods/updateGoodsRecommend_position?' 
+			+ "pageNum="+pageNum+"&position=" + position+"&goods_id="+goods_id+"&update_position_type="+update_position_type; 
+			/* $.ajax({
 					url : base+"/admin/goods/updateGoodsRecommend_position",
 					type : "GET",
 					datatype : "text",
-					data : "position=" + position+"&goods_id="+goods_id+"&update_position_type="+update_position_type,
+					data :" pageNum="+pageNum+"&position=" + position+"&goods_id="+goods_id+"&update_position_type="+update_position_type,
 					error : function(XMLHttpRequest, textStatus, errorThrown) {
-						/* alert(XMLHttpRequest.status);
+						alert(XMLHttpRequest.status);
 						alert(XMLHttpRequest.readyState);
-						alert(textStatus); */
+						alert(textStatus); 
 					},
 					success : function() {
 						
 						window.location=base+"/admin/goods/findAllGoodsrecommend";
 						
 					} 
-				})  
+				})   */
 			
 
 	}
@@ -85,16 +88,29 @@
 							<td align="right">${list.goods_price_LB}</td>
 							<td align="left">${list.store_name}</td>
 							<td align="center">
-								<c:if test="${vs.index+1!=1}">
-								<button type="button" class="btn btn-default btn-lg" onclick="change_position('${vs.index+1}','${list.goods_id}','1')">
-									<span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
-								</button>
-								</c:if>
-								<c:if test="${!vs.last}">
-								<button type="button" class="btn btn-default btn-lg" onclick="change_position('${vs.index+1}','${list.goods_id}','0')">
+								<%-- <c:if test="${(vs.index>0)&&(page.pageNum!=1)}"> --%>
+								<c:choose>
+								<c:when test="${(vs.index==0)&&(page.pageNum==1)}">
+								<button type="button" class="btn btn-default btn-lg" onclick="change_position('${page.pageNum}','${vs.index+1}','${list.goods_id}','0')">
 									<span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
 								</button>
-								</c:if>
+								</c:when>
+								<c:when test="${(vs.last)&&(page.pageNum==page.pages)}">
+								<button type="button" class="btn btn-default btn-lg" onclick="change_position('${page.pageNum}','${vs.index+1}','${list.goods_id}','1')">
+									<span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+								</button>
+								</c:when>
+								<c:otherwise>
+								<button type="button" class="btn btn-default btn-lg" onclick="change_position('${page.pageNum}','${vs.index+1}','${list.goods_id}','1')">
+									<span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+								</button>
+								<button type="button" class="btn btn-default btn-lg" onclick="change_position('${page.pageNum}','${vs.index+1}','${list.goods_id}','0')">
+									<span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+								</button>
+								</c:otherwise>
+								</c:choose>
+							
+							
 							</td>
 							<td align="right">
 								<button class="btn btn-danger" data-toggle="modal"

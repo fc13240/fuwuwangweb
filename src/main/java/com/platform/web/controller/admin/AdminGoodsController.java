@@ -170,9 +170,10 @@ public class AdminGoodsController extends BaseController {
 	@RequestMapping(value="findAllGoodsrecommend", method= RequestMethod.GET)
 	public String findAllGoodsrecommend(Model model,Integer pageNum, Integer pageSize)
 			throws Exception{	
-		System.out.println("获得所有推荐商品根据状态排序");
-		// 默认显示待审核状态
 		
+		// 默认显示待审核状态
+		//GoodsRecommendVo Firstvo = null,Lastvo = null;
+		int first=0,last=0;
 		if (pageNum == null)
 			pageNum = 1;
 		if (pageSize == null)
@@ -180,24 +181,27 @@ public class AdminGoodsController extends BaseController {
 
 		PageHelper.startPage(pageNum, pageSize);
 		Page<GoodsRecommendVo> vo=goodsService.findAllGoodsrecommendOrderBystate();
+		System.out.println("查询全部推荐商品结束");
+		System.out.println("推荐商品当前页数"+pageNum);
+		System.out.println("推荐商品共页数"+vo.getPages());
 		PageInfo<GoodsRecommendVo> page = new PageInfo<GoodsRecommendVo>(vo);
+	
 		model.addAttribute("page", page);
-		System.out.println(page);
 		return "admin/goods/recommendgoodsList";
 	}
 	@RequestMapping(value="updateGoodsRecommend_position", method= RequestMethod.GET)
-	public String updateGoodsRecommend_position(Model model,String goods_id,Integer update_position_type,String position){
-		System.out.println("传入的修改位置"+position);
+	public String updateGoodsRecommend_position(Model model,String pageNum,String goods_id,Integer update_position_type,String position){
+		System.out.println("传入的修改位置"+Integer.valueOf(position)+Integer.valueOf(pageNum)*1);
 		if(1==update_position_type){
-			//int middle_position = 0;
+		
 			System.out.println("推荐商品上移");
 			List<GoodsRecommendVo> vo=goodsService.findAllGoodsrecommendOrderBystate();
 			
-			GoodsRecommendVo gai=vo.get(Integer.valueOf(position)-1);//想要上移的元素
+			GoodsRecommendVo gai=vo.get(Integer.valueOf(position)+(Integer.valueOf(pageNum)-1)*10-1);//想要上移的元素
 			int gaiyuan_position=gai.getGoods_position();
 			String gaiyuan_goods_id=gai.getGoods_id();
 			
-			GoodsRecommendVo gaiup=vo.get(Integer.valueOf(position)-2);//想要上移的元素的上一个元素
+			GoodsRecommendVo gaiup=vo.get(Integer.valueOf(position)+(Integer.valueOf(pageNum)-1)*10-2);//想要上移的元素的上一个元素
 			int gaiup_position=gaiup.getGoods_position();
 			String gaiup_goods_id=gaiup.getGoods_id();
 			
@@ -210,17 +214,17 @@ public class AdminGoodsController extends BaseController {
 			gr.setGoods_id(gaiyuan_goods_id);
 			gr.setGoods_position(gaiup_position);
 			goodsService.updateGoodsRecommend_position(gr);
-			return "redirect:recommendgoodsList";
+			return "redirect:findAllGoodsrecommend?pageNum="+pageNum;
 			}else{
 				//int middle_position = 0;
 				System.out.println("推荐商品下移");
 				List<GoodsRecommendVo> vo=goodsService.findAllGoodsrecommendOrderBystate();
 				
-				GoodsRecommendVo gai=vo.get(Integer.valueOf(position)-1);//想要下移的元素
+				GoodsRecommendVo gai=vo.get(Integer.valueOf(position)+(Integer.valueOf(pageNum)-1)*10-1);//想要下移的元素
 				int gaiyuan_position=gai.getGoods_position();
 				String gaiyuan_goods_id=gai.getGoods_id();
 				
-				GoodsRecommendVo gaiup=vo.get(Integer.valueOf(position));//想要下移的元素的下一个元素
+				GoodsRecommendVo gaiup=vo.get(Integer.valueOf(position)+(Integer.valueOf(pageNum)-1)*10);//想要下移的元素的下一个元素
 				int gaidown_position =gaiup.getGoods_position();
 				String gaidown_goods_id=gaiup.getGoods_id();
 				
@@ -234,7 +238,7 @@ public class AdminGoodsController extends BaseController {
 				gr.setGoods_position(Integer.valueOf(gaiyuan_position));
 				goodsService.updateGoodsRecommend_position(gr);
 				System.out.println("更新点击元素下一个的位置");
-				return "redirect:recommendgoodsList";
+				return "redirect:findAllGoodsrecommend?pageNum="+pageNum;
 		}
 		
 	}
