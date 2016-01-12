@@ -120,8 +120,7 @@ public class AppOrderController {
 			result.Error = "该商品已下架";
 			return result;
 		}
-		if (Constants.USER_.equals(u.getUser_type()) && ("1".equals(gfw.getGoods_pay_type())
-				|| order.getElectronics_money() != null || order.getElectronics_money() > 0)) {
+		if (Constants.USER_.equals(u.getUser_type()) && ("1".equals(gfw.getGoods_pay_type())|| (order.getElectronics_money() != null && order.getElectronics_money() > 0))) {
 			result.Error = "该商品只要VIP会员才可以购买";
 			return result;
 		}
@@ -363,7 +362,7 @@ public class AppOrderController {
 			result.Error = "该订单不存在";
 			return result;
 		}
-		if (order.getPay_type() == Constants.ORDER_STATE_01 || order.getPay_type() == Constants.ORDER_STATE_03) {
+		if (order.getOrder_state() == Constants.ORDER_STATE_01 || order.getOrder_state() == Constants.ORDER_STATE_03) {
 			result.Error = "该订单已支付";
 			return result;
 		}
@@ -398,7 +397,7 @@ public class AppOrderController {
 				order.setOrder_state(Constants.ORDER_STATE_03);
 				String xiaofeima = DateUtil.getXiaoFeiMa();
 				order.setElectronics_evidence(xiaofeima);
-				orderService.updateElectronics_evidenceByid(order);
+				orderService.updateOrder(order);
 				result.Successful = true;
 				result.Data = xiaofeima;
 			}
@@ -414,7 +413,7 @@ public class AppOrderController {
 				order.setLongbi_pay_state(1);
 				order.setYinlian_pay_state(0);
 				order.setOrder_state(Constants.ORDER_STATE_02);
-				orderService.updateElectronics_evidenceByid(order);
+				orderService.updateOrder(order);
 				result.Successful = true;
 				result.Data = "";
 			}
@@ -1529,4 +1528,8 @@ public class AppOrderController {
 		return bmj;
 	}
 
+	public static void main(String[] args) {
+		 String input="6225880137706868";  
+        System.out.println(input.replaceAll("([\\d]{4})", "$1 "));  
+	}
 }

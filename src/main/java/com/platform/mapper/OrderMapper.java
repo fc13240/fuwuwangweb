@@ -108,4 +108,10 @@ public interface OrderMapper {
 	 * @param order
 	 */
 	void addOrderInfo(Order order);
+	
+	/**
+	 * 更新订单
+	 * @param order
+	 */
+	void updateOrder(Order order);
 }
