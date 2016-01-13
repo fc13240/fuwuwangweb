@@ -200,7 +200,7 @@ public class AppOrderController {
 			orderEntity.setMerId(Constants.MERID);// 商户号
 			orderEntity.setMerTermId(Constants.MERTERMID);// 终端号
 			// "http://172.19.180.117:8080/platform/app/order/receiveOrder";
-			orderEntity.setNotifyUrl("http://124.254.56.58:8080/fuwuwangshop/app/order/receiveOrder");// 通知商户地址，保证外网能够访问
+			orderEntity.setNotifyUrl("http://124.254.56.58:8080/app/order/receiveOrder");// 通知商户地址，保证外网能够访问
 			orderEntity.setOrderDesc(order.getGoods_name());// 订单描述
 			orderEntity.setMerSign(ss.sign(orderEntity.buildSignString()));
 			OrderEntity respOrder = new OrderEntity();
