@@ -120,7 +120,8 @@ public class AppOrderController {
 			result.Error = "该商品已下架";
 			return result;
 		}
-		if (Constants.USER_.equals(u.getUser_type()) && ("1".equals(gfw.getGoods_pay_type())|| (order.getElectronics_money() != null && order.getElectronics_money() > 0))) {
+		if (Constants.USER_.equals(u.getUser_type()) && ("1".equals(gfw.getGoods_pay_type())
+				|| (order.getElectronics_money() != null && order.getElectronics_money() > 0))) {
 			result.Error = "该商品只要VIP会员才可以购买";
 			return result;
 		}
@@ -249,94 +250,9 @@ public class AppOrderController {
 	}
 
 	/**
-	 * takeOrder 功能：下订单
-	 * 
-	 * @param number
-	 *            商品数量
-	 * @param goods_id
-	 *            商品ID
-	 * @param dianzibi_number
-	 *            使用的电子币数量
-	 * @param yinlian_number
-	 *            银联数量
-	 * @param token
-	 *            令牌
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "addOrder", method = RequestMethod.POST)
-	@ResponseBody
-	public Map<String, Object> addOrder(@RequestBody Integer number, @RequestBody String goods_id,
-			@RequestBody Integer dianzibi_number, @RequestBody Integer yinlian_number, @RequestHeader String token)
-					throws Exception {
-
-		Map<String, Object> map_1 = new HashMap<String, Object>();
-		System.out.println(" 得到的token ： " + token);
-
-		if ("".equals(token) || null == token) {
-
-			map_1.put("Successful", false);
-			map_1.put("Data", "");
-			map_1.put("Error", "该账号已在其他客户端登录，请重新登陆！");
-			return map_1;
-		}
-
-		User u1 = userService.select_token(token);
-		if (null == u1) {
-
-			map_1.put("Successful", false);
-			map_1.put("Data", "");
-			map_1.put("Error", "token失效");
-			return map_1;
-		}
-		User u2 = userService.finduserById(u1.getUser_id());
-
-		System.out.println("进入订单");
-		System.out.println("goods_id :" + goods_id + "      user_id :" + u2.getUser_id());
-
-		Order order = new Order();
-
-		System.out.println("ID 一样进入  下订单。。。。。。");
-
-		GoodsForWeb g1 = goodsService.findGoodsinfoByGoodsId(goods_id); // 获取
-																		// 商品的
-																		// 单价
-		Integer lognbi_money = number * g1.getGoods_price_LB();
-		// Integer dianzibi_money = number * g1.getGoods_price() ;
-		System.out.println("龙币    ：");
-		System.out.println("app 传过来   电子币  和 银联     ：" + dianzibi_number + "   .." + yinlian_number);
-		order.setOrder_id(UUIDUtil.getRandom32PK()); // ID
-		order.setGooods_number(number);
-		order.setGoods_id(goods_id);
-		order.setUser_id(u2.getUser_id());
-		order.setOrder_state(Constants.ORDER_STATE_02);
-
-		order.setUnionpay_money(yinlian_number); // 银联
-		order.setElectronics_money(dianzibi_number);
-		order.setLB_money(lognbi_money);
-
-		order.setElectronics_evidence("0");
-		order.setChrCode("");
-		order.setTransId("");
-		order.setPay_type(0);
-		order.setDianzibi_pay_state(0);
-		order.setYinlian_pay_state(0);
-		order.setLongbi_pay_state(0);
-
-		orderService.addorder(order);
-		System.out.println(order.getOrder_id() + "订单的ID");
-		map_1.put("Successful", true);
-		map_1.put("Data", order.getOrder_id());
-		map_1.put("Error", "");
-
-		return map_1;
-	}
-
-	/**
 	 * 
 	 * @param model
-	 *            order_id 订单编号
-	 *            payPass 支付密码（可为空）
+	 *            order_id 订单编号 payPass 支付密码（可为空）
 	 * @param token
 	 * @return
 	 */
@@ -384,10 +300,86 @@ public class AppOrderController {
 			result.Error = "请输入支付密码";
 			return result;
 		}
-		if ((order.getElectronics_money() > 0 || order.getLB_money() > 0) && order.getUnionpay_money() <= 0) {
+//		if ((order.getElectronics_money() > 0 || order.getLB_money() > 0) && order.getUnionpay_money() <= 0) {
+//			GoodsForPay g1 = goodsService.findGoodsinfoForPay(order.getGoods_id());
+//			BaseModelJson<String> bmj = memberLongBiAndEPayment(token, ((double) order.getElectronics_money()) / 100,
+//					order.getLB_money(), g1.getUserLogin(), model.getPayPass());
+//			if (!bmj.Successful) {
+//				result.Successful = false;
+//				result.Error = bmj.Error;
+//			} else {
+//				order.setDianzibi_pay_state(1);
+//				order.setLongbi_pay_state(1);
+//				order.setOrder_state(Constants.ORDER_STATE_03);
+//				String xiaofeima = DateUtil.getXiaoFeiMa();
+//				order.setElectronics_evidence(xiaofeima);
+//				orderService.updateOrder(order);
+//				result.Successful = true;
+//				result.Data = xiaofeima;
+//			}
+//		} else if ((order.getElectronics_money() > 0 || order.getLB_money() > 0) && order.getUnionpay_money() > 0) {
+//			GoodsForPay g1 = goodsService.findGoodsinfoForPay(order.getGoods_id());
+//			BaseModelJson<String> bmj = memberLongBiAndEPayment(token, ((double) order.getElectronics_money()) / 100,
+//					order.getLB_money(), g1.getUserLogin(), model.getPayPass());
+//			if (!bmj.Successful) {
+//				result.Successful = false;
+//				result.Error = bmj.Error;
+//			} else {
+//				order.setDianzibi_pay_state(1);
+//				order.setLongbi_pay_state(1);
+//				order.setYinlian_pay_state(0);
+//				order.setOrder_state(Constants.ORDER_STATE_02);
+//				orderService.updateOrder(order);
+//				result.Successful = true;
+//				result.Data = "";
+//			}
+//		} else {
+//			result.Successful = true;
+//		}
+		if (order.getUnionpay_money() > 0) {
 			GoodsForPay g1 = goodsService.findGoodsinfoForPay(order.getGoods_id());
-			BaseModelJson<String> bmj = memberLongBiAndEPayment(token, ((double) order.getElectronics_money()) / 100,
-					order.getLB_money(), g1.getUserLogin(), model.getPayPass());
+			BaseModelJson<String> bmj;
+			boolean flag = true;
+			if (order.getElectronics_money() > 0 && order.getLB_money() > 0) {
+				bmj = memberLongBiAndEPayment(token, ((double) order.getElectronics_money()) / 100, order.getLB_money(),
+						g1.getUserLogin(), model.getPayPass());
+			} else if (order.getElectronics_money() > 0) {
+				bmj = memberElectronicMoneyPayment(token, ((double) order.getElectronics_money()) / 100,
+						g1.getUserLogin(), model.getPayPass());
+			} else if (order.getLB_money() > 0) {
+				bmj = memberLongBiPayment(token, order.getLB_money(), g1.getUserLogin(), model.getPayPass());
+			} else {
+				bmj = new BaseModelJson<>();
+				bmj.Successful = true;
+				flag = false;
+				result.Successful = true;
+			}
+			if (flag) {
+				if (!bmj.Successful) {
+					result.Successful = false;
+					result.Error = bmj.Error;
+				} else {
+					order.setDianzibi_pay_state(1);
+					order.setLongbi_pay_state(1);
+					order.setYinlian_pay_state(0);
+					order.setOrder_state(Constants.ORDER_STATE_02);
+					orderService.updateOrder(order);
+					result.Successful = true;
+					result.Data = "";
+				}
+			}
+		} else {
+			GoodsForPay g1 = goodsService.findGoodsinfoForPay(order.getGoods_id());
+			BaseModelJson<String> bmj;
+			if (order.getElectronics_money() > 0 && order.getLB_money() > 0) {
+				bmj = memberLongBiAndEPayment(token, ((double) order.getElectronics_money()) / 100, order.getLB_money(),
+						g1.getUserLogin(), model.getPayPass());
+			} else if (order.getElectronics_money() > 0) {
+				bmj = memberElectronicMoneyPayment(token, ((double) order.getElectronics_money()) / 100,
+						g1.getUserLogin(), model.getPayPass());
+			} else {
+				bmj = memberLongBiPayment(token, order.getLB_money(), g1.getUserLogin(), model.getPayPass());
+			}
 			if (!bmj.Successful) {
 				result.Successful = false;
 				result.Error = bmj.Error;
@@ -395,387 +387,17 @@ public class AppOrderController {
 				order.setDianzibi_pay_state(1);
 				order.setLongbi_pay_state(1);
 				order.setOrder_state(Constants.ORDER_STATE_03);
+				order.setPay_time(new Date());
 				String xiaofeima = DateUtil.getXiaoFeiMa();
 				order.setElectronics_evidence(xiaofeima);
 				orderService.updateOrder(order);
 				result.Successful = true;
 				result.Data = xiaofeima;
 			}
-		} else if ((order.getElectronics_money() > 0 || order.getLB_money() > 0) && order.getUnionpay_money() > 0) {
-			GoodsForPay g1 = goodsService.findGoodsinfoForPay(order.getGoods_id());
-			BaseModelJson<String> bmj = memberLongBiAndEPayment(token, ((double) order.getElectronics_money()) / 100,
-					order.getLB_money(), g1.getUserLogin(), model.getPayPass());
-			if (!bmj.Successful) {
-				result.Successful = false;
-				result.Error = bmj.Error;
-			} else {
-				order.setDianzibi_pay_state(1);
-				order.setLongbi_pay_state(1);
-				order.setYinlian_pay_state(0);
-				order.setOrder_state(Constants.ORDER_STATE_02);
-				orderService.updateOrder(order);
-				result.Successful = true;
-				result.Data = "";
-			}
-		}else{
-			result.Successful = true;
 		}
 		return result;
 	}
 
-	/**
-	 * payOrder 功能：支付
-	 * 
-	 * @param order_id
-	 *            订单ID
-	 * @param goods_id
-	 *            商品ID
-	 * @param dianzibi_number
-	 *            电子币数量
-	 * @param longbi_number
-	 *            龙币数量
-	 * @param yinlian_number
-	 *            银联数量
-	 * @param token
-	 *            令牌
-	 * @param session
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "payOrder1", method = RequestMethod.POST)
-	@ResponseBody
-	public Map<String, Object> payOrder1(@RequestBody String order_id, @RequestBody String goods_id,
-			@RequestBody Integer longbi_number, @RequestBody Integer dianzibi_number,
-			@RequestBody Integer yinlian_number, @RequestBody String payPass, @RequestHeader String token,
-			HttpSession session) throws Exception {
-
-		System.out.println("进入商品支付");
-		System.out.println(" 得到的token ： " + token);
-		System.out.println("order_id :" + order_id + "    龙币 :" + longbi_number + "  电子币 ： " + dianzibi_number
-				+ "   银联:" + yinlian_number);
-		System.out.println("龙币 电子币的支付密码 ：" + payPass);
-		Map<String, Object> map = new HashMap<String, Object>();
-
-		Order o1 = orderService.findOrderById(order_id); // 获取订单 下单时间, 和商品的数量
-
-		Date startDate = DateUtil.fomatDate(DateUtil.getyy_mm_dd(o1.getOrder_time()));
-		System.out.println("订单 下单 整形  时间 ：" + startDate);
-
-		Date endDate = DateUtil.fomatDate(DateUtil.getDay());
-		System.out.println("支付时 的 北京时间（整形） ： " + endDate);
-		// 判断订单日期--是否失效
-
-		if (DateUtil.getTwoDay(startDate, endDate) * 24 > 72) { // 大于 72 小时 失效
-
-			Pay_info pay_time = new Pay_info();
-			pay_time.setResults("订单失效");
-			map.put("Data", pay_time);
-			Order o_o = new Order();
-			o_o.setOrder_id(order_id);
-			o_o.setOrder_state(Constants.ORDER_STATE_04);
-			orderService.updateorder_longbipay(o_o);
-			// 调用接口修改 订单 状态 order_state = 4 ； 订单失效
-			map.put("Successful", false);
-			map.put("Error", "订单失效");
-			return map;
-
-		}
-
-		if ("".equals(token) || null == token) {
-
-			map.put("Successful", false);
-			map.put("Data", "");
-			map.put("Error", "token失效");
-			return map;
-		}
-
-		User u_token1 = userService.select_token(token);
-		if (null == u_token1) {
-
-			map.put("Successful", false);
-			map.put("Data", "");
-			map.put("Error", "该账号已在其他客户端登录，请重新登陆！");
-			return map;
-		}
-		User u_token2 = userService.finduserById(u_token1.getUser_id());
-
-		System.out.println(" Session ID 验证通过");
-		Order oo1 = orderService.selectallpay_state(order_id);
-
-		// 第一次支付.....
-		String userLogin = u_token2.getUserLogin();
-
-		User u1 = userService.findUser(userLogin); // 获取用户的类别 是 vip 还是 普通用户
-		GoodsForPay g1 = goodsService.findGoodsinfoForPay(goods_id); // 判断商品的 是
-																		// 普通店铺的还是
-																		// 会员店铺的；
-		String merchant = g1.getUserLogin(); // 获取 这件商品所属 商人
-		System.out.println(" goods_id :" + g1.getGoods_id());
-
-		System.out.println("token   and   userlogin:" + token + "   " + userLogin);
-
-		/***** 构建银联提交订单信息 *****/
-		Json_send jsend = new Json_send();
-
-		System.out.println("时间一 ：" + DateUtil.getyymmdd(o1.getOrder_time()));
-		System.out.println("时间2 ：" + DateUtil.getHHmmss(o1.getOrder_time()));
-
-		// jsend.setTransCode(201201);
-		// jsend.setReserve(reserve); // 备用字段
-		jsend.setOrderTime(DateUtil.getHHmmss(o1.getOrder_time())); // 日期
-		jsend.setOrderDate(DateUtil.getyymmdd(o1.getOrder_time())); // 时间
-
-		jsend.setMerOrderId(order_id); // 订单号
-		jsend.setTransType("NoticePay");
-		jsend.setTransAmt(yinlian_number + ""); // 交易金额
-
-		jsend.setMerId("898000093990001"); // 商户号
-		jsend.setMerTermld("99999999"); // 终端号
-
-		jsend.setNotifyUrl("http://124.254.56.58:8080/shop/app/order/receiveOrder");
-
-		jsend.setOrderDesc("正常订单");
-		jsend.setEffectiveTime("0"); // 有效期
-
-		if (u1.getUser_type().equals("3")) { // 普通用户
-
-			Pay_info pInfo = new Pay_info();
-			System.out.println("普通用户  ，购买商品走银联");
-			pInfo = orderService.update_Sendorder_yinlian(jsend, Constants.ORDER_TYPE_01); // 银联支付
-			pInfo.setFalg(true);
-			System.out.println("1 :" + pInfo.getTransId() + " 2:  " + pInfo.getChrCode());
-			System.out.println("3 :" + pInfo.getMerOrderId() + " 4 " + pInfo.getSigntrue());
-			map.put("Data", pInfo);
-			map.put("Successful", true);
-			map.put("Error", "");
-
-			Order ol = new Order();
-			ol.setOrder_id(order_id);
-			ol.setElectronics_money(dianzibi_number);
-			orderService.updateorder_dianzibipay(ol);
-
-			return map;
-		}
-
-		if (u1.getUser_type().equals("4")) { // 会员
-
-			if (g1.getMerchant_type() == 1) { // 普通 店铺
-
-				Pay_info pInfo_1 = new Pay_info();
-				System.out.println("支付： 会员  + 普通店铺");
-				pInfo_1 = orderService.update_Sendorder_yinlian(jsend, Constants.ORDER_TYPE_01); // 银联支付
-				pInfo_1.setFalg(true);
-
-				map.put("Data", pInfo_1);
-				map.put("Successful", true);
-				map.put("Error", "");
-
-				Order ol = new Order();
-				ol.setOrder_id(order_id);
-				ol.setElectronics_money(dianzibi_number);
-				orderService.updateorder_dianzibipay(ol);
-
-				return map;
-
-			}
-
-			User user_1 = (User) session.getAttribute("session_user");
-			if (null == user_1) {
-				map.put("Data", "");
-				map.put("Successful", false);
-				map.put("Error", "session 失效");
-				return map;
-
-			}
-			if (g1.getMerchant_type() == 2) { // 会员店铺
-				System.out.println(user_1.getDianzibi());
-				System.out.println(user_1.getLongbi());
-				System.out.println("会员用户，，，和 会员店铺");
-				// 验证龙币
-				if (longbi_number > user_1.getLongbi() || dianzibi_number > user_1.getDianzibi() * 100
-						|| longbi_number != o1.getGooods_number() * g1.getGoods_price_LB()
-						|| dianzibi_number + yinlian_number != g1.getGoods_price() * o1.getGooods_number()) {
-					System.out.println(
-							"不能购买" + " 钱包里 龙币个数 ：" + user_1.getLongbi() + " 点子币 ：" + user_1.getDianzibi() * 100);
-					Pay_info pif = new Pay_info();
-					pif.setResults("龙币或电子币额度不够");
-					map.put("Data", pif);
-					map.put("Successful", false);
-					map.put("Error", "龙币电子币余额不足");
-					return map;
-				} else {
-
-					// 返回实体（银联的返回信息+电子币剩余+龙币剩余+是否带有银联支付）
-					if (yinlian_number == 0) {
-
-						Order order_LD = new Order(); // order_LD 这个 订单针对 龙币 电子币
-
-						System.out.println("龙币电子币支付");
-						order_LD.setOrder_id(order_id); // 对应订单ID
-						order_LD.setLB_money(longbi_number); // 龙币的价格
-						order_LD.setElectronics_money(dianzibi_number); // 点子币的价格
-						order_LD.setOrder_state(Constants.ORDER_STATE_03);
-						order_LD.setPay_type(Constants.ORDER_TYPE_03); // 支付方式
-																		// 龙币 +
-																		// 电子币
-
-						// 减龙币
-						if (longbi_number != 0) {
-
-							Pay_info pinfo_Longbi = orderService.updateorder_longbi(order_LD, token, payPass, merchant); // 龙币支付
-							if (!pinfo_Longbi.getResults().equals("龙币支付成功")) {
-								System.out.println("龙币支付不成功 ：" + pinfo_Longbi.getResults());
-								map.put("Successful", false);
-								map.put("Data", pinfo_Longbi);
-								map.put("Error", pinfo_Longbi.getResults());
-
-								return map;
-							}
-
-							System.out.println("龙币不为0");
-
-						} else {
-							System.out.println("龙币为 0");
-							order_LD.setLongbi_pay_state(1);
-							orderService.updateorder_longbipay(order_LD);
-						}
-
-						// 减电子币
-						if (dianzibi_number != 0) {
-							System.out.println("电子币不为 0");
-
-							Pay_info pinfo_Dianzibi = orderService.updateorder_dianzibi(order_LD, token, payPass,
-									merchant); // 电子币支付
-							if (!pinfo_Dianzibi.getResults().equals("电子币支付成功")) {
-								System.out.println("电子币支付不成功 ：" + pinfo_Dianzibi.getResults());
-								map.put("Successful", false);
-								map.put("Data", pinfo_Dianzibi);
-								map.put("Error", pinfo_Dianzibi.getResults());
-
-								return map;
-							}
-
-						} else {
-							order_LD.setDianzibi_pay_state(1);
-							orderService.updateorder_dianzibipay(order_LD);
-
-							System.out.println("电子币为 0");
-						}
-
-						Order LD_order = orderService.selectallpay_state(order_id);
-						if (LD_order.getLongbi_pay_state() == 1 & LD_order.getDianzibi_pay_state() == 1) {
-
-							Pay_info pay_LD = new Pay_info();
-
-							pay_LD.setResults("龙币电子币支付成功");
-							pay_LD.setDianzibi_number(UserServiceImpl.select_dianzibi(token));
-							pay_LD.setLongbi_number(UserServiceImpl.select_longbi(token));
-
-							String xiaofeima = DateUtil.getXiaoFeiMa();
-							pay_LD.setElectronics_evidence(xiaofeima);
-
-							map.put("Data", pay_LD);
-							Order od = new Order();
-
-							od.setOrder_id(order_id);
-							od.setElectronics_evidence(xiaofeima);
-							orderService.updateElectronics_evidenceByid(od);
-							map.put("Successful", true);
-							map.put("Error", "");
-							return map;
-
-						}
-
-					} else { // 三种混合支付
-
-						// 把表单信息发给银联，表单信息给我（银联返回信息需要存到数据库）
-						System.out.println("银联 --龙币-- 电子币 支付");
-						Pay_info pInfo_YLD = new Pay_info();
-						pInfo_YLD = orderService.update_Sendorder_yinlian(jsend, Constants.ORDER_TYPE_02); // 银联支付
-						pInfo_YLD.setFalg(true);
-						pInfo_YLD.setResults("三种混合支付成功");
-						map.put("Data", pInfo_YLD);
-						// 如果支付成功，银联给你发送消息到一个接口（下单时候所填写的）
-
-						Order order_YLD = new Order();
-
-						order_YLD.setOrder_id(order_id); // 对应订单ID
-						order_YLD.setLB_money(longbi_number); // 龙币的价格
-						order_YLD.setElectronics_money(dianzibi_number); // 点子币的价格
-						order_YLD.setOrder_state(Constants.ORDER_STATE_02);
-						order_YLD.setPay_type(Constants.ORDER_TYPE_02); // 支付方式龙币
-																		// + 电子币
-																		// + 银联
-
-						// 减龙币
-						if (longbi_number != 0) {
-
-							// 龙币
-							if (oo1.getLongbi_pay_state() == 1) {
-								longbi_number = 0;
-								order_YLD.setLB_money(longbi_number);
-								System.out.println("电子币 支付过  把 龙币的值 变成 :" + order_YLD.getLB_money());
-							}
-
-							Pay_info pinfo_Longbi = orderService.updateorder_longbi(order_YLD, token, payPass,
-									merchant); // 龙币支付
-							if (!pinfo_Longbi.getResults().equals("龙币支付成功")) {
-								System.out.println("龙币支付不成功 ：" + pinfo_Longbi.getResults());
-								map.put("Successful", false);
-								map.put("Data", pinfo_Longbi);
-								map.put("Error", pinfo_Longbi.getResults());
-
-								return map;
-							}
-
-						} else {
-							order_YLD.setLongbi_pay_state(1);
-							orderService.updateorder_longbipay(order_YLD);
-						}
-
-						// 减电子币
-						if (dianzibi_number != 0) {
-
-							// 电子币支付过
-							if (oo1.getDianzibi_pay_state() == 1) {
-								dianzibi_number = 0;
-								order_YLD.setElectronics_money(dianzibi_number);
-								System.out.println("电子币 支付过  把 电子币的值 变成  ：" + order_YLD.getElectronics_money());
-							}
-
-							Pay_info pinfo_Dianzibi = orderService.updateorder_dianzibi(order_YLD, token, payPass,
-									merchant); // 电子币支付
-							if (!pinfo_Dianzibi.getResults().equals("电子币支付成功")) {
-								System.out.println("电子币支付不成功 ：" + pinfo_Dianzibi.getResults());
-								map.put("Successful", false);
-								map.put("Data", pinfo_Dianzibi);
-								map.put("Error", pinfo_Dianzibi.getResults());
-
-								return map;
-							}
-
-						} else {
-							System.out.println("三种混合支付 电子币为   = 0 ， 进来了");
-							order_YLD.setDianzibi_pay_state(1);
-							orderService.updateorder_dianzibipay(order_YLD);
-						}
-						System.out.println("三种混合支付返回的  Pay_info : " + pInfo_YLD);
-
-						System.out.println("支付接口全部运行完毕");
-					}
-
-				}
-
-			}
-
-		}
-
-		map.put("Successful", true);
-		map.put("Error", "");
-
-		return map;
-
-	}
 
 	/**
 	 * appyinlian_payresult 功能：支付有银联参与 app 验证 订单支付 状态是否成功
@@ -1001,11 +623,7 @@ public class AppOrderController {
 		return map;
 	}
 
-	/**
-	 * ---------Leo 改: @RequestMapping(value = "findOrder" , method
-	 * =RequestMethod.GET) 改： findOrder(@RequestHeader String token ,Integer
-	 * type ) 改：查询成功返回 true ，失败返回 false 并且给 失败原因 加： 方式注释，参数 注释
-	 */
+
 	/**
 	 * findOrder 功能： 查订单
 	 * 
@@ -1529,7 +1147,7 @@ public class AppOrderController {
 	}
 
 	public static void main(String[] args) {
-		 String input="6225880137706868";  
-        System.out.println(input.replaceAll("([\\d]{4})", "$1 "));  
+		String input = "6225880137706868";
+		System.out.println(input.replaceAll("([\\d]{4})", "$1 "));
 	}
 }
