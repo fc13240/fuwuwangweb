@@ -2,6 +2,7 @@ package com.platform.web.controller.app;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -9,7 +10,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -28,6 +28,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.chinaums.pay.api.PayException;
 import com.chinaums.pay.api.entities.NoticeEntity;
 import com.chinaums.pay.api.entities.OrderEntity;
+import com.chinaums.pay.api.entities.QueryEntity;
 import com.chinaums.pay.api.impl.DefaultSecurityService;
 import com.chinaums.pay.api.impl.UMSPayServiceImpl;
 import com.google.gson.Gson;
@@ -36,7 +37,6 @@ import com.platform.common.utils.DateUtil;
 import com.platform.common.utils.UUIDUtil;
 import com.platform.common.utils.Yanqian;
 import com.platform.entity.APP_Order;
-import com.platform.entity.Json_send;
 import com.platform.entity.Order;
 import com.platform.entity.Pay_info;
 import com.platform.entity.User;
@@ -149,8 +149,6 @@ public class AppOrderController {
 		order.setReturn_number_state(Constants.ORDER_RETURN_NUMBER_STATE_01); // 不是会员无返券
 		order.setReturn_number(0);
 		order.setOrder_time(new Date());
-		order.setDeal_time(new Date());
-
 		if (Constants.USER_VIP.equals(u.getUser_type())) {
 			order.setReturn_number_state(Constants.ORDER_RETURN_NUMBER_STATE_02); // 未返券
 			if (gfw.getGoods_return_type() == 0) { // 根据数量返券
@@ -189,26 +187,27 @@ public class AppOrderController {
 			ss.setVerifyKeyModHex(Constants.VERIFYKEY_MOD);
 			UMSPayServiceImpl service = new UMSPayServiceImpl();
 			service.setSecurityService(ss);
-			service.setOrderServiceURL(Constants.YINLIAN_ADDRESS_01); // 下单地址
+			service.setOrderServiceURL(Constants.creatOrderUrl); // 下单地址
 			OrderEntity orderEntity = new OrderEntity();
 			orderEntity.setOrderTime(DateUtil.getHHmmss(order.getOrder_time()));// 订单时间curreTime.substring(8)
 			orderEntity.setEffectiveTime("0");// 订单有效期期限（秒），值小于等于 0 表示订单长期有效
-			orderEntity.setOrderDate(DateUtil.getyymmdd(order.getDeal_time()));// 订单日期curreTime.substring(0,8)
+			orderEntity.setOrderDate(DateUtil.getyymmdd(order.getOrder_time()));// 订单日期curreTime.substring(0,8)
 			orderEntity.setMerOrderId(order.getOrder_id());// 订单号，商户根据自己的规则生成最长32位
 			orderEntity.setTransType("NoticePay");// 固定值
 			orderEntity.setTransAmt(order.getUnionpay_money() + "");// 订单金额(单位分)
 			orderEntity.setMerId(Constants.MERID);// 商户号
 			orderEntity.setMerTermId(Constants.MERTERMID);// 终端号
-			// "http://172.19.180.117:8080/platform/app/order/receiveOrder";
-			orderEntity.setNotifyUrl("http://124.254.56.58:8080/app/order/receiveOrder");// 通知商户地址，保证外网能够访问
+			orderEntity.setNotifyUrl(Constants.NOTIFYURL);// 通知商户地址，保证外网能够访问
 			orderEntity.setOrderDesc(order.getGoods_name());// 订单描述
 			orderEntity.setMerSign(ss.sign(orderEntity.buildSignString()));
 			OrderEntity respOrder = new OrderEntity();
 			try {
 				// 发送创建订单请求,该方法中已经封装了签名验签的操作，我们不需要关心，只 需要设置好公私钥即可
+				System.out.println("下单请求："+orderEntity);
 				System.out.println("下单请求报文："+orderEntity.buildSignString());
 				respOrder = service.createOrder(orderEntity);
 				System.out.println("下单相应报文："+respOrder.buildSignString());
+				System.out.println("下单相应："+respOrder);
 			} catch (Exception e) {
 				e.printStackTrace();
 				result.Successful = false;
@@ -224,8 +223,7 @@ public class AppOrderController {
 			String Reserve = respOrder.getReserve(); // 备用字段
 			String merId = respOrder.getMerId(); // 商户号
 			String signtrue = respOrder.getMerSign(); // 签名
-			String content = ss.sign(transId + chrcode); // content 作为商户 app
-															// 调用全民付收银台客户端的参数，由商户后台传给商户客户端
+			String content = ss.sign(transId + chrcode); // content 作为商户 app 调用全民付收银台客户端的参数，由商户后台传给商户客户端
 			/*
 			 * + "|" + chrcode + "|" + transId + "|" + merId;
 			 */
@@ -234,7 +232,7 @@ public class AppOrderController {
 			StringBuffer buf = new StringBuffer();
 			buf.append(merorderId).append(chrcode);
 			buf.append(transId).append(Reserve).append(RespCode).append(RespMsg);
-			boolean falg = Yanqian.testMerSignVerify(buf.toString());
+			boolean falg = Yanqian.merSignVerify(buf.toString());
 			if (!falg) {
 				System.out.println("验签失败");
 				result.Successful = false;
@@ -302,42 +300,6 @@ public class AppOrderController {
 			result.Error = "请输入支付密码";
 			return result;
 		}
-//		if ((order.getElectronics_money() > 0 || order.getLB_money() > 0) && order.getUnionpay_money() <= 0) {
-//			GoodsForPay g1 = goodsService.findGoodsinfoForPay(order.getGoods_id());
-//			BaseModelJson<String> bmj = memberLongBiAndEPayment(token, ((double) order.getElectronics_money()) / 100,
-//					order.getLB_money(), g1.getUserLogin(), model.getPayPass());
-//			if (!bmj.Successful) {
-//				result.Successful = false;
-//				result.Error = bmj.Error;
-//			} else {
-//				order.setDianzibi_pay_state(1);
-//				order.setLongbi_pay_state(1);
-//				order.setOrder_state(Constants.ORDER_STATE_03);
-//				String xiaofeima = DateUtil.getXiaoFeiMa();
-//				order.setElectronics_evidence(xiaofeima);
-//				orderService.updateOrder(order);
-//				result.Successful = true;
-//				result.Data = xiaofeima;
-//			}
-//		} else if ((order.getElectronics_money() > 0 || order.getLB_money() > 0) && order.getUnionpay_money() > 0) {
-//			GoodsForPay g1 = goodsService.findGoodsinfoForPay(order.getGoods_id());
-//			BaseModelJson<String> bmj = memberLongBiAndEPayment(token, ((double) order.getElectronics_money()) / 100,
-//					order.getLB_money(), g1.getUserLogin(), model.getPayPass());
-//			if (!bmj.Successful) {
-//				result.Successful = false;
-//				result.Error = bmj.Error;
-//			} else {
-//				order.setDianzibi_pay_state(1);
-//				order.setLongbi_pay_state(1);
-//				order.setYinlian_pay_state(0);
-//				order.setOrder_state(Constants.ORDER_STATE_02);
-//				orderService.updateOrder(order);
-//				result.Successful = true;
-//				result.Data = "";
-//			}
-//		} else {
-//			result.Successful = true;
-//		}
 		if (order.getUnionpay_money() > 0) {
 			GoodsForPay g1 = goodsService.findGoodsinfoForPay(order.getGoods_id());
 			BaseModelJson<String> bmj;
@@ -767,28 +729,20 @@ public class AppOrderController {
 	 *****/
 	@RequestMapping(value = "receiveOrder", method = RequestMethod.POST)
 	public void receiveOrder(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws PayException {
-
 		System.out.println("银联调用了我的接口。。。。。。。。");
-
 		StringBuffer buf = new StringBuffer();
-
 		// 测试参数
 		DefaultSecurityService ss = new DefaultSecurityService();
 		// 设置签名的商户私钥，验签的银商公钥
 		ss.setSignKeyModHex(Constants.SIGNKEY_MOD);// 签名私钥 Mod
-
 		ss.setSignKeyExpHex(Constants.SIGNKEY_EXP);// 签名私钥 Exp
-
 		ss.setVerifyKeyExpHex(Constants.VERIFYKEY_EXP);
-
 		ss.setVerifyKeyModHex(Constants.VERIFYKEY_MOD);
-
 		UMSPayServiceImpl service = new UMSPayServiceImpl();
 		service.setSecurityService(ss); // 1.银商会传这些参数过来
-
 		NoticeEntity noticeEntity = service.parseNoticeEntity(httpRequest); // 2.处理银商传过来的参数，例如修改订单号等。
-		System.out.println("通知商户接口请求报文1："+service.getNoticeRespString(noticeEntity));
-		System.out.println("通知商户接口请求报文2："+noticeEntity.buildSignString());
+		System.out.println("通知商户接口请求报文："+noticeEntity.buildSignString());
+		System.out.println("通知商户接口请求："+noticeEntity);
 		String OrderTime = noticeEntity.getOrderTime();
 		String OrderDate = noticeEntity.getOrderDate();
 		String MerOrderId = noticeEntity.getMerOrderId();
@@ -805,36 +759,27 @@ public class AppOrderController {
 		String Reserve = noticeEntity.getReserve();
 		// String Signatrue = noticeEntity.getSignature() ;
 		String MerOrderState = "00";
-
 		// 验签
 		buf.append(OrderTime).append(OrderDate).append(MerOrderId).append(TransType);
 		buf.append(TransAmt).append(MerId).append(MerTermId).append(TransId);
 		buf.append(TransState).append(RefId).append(Account).append(TransDesc).append(Reserve);
-
-		boolean falg = Yanqian.testMerSignVerify(buf.toString());
+		boolean falg = Yanqian.merSignVerify(buf.toString());
 		if (!falg) {
 			System.out.println("验签失败");
 			return;
-
 		}
-
 		// 修改本地数据库
 		Order order = new Order();
-
 		order.setOrder_id(MerOrderId);
 		order.setYinlian_pay_state(1);
-		order.setOrder_state(3);
+		order.setOrder_state(Constants.ORDER_STATE_03);
+		order.setDeal_time(new Date());
 		String xiaomeima = DateUtil.getXiaoFeiMa();
 		order.setElectronics_evidence(xiaomeima);
-		orderService.updateorder_yinlian_pay_state(order); // 修改银联支付结果。
-															// yinlian_pay_state
-															// = 1 ； 成功
-		orderService.updateElectronics_evidenceByid(order);
+		orderService.updateOrder(order);
 		String MerPlatTime = DateUtil.getDays(); // 处理时间
-
 		// 3.响应给银商的参数：
 		NoticeEntity respEntity = new NoticeEntity();
-
 		respEntity.setMerOrderId(MerOrderId);
 		respEntity.setTransType(TransType);
 		respEntity.setMerId(MerId);
@@ -842,10 +787,8 @@ public class AppOrderController {
 		respEntity.setTransId(TransId);
 		respEntity.setMerPlatTime(MerPlatTime);
 		respEntity.setMerOrderState(MerOrderState);
-
 		// 签名 (1)
 		JSONObject json = new JSONObject();
-
 		json.put("MerOrderId", MerOrderId);
 		json.put("TransType", TransType);
 		json.put("MerId", MerId);
@@ -854,26 +797,14 @@ public class AppOrderController {
 		json.put("MerPlatTime", MerPlatTime);
 		json.put("MerOrderState", MerOrderState);
 		json.put("Reserve", Reserve);
-
-		respEntity.setMerSign(ss.sign(json.toString()));
-
-		/*
-		 * //签名 (2)
-		 * buf.append(OrderTime).append(OrderDate).append(MerOrderId).append(
-		 * TransType) ;
-		 * buf.append(TransAmt).append(MerId).append(MerTermId).append(TransId)
-		 * ; buf.append(TransState).append(RefId).append(TransDesc).append(
-		 * Reserve) ;
-		 * 
-		 * respEntity.setMerSign(ss.sign(buf.toString()));
-		 */
-
+//		respEntity.setMerSign(ss.sign(json.toString()));
+		respEntity.setMerSign(ss.sign(respEntity.buildSignString()));
 		String respStr = service.getNoticeRespString(respEntity);
-
 		httpResponse.setCharacterEncoding("utf-8");
 		try {
 			PrintWriter writer = httpResponse.getWriter();
 			System.out.println("通知商户接口响应报文" + respStr);
+			System.out.println("通知商户接口响应" + respEntity);
 			writer.write(respStr);
 			writer.flush();
 			writer.close();
@@ -882,6 +813,99 @@ public class AppOrderController {
 		}
 	}
 
+	/**
+	 * 支付成后查询订单
+	 * @param token
+	 * @param order_id
+	 * @return
+	 */
+	@RequestMapping(value = "getOrderAfterPaid", method = RequestMethod.GET)
+	@ResponseBody
+	public BaseModelJson<Order> getOrderAfterPaid(@RequestHeader String token,String order_id){
+		
+		BaseModelJson<Order>  result= new BaseModelJson<>();
+		
+		if (token == null) {
+			result.Error = "没有权限访问";
+			return result;
+		}
+		if (order_id == null ||order_id.isEmpty()) {
+			result.Error = "参数错误";
+			return result;
+		}
+		User u = userService.getUserInforByToken(token);
+		if (null == u) {
+			result.Error = "该账号已在其他客户端登录，请重新登陆";
+			return result;
+		}
+		Order order = orderService.findOrderById(order_id);
+		if (order == null) {
+			result.Error = "该订单不存在";
+			return result;
+		}
+		if(Constants.ORDER_STATE_03!=order.getOrder_state()){
+			DefaultSecurityService  ss= new DefaultSecurityService();
+			// 设置签名的商户私钥，验签的银商公钥
+			ss.setSignKeyModHex(Constants.SIGNKEY_EXP);// 签名私钥Mod
+			ss.setSignKeyExpHex(Constants.SIGNKEY_EXP);// 签名私钥Exp
+			ss.setVerifyKeyModHex(Constants.VERIFYKEY_MOD);
+			ss.setVerifyKeyExpHex(Constants.VERIFYKEY_EXP);
+			UMSPayServiceImpl service = new UMSPayServiceImpl();
+			service.setSecurityService(ss);
+			service.setQueryServiceURL(Constants.queryOrderUrl);
+			QueryEntity queryOrder = new QueryEntity();
+			queryOrder.setMerId(Constants.MERID);
+			queryOrder.setMerTermId(Constants.MERTERMID);
+			queryOrder.setTransId(order.getTransId());// 下单返回的TransId
+			queryOrder.setMerOrderId(order.getOrder_id());// 商户的订单号
+			queryOrder.setOrderDate(DateUtil.getyymmdd(order.getOrder_time()));// 下单日期
+			SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmss");
+			String curreTime = sf.format(new Date());
+			queryOrder.setReqTime(curreTime);
+			System.out.println("订单查询请求数据:" + queryOrder);
+			queryOrder.setMerSign(ss.sign(queryOrder.buildSignString()));
+			QueryEntity respOrder = new QueryEntity();
+			try {
+				respOrder = service.queryOrder(queryOrder);
+			} catch (Exception e) {
+				e.printStackTrace();
+				result.Error="服务器繁忙";
+				return result;
+			}
+			System.out.println("订单查询返回数据：" + respOrder);
+			
+//			 ss.verify(respOrder.buildVerifyString(), ss.sign(respOrder.buildVerifyString()));
+			StringBuffer sb  =  new StringBuffer();
+			sb.append(respOrder.getOrderTime()).append(respOrder.getOrderDate()).append(respOrder.getMerOrderId()).append(respOrder.getTransType())
+			.append(respOrder.getMerId()).append(respOrder.getMerTermId()).append(respOrder.getTransId()).append(respOrder.getTransState())
+			.append(respOrder.getRefId()).append(respOrder.getRespCode()).append(respOrder.getRespMsg());
+			boolean success=Yanqian.merSignVerify(sb.toString());  
+			if(!success){
+				System.out.println("验签失败");
+				result.Error="非法订单";
+				return result;
+			}
+			if("1".equals(respOrder.getTransState())){
+				order.setYinlian_pay_state(1);
+				order.setElectronics_evidence("");
+				order.setDeal_time(new Date());
+				order.setOrder_state(Constants.AD_WEIGHT_03);
+				orderService.updateOrder(order);
+			}else if("2".equals(respOrder.getTransState())){
+				result.Error="支付失败";
+				return result;
+			}else if("3".equals(respOrder.getTransState())){
+				result.Error="支付中";
+				return result;
+			}
+		}
+		result.Successful=true;
+		result.Data=order;
+		return result;
+	}
+	
+	
+	
 	/**
 	 * applyForRefunds 功能：申请退款
 	 * 
@@ -1039,6 +1063,13 @@ public class AppOrderController {
 
 	}
 
+	
+	
+	
+	
+	
+	
+	
 	/**
 	 * 电子币付款
 	 * 
@@ -1150,8 +1181,4 @@ public class AppOrderController {
 		return bmj;
 	}
 
-	public static void main(String[] args) {
-		String input = "6225880137706868";
-		System.out.println(input.replaceAll("([\\d]{4})", "$1 "));
-	}
 }

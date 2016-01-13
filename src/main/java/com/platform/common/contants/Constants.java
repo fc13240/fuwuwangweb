@@ -158,7 +158,7 @@ public class Constants {
 	  /**
      *订单状态 1.已消费 2.未支付  3.未消费  4.已失效
      */
-    public static final Integer ORDER_STATE_01 = 1;      //  以消费
+    public static final Integer ORDER_STATE_01 = 1;      //  已消费
     public static final Integer ORDER_STATE_02 = 2;      //  未支付
     public static final Integer ORDER_STATE_03 = 3;      //  未消费
     public static final Integer ORDER_STATE_04 = 4;      //  已失效
@@ -169,8 +169,8 @@ public class Constants {
     /**
      *银联请求地址
      */
-    public static final String YINLIAN_ADDRESS_01 = "https://116.228.21.162:8603/merFrontMgr/orderBusinessServlet";      // 下单地址
-    public static final String YINLIAN_ADDRESS_02 = "https://116.228.21.162:8603/merFrontMgr/orderQueryServlet";      //  订单查询地址
+    public static final String creatOrderUrl = "https://116.228.21.162:8603/merFrontMgr/orderBusinessServlet";      // 下单地址
+    public static final String queryOrderUrl ="https://116.228.21.162:8603/merFrontMgr/orderQueryServlet";//  订单查询地址
     /**
      * 银联密钥
      */
@@ -181,6 +181,9 @@ public class Constants {
     public static final String NO_INTERCEPTOR_PATH = ".*/((checkCode)|(territory/getCity)|(territory/getRegion)|(territory/getStreet)|(storetype/getType1)|(storetype/getType2)|(execute)|(login)|(logout)|(userinfo)).*";	//不对匹配该值的访问路径拦截（正则）
     public static final String MERID="898000093990001";//商户号
     public static final String MERTERMID="99999999";//终端编号
+    
+    
+    public static final String NOTIFYURL= "http://124.254.56.58:8080/app/order/receiveOrder";
     
     
     /**

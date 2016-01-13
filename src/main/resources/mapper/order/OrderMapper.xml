@@ -800,11 +800,17 @@
 			<if test="electronics_evidence != null ">
 				electronics_evidence = #{electronics_evidence},
 			</if>
+			<if test="yinlian_pay_state != null ">
+				yinlian_pay_state = #{yinlian_pay_state},
+			</if>
 			<if test="order_state != null">
 				order_state = #{order_state},
 			</if>
 			<if test="pay_time != null">
 				pay_time = now(),
+			</if>
+			<if test="deal_time != null">
+				deal_time = now(),
 			</if>
 		</set>
 		WHERE order_id = #{order_id}
