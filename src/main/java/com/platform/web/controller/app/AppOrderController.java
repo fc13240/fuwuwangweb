@@ -200,13 +200,15 @@ public class AppOrderController {
 			orderEntity.setMerId(Constants.MERID);// 商户号
 			orderEntity.setMerTermId(Constants.MERTERMID);// 终端号
 			// "http://172.19.180.117:8080/platform/app/order/receiveOrder";
-			orderEntity.setNotifyUrl("http://124.254.56.58:8080/shop/app/order/receiveOrder");// 通知商户地址，保证外网能够访问
+			orderEntity.setNotifyUrl("http://124.254.56.58:8080/fuwuwangshop/app/order/receiveOrder");// 通知商户地址，保证外网能够访问
 			orderEntity.setOrderDesc(order.getGoods_name());// 订单描述
 			orderEntity.setMerSign(ss.sign(orderEntity.buildSignString()));
 			OrderEntity respOrder = new OrderEntity();
 			try {
 				// 发送创建订单请求,该方法中已经封装了签名验签的操作，我们不需要关心，只 需要设置好公私钥即可
+				System.out.println("下单请求报文："+orderEntity.buildSignString());
 				respOrder = service.createOrder(orderEntity);
+				System.out.println("下单相应报文："+respOrder.buildSignString());
 			} catch (Exception e) {
 				e.printStackTrace();
 				result.Successful = false;
@@ -785,6 +787,8 @@ public class AppOrderController {
 		service.setSecurityService(ss); // 1.银商会传这些参数过来
 
 		NoticeEntity noticeEntity = service.parseNoticeEntity(httpRequest); // 2.处理银商传过来的参数，例如修改订单号等。
+		System.out.println("通知商户接口请求报文1："+service.getNoticeRespString(noticeEntity));
+		System.out.println("通知商户接口请求报文2："+noticeEntity.buildSignString());
 		String OrderTime = noticeEntity.getOrderTime();
 		String OrderDate = noticeEntity.getOrderDate();
 		String MerOrderId = noticeEntity.getMerOrderId();
@@ -869,7 +873,7 @@ public class AppOrderController {
 		httpResponse.setCharacterEncoding("utf-8");
 		try {
 			PrintWriter writer = httpResponse.getWriter();
-			System.out.println("params.toString()：" + respStr);
+			System.out.println("通知商户接口响应报文" + respStr);
 			writer.write(respStr);
 			writer.flush();
 			writer.close();

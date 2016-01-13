@@ -180,7 +180,22 @@ public class Constants {
     public static final String SIGNKEY_EXP="1e4c5e9c4e403a97a3ee956c969c1b23efe43a379f46b33e867b67c59353b11e4c21422c41f96a0af360c7347198c2ff15ee59decf1c50116aae75bd716ef95a9dffd055bc872dc840a53f1d8fdbf08430efa394f8fe7ffc708ccbf4b9d46f6c833a415e57abd811d4b2b1aee64f59e1b87a74986fc7bd04514f924b5550a901";
     public static final String NO_INTERCEPTOR_PATH = ".*/((checkCode)|(territory/getCity)|(territory/getRegion)|(territory/getStreet)|(storetype/getType1)|(storetype/getType2)|(execute)|(login)|(logout)|(userinfo)).*";	//不对匹配该值的访问路径拦截（正则）
     public static final String MERID="898000093990001";//商户号
-    public static final String MERTERMID="99999999";//商户号
+    public static final String MERTERMID="99999999";//终端编号
+    
+    
+    /**
+     *银联请求地址
+     */
+//    public static final String YINLIAN_ADDRESS_01 = "https://mpos.quanminfu.com:6004/merFrontMgr/orderBusinessServlet";      // 下单地址
+//    public static final String YINLIAN_ADDRESS_02 = "https://116.228.21.162:8603/merFrontMgr/orderQueryServlet";      //  订单查询地址
+//    
+//    public static final String VERIFYKEY_MOD ="b1edf6247df2d09d59f1666823bce2c64d4a35c8b5697f8078501a888f5b93ba2efa5169dd1e506abe30ec56bce821425a956bfa9944b627d96631ca501d9c5017a2e3a8e5ccbf3e720810c347780db87f78a7a40811654780f82a36b02c71ef00eeddb9a41bf53406ea064be969014c960cb9e89fcc0b894eef0e43e6c5d26b";//生成环境银商验签公钥
+//    public static final String VERIFYKEY_EXP ="0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010001";
+//    public static final String SIGNKEY_MOD =  "b1edf6247df2d09d59f1666823bce2c64d4a35c8b5697f8078501a888f5b93ba2efa5169dd1e506abe30ec56bce821425a956bfa9944b627d96631ca501d9c5017a2e3a8e5ccbf3e720810c347780db87f78a7a40811654780f82a36b02c71ef00eeddb9a41bf53406ea064be969014c960cb9e89fcc0b894eef0e43e6c5d26b";//生成环境商户签名私钥
+//    public static final String SIGNKEY_EXP="68032a7ba4a0d830d3ce594611762ebf2b99711d766748a0aa34717e590778b1431b1392a62f3d6558ef328975fee0ca70379f1aac944d43b8439461a739d810c39358a888cbc9695885f64fbe5b76c8b1f97dc3d47d0f77642aef218388c66284573e238b6bda3139dea877fa167e2451ff97930cb17d507836ce7f31200451";
+//    public static final String NO_INTERCEPTOR_PATH = ".*/((checkCode)|(territory/getCity)|(territory/getRegion)|(territory/getStreet)|(storetype/getType1)|(storetype/getType2)|(execute)|(login)|(logout)|(userinfo)).*";	//不对匹配该值的访问路径拦截（正则）
+//    public static final String MERID="898210248165286";//商户号
+//    public static final String MERTERMID="15112273";//终端编号
     
     
 
