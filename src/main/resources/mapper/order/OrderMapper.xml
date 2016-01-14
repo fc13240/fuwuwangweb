@@ -516,7 +516,7 @@
 		o.`LB_money`,o.`Unionpay_money`,o.`pay_type`,o.`gooods_number`,o.`order_state`,
 		o.`order_time` ,o.`pay_time`,o.`deal_time`,o.`chrCode`,o.`transId`,
 		o.`dianzibi_pay_state` ,o.`longbi_pay_state` ,o.`yinlian_pay_state`
-		,o.`pay_type`,o.merSign
+		,o.`pay_type`,o.merSign   
 		FROM t_store AS s,t_order AS o , t_user AS u
 		,t_goods AS g
 		WHERE o.`user_id`=#{user_id}
@@ -542,7 +542,7 @@
 		o.`LB_money`,o.`Unionpay_money`,o.`pay_type`,o.`gooods_number`,o.`order_state`,
 		o.`order_time` ,o.`pay_time`,o.`deal_time`,o.`chrCode`,o.`transId`,
 		o.`dianzibi_pay_state` ,o.`longbi_pay_state` ,o.`yinlian_pay_state`
-		,o.`pay_type`
+		,o.`pay_type`,o.merSign   
 		FROM t_store AS s,t_order AS o , t_user AS u ,t_goods AS
 		g
 		WHERE o.`user_id`=#{user_id}
@@ -572,7 +572,7 @@
 		o.`LB_money`,o.`Unionpay_money`,o.`pay_type`,o.`gooods_number`,o.`order_state`,
 		o.`order_time` ,o.`pay_time`,o.`deal_time`,o.`chrCode`,o.`transId`,
 		o.`dianzibi_pay_state` ,o.`longbi_pay_state` ,o.`yinlian_pay_state`
-		,o.`pay_type`
+		,o.`pay_type`,o.merSign   
 		FROM t_store AS s,t_order AS o , t_user AS u ,t_goods AS
 		g
 		WHERE o.`user_id`=#{user_id}
@@ -783,7 +783,7 @@
 		VALUES
 		(#{order_id},#{user_id},#{goods_id},#{gooods_number},#{goods_price},#{return_number},#{order_state},#{pay_type},#{LB_money},#{electronics_money}
 		,#{Unionpay_money}, #{chrCode}, #{transId}, #{electronics_evidence},
-		now(),#{dianzibi_pay_state},#{yinlian_pay_state},#{longbi_pay_state},#{merSign})
+		#{order_time},#{dianzibi_pay_state},#{yinlian_pay_state},#{longbi_pay_state},#{merSign})
 	</insert>
 
 
@@ -805,12 +805,6 @@
 			</if>
 			<if test="order_state != null">
 				order_state = #{order_state},
-			</if>
-			<if test="pay_time != null">
-				pay_time = now(),
-			</if>
-			<if test="deal_time != null">
-				deal_time = now(),
 			</if>
 		</set>
 		WHERE order_id = #{order_id}

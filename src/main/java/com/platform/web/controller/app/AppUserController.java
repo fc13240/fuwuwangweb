@@ -34,6 +34,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.platform.common.contants.Constants;
 import com.platform.common.utils.DateUtil;
 import com.platform.common.utils.Md5;
@@ -60,8 +61,6 @@ public class AppUserController {
 
 	@Autowired
 	private UserMapper mapper;
-
-	String path = "http://124.254.56.58:8007/api/";
 
 	OkHttpClient client = new OkHttpClient();
 
@@ -136,7 +135,8 @@ public class AppUserController {
 			BaseModelJson<String> bmj = register(user.getUserLogin(), user.getPassWord(), user.getPassWordConfirm(),
 					user.getZy());
 			if (bmj.Successful) {
-				result.Data = bmj.Data;
+//				result.Data = bmj.Data;
+				result.Data = "注册成功";
 				result.Successful = true;
 			} else {
 				result.Error = bmj.Error;
@@ -190,11 +190,13 @@ public class AppUserController {
 					uu.setUser_state(Constants.USER_ACTIVE); // 活跃
 					mapper.userrigester_user(uu); // 注册的会员插入到
 					BaseModelJson<FwwUser> fww = getFwwUserInfo(bmj.Data);
+					
 					if (fww.Successful) {
-						uu.setRealName(fww.Data.getM_realrName());
-						uu.setIdCard(fww.Data.getM_idCard());
+						FwwUser fu= fww.Data;
+						uu.setRealName(fu.getM_realrName());
+						uu.setIdCard(fu.getM_idCard());
 						uu.setDq("--");
-						uu.setUser_email(fww.Data.getM_Email());
+						uu.setUser_email(fu.getM_Email());
 					}
 					uu.setUser_img(".jpg");
 					mapper.userrigester_userinfo(uu);
@@ -202,6 +204,10 @@ public class AppUserController {
 					userService.add_token(uu); // 插入token
 				} else {
 					User_token lTokens = userService.select_UsertokenByUserid(uu.getUser_id());
+					if(lTokens==null){
+						lTokens= new User_token();
+						lTokens.setUser_id(uu.getUser_id());
+					}
 					lTokens.setToken(bmj.Data);
 					userService.update_token(lTokens);
 				}
@@ -512,127 +518,6 @@ public class AppUserController {
 		return result;
 	}
 
-	/**
-	 * sendYZM 功能：找回密码第一步，发送邮件
-	 * 
-	 * @param userLogin
-	 *            用户名
-	 * @param email
-	 *            邮件地址
-	 * @return
-	 */
-	@RequestMapping(value = "sendYZM", method = RequestMethod.POST)
-	@ResponseBody
-	public Map<String, Object> sendYZM(@RequestBody String userLogin, @RequestBody String email) {
-
-		Map<String, Object> map = new HashMap<String, Object>();
-		User user = null;
-		Boolean flag = false;
-		int RandomNum = Tools.getRandomNum();
-		// session.setAttribute("user_session", session.getId());
-		// session.setAttribute("User_RandomNum", RandomNum);
-		// map.put("Data", session.getId());
-		if (null != userLogin && !("").equals(userLogin)) {
-			user = userService.usermsg(userLogin);
-			if (null != user) {
-				if (!user.getUser_type().equals("3")) {
-					flag = false;
-					map.put("Successful", false);
-					map.put("Error", "该用户暂时不能找回密码！");
-					return map;
-				}
-				User_token lTokens = userService.select_UsertokenByUserid(user.getUser_id());
-				User_token YZMuser = new User_token();
-				YZMuser.setUser_id(user.getUser_id());
-				YZMuser.setYZM(RandomNum + "");
-				if (lTokens == null) {
-
-					userService.add_YZM(YZMuser);
-				} else {
-					userService.update_YZM(YZMuser);
-				}
-
-			} else {
-				map.put("Successful", false);
-				map.put("Error", "用户不存在！");
-				return map;
-			}
-
-		} else {
-			flag = false;
-		}
-		/*
-		 * if (null != realName && !("").equals(realName)) { if
-		 * (realName.equals(user.getRealName())) { flag = true; } else { flag =
-		 * false; } } if (null != idCard && !("").equals(idCard)) { if
-		 * (idCard.equals(user.getIdCard())) { flag = true; } else { flag =
-		 * false; } }
-		 */
-		if (null != email && !("").equals(email)) {
-			if (email.equals(user.getUser_email())) {
-				flag = true;
-			} else {
-				flag = false;
-			}
-		}
-		if (flag) {
-			// String recipient = request.getParameter("recipient");
-			String sender = "j349388188@126.com";// fuwuwangapp@163.com
-			//// bjfww86@126.com
-			String subject = "服务网找回密码";// request.getParameter("subject");
-			// String content = request.getParameter("content");
-			// double size = recipient.length() + sender.length() +
-			// subject.length() + content.length();
-			String userName = sender;
-			String password = "lijiawei";
-			// qapqmyapxwgsbxfe
-			// verxhwgnuqjctihu
-			Properties props = new Properties();
-			props.put("mail.debug", "true");
-			props.put("mail.smtp.host", "smtp.126.com");
-			props.put("mail.smtp.port", "25");
-			props.put("mail.smtp.auth", "true");
-			// 授权用户和密码可以在这设置，也可以在发送时直接设置
-			Session session1 = Session.getDefaultInstance(props, null);
-			Message message = new MimeMessage(session1);
-			try {
-				Address sendAddress = new InternetAddress(sender);
-				message.setFrom(sendAddress);
-				// 支持发送多个收件人
-				// String [] recipients = recipient.split(";");
-				// Address[] recipientAddress = new Address[recipients.length];
-				// for (int i = 0; i < recipients.length; i++) {
-				// recipientAddress[i] = new InternetAddress(recipients[i]);
-				// }
-
-				message.setRecipient(Message.RecipientType.TO, new InternetAddress(user.getUser_email()));
-				message.setSubject(subject);
-				// 以html发送
-				BodyPart bodyPart = new MimeBodyPart();
-				bodyPart.setContent("<h5>" + "尊敬的用户，您的服务网的验证码为：" + RandomNum + "<h5>", "text/html; charset=utf-8");
-				Multipart multipart = new MimeMultipart();
-				multipart.addBodyPart(bodyPart);
-				// 单纯发送文本的用setText即可
-				// message.setText("服务网找回密码的验证码：1234");
-				message.setContent(multipart);
-				Transport.send(message, userName, password);
-				map.put("Successful", true);
-				map.put("Error", "");
-				return map;
-			} catch (MessagingException e) {
-				e.printStackTrace();
-				map.put("Successful", false);
-				map.put("Error", "发送邮件失败");
-				return map;
-			}
-
-		} else {
-			map.put("Successful", false);
-			map.put("Error", "所填信息有误,请重新填写！");
-			return map;
-
-		}
-	}
 
 	/**
 	 * ResetPassword 功能：找回密码第二步
@@ -852,7 +737,7 @@ public class AppUserController {
 	 * @return
 	 */
 	public BaseModel checkIsExist(String username) {
-		String url = path + "Content/CheckUserLogin?ulogin=" + username;
+		String url = Constants.PATH + "Content/CheckUserLogin?ulogin=" + username;
 		BaseModel bm = null;
 		Request request = new Request.Builder().get().url(url).build();
 		try {
@@ -887,9 +772,8 @@ public class AppUserController {
 	 *            服务专员
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
 	public BaseModelJson<String> register(String userLogin, String passWord, String passWordConfirm, String zy) {
-		String url = path + "Content/RegisterNew";
+		String url = Constants.PATH + "Content/RegisterNew";
 		BaseModelJson<String> bmj = null;
 		JSONObject param = new JSONObject();
 		param.put("userLogin", userLogin);
@@ -903,7 +787,7 @@ public class AppUserController {
 		try {
 			Response response = client.newCall(request).execute();
 			if (response.isSuccessful()) {
-				bmj = gson.fromJson(response.body().string(), BaseModelJson.class);
+				bmj = gson.fromJson(response.body().string(),  new TypeToken<BaseModelJson<String>>(){}.getType());
 			} else {
 				bmj = new BaseModelJson<>();
 				bmj.Successful = false;
@@ -928,9 +812,8 @@ public class AppUserController {
 	 *            密码
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
 	public BaseModelJson<String> sigIn(String userLogin, String passWord) {
-		String url = path + "Content/SignIn?userLogin=" + userLogin + "&userPass=" + passWord;
+		String url = Constants.PATH + "Content/SignIn?userLogin=" + userLogin + "&userPass=" + passWord;
 		JSONObject param = new JSONObject();
 		com.squareup.okhttp.RequestBody body = com.squareup.okhttp.RequestBody.create(JSONTPYE, gson.toJson(param));
 		Request request = new Request.Builder().url(url).post(body).build();
@@ -938,7 +821,7 @@ public class AppUserController {
 		try {
 			Response response = client.newCall(request).execute();
 			if (response.isSuccessful()) {
-				bmj = gson.fromJson(response.body().string(), BaseModelJson.class);
+				bmj = gson.fromJson(response.body().string(),  new TypeToken<BaseModelJson<String>>(){}.getType());
 			} else {
 				bmj = new BaseModelJson<>();
 				bmj.Successful = false;
@@ -960,15 +843,15 @@ public class AppUserController {
 	 * @param token
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
 	public BaseModelJson<FwwUser> getFwwUserInfo(String token) {
-		String url = path + "Member/GetZcUserById";
+		String url = Constants.PATH + "Member/GetZcUserById";
 		Request request = new Request.Builder().url(url).addHeader("Token", token).get().build();
+		Gson gson = new Gson();
 		BaseModelJson<FwwUser> bmj = null;
 		try {
 			Response response = client.newCall(request).execute();
 			if (response.isSuccessful()) {
-				bmj = gson.fromJson(response.body().string(), BaseModelJson.class);
+				bmj = gson.fromJson(response.body().string(), new TypeToken<BaseModelJson<FwwUser>>(){}.getType());
 			} else {
 				bmj = new BaseModelJson<>();
 				bmj.Successful = false;

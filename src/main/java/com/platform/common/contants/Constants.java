@@ -11,6 +11,9 @@ public class Constants {
 	
 	/* 分页操作时，每页只显示10条 */
 	public static final Integer PAGE_SIZE = 10;
+	
+	public static final String PATH="http://124.254.56.58:8007/api/";
+	
 
 	/**
 	 * 商家状态 1:待审核 2：锁定 3：审核成功、活跃、解锁状态、 4：审核失败 
