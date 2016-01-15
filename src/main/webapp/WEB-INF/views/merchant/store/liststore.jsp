@@ -286,6 +286,12 @@ function check(){
 	$("#txtstore_descLabel").css({"color":"red"}); 
 	isSuccess = 0; 
 	} 
+	if(txtstore_desc.length >	300) 
+	{ 
+	$("#txtstore_descLabel").text("店铺描述不能超过300个汉字！") 
+	$("#txtstore_descLabel").css({"color":"red"}); 
+	isSuccess = 0; 
+	} 
 	if(txtstore_phone.length ==0) 
 	{ 
 	$("#txtstore_phoneLabel").text("店铺电话不能为空！") 

@@ -690,7 +690,7 @@
 			isSuccess = 0;
 		}
 		if (txt_goods_desc.length > 300) {
-			$("#goods_descLabel").text("商品描述字数过多！")
+			$("#goods_descLabel").text("商品描述字数不能超过300个汉字！")
 			$("#goods_descLabel").css({
 				"color" : "red"
 			});
@@ -704,7 +704,7 @@
 			isSuccess = 0;
 		}
 		if (txt_goods_purchase_notes.length > 300) {
-			$("#goods_purchase_notesLabel").text("购买须知字数过多！")
+			$("#goods_purchase_notesLabel").text("购买须知字数不能超过300个汉字！")
 			$("#goods_purchase_notesLabel").css({
 				"color" : "red"
 			});

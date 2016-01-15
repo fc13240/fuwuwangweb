@@ -246,14 +246,20 @@ function check(){
 	isSuccess = 0; 
 	} else{
 		if(txtstore_name.length >20){
-			$("#txtstore_nameLabel").text("店铺名不符合规范！") 
+			$("#txtstore_nameLabel").text("店铺名不能超过20个汉字！") 
 			$("#txtstore_nameLabel").css({"color":"red"}); 
 		}
 	}
 	
-	if(txtstore_desc.length == 0||txtstore_desc.length>200) 
+	if(txtstore_desc.length == 0) 
 	{ 
-	$("#txtstore_descLabel").text("店铺描述不符合规范！") 
+	$("#txtstore_descLabel").text("店铺描述不能为空！") 
+	$("#txtstore_descLabel").css({"color":"red"}); 
+	isSuccess = 0; 
+	} 
+	if(xtstore_desc.length>300) 
+	{ 
+	$("#txtstore_descLabel").text("店铺描述不能超过300个汉字！") 
 	$("#txtstore_descLabel").css({"color":"red"}); 
 	isSuccess = 0; 
 	} 
