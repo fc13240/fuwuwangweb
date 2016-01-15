@@ -53,6 +53,7 @@
 		goods_return_standard =
 		#{goods_return_standard},
 		goods_purchase_notes=#{goods_purchase_notes},
+		goods_check_state=#{goods_check_state},
 		goods_update_time = now()
 		WHERE goods_id = #{goods_id}
 	</update>
