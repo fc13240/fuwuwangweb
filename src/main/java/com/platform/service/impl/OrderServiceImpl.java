@@ -334,7 +334,7 @@ public class OrderServiceImpl implements OrderService {
 
 		service.setSecurityService(ss);
 
-		service.setOrderServiceURL(Constants.YINLIAN_ADDRESS_01); // 下单地址
+		service.setOrderServiceURL(Constants.creatOrderUrl); // 下单地址
 
 		OrderEntity order = new OrderEntity();
 
@@ -451,7 +451,7 @@ public class OrderServiceImpl implements OrderService {
 		UMSPayServiceImpl service = new UMSPayServiceImpl();
 
 		service.setSecurityService(ss);
-		service.setQueryServiceURL(Constants.YINLIAN_ADDRESS_02); // 订单查询地址
+		service.setQueryServiceURL(Constants.queryOrderUrl); // 订单查询地址
 		QueryEntity queryOrder = new QueryEntity();
 
 		String merId = "898000093990001";

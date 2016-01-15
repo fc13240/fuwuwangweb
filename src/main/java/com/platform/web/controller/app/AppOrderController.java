@@ -9,7 +9,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -28,24 +27,23 @@ import com.alibaba.fastjson.JSONObject;
 import com.chinaums.pay.api.PayException;
 import com.chinaums.pay.api.entities.NoticeEntity;
 import com.chinaums.pay.api.entities.OrderEntity;
+import com.chinaums.pay.api.entities.QueryEntity;
 import com.chinaums.pay.api.impl.DefaultSecurityService;
 import com.chinaums.pay.api.impl.UMSPayServiceImpl;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.platform.common.contants.Constants;
 import com.platform.common.utils.DateUtil;
 import com.platform.common.utils.UUIDUtil;
 import com.platform.common.utils.Yanqian;
 import com.platform.entity.APP_Order;
-import com.platform.entity.Json_send;
 import com.platform.entity.Order;
-import com.platform.entity.Pay_info;
 import com.platform.entity.User;
 import com.platform.entity.vo.GoodsForPay;
 import com.platform.entity.vo.GoodsForWeb;
 import com.platform.service.GoodsService;
 import com.platform.service.OrderService;
 import com.platform.service.UserService;
-import com.platform.service.impl.UserServiceImpl;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -63,8 +61,6 @@ public class AppOrderController {
 
 	@Autowired
 	private GoodsService goodsService;
-
-	String path = "http://124.254.56.58:8007/api/";
 
 	OkHttpClient client = new OkHttpClient();
 
@@ -149,8 +145,6 @@ public class AppOrderController {
 		order.setReturn_number_state(Constants.ORDER_RETURN_NUMBER_STATE_01); // 不是会员无返券
 		order.setReturn_number(0);
 		order.setOrder_time(new Date());
-		order.setDeal_time(new Date());
-
 		if (Constants.USER_VIP.equals(u.getUser_type())) {
 			order.setReturn_number_state(Constants.ORDER_RETURN_NUMBER_STATE_02); // 未返券
 			if (gfw.getGoods_return_type() == 0) { // 根据数量返券
@@ -189,39 +183,39 @@ public class AppOrderController {
 			ss.setVerifyKeyModHex(Constants.VERIFYKEY_MOD);
 			UMSPayServiceImpl service = new UMSPayServiceImpl();
 			service.setSecurityService(ss);
-			service.setOrderServiceURL(Constants.YINLIAN_ADDRESS_01); // 下单地址
+			service.setOrderServiceURL(Constants.creatOrderUrl); // 下单地址
 			OrderEntity orderEntity = new OrderEntity();
 			orderEntity.setOrderTime(DateUtil.getHHmmss(order.getOrder_time()));// 订单时间curreTime.substring(8)
 			orderEntity.setEffectiveTime("0");// 订单有效期期限（秒），值小于等于 0 表示订单长期有效
-			orderEntity.setOrderDate(DateUtil.getyymmdd(order.getDeal_time()));// 订单日期curreTime.substring(0,8)
+			orderEntity.setOrderDate(DateUtil.getyymmdd(order.getOrder_time()));// 订单日期curreTime.substring(0,8)
 			orderEntity.setMerOrderId(order.getOrder_id());// 订单号，商户根据自己的规则生成最长32位
 			orderEntity.setTransType("NoticePay");// 固定值
 			orderEntity.setTransAmt(order.getUnionpay_money() + "");// 订单金额(单位分)
 			orderEntity.setMerId(Constants.MERID);// 商户号
 			orderEntity.setMerTermId(Constants.MERTERMID);// 终端号
-			// "http://172.19.180.117:8080/platform/app/order/receiveOrder";
-			orderEntity.setNotifyUrl("http://124.254.56.58:8080/shop/app/order/receiveOrder");// 通知商户地址，保证外网能够访问
+			orderEntity.setNotifyUrl(Constants.NOTIFYURL);// 通知商户地址，保证外网能够访问
 			orderEntity.setOrderDesc(order.getGoods_name());// 订单描述
 			orderEntity.setMerSign(ss.sign(orderEntity.buildSignString()));
 			OrderEntity respOrder = new OrderEntity();
 			try {
 				// 发送创建订单请求,该方法中已经封装了签名验签的操作，我们不需要关心，只 需要设置好公私钥即可
+				System.out.println("下单请求：" + orderEntity);
 				respOrder = service.createOrder(orderEntity);
+				System.out.println("下单相应：" + respOrder);
 			} catch (Exception e) {
 				e.printStackTrace();
 				result.Successful = false;
 				result.Error = "服务器繁忙";
 				return result;
 			}
-			System.out.println("下单返回数据：" + respOrder);
 			String transId = respOrder.getTransId();
 			String chrcode = respOrder.getChrCode();
 			String merorderId = respOrder.getMerOrderId();
 			String RespMsg = respOrder.getRespMsg(); // 响应码描述
 			String RespCode = respOrder.getRespCode(); // 响应码
 			String Reserve = respOrder.getReserve(); // 备用字段
-			String merId = respOrder.getMerId(); // 商户号
-			String signtrue = respOrder.getMerSign(); // 签名
+//			String merId = respOrder.getMerId(); // 商户号
+//			String signtrue = respOrder.getMerSign(); // 签名
 			String content = ss.sign(transId + chrcode); // content 作为商户 app
 															// 调用全民付收银台客户端的参数，由商户后台传给商户客户端
 			/*
@@ -232,7 +226,7 @@ public class AppOrderController {
 			StringBuffer buf = new StringBuffer();
 			buf.append(merorderId).append(chrcode);
 			buf.append(transId).append(Reserve).append(RespCode).append(RespMsg);
-			boolean falg = Yanqian.testMerSignVerify(buf.toString());
+			boolean falg = Yanqian.merSignVerify(buf.toString());
 			if (!falg) {
 				System.out.println("验签失败");
 				result.Successful = false;
@@ -300,42 +294,6 @@ public class AppOrderController {
 			result.Error = "请输入支付密码";
 			return result;
 		}
-//		if ((order.getElectronics_money() > 0 || order.getLB_money() > 0) && order.getUnionpay_money() <= 0) {
-//			GoodsForPay g1 = goodsService.findGoodsinfoForPay(order.getGoods_id());
-//			BaseModelJson<String> bmj = memberLongBiAndEPayment(token, ((double) order.getElectronics_money()) / 100,
-//					order.getLB_money(), g1.getUserLogin(), model.getPayPass());
-//			if (!bmj.Successful) {
-//				result.Successful = false;
-//				result.Error = bmj.Error;
-//			} else {
-//				order.setDianzibi_pay_state(1);
-//				order.setLongbi_pay_state(1);
-//				order.setOrder_state(Constants.ORDER_STATE_03);
-//				String xiaofeima = DateUtil.getXiaoFeiMa();
-//				order.setElectronics_evidence(xiaofeima);
-//				orderService.updateOrder(order);
-//				result.Successful = true;
-//				result.Data = xiaofeima;
-//			}
-//		} else if ((order.getElectronics_money() > 0 || order.getLB_money() > 0) && order.getUnionpay_money() > 0) {
-//			GoodsForPay g1 = goodsService.findGoodsinfoForPay(order.getGoods_id());
-//			BaseModelJson<String> bmj = memberLongBiAndEPayment(token, ((double) order.getElectronics_money()) / 100,
-//					order.getLB_money(), g1.getUserLogin(), model.getPayPass());
-//			if (!bmj.Successful) {
-//				result.Successful = false;
-//				result.Error = bmj.Error;
-//			} else {
-//				order.setDianzibi_pay_state(1);
-//				order.setLongbi_pay_state(1);
-//				order.setYinlian_pay_state(0);
-//				order.setOrder_state(Constants.ORDER_STATE_02);
-//				orderService.updateOrder(order);
-//				result.Successful = true;
-//				result.Data = "";
-//			}
-//		} else {
-//			result.Successful = true;
-//		}
 		if (order.getUnionpay_money() > 0) {
 			GoodsForPay g1 = goodsService.findGoodsinfoForPay(order.getGoods_id());
 			BaseModelJson<String> bmj;
@@ -398,232 +356,6 @@ public class AppOrderController {
 		return result;
 	}
 
-
-	/**
-	 * appyinlian_payresult 功能：支付有银联参与 app 验证 订单支付 状态是否成功
-	 * 
-	 * @param order_id
-	 *            订单id
-	 * @param token
-	 *            令牌
-	 * @return
-	 */
-	@RequestMapping(value = "appyinlian_payresult", method = RequestMethod.POST)
-	@ResponseBody
-	public Map<String, Object> appyinlian_payresult(@RequestBody String order_id, @RequestHeader String token) {
-
-		Map<String, Object> map = new HashMap<String, Object>();
-
-		if ("".equals(token) || null == token) {
-
-			map.put("Successful", false);
-			map.put("Data", "");
-			map.put("Error", "token失效");
-			return map;
-		}
-
-		System.out.println(" 交易描述：");
-		String falg = null;
-
-		Order order = orderService.findOrderById(order_id); // 获取订单号 ，银联订单返回的
-															// TransID 和 下单日期
-
-		Order o12 = orderService.selectallpay_state(order_id);
-		System.out.println("012 : " + o12.getYinlian_pay_state());
-
-		if (o12.getPay_type() == 1) { // 银联自己
-			System.out.println("银联自己");
-			Order o123 = new Order();
-			Pay_info pay_Y = new Pay_info();
-
-			if (o12.getYinlian_pay_state() == 1) {
-				System.out.println("银联自己成功");
-				o123.setOrder_id(order_id); // 对应订单ID
-				// o123.setYinlian_pay_state(1);
-				o123.setOrder_state(3);
-				orderService.updateorder_yinlian_pay_state(o123); // 修改银联支付结果。
-																	// yinlian_pay_state
-																	// = 1 ；
-				pay_Y.setResults("银联支付成功");
-				Order order2 = orderService.findOrderById(order_id); // 获取消费吗
-				pay_Y.setElectronics_evidence(order2.getElectronics_evidence());
-
-				map.put("Data", pay_Y);
-				map.put("Successful", true);
-				map.put("Error", "");
-
-				return map;
-			} else if (o12.getYinlian_pay_state() == 2) {
-				System.out.println("银联自己失败");
-				o123.setOrder_id(order_id); // 对应订单ID
-				o123.setYinlian_pay_state(2);
-				o123.setOrder_state(2);
-				orderService.updateorder_yinlian_pay_state(o123); // 修改银联支付结果。
-																	// yinlian_pay_state
-																	// = 2 ； 失败
-				pay_Y.setResults("银联支付失败");
-				map.put("Data", pay_Y);
-				map.put("Successful", false);
-				map.put("Error", "银联支付失败");
-				return map;
-
-			} else {
-				System.out.println("查看流水订单");
-				falg = orderService.Selectyinlian_order(order); // 查银联流水订单
-
-				if (falg.equals("")) {
-
-					map.put("Successful", false);
-					map.put("Data", "");
-					map.put("Error", "验签失败");
-				}
-
-				else if (falg.equals("0")) {
-
-					pay_Y.setResults("新订单");
-					map.put("Data", pay_Y);
-					map.put("Successful", true);
-					map.put("Error", "");
-					return map;
-
-				} else if (falg.equals("1")) { // 成功
-
-					o123.setOrder_id(order_id); // 对应订单ID
-					o123.setYinlian_pay_state(1);
-					String xiaomeima = DateUtil.getXiaoFeiMa();
-					o123.setElectronics_evidence(xiaomeima);
-					o123.setOrder_state(3);
-					orderService.updateorder_yinlian_pay_state(o123); // 修改银联支付结果。
-																		// yinlian_pay_state
-																		// = 1 ；
-					orderService.updateElectronics_evidenceByid(o123);
-					pay_Y.setResults("银联支付成功");
-					pay_Y.setElectronics_evidence(xiaomeima);
-					map.put("Data", pay_Y);
-					map.put("Successful", true);
-					map.put("Error", "");
-					return map;
-
-				} else if (falg.equals("2")) { // 订单流水 ： 银联失败
-
-					pay_Y.setResults("银联支付失败");
-					map.put("Data", pay_Y);
-
-					o123.setOrder_id(order_id); // 对应订单ID
-					o123.setYinlian_pay_state(2);
-					o123.setOrder_state(2);
-					orderService.updateorder_yinlian_pay_state(o123); // 修改银联支付结果。
-																		// yinlian_pay_state
-																		// = 1 ；
-					map.put("Successful", false);
-					map.put("Error", "银联支付失败");
-					return map;
-
-				} else {
-					map.put("Data", "银联支付中");
-					map.put("Successful", true);
-					map.put("Error", "");
-					return map;
-				}
-
-			}
-
-		}
-
-		if (o12.getPay_type() == 2) { // 银联 ，电子币 龙币，
-
-			Pay_info pay_info = new Pay_info();
-
-			if (o12.getYinlian_pay_state() == 1 & o12.getLongbi_pay_state() == 1 & o12.getDianzibi_pay_state() == 1) {
-
-				pay_info.setResults("银联电子币龙币支付成功");
-				map.put("Data", pay_info);
-				map.put("Successful", true);
-				map.put("Error", "");
-				return map;
-
-			}
-
-			else if (o12.getYinlian_pay_state() != 1) { // 银联没成功
-
-				falg = orderService.Selectyinlian_order(order);
-
-				if (falg.equals("0")) { // 新订单
-
-					pay_info.setResults("新订单");
-					map.put("Data", pay_info);
-					map.put("Successful", true);
-					map.put("Error", "");
-					return map;
-
-				} else if (falg.equals("1")) { // 成功
-
-					Order o13 = orderService.selectallpay_state(order_id);
-
-					if (o13.getLongbi_pay_state() == 1 & o13.getDianzibi_pay_state() == 1) { // 判断
-																								// 龙币
-																								// 电子币
-																								// 是否支付成功
-
-						pay_info.setResults("银联，龙币，电子币支付成功");
-						pay_info.setDianzibi_number(UserServiceImpl.select_dianzibi(token));
-						pay_info.setLongbi_number(UserServiceImpl.select_longbi(token));
-						String xiaofeima = DateUtil.getXiaoFeiMa();
-						pay_info.setElectronics_evidence(xiaofeima);
-						map.put("Data", pay_info);
-						map.put("Successful", true);
-						map.put("Error", "");
-
-						Order o1 = new Order();
-						o1.setOrder_id(order_id);
-						o1.setElectronics_evidence(xiaofeima);
-						o1.setYinlian_pay_state(1);
-						o1.setOrder_state(3);
-						orderService.updateorder_yinlian_pay_state(o1);
-						orderService.updateElectronics_evidenceByid(o1);
-
-						return map;
-
-					} else {
-						pay_info.setResults("龙币电子币支付失败");
-						pay_info.setDianzibi_number(UserServiceImpl.select_dianzibi(token));
-						pay_info.setLongbi_number(UserServiceImpl.select_longbi(token));
-						map.put("Data", pay_info);
-						map.put("Successful", false);
-						map.put("Error", "龙币电子币支付失败");
-						return map;
-					}
-
-				} else if (falg.equals("2")) { // 订单流水 ： 银联失败
-					System.out.println("查银联 流水 ，发现 银联支付失败，，启动  电子币  龙币  退款 功能，");
-					pay_info.setResults("银联支付失败");
-					map.put("Data", pay_info);
-					map.put("Successful", false);
-					map.put("Error", "银联支付失败");
-
-					Order ooo = new Order();
-					ooo.setOrder_id(order_id); // 对应订单ID
-					ooo.setYinlian_pay_state(2);
-					ooo.setOrder_state(2);
-					orderService.updateorder_yinlian_pay_state(ooo);
-
-					return map;
-
-				}
-
-			} else { // 支付中
-
-				map.put("Data", "银联支付中");
-				map.put("Successful", true);
-				map.put("Error", "");
-				return map;
-			}
-		}
-
-		return map;
-	}
-
-
 	/**
 	 * findOrder 功能： 查订单
 	 * 
@@ -635,128 +367,57 @@ public class AppOrderController {
 	 */
 	@RequestMapping(value = "findOrder", method = RequestMethod.GET)
 	@ResponseBody
-	public Map<String, Object> findOrder(@RequestHeader String token, Integer type) {
-
-		Map<String, Object> map = new HashMap<String, Object>();
-		if ("".equals(token) || null == token) {
-
-			map.put("Successful", false);
-			map.put("Data", "");
-			map.put("Error", "token失效");
-			return map;
+	public BaseModelJson<List<APP_Order>> findOrder(@RequestHeader String token, Integer type) {
+		BaseModelJson<List<APP_Order>> result = new BaseModelJson<>();
+		if (token == null) {
+			result.Error = "没有权限访问";
+			return result;
 		}
-
-		User u_token1 = userService.select_token(token);
-		if (null == u_token1) {
-
-			map.put("Successful", false);
-			map.put("Data", "");
-			map.put("Error", "该账号已在其他客户端登录，请重新登陆！");
-			return map;
+		if (type == null) {
+			result.Error = "参数错误";
+			return result;
 		}
-		User u_token2 = userService.finduserById(u_token1.getUser_id());
-
-		System.out.println("方式方法斯蒂芬森 ：" + type);
-		List<APP_Order> lOR = orderService.findOrder(u_token2.getUser_id(), type);
-
-		for (APP_Order o : lOR) {
-
-			System.out.println("消费码  + 处理时间 ：" + o.getElectronics_evidence() + "  " + o.getDeal_time());
-
-			DefaultSecurityService ss = new DefaultSecurityService();
-			ss.setSignKeyModHex(Constants.SIGNKEY_MOD);// 签名私钥 Mod
-
-			ss.setSignKeyExpHex(Constants.SIGNKEY_EXP);// 签名私钥 Exp
-
-			ss.setVerifyKeyExpHex(Constants.VERIFYKEY_EXP);
-
-			ss.setVerifyKeyModHex(Constants.VERIFYKEY_MOD);
-			if ((null != o.getTransId() & !"".equals(o.getTransId()))
-					&& (null != o.getChrCode() & !"".equals(o.getChrCode()))) {
-				o.setMerSign(ss.sign(o.getTransId() + o.getChrCode()));
-
-			}
-			System.out.println("查订单的签名  ：" + o.getChrCode());
+		User u = userService.getUserInforByToken(token);
+		if (null == u) {
+			result.Error = "该账号已在其他客户端登录，请重新登陆";
+			return result;
 		}
-
-		map.put("Successful", true);
-		map.put("Data", lOR);
-		map.put("Error", "");
-
-		return map;
-
+		List<APP_Order> list = orderService.findOrder(u.getUser_id(), type);
+		
+		result.Successful=true;
+		result.Data=list;
+		return result;
 	}
-
 	/**
-	 * findOrderByTime 功能：根据时间段 查订单
-	 * 
+	 * 查订单
 	 * @param token
-	 *            令牌
-	 * @param order_time_start
-	 *            起始时间
-	 * @param order_time_end
-	 *            结束时间
+	 * @param order_time_start 开始时间
+	 * @param order_time_end  结束时间
 	 * @return
 	 */
 	@RequestMapping(value = "findOrderByTime", method = RequestMethod.GET)
 	@ResponseBody
-	public Map<String, Object> findOrderByTime(@RequestHeader String token, String order_time_start,
-			String order_time_end) {
-
-		Map<String, Object> map = new HashMap<String, Object>();
-		if ("".equals(token) || null == token) {
-
-			map.put("Successful", false);
-			map.put("Data", "");
-			map.put("Error", "token失效");
-			return map;
+	public BaseModelJson<List<APP_Order>> findOrderByTime(@RequestHeader String token, String order_time_start,String order_time_end) {
+		BaseModelJson<List<APP_Order>> result = new BaseModelJson<>();
+		if (token == null) {
+			result.Error = "没有权限访问";
+			return result;
 		}
-
-		User u_token1 = userService.select_token(token);
-		if (null == u_token1) {
-
-			map.put("Successful", false);
-			map.put("Data", "");
-			map.put("Error", "该账号已在其他客户端登录，请重新登陆！");
-			return map;
+		if (order_time_start == null || order_time_start.isEmpty() || order_time_end==null ||order_time_end.isEmpty() ) {
+			result.Error = "参数错误";
+			return result;
 		}
-		User u_token2 = userService.finduserById(u_token1.getUser_id());
-		System.out.println("起始时间" + order_time_start + "结束时间" + order_time_end);
-
-		List<APP_Order> lOR = orderService.findOrder_time_start_end(u_token2.getUser_id(), order_time_start,
-				order_time_end);
-
-		System.out.println("app 查订单结果 :" + lOR);
-
-		for (APP_Order o : lOR) {
-
-			System.out.println("消费码  + 处理时间 ：" + o.getElectronics_evidence() + "  " + o.getDeal_time());
-
-			DefaultSecurityService ss = new DefaultSecurityService();
-			ss.setSignKeyModHex(Constants.SIGNKEY_MOD);// 签名私钥 Mod
-
-			ss.setSignKeyExpHex(Constants.SIGNKEY_EXP);// 签名私钥 Exp
-
-			ss.setVerifyKeyExpHex(Constants.VERIFYKEY_EXP);
-
-			ss.setVerifyKeyModHex(Constants.VERIFYKEY_MOD);
-			if ((null != o.getTransId() & !"".equals(o.getTransId()))
-					&& (null != o.getChrCode() & !"".equals(o.getChrCode()))) {
-				o.setMerSign(ss.sign(o.getTransId() + o.getChrCode()));
-				System.out.println("Transid :" + o.getTransId() + "   chrcode :" + o.getChrCode());
-			}
-
-			System.out.println("查订单的签名  ：" + o.getMerSign());
-
+		User u = userService.getUserInforByToken(token);
+		if (null == u) {
+			result.Error = "该账号已在其他客户端登录，请重新登陆";
+			return result;
 		}
-
-		map.put("Data", lOR);
-		map.put("Successful", true);
-		map.put("Error", "");
-
-		return map;
-
+		result.Successful=true;
+		result.Data=orderService.findOrder_time_start_end(u.getUser_id(), order_time_start,order_time_end);
+		return result;
 	}
+
+	
 
 	/****
 	 * 银联支付结果通知
@@ -765,26 +426,19 @@ public class AppOrderController {
 	 *****/
 	@RequestMapping(value = "receiveOrder", method = RequestMethod.POST)
 	public void receiveOrder(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws PayException {
-
 		System.out.println("银联调用了我的接口。。。。。。。。");
-
 		StringBuffer buf = new StringBuffer();
-
 		// 测试参数
 		DefaultSecurityService ss = new DefaultSecurityService();
 		// 设置签名的商户私钥，验签的银商公钥
 		ss.setSignKeyModHex(Constants.SIGNKEY_MOD);// 签名私钥 Mod
-
 		ss.setSignKeyExpHex(Constants.SIGNKEY_EXP);// 签名私钥 Exp
-
 		ss.setVerifyKeyExpHex(Constants.VERIFYKEY_EXP);
-
 		ss.setVerifyKeyModHex(Constants.VERIFYKEY_MOD);
-
 		UMSPayServiceImpl service = new UMSPayServiceImpl();
 		service.setSecurityService(ss); // 1.银商会传这些参数过来
-
 		NoticeEntity noticeEntity = service.parseNoticeEntity(httpRequest); // 2.处理银商传过来的参数，例如修改订单号等。
+		System.out.println("通知商户接口请求：" + noticeEntity);
 		String OrderTime = noticeEntity.getOrderTime();
 		String OrderDate = noticeEntity.getOrderDate();
 		String MerOrderId = noticeEntity.getMerOrderId();
@@ -801,36 +455,27 @@ public class AppOrderController {
 		String Reserve = noticeEntity.getReserve();
 		// String Signatrue = noticeEntity.getSignature() ;
 		String MerOrderState = "00";
-
 		// 验签
 		buf.append(OrderTime).append(OrderDate).append(MerOrderId).append(TransType);
 		buf.append(TransAmt).append(MerId).append(MerTermId).append(TransId);
 		buf.append(TransState).append(RefId).append(Account).append(TransDesc).append(Reserve);
-
-		boolean falg = Yanqian.testMerSignVerify(buf.toString());
+		boolean falg = Yanqian.merSignVerify(buf.toString());
 		if (!falg) {
 			System.out.println("验签失败");
 			return;
-
 		}
-
 		// 修改本地数据库
 		Order order = new Order();
-
 		order.setOrder_id(MerOrderId);
 		order.setYinlian_pay_state(1);
-		order.setOrder_state(3);
+		order.setOrder_state(Constants.ORDER_STATE_03);
+		order.setPay_time(new Date());
 		String xiaomeima = DateUtil.getXiaoFeiMa();
 		order.setElectronics_evidence(xiaomeima);
-		orderService.updateorder_yinlian_pay_state(order); // 修改银联支付结果。
-															// yinlian_pay_state
-															// = 1 ； 成功
-		orderService.updateElectronics_evidenceByid(order);
+		orderService.updateOrder(order);
 		String MerPlatTime = DateUtil.getDays(); // 处理时间
-
 		// 3.响应给银商的参数：
 		NoticeEntity respEntity = new NoticeEntity();
-
 		respEntity.setMerOrderId(MerOrderId);
 		respEntity.setTransType(TransType);
 		respEntity.setMerId(MerId);
@@ -838,10 +483,8 @@ public class AppOrderController {
 		respEntity.setTransId(TransId);
 		respEntity.setMerPlatTime(MerPlatTime);
 		respEntity.setMerOrderState(MerOrderState);
-
 		// 签名 (1)
 		JSONObject json = new JSONObject();
-
 		json.put("MerOrderId", MerOrderId);
 		json.put("TransType", TransType);
 		json.put("MerId", MerId);
@@ -850,32 +493,113 @@ public class AppOrderController {
 		json.put("MerPlatTime", MerPlatTime);
 		json.put("MerOrderState", MerOrderState);
 		json.put("Reserve", Reserve);
-
-		respEntity.setMerSign(ss.sign(json.toString()));
-
-		/*
-		 * //签名 (2)
-		 * buf.append(OrderTime).append(OrderDate).append(MerOrderId).append(
-		 * TransType) ;
-		 * buf.append(TransAmt).append(MerId).append(MerTermId).append(TransId)
-		 * ; buf.append(TransState).append(RefId).append(TransDesc).append(
-		 * Reserve) ;
-		 * 
-		 * respEntity.setMerSign(ss.sign(buf.toString()));
-		 */
-
+		// respEntity.setMerSign(ss.sign(json.toString()));
+		respEntity.setMerSign(ss.sign(respEntity.buildSignString()));
 		String respStr = service.getNoticeRespString(respEntity);
-
 		httpResponse.setCharacterEncoding("utf-8");
 		try {
 			PrintWriter writer = httpResponse.getWriter();
-			System.out.println("params.toString()：" + respStr);
+			System.out.println("通知商户接口响应" + respEntity);
 			writer.write(respStr);
 			writer.flush();
 			writer.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * 支付成后查询订单
+	 * 
+	 * @param token
+	 * @param order_id
+	 * @return
+	 */
+	@RequestMapping(value = "getOrderAfterPaid", method = RequestMethod.GET)
+	@ResponseBody
+	public BaseModelJson<Order> getOrderAfterPaid(@RequestHeader String token, String order_id) {
+
+		BaseModelJson<Order> result = new BaseModelJson<>();
+
+		if (token == null) {
+			result.Error = "没有权限访问";
+			return result;
+		}
+		if (order_id == null || order_id.isEmpty()) {
+			result.Error = "参数错误";
+			return result;
+		}
+		User u = userService.getUserInforByToken(token);
+		if (null == u) {
+			result.Error = "该账号已在其他客户端登录，请重新登陆";
+			return result;
+		}
+		Order order = orderService.findOrderById(order_id);
+		if (order == null) {
+			result.Error = "该订单不存在";
+			return result;
+		}
+		if (Constants.ORDER_STATE_03 != order.getOrder_state()) {
+			DefaultSecurityService ss = new DefaultSecurityService();
+			// 设置签名的商户私钥，验签的银商公钥
+			ss.setSignKeyModHex(Constants.SIGNKEY_MOD);// 签名私钥Mod
+			ss.setSignKeyExpHex(Constants.SIGNKEY_EXP);// 签名私钥Exp
+			ss.setVerifyKeyModHex(Constants.VERIFYKEY_MOD);
+			ss.setVerifyKeyExpHex(Constants.VERIFYKEY_EXP);
+			UMSPayServiceImpl service = new UMSPayServiceImpl();
+			service.setSecurityService(ss);
+			service.setQueryServiceURL(Constants.queryOrderUrl);
+			QueryEntity queryOrder = new QueryEntity();
+			queryOrder.setMerId(Constants.MERID);
+			queryOrder.setMerTermId(Constants.MERTERMID);
+			queryOrder.setTransId(order.getTransId());// 下单返回的TransId
+			queryOrder.setMerOrderId(order.getOrder_id());// 商户的订单号
+			queryOrder.setOrderDate(DateUtil.getyymmdd(order.getOrder_time()));// 下单日期
+			queryOrder.setReqTime(DateUtil.getDays());
+			System.out.println("订单查询请求数据:" + queryOrder);
+			// queryOrder.setMerSign(ss.sign(queryOrder.buildSignString()));
+			QueryEntity respOrder = new QueryEntity();
+			try {
+				respOrder = service.queryOrder(queryOrder);
+			} catch (Exception e) {
+				e.printStackTrace();
+				result.Error = "服务器繁忙";
+				return result;
+			}
+			System.out.println("订单查询返回数据：" + respOrder);
+
+			// ss.verify(respOrder.buildVerifyString(),
+			// ss.sign(respOrder.buildVerifyString()));
+			StringBuffer sb = new StringBuffer();
+			sb.append(respOrder.getOrderTime()).append(respOrder.getOrderDate()).append(respOrder.getMerOrderId())
+					.append(respOrder.getTransType()).append(respOrder.getMerId()).append(respOrder.getMerTermId())
+					.append(respOrder.getTransId()).append(respOrder.getTransState()).append(respOrder.getRefId())
+					.append(respOrder.getRespCode()).append(respOrder.getRespMsg());
+			boolean success = Yanqian.merSignVerify(sb.toString());
+			if (!success) {
+				System.out.println("验签失败");
+				result.Error = "非法订单";
+				return result;
+			}
+			if ("1".equals(respOrder.getTransState())) {
+				order.setYinlian_pay_state(1);
+				order.setElectronics_evidence("");
+				String xiaomeima = DateUtil.getXiaoFeiMa();
+				order.setElectronics_evidence(xiaomeima);
+				order.setDeal_time(new Date());
+				order.setOrder_state(Constants.AD_WEIGHT_03);
+				orderService.updateOrder(order);
+			} else if ("2".equals(respOrder.getTransState())) {
+				result.Error = "支付失败";
+				return result;
+			} else if ("3".equals(respOrder.getTransState())) {
+				result.Error = "支付中";
+				return result;
+			}
+		}
+		result.Successful = true;
+		result.Data = order;
+		return result;
 	}
 
 	/**
@@ -1044,10 +768,9 @@ public class AppOrderController {
 	 * @param pw
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
 	public BaseModelJson<String> memberElectronicMoneyPayment(String token, double money, String recipientname,
 			String pw) {
-		String url = path + "Member/MemberElectronicMoneyPayment?money=" + money + "&recipientname=" + recipientname
+		String url = Constants.PATH + "Member/MemberElectronicMoneyPayment?money=" + money + "&recipientname=" + recipientname
 				+ "&pw=" + pw;
 		JSONObject param = new JSONObject();
 		com.squareup.okhttp.RequestBody body = com.squareup.okhttp.RequestBody.create(JSONTPYE, gson.toJson(param));
@@ -1056,7 +779,7 @@ public class AppOrderController {
 		try {
 			Response response = client.newCall(request).execute();
 			if (response.isSuccessful()) {
-				bmj = gson.fromJson(response.body().string(), BaseModelJson.class);
+				bmj = gson.fromJson(response.body().string(),new TypeToken<BaseModelJson<String>>(){}.getType());
 			} else {
 				bmj = new BaseModelJson<>();
 				bmj.Successful = false;
@@ -1081,9 +804,8 @@ public class AppOrderController {
 	 * @param pw
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
 	public BaseModelJson<String> memberLongBiPayment(String token, int money, String recipientname, String pw) {
-		String url = path + "Member/MemberLongBiPayment?money=" + money + "&recipientname=" + recipientname + "&pw="
+		String url = Constants.PATH + "Member/MemberLongBiPayment?money=" + money + "&recipientname=" + recipientname + "&pw="
 				+ pw;
 		JSONObject param = new JSONObject();
 		com.squareup.okhttp.RequestBody body = com.squareup.okhttp.RequestBody.create(JSONTPYE, gson.toJson(param));
@@ -1092,7 +814,7 @@ public class AppOrderController {
 		try {
 			Response response = client.newCall(request).execute();
 			if (response.isSuccessful()) {
-				bmj = gson.fromJson(response.body().string(), BaseModelJson.class);
+				bmj = gson.fromJson(response.body().string(), new TypeToken<BaseModelJson<String>>(){}.getType());
 			} else {
 				bmj = new BaseModelJson<>();
 				bmj.Successful = false;
@@ -1118,10 +840,9 @@ public class AppOrderController {
 	 * @param pw
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
 	public BaseModelJson<String> memberLongBiAndEPayment(String token, double money, int lbcount, String recipientname,
 			String pw) {
-		String url = path + "Member/MemberLongBiAndEPayment?money=" + money + "&lbcount=" + lbcount + "&recipientname="
+		String url = Constants.PATH + "Member/MemberLongBiAndEPayment?money=" + money + "&lbcount=" + lbcount + "&recipientname="
 				+ recipientname + "&pw=" + pw;
 		JSONObject param = new JSONObject();
 		com.squareup.okhttp.RequestBody body = com.squareup.okhttp.RequestBody.create(JSONTPYE, gson.toJson(param));
@@ -1130,7 +851,7 @@ public class AppOrderController {
 		try {
 			Response response = client.newCall(request).execute();
 			if (response.isSuccessful()) {
-				bmj = gson.fromJson(response.body().string(), BaseModelJson.class);
+				bmj = gson.fromJson(response.body().string(), new TypeToken<BaseModelJson<String>>(){}.getType());
 			} else {
 				bmj = new BaseModelJson<>();
 				bmj.Successful = false;
@@ -1146,8 +867,4 @@ public class AppOrderController {
 		return bmj;
 	}
 
-	public static void main(String[] args) {
-		String input = "6225880137706868";
-		System.out.println(input.replaceAll("([\\d]{4})", "$1 "));
-	}
 }

@@ -17,6 +17,8 @@ public class FwwUser implements Serializable {
 	private String m_ZipCode;
 	private String m_Address;
 	private String ejpass;
+	
+	
 	public Integer getUsernum() {
 		return usernum;
 	}

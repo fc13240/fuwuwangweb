@@ -519,9 +519,11 @@
 		,o.`pay_type`,o.merSign
 		FROM t_store AS s,t_order AS o , t_user AS u
 		,t_goods AS g
-		WHERE o.`user_id`=#{user_id}
+		WHERE
+		o.`user_id`=#{user_id}
 		AND u.`user_id`=o.`user_id`
-		AND o.`goods_id`=g.`goods_id`
+		AND
+		o.`goods_id`=g.`goods_id`
 		AND g.`store_id` =s.store_id
 		AND
 		o.`order_state` != 4
@@ -542,10 +544,11 @@
 		o.`LB_money`,o.`Unionpay_money`,o.`pay_type`,o.`gooods_number`,o.`order_state`,
 		o.`order_time` ,o.`pay_time`,o.`deal_time`,o.`chrCode`,o.`transId`,
 		o.`dianzibi_pay_state` ,o.`longbi_pay_state` ,o.`yinlian_pay_state`
-		,o.`pay_type`
+		,o.`pay_type`,o.merSign
 		FROM t_store AS s,t_order AS o , t_user AS u ,t_goods AS
 		g
-		WHERE o.`user_id`=#{user_id}
+		WHERE
+		o.`user_id`=#{user_id}
 		AND u.`user_id`=o.`user_id`
 		AND
 		o.`goods_id`=g.`goods_id`
@@ -572,10 +575,11 @@
 		o.`LB_money`,o.`Unionpay_money`,o.`pay_type`,o.`gooods_number`,o.`order_state`,
 		o.`order_time` ,o.`pay_time`,o.`deal_time`,o.`chrCode`,o.`transId`,
 		o.`dianzibi_pay_state` ,o.`longbi_pay_state` ,o.`yinlian_pay_state`
-		,o.`pay_type`
+		,o.`pay_type`,o.merSign
 		FROM t_store AS s,t_order AS o , t_user AS u ,t_goods AS
 		g
-		WHERE o.`user_id`=#{user_id}
+		WHERE
+		o.`user_id`=#{user_id}
 		AND u.`user_id`=o.`user_id`
 		AND
 		o.`goods_id`=g.`goods_id`
@@ -783,7 +787,7 @@
 		VALUES
 		(#{order_id},#{user_id},#{goods_id},#{gooods_number},#{goods_price},#{return_number},#{order_state},#{pay_type},#{LB_money},#{electronics_money}
 		,#{Unionpay_money}, #{chrCode}, #{transId}, #{electronics_evidence},
-		now(),#{dianzibi_pay_state},#{yinlian_pay_state},#{longbi_pay_state},#{merSign})
+		#{order_time},#{dianzibi_pay_state},#{yinlian_pay_state},#{longbi_pay_state},#{merSign})
 	</insert>
 
 
@@ -800,11 +804,14 @@
 			<if test="electronics_evidence != null ">
 				electronics_evidence = #{electronics_evidence},
 			</if>
+			<if test="yinlian_pay_state != null ">
+				yinlian_pay_state = #{yinlian_pay_state},
+			</if>
 			<if test="order_state != null">
 				order_state = #{order_state},
 			</if>
 			<if test="pay_time != null">
-				pay_time = now(),
+				pay_time = #{pay_time},
 			</if>
 		</set>
 		WHERE order_id = #{order_id}
