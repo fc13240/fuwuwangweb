@@ -11,11 +11,10 @@
 </style>
 <script>
 function checkdate(){
-	  
 	var date1 = $.trim($("#dtp_input1").attr("value"));
 	var date2 = $.trim($("#dtp_input2").attr("value"));
-	if(date1.length==0||date2.length==0) {
-		alert('请选择要查询的时间');
+	if(date2.length!=0&&date1.length==0) {
+		alert('请选择查询起始时间');
 		return false;
 	} else {
 		return true;
@@ -30,22 +29,8 @@ function checkdate(){
 		method="get" class="form-horizontal" onsubmit="return checkdate()">
 		<div class="row">
 			<div class="col-md-3 ">
-				<label for="dtp_input2" class="control-label col-md-4"
-					style="margin-top: 5px;">开始时间</label>
-				<div class="input-group date form_date col-md-8" data-date=""
-					data-date-format="yyyy-mm-dd" data-link-field="dtp_input2"
-					data-link-format="yyyy-mm-dd">
-					<input class="form-control" size="16" type="text" value="" readonly>
-					<span class="input-group-addon"> <span
-						class="glyphicon glyphicon-calendar"></span>
-					</span>
-				</div>
-				<input type="hidden" id="dtp_input2" value=""
-					name="order_time_start" /><br />
-			</div>
-			<div class="col-md-3 ">
 				<label for="dtp_input1" class="control-label col-md-4"
-					style="margin-top: 5px;">结束时间</label>
+					style="margin-top: 5px;">开始时间</label>
 				<div class="input-group date form_date col-md-8" data-date=""
 					data-date-format="yyyy-mm-dd" data-link-field="dtp_input1"
 					data-link-format="yyyy-mm-dd">
@@ -54,7 +39,21 @@ function checkdate(){
 						class="glyphicon glyphicon-calendar"></span>
 					</span>
 				</div>
-				<input type="hidden" id="dtp_input1" value="" name="order_time_end" /><br />
+				<input type="hidden" id="dtp_input1" value=""
+					name="order_time_start" /><br />
+			</div>
+			<div class="col-md-3 ">
+				<label for="dtp_input2" class="control-label col-md-4"
+					style="margin-top: 5px;">结束时间</label>
+				<div class="input-group date form_date col-md-8" data-date=""
+					data-date-format="yyyy-mm-dd" data-link-field="dtp_input2"
+					data-link-format="yyyy-mm-dd">
+					<input class="form-control" size="16" type="text" value="" readonly>
+					<span class="input-group-addon"> <span
+						class="glyphicon glyphicon-calendar"></span>
+					</span>
+				</div>
+				<input type="hidden" id="dtp_input2" value="" name="order_time_end" /><br />
 			</div>
 			<div class="col-md-3" >
 				<input type="text" class="form-control" name="storename"
@@ -85,7 +84,7 @@ function checkdate(){
 
 					<c:forEach items="${page}" var="list" varStatus="vs">
 						<c:choose>
-							<c:when test="${vs.last}">
+							<c:when test="${vs.last}&&vs!=1">
 
 								<tr id="mer_${list.order_id}">
 									<td class="col-md-1" align="right">合计</td>
