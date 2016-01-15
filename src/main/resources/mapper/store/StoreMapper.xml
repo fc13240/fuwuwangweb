@@ -113,10 +113,9 @@
 	<!-- 根据商人ID获取所有 “店铺” 信息 -->
 	<select id="findstoreByid" parameterType="String"
 		resultType="com.platform.entity.Store">
-		SELECT * FROM t_store WHERE user_id=#{user_id} 
-		
-		
-
+		SELECT * FROM t_store 
+			WHERE user_id=#{user_id} 
+				order by store_create_time desc
 	</select>
 	<!-- 根据商家ID获取所有 “店铺” 信息（正常） -->
 	<select id="findstoreByUserId" parameterType="String"
