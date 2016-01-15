@@ -2,6 +2,8 @@ package com.platform.web.controller.admin;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.platform.common.contants.Constants;
+import com.platform.common.utils.DateUtil;
 import com.platform.common.utils.UUIDUtil;
 import com.platform.common.utils.UploadUtil;
 import com.platform.entity.AD;
@@ -83,13 +86,23 @@ public class ADController {
 					pageNum = 1;
 				if (pageSize == null)
 					pageSize=Constants.PAGE_SIZE;
-				PageHelper.startPage(pageNum, pageSize, true);
+				new Date();
 				
+				System.out.println(ad_create_end);
+				if(ad_create_start.length()>0&&ad_create_end.length()==0){
+					ad_create_end=DateUtil.getDay();
+				}else if(ad_create_start.length()==0&&ad_create_end.length()==0){
+					Calendar cal = Calendar.getInstance();//获取一个Claender实例
+				    cal.set(1900,01,01);
+				    ad_create_start=DateUtil.getyy_mm_dd(cal.getTime());
+					ad_create_end=DateUtil.getDay();
+				}
 				
 				
 				System.out.println("起始时间" + ad_create_start + "截至时间" + ad_create_end);
 
 				List<AD> lAD = new ArrayList<AD>();
+				PageHelper.startPage(pageNum, pageSize, true);
 				
 				
 					lAD = adservice.selectAD_time(ad_create_start, ad_create_end);
@@ -164,7 +177,7 @@ public class ADController {
 	public Map<String , Object>  select_store_goods(Model  model , String type , String likename ,Integer city_id) throws Exception{
 		Map<String , Object> map=new HashMap<String, Object>();
 		
-		System.out.println(type  + likename);
+		System.out.println(type  + likename+   city_id);
 		
 		if(type.equals("1")){
 			//List<StoreForWeb>  liststore = storerservice.findstoreByname(likename);
@@ -172,6 +185,7 @@ public class ADController {
 			//System.out.println(liststore);
 			map.put("type", type);
 			map.put("list", liststore);
+			System.out.println(liststore);
 		}
 		if(type.equals("2")){
 			//List<GoodsVo>  listgoods = goodsservice.findGoodsByName(likename);
@@ -179,6 +193,7 @@ public class ADController {
 			//System.out.println(listgoods);
 			map.put("type", type);
 			map.put("list", listgoods);      //  放 Model 中
+			System.out.println(listgoods);
 		}
 		
 		return map ;
@@ -246,9 +261,10 @@ public class ADController {
 	
 	/******定位*******/
 	@RequestMapping(value = "execute" , method = RequestMethod.GET)
-	public String  execute(){
+	public String  execute(Model  model ){
 		
 		System.out.println("广告定位");
+		model.addAttribute("citys", territoryService.findAllCitys());
 		return "admin/advertise/addAd" ;
 	}
 	

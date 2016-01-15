@@ -27,6 +27,7 @@ function getPhoto(){
 	function searchbyname() {
 
 		var txt_likename = $.trim($("#likename").attr("value"));
+		var city_id = $.trim($("#ad_city_id").attr("value")) ;
 
 		var flag = false;
 		var txt_store_value = $("input[name='type']:checked").val();
@@ -43,8 +44,15 @@ function getPhoto(){
 		} else {
 			flag = false;
 		}
+		if (city_id != 0) {
+			flag = true;
+		} else {
+			$("#ad_city_idLabel").text("请选择广告所在的城市！") 
+			$("#ad_city_idLabel").css({"color":"red"}); 
+			flag = false;
+		}
 		if (flag) {
-		//	console.log(txt_likename);
+			console.log(city_id);
 
 			var base = "${pageContext.request.contextPath}";
 			$.ajax({
@@ -52,7 +60,7 @@ function getPhoto(){
 						type : "POST",
 						datatype : "text",
 						data : "type=" + txt_store_value + "&likename="
-								+ txt_likename,
+								+ txt_likename+"&city_id="+city_id,
 						error : function(XMLHttpRequest, textStatus,
 								errorThrown) {
 							//alert(XMLHttpRequest.status);
@@ -131,7 +139,7 @@ function getPhoto(){
 		var txt_ad_weight = $.trim($("#ad_weight").attr("value")) ;
 		var txt_ad_pd = $.trim($("#ad_pd").attr("value")) ;
 		var txt_store_value = $("input[name='type']:checked").val();
-		
+		var city_id = $.trim($("#ad_city_id").attr("value")) ;
 		var txt_store_goods;
 		if(txt_store_value==1){
 			 txt_store_goods = $("input[name='store_id']:checked").val();
@@ -142,12 +150,21 @@ function getPhoto(){
 		$("#ad_positionLabel").text(""); 
 		$("#ad_weightLabel").text("") ;
 		$("#store_goodsLabel").text(""); 
+		$("#ad_city_idLabel").text(""); 
 
 		var isSuccess = 0; 
 		if(txt_ad_img.length == 0) 
 		{ 
 		$("#ad_imgLabel").text("广告图片不能为空！") 
 		$("#ad_imgLabel").css({"color":"red"}); 
+		isSuccess = 0; 
+		}else{
+			isSuccess=1;
+		}
+		if(city_id== 0) 
+		{ 
+		$("#ad_city_idLabel").text("请选择广告所在的城市！") 
+		$("#ad_city_idLabel").css({"color":"red"}); 
 		isSuccess = 0; 
 		}else{
 			isSuccess=1;
@@ -230,6 +247,7 @@ function getPhoto(){
 					</div>
 
 				</div>
+				
 				<div class="row form-group">
 					<div class="col-md-2">
 						<label for="inputGoodsName" class="control-label">请选择位置</label>
@@ -284,6 +302,24 @@ function getPhoto(){
 						<label id="ad_pdLabel"></label>
 					</div>
 
+				</div>
+				<div class="row form-group">
+					<div class="col-md-2">
+						<label for="inputGoodsName" class="control-label">请选择城市</label>
+					</div>
+					<div class="col-md-4">
+						<select name="city_id" class="form-control" id="ad_city_id">
+									<option value="0">请选择广告所在的城市</option>
+							<c:forEach items="${citys}" var="list" >
+									<option value='${list.city_id}'>${list.city_name}</option>
+							</c:forEach>
+							 
+							
+						</select>
+					</div>
+					<div class="col-md-4">
+						 <label id="ad_city_idLabel"></label>
+					</div>
 				</div>
 				<div class="row form-group">
 					<div class="col-md-2 ">
