@@ -1,6 +1,7 @@
 package com.platform.web.controller.admin;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.platform.common.contants.Constants;
+import com.platform.common.utils.DateUtil;
 import com.platform.common.utils.Md5;
 import com.platform.common.utils.UUIDUtil;
 import com.platform.entity.Order;
@@ -131,10 +133,18 @@ public class AdminUserController {
 			 pageSize=Constants.PAGE_SIZE;
 		PageHelper.startPage(pageNum, pageSize, true);
 		
-System.out.println("用户查看订单 ： " + username + "   ");	
-        List<Order>	 lOrders = new ArrayList<Order>();        
-         
-        
+		System.out.println("用户查看订单 ： " + username + "   ");	
+        List<Order>	 lOrders = new ArrayList<Order>();       
+        if(null!=order_time_start&&null!=order_time_end){
+        if(order_time_start.length()>0&&order_time_end.length()==0){
+			order_time_end=DateUtil.getDay();
+		}else if(order_time_start.length()==0&&order_time_end.length()==0){
+			Calendar cal = Calendar.getInstance();//获取一个Claender实例
+		    cal.set(1900,01,01);
+		    order_time_start=DateUtil.getyy_mm_dd(cal.getTime());
+		    order_time_end=DateUtil.getDay();
+		}
+        }
         lOrders = userService.findOrderByUserId(username, order_time_start, order_time_end);
       
 	     
