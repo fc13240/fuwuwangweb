@@ -1,6 +1,7 @@
 package com.platform.web.controller.admin;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.platform.common.contants.Constants;
+import com.platform.common.utils.DateUtil;
 import com.platform.entity.Order;
 import com.platform.entity.Store_state;
 import com.platform.entity.User;
@@ -142,9 +144,18 @@ public class AdminStoreController {
 			pageNum = 1;
 		if (pageSize == null)
 			 pageSize=Constants.PAGE_SIZE;
-			
+		if(null!=order_time_start&&null!=order_time_end){
+		if(order_time_start.length()>0&&order_time_end.length()==0){
+			order_time_end=DateUtil.getDay();
+		}else if(order_time_start.length()==0&&order_time_end.length()==0){
+			Calendar cal = Calendar.getInstance();//获取一个Claender实例
+		    cal.set(1900,01,01);
+		    order_time_start=DateUtil.getyy_mm_dd(cal.getTime());
+		    order_time_end=DateUtil.getDay();
+		}
+		}
 		PageHelper.startPage(pageNum, pageSize, true);
-System.out.println("进入店铺订单查看 ： "  + storename );		
+		System.out.println("进入店铺订单查看 ： "  + storename );		
 
            List<Order>	 lOrders = new ArrayList<Order>();
 		   

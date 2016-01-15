@@ -1,6 +1,7 @@
 package com.platform.web.controller.admin;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,6 +84,14 @@ System.out.println(storename + "    " + order_time_end + "   " + order_time_star
 			System.out.println("当月 ：起始时间-" + DateUtil.getDay() + " 终止时间 ："
 					+ DateUtil.getyyMM() + "-31");
 		} else {
+			if(order_time_start.length()>0&&order_time_end.length()==0){
+				order_time_end=DateUtil.getDay();
+			}else if(order_time_start.length()==0&&order_time_end.length()==0){
+				Calendar cal = Calendar.getInstance();//获取一个Claender实例
+			    cal.set(1900,01,01);
+			    order_time_start=DateUtil.getyy_mm_dd(cal.getTime());
+			    order_time_end=DateUtil.getDay();
+			}
 			listFINan = financialService.goodsfinancial(goodsname,order_time_start, order_time_end);
 		}
 		System.out.println("店铺 结果：" + listFINan);
