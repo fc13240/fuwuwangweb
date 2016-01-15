@@ -88,24 +88,24 @@
 										test="${list.user_state=='1'}">锁定</c:if> <c:if
 										test="${list.user_state=='3'}">删除</c:if></td>
 								<c:if test="${list.user_type!='4'}">
-									<td id="btn_${list.user_id}" align="right">
-									<c:if test="${list.user_state=='2'}">
-											<button class="btn btn-info" data-toggle="modal"
-												data-target="#lockModal"
-												onclick="lockuser('${list.user_id}');">锁定</button>	
+										<td id="btn_${list.user_id}" align="right"><c:if
+												test="${list.user_state=='2'}">
+												<button class="btn btn-info" data-toggle="modal"
+													data-target="#lockModal"
+													onclick="lockuser('${list.user_id}');">锁定</button>	
 				&nbsp;&nbsp;		<button class="btn btn-danger " data-toggle="modal"
-												data-target="#deleteModal"
-												onclick="deluser('${list.user_id}');">删除</button>
-										</c:if> 
-										<c:if test="${list.user_state=='1'}">
-											<button class="btn btn-success" data-toggle="modal"
-												data-target="#releaseModal"
-												onclick="activityuser('${list.user_id}');">解锁</button>
+													data-target="#deleteModal"
+													onclick="deluser('${list.user_id}');">删除</button>
+											</c:if> <c:if test="${list.user_state=='1'}">
+												<button class="btn btn-success" data-toggle="modal"
+													data-target="#releaseModal"
+													onclick="activityuser('${list.user_id}');">解锁</button>
 				&nbsp;&nbsp;	 	<button class="btn btn-danger " data-toggle="modal"
-												data-target="#deleteModal"
-												onclick="deluser('${list.user_id}');">删除</button>
-										</c:if> </td>
-								</c:if>
+													data-target="#deleteModal"
+													onclick="deluser('${list.user_id}');">删除</button>
+											</c:if></td>
+									</c:if>
+									<c:if test="${list.user_type=='4'}"><td></td></c:if>
 							</tr>
 						</c:forEach>
 					</table>
