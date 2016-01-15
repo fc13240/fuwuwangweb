@@ -1,6 +1,7 @@
 package com.platform.web.controller.merchant;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +26,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.platform.common.contants.Constants;
+import com.platform.common.utils.DateUtil;
 import com.platform.entity.Order;
 import com.platform.entity.Order_time;
 import com.platform.entity.User;
@@ -116,7 +118,18 @@ public class OrderController {
 		if (pageSize == null)
 			pageSize = Constants.PAGE_SIZE;
 		PageHelper.startPage(pageNum, pageSize, true);
-
+		if(null!=order_time_start&&null!=order_time_end){
+			
+		
+		if(order_time_start.length()>0&&order_time_end.length()==0){
+			order_time_end=DateUtil.getDay();
+		}else if(order_time_start.length()==0&&order_time_end.length()==0){
+			Calendar cal = Calendar.getInstance();//获取一个Claender实例
+		    cal.set(1900,01,01);
+		    order_time_start=DateUtil.getyy_mm_dd(cal.getTime());
+		    order_time_end=DateUtil.getDay();
+		}
+		}
 		System.out.println("起始时间" + order_time_start + "截至时间" + order_time_start);
 
 		Order_time order_time = new Order_time(order_time_start, order_time_end);

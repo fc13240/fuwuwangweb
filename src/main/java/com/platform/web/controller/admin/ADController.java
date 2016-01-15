@@ -86,9 +86,7 @@ public class ADController {
 					pageNum = 1;
 				if (pageSize == null)
 					pageSize=Constants.PAGE_SIZE;
-				new Date();
-				
-				System.out.println(ad_create_end);
+
 				if(ad_create_start.length()>0&&ad_create_end.length()==0){
 					ad_create_end=DateUtil.getDay();
 				}else if(ad_create_start.length()==0&&ad_create_end.length()==0){
