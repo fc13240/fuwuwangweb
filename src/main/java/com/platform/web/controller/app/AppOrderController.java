@@ -107,7 +107,7 @@ public class AppOrderController {
 			result.Error = "该账号已在其他客户端登录，请重新登陆";
 			return result;
 		}
-		GoodsForWeb gfw = goodsService.findGoodsinfoByGoodsId(order.getGoods_id());
+		GoodsForWeb gfw = goodsService.findGoodsinfoByGoodsIdForApp(order.getGoods_id());
 		if (gfw == null) {
 			result.Error = "该商品不存在，或者已下架";
 			return result;
@@ -280,7 +280,7 @@ public class AppOrderController {
 			result.Error = "您不是VIP会员，不可使用电子币或者龙币";
 			return result;
 		}
-		GoodsForWeb gfw = goodsService.findGoodsinfoByGoodsId(order.getGoods_id());
+		GoodsForWeb gfw = goodsService.findGoodsinfoByGoodsIdForApp(order.getGoods_id());
 		if (gfw == null) {
 			result.Error = "该商品不存在，或者已下架";
 			return result;
