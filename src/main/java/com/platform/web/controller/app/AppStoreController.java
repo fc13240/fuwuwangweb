@@ -226,7 +226,7 @@ public class AppStoreController {
 			result.Error = "参数错误";
 			return result;
 		}
-		List<StoreForApp> listStore = storeService.selectStoreByNameAndCityName(searchName, cityName, PageIndex,
+		List<StoreForApp> listStore = storeService.selectStoreByNameAndCityName(searchName, cityName, PageSize,
 				(PageIndex - 1) * PageSize);
 
 		if (listStore != null) {

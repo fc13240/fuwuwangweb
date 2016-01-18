@@ -189,7 +189,8 @@
 		JOIN t_store AS ts ON tg.store_id=ts.store_id
 		JOIN t_merchant_info AS
 		tm ON tm.user_id = ts.user_id
-		WHERE tg.goods_id = #{goods_id}
+		WHERE tg.goods_id = #{goods_id} AND tg.goods_check_state =1 
+		AND tg.goods_delete_state = 0
 		
 
 	</select>
