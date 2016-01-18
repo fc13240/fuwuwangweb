@@ -742,8 +742,22 @@
 			});
 			isSuccess = 0;
 		}
+		if (txt_goods_return_standard >10000) {
+			$("#goods_return_standardLabel").text("返券标准不能大于10000")
+			$("#goods_return_standardLabel").css({
+				"color" : "red"
+			});
+			isSuccess = 0;
+		}
 		if (txt_goods_return_ticket.length == 0) {
 			$("#goods_return_ticketLabel").text("请填写返券数量")
+			$("#goods_return_ticketLabel").css({
+				"color" : "red"
+			});
+			isSuccess = 0;
+		}
+		if (txt_goods_return_ticket >10000) {
+			$("#goods_return_ticketLabel").text("返券数量不能大于10000")
 			$("#goods_return_ticketLabel").css({
 				"color" : "red"
 			});
