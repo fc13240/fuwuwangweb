@@ -118,7 +118,7 @@ public class AdminGoodsController extends BaseController {
 	public String checkgoods_fail(Model model, String goods_id,HttpSession session)
 			throws Exception{	 	
 		User user=(User) session.getAttribute("bean");
-		goodsService.updatecheckgoods(goods_id,user.getUser_id(),Constants.GOODS_FAILURE,Constants.GOODS_DETELE);
+		goodsService.updatecheckgoods(goods_id,user.getUser_id(),Constants.GOODS_FAILURE,Constants.GOODS_NORMAL);
 		return "redirect:/admin/goods/list";
 	}
 	
