@@ -145,7 +145,8 @@
 							<th>商品价格</th>
 							<th>商品龙币价格</th>
 							<th>所属店铺</th>
-							<th>商品状态</th>
+							<th>商品上架状态</th>
+							<th>商品审核状态</th>
 							<th>操作</th>
 						</tr>
 
@@ -169,10 +170,24 @@
 								<td align="right">${list.goods_price_LB}</td>
 								<td align="left">${list.store_name}</td>
 										<td id="text_${list.goods_id}" align="left"><c:if
+										test="${list.goods_putaway_state=='0'}">未上架</c:if> <c:if
+										test="${list.goods_putaway_state=='1'}">已上架</c:if> <c:if
+										test="${list.goods_putaway_state=='2'}">已下架</c:if></td>
+										<td id="text_${list.goods_id}" align="left"><c:if
 										test="${list.goods_check_state=='0'}">待审核</c:if> <c:if
 										test="${list.goods_check_state=='1'}">审核通过</c:if> <c:if
 										test="${list.goods_check_state=='2'}">审核未通过</c:if></td>
-								<td align="right"><button class="btn btn-info" data-toggle="modal"
+								<td align="right">
+								<c:if test="${list.goods_putaway_state=='1'}">
+									<a class="btn btn-success" href="${pageContext.request.contextPath}/merchant/goods/update_goods_putaway?goods_id=${list.goods_id}&goods_putaway_state=2">下架</a>
+								</c:if>
+								<c:if test="${list.goods_putaway_state=='2'}">
+									<a class="btn btn-success" href="${pageContext.request.contextPath}/merchant/goods/update_goods_putaway?goods_id=${list.goods_id}&goods_putaway_state=1">上架</a>
+								</c:if>
+								
+								
+								
+								<button class="btn btn-info" data-toggle="modal"
 										data-target="#updateModal"
 										onclick="modifyEmp('${list.goods_id}','${list.goods_id}+11')"<%-- href="${pageContext.request.contextPath}/merchant/goods/goodsinfo?goods_id=${list.goods_id}&type=${list.goods_id}+1" --%> 
 									>修改</button>
