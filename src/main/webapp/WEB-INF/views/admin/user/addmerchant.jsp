@@ -113,7 +113,7 @@ function check(){ /* passWord newpass */
 	{ 
 		if(txt_merchant_account.length==0) 
 		{ 
-		$("#merchant_accountLabel").text("商城帐号不允许为空！") 
+		$("#merchant_accountLabel").text("服务网帐号不允许为空！") 
 		$("#merchant_accountLabel").css({"color":"red"}); 
 		isSuccess = 0; 
 		}
@@ -198,7 +198,7 @@ function check(){ /* passWord newpass */
 			<label for="inputGoodsPrice" class="col-sm-2 control-label">商城帐号</label>
 			<div class="col-sm-3">
 				<input type="text" class="form-control" name="merchant_account" id="merchant_account"
-					placeholder="请输入商城帐号">
+					placeholder="请输入服务网帐号">
 			</div>
 			<div class="col-sm-3">
 					<label id="merchant_accountLabel"></label>

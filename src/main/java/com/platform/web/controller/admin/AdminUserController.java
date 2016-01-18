@@ -1,5 +1,6 @@
 package com.platform.web.controller.admin;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.gson.Gson;
 import com.platform.common.contants.Constants;
 import com.platform.common.utils.DateUtil;
 import com.platform.common.utils.Md5;
@@ -25,6 +27,10 @@ import com.platform.entity.User;
 import com.platform.service.UserService;
 import com.platform.service.impl.UserServiceImpl;
 import com.platform.web.controller.app.AppUserController;
+import com.platform.web.controller.app.BaseModel;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
 @Controller
 @RequestMapping("/admin/user/")
@@ -34,7 +40,8 @@ public class AdminUserController {
 	private UserService userService;
 
 	User user = new User();
-
+	OkHttpClient client = new OkHttpClient();
+	Gson gson = new Gson();
 	/**
 	 * 查看所有用户
 	 * 
@@ -199,7 +206,10 @@ public class AdminUserController {
 			request.setAttribute("info", "帐号已存在");
 			return "admin/user/addmerchant"; 
 		} 
-
+		if (null != merchant_account && checkIsExist(merchant_account).Successful) {
+			request.setAttribute("info", "服务网帐号已存在");
+			return "admin/user/addmerchant";
+		}
 		User userbean=(User) session.getAttribute("bean");
 		if(password.equals(password_agin)){
 			
@@ -303,5 +313,33 @@ public class AdminUserController {
 		
 		return "/admin/userinfo" ;
 	}
-
+	/**
+	 * 验证用户名是否存在
+	 * 
+	 * @param username
+	 *            用户名
+	 * @return
+	 */
+	public BaseModel checkIsExist(String username) {
+		String url = Constants.PATH + "Content/CheckUserLogin?ulogin=" + username;
+		BaseModel bm = null;
+		Request request = new Request.Builder().get().url(url).build();
+		try {
+			Response response = client.newCall(request).execute();
+			if (response.isSuccessful()) {
+				bm = gson.fromJson(response.body().string(), BaseModel.class);
+			} else {
+				bm = new BaseModel();
+				bm.Successful = false;
+				bm.Error = "服务器繁忙";
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			bm = new BaseModel();
+			bm.Successful = false;
+			bm.Error = "服务器繁忙";
+		}
+		return bm;
+	}
 }
