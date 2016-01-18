@@ -383,7 +383,7 @@ public class OrderServiceImpl implements OrderService {
 		String RespMsg = respOrder.getRespMsg(); // 响应码描述
 		String RespCode = respOrder.getRespCode(); // 响应码
 		String Reserve = respOrder.getReserve(); // 备用字段
-		String merId = respOrder.getMerId(); // 商户号
+//		String merId = respOrder.getMerId(); // 商户号
 		String signtrue = respOrder.getMerSign(); // 签名
 		String content = ss.sign(transId + chrcode); // content 作为商户 app
 														// 调用全民付收银台客户端的参数，由商户后台传给商户客户端

@@ -436,7 +436,7 @@
 	<select id="findGoodsinfoForPay" parameterType="String"
 		resultType="com.platform.entity.vo.GoodsForPay">
 
-		SELECT tg.*,tm.merchant_type,ts.store_name ,tu.userLogin
+		SELECT tg.*,tm.merchant_type,tm.merchant_account,ts.store_name ,tu.userLogin
 		FROM t_goods AS
 		tg,t_merchant_info AS tm,t_store AS ts ,t_user AS tu
 		WHERE tg.goods_id = #{goods_id}
