@@ -229,8 +229,8 @@
 		WHERE tg.goods_name LIKE
 		CONCAT(CONCAT('%', #{goods_name}), '%')
 		and tg.goods_delete_state=0
-		and
-		tg.goods_check_state=1
+		and tg.goods_check_state=1
+		and tg.goods_putaway_state=1
 		and ts.street_id=tr.street_id
 		and tr.region_id
 		in(select region_id from t_region where city_id=
