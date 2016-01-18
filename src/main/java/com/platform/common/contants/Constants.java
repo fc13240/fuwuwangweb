@@ -210,4 +210,16 @@ public class Constants {
 	 */
 	public static final Integer USER_LOGIN = 1; // 用户已登录
 	public static final Integer USER_LOGOUT = 0; // 用户未登录
+	
+	
+	
+	
+	
+	
+	/**
+	 * 商品上架状态
+	 */
+	public static final Integer GOODS_PUTAWAY_FAIL = 2; 	// 商品下架
+	public static final Integer GOODS_PUTAWAY_ACTIVE = 1; 	// 商品上架
+	public static final Integer GOODS_PUTAWAY_WAIT = 0; 	// 商品审核中或初始状态
 }

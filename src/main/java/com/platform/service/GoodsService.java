@@ -106,16 +106,7 @@ public interface GoodsService {
 	  */
 	 
 	 Page<GoodsVo> findGoodsByNameAndCityId(String goods_name,Integer city_id);
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 
 	/**
 	 * 根据商品ID名查找商品信息
@@ -279,5 +270,9 @@ public interface GoodsService {
 	 * @return
 	 */
 	Integer getGoodsRecommendCountByCityNameAndCategory(HashMap<String,Object> map);
-	
+	/**
+	 * 修改商品上架状态
+	 * @param goods
+	 */
+	public void updategoodsputaway(Goods goods);
 }

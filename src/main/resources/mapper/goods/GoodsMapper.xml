@@ -86,6 +86,13 @@
 
 		WHERE goods_id = #{goods_id}
 	</update>
+	<!-- 修改商品上架状态 -->
+	<update id="updategoodsputaway" parameterType="com.platform.entity.Goods">
+		UPDATE t_goods SET
+		goods_putaway_state = #{goods_putaway_state},
+		goods_update_time = now()
+		WHERE goods_id = #{goods_id}
+	</update>
 
 	<!-- 根据商品名获取商品列表 (限制删除状态和审核状态，不限制用户)提供给app -->
 
@@ -392,10 +399,11 @@
 		tg.goods_id,tg.goods_name,tg.goods_img,tg.goods_price,tg.goods_price_LB,tgr.goods_recommend_id,ts.store_name,tgr.goods_position
 		from t_goods as tg ,t_goods_recommend as tgr ,t_store as ts
 		where
-		tg.goods_id=tgr.goods_id and tg.goods_delete_state=0 and
-		tg.store_id=ts.store_id
-		and tgr.goods_recommend_state='1' and
-		tg.goods_delete_state='0'
+		tg.goods_id=tgr.goods_id 
+		and tg.goods_delete_state=0 
+		and tg.store_id=ts.store_id
+		and tgr.goods_recommend_state='1'
+		and tg.goods_delete_state='0'
 		order by tgr.goods_position
 	</select>
 	<!-- 判断商品是否推荐商品 -->

@@ -399,6 +399,15 @@ public class GoodsServiceImpl implements GoodsService {
 		return mapper.getGoodsRecommendCountByCityNameAndCategory(map);
 	}
 
+	/**
+	 * 修改商品上架状态
+	 * @param goods
+	 */
+	public void updategoodsputaway(Goods goods) {
+		mapper.updategoodsputaway(goods);
+		
+	}
+
 
 
 }

@@ -153,5 +153,11 @@ public interface GoodsMapper {
 	 * @return
 	 */
 	Integer getGoodsRecommendCountByCityNameAndCategory(HashMap<String,Object> map);
-
+	/**
+	 * 修改商品上架状态
+	 * @param goods
+	 * id
+	 * goods_putaway_state
+	 */
+	public void updategoodsputaway(Goods goods);	//更新商品上架状态
 }

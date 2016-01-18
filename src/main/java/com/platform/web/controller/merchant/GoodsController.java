@@ -259,6 +259,14 @@ public class GoodsController extends BaseController {
 		GoodsForWeb goods = goodsService.findGoodsinfoByGoodsId(goods_id);
 		return goods;
 	}
+	@RequestMapping(value = "update_goods_putaway", method = RequestMethod.GET)
+	public String update_goods_putaway(Model model,String goods_id ,Integer goods_putaway_state){
+		Goods goods=new Goods();
+		goods.setGoods_id(goods_id);
+		goods.setGoods_putaway_state(goods_putaway_state);
+		goodsService.updategoodsputaway(goods);
+		return "redirect:list";
+	}
 
 	
 	public static void main(String[] args) {    
