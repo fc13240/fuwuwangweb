@@ -19,6 +19,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.platform.common.contants.Constants;
+import com.platform.entity.Goods;
 import com.platform.entity.GoodsRecommend;
 import com.platform.entity.User;
 import com.platform.entity.vo.GoodsForWeb;
@@ -111,14 +112,26 @@ public class AdminGoodsController extends BaseController {
 	public String checkgoods_pass(Model model, String goods_id,HttpSession session)
 			throws Exception{
 		User user=(User) session.getAttribute("bean");
-		goodsService.updatecheckgoods(goods_id,user.getUser_id(),Constants.GOODS_ACTIVE,Constants.GOODS_NORMAL);
+		Goods goods = new Goods();
+		goods.setGoods_id(goods_id);
+		goods.setGoods_check_state(Constants.GOODS_ACTIVE);
+		goods.setGoods_check_user(user.getUser_id());
+		goods.setGoods_delete_state(Constants.GOODS_NORMAL);
+		goods.setGoods_putaway_state(Constants.GOODS_PUTAWAY_FAIL);
+		goodsService.updatecheckgoods(goods);
 		return "redirect:/admin/goods/list";
 	}
 	@RequestMapping(value="checkgoods_fail", method= RequestMethod.POST)
 	public String checkgoods_fail(Model model, String goods_id,HttpSession session)
 			throws Exception{	 	
 		User user=(User) session.getAttribute("bean");
-		goodsService.updatecheckgoods(goods_id,user.getUser_id(),Constants.GOODS_FAILURE,Constants.GOODS_NORMAL);
+		Goods goods = new Goods();
+		goods.setGoods_id(goods_id);
+		goods.setGoods_check_state(Constants.GOODS_FAILURE);
+		goods.setGoods_check_user(user.getUser_id());
+		goods.setGoods_delete_state(Constants.GOODS_NORMAL);
+		goods.setGoods_putaway_state(Constants.GOODS_PUTAWAY_WAIT);
+		goodsService.updatecheckgoods(goods);
 		return "redirect:/admin/goods/list";
 	}
 	

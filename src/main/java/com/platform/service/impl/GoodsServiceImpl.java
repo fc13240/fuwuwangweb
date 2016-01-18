@@ -140,12 +140,8 @@ public class GoodsServiceImpl implements GoodsService {
 	/**
 	 * 审核商品作用于web 审核商品后，创建时间被改变
 	 */
-	public void updatecheckgoods(String goods_id, String user_id, Integer goods_check_state,Integer goods_delete_state) throws Exception {
-		Goods goods = new Goods();
-		goods.setGoods_id(goods_id);
-		goods.setGoods_check_state(goods_check_state);
-		goods.setGoods_check_user(user_id);
-		goods.setGoods_delete_state(goods_delete_state);
+	public void updatecheckgoods(Goods goods) throws Exception {
+	
 		mapper.updatecheckgoods(goods);
 
 	}

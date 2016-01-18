@@ -140,6 +140,7 @@ public class GoodsController extends BaseController {
 		Goods goods = new Goods();
 		goods.setGoods_check_state(Constants.GOODS_WAIT);
 		goods.setGoods_delete_state(Constants.GOODS_NORMAL);
+		goods.setGoods_putaway_state(Constants.GOODS_PUTAWAY_WAIT);
 		goods.setGoods_type2_id(1);
 
 		goods.setGoods_id(UUIDUtil.getRandom32PK());
@@ -211,6 +212,7 @@ public class GoodsController extends BaseController {
 			goods.setGoods_pay_type(Constants.GOODS_PAY_TYPE1);
 
 		}
+		goods.setGoods_putaway_state(Constants.GOODS_PUTAWAY_WAIT);
 		goods.setGoods_return_standard(goods_return_standard);
 		goods.setGoods_return_type(goods_return_type);
 		goods.setStore_id(store_id);
