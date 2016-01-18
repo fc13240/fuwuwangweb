@@ -42,7 +42,7 @@ public class AppGoodsController extends BaseController {
 			result.Error = "参数错误";
 			return result;
 		}
-		result.Data = goodsService.findGoodsinfoByGoodsId(goods_id);
+		result.Data = goodsService.findGoodsinfoByGoodsIdForApp(goods_id);
 		if (result.Data == null) {
 			result.Error = "该商品不存在或者已下架";
 		} else {

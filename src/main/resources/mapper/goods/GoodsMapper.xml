@@ -203,6 +203,21 @@
 		
 
 	</select>
+	<!-- 根据商家Id获取商品信息 -->
+	<select id="findGoodsinfoByGoodsIdForApp" parameterType="String"
+		resultType="com.platform.entity.vo.GoodsForWeb">
+
+		SELECT tg.*,tm.merchant_type,ts.store_name from t_goods AS
+		tg
+		JOIN t_store AS ts ON tg.store_id=ts.store_id
+		JOIN t_merchant_info AS
+		tm ON tm.user_id = ts.user_id
+		WHERE tg.goods_id = #{goods_id}
+		AND tg.goods_delete_state = 0
+		AND tg.goods_putaway_state=1
+		
+
+	</select>
 
 	<!-- 根据商品名获取商品列表 (限制删除状态和审核状态，不限制用户)提供给app -->
 
@@ -470,6 +485,7 @@
 		SELECT tg.*,tm.merchant_type,ts.store_name
 		<include refid="getdGoodsByStoreIdForAppSql" />
 		AND tg.store_id =#{store_id}
+		AND tg.goods_putaway_state=1
 		<if test="pageSize != null and offset!=null">
 			LIMIT #{pageSize} OFFSET #{offset}
 		</if>
@@ -482,6 +498,7 @@
 		<include refid="getdGoodsByStoreIdForAppSql" />
 		AND
 		tg.store_id =#{store_id}
+		AND tg.goods_putaway_state=1
 	</select>
 
 	<sql id="getdGoodsByStoreIdForAppSql">
@@ -505,7 +522,7 @@
 		SELECT tg.*,tm.merchant_type,ts.store_name
 
 		<include refid="getGoodsBySearchNameAndCityNameSql" />
-
+		AND tg.goods_putaway_state=1
 		AND
 		tg.goods_name LIKE
 		CONCAT(CONCAT('%', #{searchName}), '%')
@@ -520,7 +537,7 @@
 		SELECT COUNT(*)
 
 		<include refid="getGoodsBySearchNameAndCityNameSql" />
-		
+		AND tg.goods_putaway_state=1
 		AND
 		tg.goods_name LIKE
 		CONCAT(CONCAT('%', #{searchName}), '%')
@@ -557,7 +574,7 @@
 		
 		AND
 		tg.goods_pay_type = 1
-		
+		AND tg.goods_putaway_state=1
 		<if test="pageSize != null and offset!=null">
 			LIMIT #{pageSize} OFFSET #{offset}
 		</if>
@@ -574,7 +591,7 @@
 		
 		AND
 		tg.goods_pay_type = 1
-		
+		AND tg.goods_putaway_state=1
 	</select>
 	
 	<!-- 根据店铺分类和城市获取商品推荐列表 -->
@@ -617,6 +634,7 @@
 		ts.store_state=3
 		AND 
 		tgr.goods_recommend_state=1
+		AND tg.goods_putaway_state=1
 		AND
 		tc.city_name=#{cityName}
 		<if test="store_type1_id != null">

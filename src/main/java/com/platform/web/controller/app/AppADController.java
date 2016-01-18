@@ -66,7 +66,7 @@ public class AppADController {
 		}
 		for (ADVo ad : lAD_1) {
 			if (2 == ad.getAd_type()) {
-				GoodsForWeb goods = goodsService.findGoodsinfoByGoodsId(ad.getAd_pid());
+				GoodsForWeb goods = goodsService.findGoodsinfoByGoodsIdForApp(ad.getAd_pid());
 				if (goods != null) {
 					ad.setGoods(goods);
 				}
@@ -121,7 +121,7 @@ public class AppADController {
 		StoreForApp store;
 		System.out.println("广告类别：" + ad_type + "   " + "关联广告ID " + ad_pid);
 		if (2 == ad_type) {
-			goods = goodsService.findGoodsinfoByGoodsId(ad_pid);
+			goods = goodsService.findGoodsinfoByGoodsIdForApp(ad_pid);
 			if (null == goods) {
 				map_1.put("Successful", false);
 				map_1.put("Data", "");

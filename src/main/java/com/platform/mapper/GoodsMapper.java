@@ -58,6 +58,8 @@ public interface GoodsMapper {
 	
 	GoodsForWeb findGoodsinfoByGoodsId(String goods_id);//根据商品id查询商品信息
 	
+	GoodsForWeb findGoodsinfoByGoodsIdForApp(String goods_id);//根据商品id查询商品App专用
+	
 	Page<GoodsVo> findGoodsByStoreIdForApp(String store_id);//根据商铺id查询提供app
 	
 	

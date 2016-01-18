@@ -125,6 +125,16 @@ public class GoodsServiceImpl implements GoodsService {
 
 		return mapper.findGoodsinfoByGoodsId(goods_id);
 	}
+	/**
+	 * 根据商品ID名查找商品信息
+	 * 
+	 * @param goods_id
+	 * @return
+	 */
+	public GoodsForWeb findGoodsinfoByGoodsIdForApp(String goods_id) {
+		
+		return mapper.findGoodsinfoByGoodsIdForApp(goods_id);
+	}
 
 	/**
 	 * 找到所有商品作用于web

@@ -115,6 +115,7 @@ public interface GoodsService {
 	 */
 	
 	public GoodsForWeb findGoodsinfoByGoodsId(String goods_id) ;
+	public GoodsForWeb findGoodsinfoByGoodsIdForApp(String goods_id) ;
 	
 	/**
 	 * 根据商品ID审核商品
