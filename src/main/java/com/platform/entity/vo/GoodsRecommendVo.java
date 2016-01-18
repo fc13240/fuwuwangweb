@@ -27,9 +27,11 @@ public class GoodsRecommendVo{
 	
 	private String user_name;
 	
+	private Integer goods_putaway_state;
+	
 	public GoodsRecommendVo(String goods_id, String goods_name, String goods_img, Integer goods_price,
-			Integer goods_price_LB, String goods_recommend_id, String store_name,Integer goods_position,String goods_purchase_notes,String user_name) {
-		super();
+			Integer goods_price_LB, String goods_recommend_id, String store_name,Integer goods_position,
+			String goods_purchase_notes,String user_name,Integer goods_putaway_state) {
 		this.goods_id = goods_id;
 		this.goods_name = goods_name;
 		this.goods_img = goods_img;
@@ -40,6 +42,7 @@ public class GoodsRecommendVo{
 		this.goods_position=goods_position;
 		this.goods_purchase_notes=goods_purchase_notes;
 		this.user_name=user_name;
+		this.goods_putaway_state=goods_putaway_state;
 	}
 
 	public GoodsRecommendVo(){
@@ -133,12 +136,22 @@ public class GoodsRecommendVo{
 		this.user_name = user_name;
 	}
 
+
+	public Integer getGoods_putaway_state() {
+		return goods_putaway_state;
+	}
+
+	public void setGoods_putaway_state(Integer goods_putaway_state) {
+		this.goods_putaway_state = goods_putaway_state;
+	}
+
 	@Override
 	public String toString() {
 		return "GoodsRecommendVo [goods_recommend_id=" + goods_recommend_id + ", goods_id=" + goods_id + ", goods_name="
 				+ goods_name + ", goods_img=" + goods_img + ", goods_price=" + goods_price + ", goods_price_LB="
 				+ goods_price_LB + ", store_name=" + store_name + ", goods_position=" + goods_position
-				+ ", goods_purchase_notes=" + goods_purchase_notes + ", user_name=" + user_name + "]";
+				+ ", goods_purchase_notes=" + goods_purchase_notes + ", user_name=" + user_name
+				+ ", goods_putaway_state=" + goods_putaway_state + "]";
 	}
 	
 	

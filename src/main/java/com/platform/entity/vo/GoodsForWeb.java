@@ -52,7 +52,7 @@ public class GoodsForWeb{
 	
 	private String store_name;
 	
-	
+	private Integer goods_putaway_state;
 	public GoodsForWeb(){
 		
 	}
@@ -63,7 +63,7 @@ public class GoodsForWeb{
 			, Integer goods_return_type, Integer goods_return_standard, Integer goods_pay_type, Date goods_create_time
 			, Date goods_update_time,Integer goods_type2_id,Integer goods_check_state,Integer goods_delete_state
 			,Date goods_check_time,String goods_check_user,Integer merchant_type,String goods_purchase_notes,
-			String store_name){
+			String store_name,Integer goods_putaway_state){
 		this.goods_id=goods_id;
 		this.goods_name=goods_name;
 		this.goods_desc=goods_desc;
@@ -85,6 +85,7 @@ public class GoodsForWeb{
 		this.merchant_type=merchant_type;
 		this.goods_purchase_notes=goods_purchase_notes;
 		this.store_name=store_name;
+		this.goods_putaway_state=goods_putaway_state;
  	}
 
 	public String getGoods_id() {
@@ -251,6 +252,16 @@ public class GoodsForWeb{
 	}
 
 
+	public Integer getGoods_putaway_state() {
+		return goods_putaway_state;
+	}
+
+
+	public void setGoods_putaway_state(Integer goods_putaway_state) {
+		this.goods_putaway_state = goods_putaway_state;
+	}
+
+
 	@Override
 	public String toString() {
 		return "GoodsForWeb [goods_id=" + goods_id + ", goods_name=" + goods_name + ", goods_desc=" + goods_desc
@@ -261,10 +272,9 @@ public class GoodsForWeb{
 				+ goods_update_time + ", goods_type2_id=" + goods_type2_id + ", goods_delete_state="
 				+ goods_delete_state + ", goods_check_state=" + goods_check_state + ", goods_check_time="
 				+ goods_check_time + ", goods_check_user=" + goods_check_user + ", merchant_type=" + merchant_type
-				+ ", goods_purchase_notes=" + goods_purchase_notes + ", store_name=" + store_name + "]";
+				+ ", goods_purchase_notes=" + goods_purchase_notes + ", store_name=" + store_name
+				+ ", goods_putaway_state=" + goods_putaway_state + "]";
 	}
-
-
 
 
 }

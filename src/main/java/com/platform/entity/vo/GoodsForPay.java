@@ -56,6 +56,8 @@ public class GoodsForPay{
 	
 	private String merchant_account;
 	
+	private Integer goods_putaway_state;
+	
 	public GoodsForPay(){
 		
 	}
@@ -66,7 +68,7 @@ public class GoodsForPay{
 			, Integer goods_return_type, Integer goods_return_standard, Integer goods_pay_type, Date goods_create_time
 			, Date goods_update_time,Integer goods_type2_id,Integer goods_check_state,Integer goods_delete_state
 			,Date goods_check_time,String goods_check_user,Integer merchant_type,String goods_purchase_notes,
-			String store_name,String userLogin){
+			String store_name,String userLogin,Integer goods_putaway_state){
 		this.goods_id=goods_id;
 		this.goods_name=goods_name;
 		this.goods_desc=goods_desc;
@@ -89,6 +91,7 @@ public class GoodsForPay{
 		this.goods_purchase_notes=goods_purchase_notes;
 		this.store_name=store_name;
 		this.userLogin=userLogin;
+		this.goods_putaway_state=goods_putaway_state;
  	}
 
 	public String getGoods_id() {
@@ -279,6 +282,16 @@ public class GoodsForPay{
 
 	public void setUserLogin(String userLogin) {
 		this.userLogin = userLogin;
+	}
+
+
+	public Integer getGoods_putaway_state() {
+		return goods_putaway_state;
+	}
+
+
+	public void setGoods_putaway_state(Integer goods_putaway_state) {
+		this.goods_putaway_state = goods_putaway_state;
 	}
 
 	
