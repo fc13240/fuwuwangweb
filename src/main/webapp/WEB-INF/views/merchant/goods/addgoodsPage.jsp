@@ -234,7 +234,7 @@ function getPhoto(){
 			isSuccess = 0;
 		}
 		if (txt_goods_purchase_notes.length == 0) {
-			$("#goods_purchase_notesLabel").text("请填写购买须知不符合规范！")
+			$("#goods_purchase_notesLabel").text("请填写购买须知！")
 			$("#goods_purchase_notesLabel").css({
 				"color" : "red"
 			});
@@ -261,8 +261,22 @@ function getPhoto(){
 			});
 			isSuccess = 0;
 		}
+		if (txt_goods_return_standard >10000) {
+			$("#goods_return_standardLabel").text("返券标准不能大于10000")
+			$("#goods_return_standardLabel").css({
+				"color" : "red"
+			});
+			isSuccess = 0;
+		}
 		if (txt_goods_return_ticket.length == 0) {
 			$("#goods_return_ticketLabel").text("请填写返券数量")
+			$("#goods_return_ticketLabel").css({
+				"color" : "red"
+			});
+			isSuccess = 0;
+		}
+		if (txt_goods_return_ticket>10000) {
+			$("#goods_return_ticketLabel").text("请填写返券数量不能超过10000张")
 			$("#goods_return_ticketLabel").css({
 				"color" : "red"
 			});

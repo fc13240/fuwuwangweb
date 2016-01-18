@@ -44,7 +44,7 @@ function check(){
 
 					</tr>
 
-
+					<c:if test="${order!=null}">
 					<tr id="mer_${order.order_id}">
 						<td class="col-md-1" align="right">1</td>
 						<td class="col-md-1" align="left">${order.goods_name}</td>
@@ -75,7 +75,7 @@ function check(){
 							</form>
 						</td>
 					</tr>
-
+					</c:if>
 				</table>
 				<%@ include file="../../common/footer.jsp"%>
 			</div>
