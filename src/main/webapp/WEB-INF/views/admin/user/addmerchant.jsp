@@ -97,6 +97,12 @@ function check(){ /* passWord newpass */
 	$("#merchant_descLabel").css({"color":"red"}); 
 	isSuccess = 0; 
 	}
+	if(txt_merchant_desc.length >300) 
+	{ 
+	$("#merchant_descLabel").text("商人描述不能超过300个汉字！") 
+	$("#merchant_descLabel").css({"color":"red"}); 
+	isSuccess = 0; 
+	}
 	
 	if(txt_merchant_account.length>0) 
 	{ 

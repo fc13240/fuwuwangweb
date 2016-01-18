@@ -68,7 +68,7 @@
 		FROM t_user , t_userinfo
 		WHERE t_user.`user_id` = t_userinfo.`user_id`
 		AND t_user.user_type != 1
-		ORDER BY user_state
+		ORDER BY user_state,user_create_time desc
 
 	</select>
 
@@ -98,9 +98,9 @@
 		INSERT INTO
 		t_user
 		(user_id,
-		userLogin,passWord,user_type,user_state)
+		userLogin,passWord,user_type,user_state,user_create_time)
 		VALUES
-		(#{user_id},#{userLogin},#{passWord},#{user_type},#{user_state})
+		(#{user_id},#{userLogin},#{passWord},#{user_type},#{user_state},now())
 	</insert>
 
 

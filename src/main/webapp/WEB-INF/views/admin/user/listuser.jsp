@@ -63,6 +63,7 @@
 							<th>用户名</th>
 							<th>邮箱</th>
 							<th>身份</th>
+							<th>创建时间</th>
 							<th>状态</th>
 							<th>操作</th>
 						</tr>
@@ -74,15 +75,18 @@
 								<td align="right">${vs.index+1}</td>
 								<td align="left">${list.userLogin}</td>
 								<td align="left">${list.user_email}</td>
+	<td id="text_${list.user_id}" align="left"><c:if
 
-
-
-								<td id="text_${list.user_id}" align="left"><c:if
 										test="${list.user_type=='1'}">管理员</c:if> <c:if
 										test="${list.user_type=='2'}">商人</c:if> <c:if
 										test="${list.user_type=='3'}">普通用户</c:if> <c:if
 										test="${list.user_type=='4'}">VIP</c:if></td>
 
+								<td align="left">
+<fmt:formatDate value="${list.user_create_time}" type="both" />
+								</td>
+
+							
 								<td id="text_${list.user_id}" align="left"><c:if
 										test="${list.user_state=='2'}">活跃</c:if> <c:if
 										test="${list.user_state=='1'}">锁定</c:if> <c:if

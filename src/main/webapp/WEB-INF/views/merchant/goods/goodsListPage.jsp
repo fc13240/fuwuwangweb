@@ -103,16 +103,19 @@
 			<option value="4" selected="selected">根据商品审核状态查询</option>
 			<option value="0" >查询待审核的商品</option>
 			<option value="1">查询审核通过的商品</option>
+			<option value="2">查询审核失败的商品</option>
 			</c:if>
 			<c:if test="${goods_state==0}">
 			<option value="4">根据商品审核状态查询</option>
 			<option value="0" selected="selected">查询待审核的商品</option>
 			<option value="1">查询审核通过的商品</option>
+			<option value="2">查询审核失败的商品</option>
 			</c:if>
 			<c:if test="${goods_state==1}">
 			<option value="4">根据商品审核状态查询</option>
 			<option value="0" >查询待审核的商品</option>
 			<option value="1" selected="selected">查询审核通过的商品</option>
+			<option value="2">查询审核失败的商品</option>
 			</c:if>
 			<c:if test="${goods_state==2}">
 			<option value="4">根据商品审核状态查询</option>

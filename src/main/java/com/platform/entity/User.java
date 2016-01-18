@@ -1,5 +1,7 @@
 package com.platform.entity;
 
+import java.util.Date;
+
 public class User {
 
 	// 通用
@@ -32,6 +34,9 @@ public class User {
 	private Integer longbi; // 龙币
 	private Double dianzibi; // 点子币
 
+	
+	private Date user_create_time;//用户创建时间
+	
 	private Integer login_state;
 
 	private String passWordConfirm;
@@ -41,8 +46,7 @@ public class User {
 	}
 
 	public User(String user_id, String user_type, String user_state, String userLogin, String passWord, String realName,
-			String idCard, String dq, String zy, String session_id, String results, String user_img) {
-		super();
+			String idCard, String dq, String zy, String session_id, String results, String user_img,Date user_create_time) {
 		this.user_id = user_id;
 		this.user_type = user_type;
 		this.user_state = user_state;
@@ -56,7 +60,7 @@ public class User {
 		this.session_id = session_id;
 		this.results = results;
 		this.user_img = user_img;
-
+		this.user_create_time=user_create_time;
 	}
 
 	public Integer getMerchant_type() {
@@ -251,6 +255,14 @@ public class User {
 		this.passWordConfirm = passWordConfirm;
 	}
 
+	public Date getUser_create_time() {
+		return user_create_time;
+	}
+
+	public void setUser_create_time(Date user_create_time) {
+		this.user_create_time = user_create_time;
+	}
+
 	@Override
 	public String toString() {
 		return "User [user_id=" + user_id + ", user_type=" + user_type + ", user_state=" + user_state + ", userLogin="
@@ -259,8 +271,8 @@ public class User {
 				+ ", merchant_add_user=" + merchant_add_user + ", merchant_desc=" + merchant_desc + ", merchant_phone="
 				+ merchant_phone + ", service_man=" + service_man + ", merchant_account=" + merchant_account
 				+ ", merchant_type=" + merchant_type + ", session_id=" + session_id + ", results=" + results
-				+ ", token=" + token + ", longbi=" + longbi + ", dianzibi=" + dianzibi + ", login_state=" + login_state
-				+ "]";
+				+ ", token=" + token + ", longbi=" + longbi + ", dianzibi=" + dianzibi + ", user_create_time="
+				+ user_create_time + ", login_state=" + login_state + ", passWordConfirm=" + passWordConfirm + "]";
 	}
 
 }
