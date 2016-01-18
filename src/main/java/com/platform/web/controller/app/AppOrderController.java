@@ -300,12 +300,12 @@ public class AppOrderController {
 			boolean flag = true;
 			if (order.getElectronics_money() > 0 && order.getLB_money() > 0) {
 				bmj = memberLongBiAndEPayment(token, ((double) order.getElectronics_money()) / 100, order.getLB_money(),
-						g1.getUserLogin(), model.getPayPass());
+						g1.getMerchant_account(), model.getPayPass());
 			} else if (order.getElectronics_money() > 0) {
 				bmj = memberElectronicMoneyPayment(token, ((double) order.getElectronics_money()) / 100,
-						g1.getUserLogin(), model.getPayPass());
+						g1.getMerchant_account(), model.getPayPass());
 			} else if (order.getLB_money() > 0) {
-				bmj = memberLongBiPayment(token, order.getLB_money(), g1.getUserLogin(), model.getPayPass());
+				bmj = memberLongBiPayment(token, order.getLB_money(), g1.getMerchant_account(), model.getPayPass());
 			} else {
 				bmj = new BaseModelJson<>();
 				bmj.Successful = true;
@@ -331,12 +331,12 @@ public class AppOrderController {
 			BaseModelJson<String> bmj;
 			if (order.getElectronics_money() > 0 && order.getLB_money() > 0) {
 				bmj = memberLongBiAndEPayment(token, ((double) order.getElectronics_money()) / 100, order.getLB_money(),
-						g1.getUserLogin(), model.getPayPass());
+						g1.getMerchant_account(), model.getPayPass());
 			} else if (order.getElectronics_money() > 0) {
 				bmj = memberElectronicMoneyPayment(token, ((double) order.getElectronics_money()) / 100,
-						g1.getUserLogin(), model.getPayPass());
+						g1.getMerchant_account(), model.getPayPass());
 			} else {
-				bmj = memberLongBiPayment(token, order.getLB_money(), g1.getUserLogin(), model.getPayPass());
+				bmj = memberLongBiPayment(token, order.getLB_money(), g1.getMerchant_account(), model.getPayPass());
 			}
 			if (!bmj.Successful) {
 				result.Successful = false;

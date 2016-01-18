@@ -54,6 +54,8 @@ public class GoodsForPay{
 	
 	private String userLogin;
 	
+	private String merchant_account;
+	
 	public GoodsForPay(){
 		
 	}
@@ -265,18 +267,21 @@ public class GoodsForPay{
 	}
 
 
-	@Override
-	public String toString() {
-		return "GoodsForPay [goods_id=" + goods_id + ", goods_name=" + goods_name + ", goods_desc=" + goods_desc
-				+ ", goods_img=" + goods_img + ", goods_price=" + goods_price + ", goods_price_LB=" + goods_price_LB
-				+ ", store_id=" + store_id + ", goods_pay_type=" + goods_pay_type + ", goods_return_ticket="
-				+ goods_return_ticket + ", goods_return_type=" + goods_return_type + ", goods_return_standard="
-				+ goods_return_standard + ", goods_create_time=" + goods_create_time + ", goods_update_time="
-				+ goods_update_time + ", goods_type2_id=" + goods_type2_id + ", goods_delete_state="
-				+ goods_delete_state + ", goods_check_state=" + goods_check_state + ", goods_check_time="
-				+ goods_check_time + ", goods_check_user=" + goods_check_user + ", merchant_type=" + merchant_type
-				+ ", goods_purchase_notes=" + goods_purchase_notes + ", store_name=" + store_name + ", userLogin="
-				+ userLogin + "]";
+	public String getMerchant_account() {
+		return merchant_account;
 	}
+
+
+	public void setMerchant_account(String merchant_account) {
+		this.merchant_account = merchant_account;
+	}
+
+
+	public void setUserLogin(String userLogin) {
+		this.userLogin = userLogin;
+	}
+
+	
+
 
 }
