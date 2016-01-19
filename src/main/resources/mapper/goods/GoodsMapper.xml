@@ -265,7 +265,7 @@
 		where
 		tg.goods_delete_state=0
 		and ts.store_state=3
-		order by tg.goods_check_state
+		order by tg.goods_check_state,tg.goods_create_time desc
 	</select>
 	<select id="selectGoodsByGoods_state" parameterType="Integer" resultType="com.platform.entity.vo.GoodsForWeb">
 	SELECT tg.*,ts.store_name
@@ -274,6 +274,7 @@
 		tg.goods_delete_state=0
 		and ts.store_state=3
 		and tg.goods_check_state=#{goods_check_state}
+		order by tg.goods_create_time desc
 	</select>
 
 	<!-- 根据店铺分类和城市获取商品推荐列表 -->
