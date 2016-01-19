@@ -63,6 +63,8 @@
 	<update id="updateGoodsImg" parameterType="com.platform.entity.Goods">
 		UPDATE t_goods SET
 		goods_img = #{goods_img},
+		goods_check_state=#{goods_check_state},
+		goods_putaway_state=#{goods_putaway_state},
 		goods_update_time = now()
 		WHERE goods_id =
 		#{goods_id}

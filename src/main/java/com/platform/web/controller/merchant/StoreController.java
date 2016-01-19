@@ -115,6 +115,7 @@ public class StoreController {
 		store.setStore_address(store_address);
 		store.setStore_type2_id(Integer.valueOf(store_type2_id));
 		store.setStreet_id(Integer.valueOf(street_id));
+		store.setStore_state(Constants.STORE_WAIT);
 		storeService.updateStore(store);
 		
 		return "redirect:selStoreByUser_id";
@@ -147,6 +148,7 @@ public class StoreController {
 					 e.printStackTrace();
 			}
 			store.setStore_img(UploadUtil.fileName);
+			store.setStore_state(Constants.STORE_WAIT);
 			storeService.updateStore(store);
 		}
 		return "redirect:selStoreByUser_id";

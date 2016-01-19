@@ -252,6 +252,8 @@ public class GoodsController extends BaseController {
 				UploadUtil.img_01(goods_img, filepath, goods.getGoods_id() + "-1", goods.getGoods_id());
 				UploadUtil.img_02(goods_img, filepath, goods.getGoods_id() + "-2", goods.getGoods_id());
 				goods.setGoods_img(UploadUtil.fileName);
+				goods.setGoods_putaway_state(Constants.GOODS_PUTAWAY_WAIT);
+				goods.setGoods_check_state(Constants.GOODS_WAIT);
 				goodsService.updateGoodsImg(goods);
 			} else {
 				return "redirect:list";
