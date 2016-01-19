@@ -18,7 +18,6 @@
 						<th>图片</th>
 						<th>商家名称</th>
 						<th>电话</th>
-						<th>查看店铺商品</th>
 						<th>店铺状态</th>
 						<th>操作</th>
 					</tr>
@@ -37,14 +36,14 @@
 								onclick="modifyEmp('${list.store_id}','${list.store_id}')">
 									${list.store_name} </a></td>
 							<td align="right">${list.store_phone}</td>
-							<td align="right"><a class="btn btn-success" href="${pageContext.request.contextPath}/merchant/goods/goodslistbystore?store_id=${list.store_id}">
-									点击查看商品 </a></td>
 										<td id="text_${list.store_id}" align="left"><c:if
 										test="${list.store_state=='1'}">待审核</c:if> <c:if
 										test="${list.store_state=='3'}">正常运营</c:if> <c:if
 										test="${list.store_state=='4'}">审核未通过</c:if> <c:if
 										test="${list.store_state=='2'}">违规店铺</c:if></td>
 							<td id="text_${list.store_id}" align="right">
+							<a class="btn btn-success" href="${pageContext.request.contextPath}/merchant/goods/goodslistbystore?store_id=${list.store_id}">
+									点击查看商品 </a>
 								<button class="btn btn-info" data-toggle="modal"
 									data-target="#updateinfoModal"
 									onclick="modifyEmp1('${list.store_id}','${list.store_id}');">修改</button>

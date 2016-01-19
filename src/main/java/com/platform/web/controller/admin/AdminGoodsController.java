@@ -161,7 +161,14 @@ public class AdminGoodsController extends BaseController {
 	public String addgoods_recommend(Model model, String goods_id)
 			throws Exception{	
 		List<GoodsRecommendVo> vo=goodsService.findAllGoodsrecommendOrderBystate();
-		goodsService.addGoodsRecommend(goods_id,vo.get(vo.size()-1).getGoods_position()+1);
+		System.out.println("推荐商品的个数："+vo.size());
+		if(vo.size()!=0){
+			
+			goodsService.addGoodsRecommend(goods_id,vo.get(vo.size()-1).getGoods_position()+1);
+		}else{
+			goodsService.addGoodsRecommend(goods_id,1);
+			
+		}
 		//vo.get(vo.size()-1).getGoods_position();获得最后一个可显示的推荐商品的位置
 		System.out.println("添加推荐商品");
 		return "redirect:/admin/goods/list";
@@ -209,7 +216,7 @@ public class AdminGoodsController extends BaseController {
 		
 			System.out.println("推荐商品上移");
 			List<GoodsRecommendVo> vo=goodsService.findAllGoodsrecommendOrderBystate();
-			
+			if(vo.size()>1){
 			GoodsRecommendVo gai=vo.get(Integer.valueOf(position)+(Integer.valueOf(pageNum)-1)*10-1);//想要上移的元素
 			int gaiyuan_position=gai.getGoods_position();
 			String gaiyuan_goods_id=gai.getGoods_id();
@@ -227,11 +234,13 @@ public class AdminGoodsController extends BaseController {
 			gr.setGoods_id(gaiyuan_goods_id);
 			gr.setGoods_position(gaiup_position);
 			goodsService.updateGoodsRecommend_position(gr);
+			}
 			return "redirect:findAllGoodsrecommend?pageNum="+pageNum;
 			}else{
 				//int middle_position = 0;
 				System.out.println("推荐商品下移");
 				List<GoodsRecommendVo> vo=goodsService.findAllGoodsrecommendOrderBystate();
+				if(vo.size()>1){
 				
 				GoodsRecommendVo gai=vo.get(Integer.valueOf(position)+(Integer.valueOf(pageNum)-1)*10-1);//想要下移的元素
 				int gaiyuan_position=gai.getGoods_position();
@@ -251,6 +260,7 @@ public class AdminGoodsController extends BaseController {
 				gr.setGoods_position(Integer.valueOf(gaiyuan_position));
 				goodsService.updateGoodsRecommend_position(gr);
 				System.out.println("更新点击元素下一个的位置");
+				}
 				return "redirect:findAllGoodsrecommend?pageNum="+pageNum;
 		}
 		

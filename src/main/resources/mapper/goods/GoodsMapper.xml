@@ -414,7 +414,7 @@
 	<select id="findAllGoodsrecommendOrderBystate" resultType="com.platform.entity.vo.GoodsRecommendVo">
 		select
 		tg.goods_id,tg.goods_name,tg.goods_img,tg.goods_price,tg.goods_price_LB,tgr.goods_recommend_id,ts.store_name,tgr.goods_position
-		from t_goods as tg ,t_goods_recommend as tgr ,t_store as ts
+		from t_goods as tg,t_goods_recommend as tgr ,t_store as ts
 		where
 		tg.goods_id=tgr.goods_id 
 		and tg.goods_delete_state=0 

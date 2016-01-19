@@ -212,6 +212,14 @@ function getPhoto(){
 			});
 			isSuccess = 0;
 		}
+		
+		if (txt_goods_name.length>20) {
+			$("#goods_nameLabel").text("商品名称不能超过20个汉字！")
+			$("#goods_nameLabel").css({
+				"color" : "red"
+			});
+			isSuccess = 0;
+		}
 		if (txt_goods_img == null) {
 			$("#goods_imgLabel").text("请选择商品图片！")
 			$("#goods_imgLabel").css({
