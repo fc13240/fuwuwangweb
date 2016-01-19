@@ -42,13 +42,10 @@ public interface ADService {
 	/**
 	 *  admin 删除广告
 	 */
-	public void  updateAD(String ad_id);
+	public void  updateAD(AD ad);
 	
 	
-	/**
-	 *  admin 发布广告
-	 */
-	public void updateAd(String ad_id);
+
 	
 	
 	/**

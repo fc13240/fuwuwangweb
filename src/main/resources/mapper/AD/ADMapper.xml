@@ -9,11 +9,11 @@
 	<!-- App and  Web 传 ad_position，查 ad_weight ：1 2 3 -->
 	<select id="select_ad" parameterType="com.platform.entity.AD" resultType="com.platform.entity.vo.ADVo">
 		
-		SELECT *  FROM t_ad   WHERE  ad_position= #{ad_position} AND ad_state = #{ad_state}  ORDER BY ad_weight 
+		SELECT *  FROM t_ad   WHERE  ad_position= #{ad_position} AND ad_state = #{ad_state}  ORDER BY ad_weight ,ad_create_time desc
 	</select>
 	<select id="select_adByCity_id" parameterType="com.platform.entity.AD" resultType="com.platform.entity.vo.ADVo">
 		
-		SELECT *  FROM t_ad   WHERE  ad_position= #{ad_position} AND ad_state = #{ad_state} AND city_id=#{city_id} ORDER BY ad_weight 
+		SELECT *  FROM t_ad   WHERE  ad_position= #{ad_position} AND ad_state = #{ad_state} AND city_id=#{city_id} ORDER BY ad_weight  ,ad_create_time desc
 	</select>
 	
 	
@@ -21,13 +21,13 @@
 	<!-- web 查看 未发布 和 正常 的广告 -->
 	<select id="selectAD_state" parameterType="Integer" resultType="com.platform.entity.AD">
 		
-		SELECT *  FROM t_ad   WHERE  ad_state  != #{ad_state} ORDER BY ad_state ASC , ad_position  ASC ,ad_state ASC, ad_weight ASC
+		SELECT *  FROM t_ad   WHERE  ad_state  != #{ad_state} ORDER BY ad_state ASC , ad_position  ASC ,ad_state ASC, ad_weight ASC,ad_create_time desc
 	</select>
 	
 	<!-- web 查看 删除的广告 -->
 	<select id="selectAD_Delete" parameterType="Integer" resultType="com.platform.entity.AD">
 		
-		SELECT *  FROM t_ad   WHERE  ad_state  = #{ad_state} ORDER BY   ad_position ASC, ad_weight ASC
+		SELECT *  FROM t_ad   WHERE  ad_state  = #{ad_state} ORDER BY   ad_position ASC, ad_weight ASC ,ad_create_time desc
 	</select>
 	
 	<!-- web 查看广告 点击次数 -->

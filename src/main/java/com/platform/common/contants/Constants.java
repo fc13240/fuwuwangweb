@@ -114,9 +114,11 @@ public class Constants {
 	/**
 	 * 广告的状态 0.未发布  1.活跃  2.删除
 	 */
-	public static final Integer AD_STATE_0 = 0; // 未发布
-	public static final Integer AD_STATE_ACTIVITY = 1; // 活跃 （已发布）
+	public static final Integer AD_STATE_WAITE = 0; // 未发布
+	public static final Integer AD_STATE_RUN = 1; // 上线
 	public static final Integer AD_STATE_DEL = 2; // 删除
+	public static final Integer AD_STATE_STOP = 3; // 下线
+	
 
 	/**
 	 * 广告的类型 1.店铺  2.商品

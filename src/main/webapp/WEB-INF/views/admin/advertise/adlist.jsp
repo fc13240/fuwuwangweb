@@ -16,6 +16,10 @@ function release(paramstoreId){
 	document.getElementById("curADId1").value=paramstoreId;
 
 }
+function stop(paramstoreId){
+	document.getElementById("curADId2").value=paramstoreId;
+
+}
 
 
 </script>
@@ -42,6 +46,7 @@ function release(paramstoreId){
 							<th>所在页面</th>
 							<th>权重</th>
 							<th>具体位置</th>
+							<th>广告状态</th>
 							<th>时间</th>
 							<th>操作</th>
 						</tr>
@@ -77,22 +82,31 @@ function release(paramstoreId){
 									<c:if test="${list.ad_pd ==2}">第二位</c:if>
 									<c:if test="${list.ad_pd ==3}">第三位</c:if>
 								</td>
+								<td align="left">
+									<c:if test="${list.ad_state ==0}">等待上线</c:if>
+									<c:if test="${list.ad_state ==1}">正在上线</c:if>
+									<c:if test="${list.ad_state ==3}">已经下线</c:if>
+								</td>
 								<td align="center"><c:if test="${not empty list.ad_create_time}">
 										<fmt:formatDate value="${list.ad_create_time}" pattern="yyyy-MM-dd HH:mm:ss" type="both" />
 									</c:if></td>
 
-								<td id="btn_${list.ad_id}" align="right"><c:if
-										test="${list.ad_state ==1}">
-
+								<td id="btn_${list.ad_id}" align="right">
+									<c:if test="${list.ad_state ==1}">
+									<button class="btn btn-info" data-toggle="modal"
+											data-target="#stopModal"
+											onclick="stop('${list.ad_id}');">下线</button>
 										<button class="btn btn-danger" data-toggle="modal"
 											data-target="#deleteModal" onclick="delAD('${list.ad_id}');">删除</button>
-									</c:if> <c:if test="${list.ad_state ==0}">
-										<button class="btn btn-info" data-toggle="modal"
+									</c:if>
+									 <c:if test="${list.ad_state ==0||list.ad_state ==3}">
+										<button class="btn btn-success" data-toggle="modal"
 											data-target="#releaseModal"
-											onclick="release('${list.ad_id}');">发布</button>
+											onclick="release('${list.ad_id}');">上线</button>
 										<button class="btn btn-danger" data-toggle="modal"
 											data-target="#deleteModal" onclick="delAD('${list.ad_id}');">删除</button>
-									</c:if></td>
+									</c:if>
+									</td>
 
 							</tr>
 
@@ -125,7 +139,7 @@ function release(paramstoreId){
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					<h4 class="modal-title" id="myModalLabel">删除确认</h4>
+					<h4 class="modal-title" id="myModalLabel">广告删除确认</h4>
 				</div>
 
 				<form class="form-horizontal col-sm-offset-2"
@@ -135,13 +149,39 @@ function release(paramstoreId){
 					<div class="modal-body">是否确认删除该广告吗？</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-						<button type="submit" class="btn btn-primary">确认删除</button>
+						<button type="submit" class="btn btn-danger">确认删除</button>
 					</div>
 				</form>
 			</div>
 		</div>
 	</div>
-	<!--发布模态框  -->
+	<!--下线模态框  -->
+	<div class="modal fade" id="stopModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">广告下线确认</h4>
+				</div>
+
+				<form class="form-horizontal col-sm-offset-2"
+					action="${pageContext.request.contextPath}/admin/ad/stop"
+					method="get" enctype="multipart/form-data">
+					<input id="curADId2" name="curADId" value="${curADId}" type="hidden">
+					<div class="modal-body">是否确认该广告下线吗？</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+						<button type="submit" class="btn btn-success">确认下线</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!--上线模态框  -->
 	<div class="modal fade" id="releaseModal" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel">
 		<div class="modal-dialog" role="document">
@@ -151,17 +191,17 @@ function release(paramstoreId){
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					<h4 class="modal-title" id="myModalLabel">发布确认</h4>
+					<h4 class="modal-title" id="myModalLabel">广告上线确认</h4>
 				</div>
 
 				<form class="form-horizontal col-sm-offset-2"
 					action="${pageContext.request.contextPath}/admin/ad/release"
 					method="get" enctype="multipart/form-data">
 					<input id="curADId1" name="curADId" type="hidden">
-					<div class="modal-body">是否确认发布该广告吗？</div>
+					<div class="modal-body">是否确认该广告上线吗？</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-						<button type="submit" class="btn btn-primary">确认发布</button>
+						<button type="submit" class="btn btn-success">确认上线</button>
 					</div>
 				</form>
 			</div>

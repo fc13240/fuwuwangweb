@@ -77,25 +77,14 @@ public class ADServiceImpl   implements ADService{
 	
 	
 
-    /*******admin 删除广告********/
-	public void updateAD(String ad_id) {
-		AD  ad = new AD();
-		ad.setAd_id(ad_id);
-		ad.setAd_state(Constants.AD_STATE_DEL);
-		System.out.println(ad_id + "和" + Constants.AD_STATE_DEL);
+    /*******admin 删除 发布广告********/
+	public void updateAD(AD  ad) {
+		
 		mapper.updateAD(ad);
 		
 	}
 	
-	/*******admin 发布广告********/
-	public void updateAd(String ad_id) {
-		AD  ad = new AD();
-		ad.setAd_id(ad_id);
-		ad.setAd_state(Constants.AD_STATE_ACTIVITY);
-		System.out.println(ad_id + "和" + Constants.AD_STATE_DEL);
-		mapper.updateAD(ad);
-		
-	}
+
 	
 
     /****admin  根据时间段  查看历史广告--****/

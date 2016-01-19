@@ -144,15 +144,29 @@ public class ADController {
 				}
 				
 				if("updateAD".equals(type)){           // 删除 广告
-					
-					 adservice.updateAD(curADId);
+					AD  ad = new AD();
+					ad.setAd_id(curADId);
+					ad.setAd_state(Constants.AD_STATE_DEL);
+					 adservice.updateAD(ad);
 					
 					 return "redirect:/admin/ad/adlist_activity" ;   // 重定向到。。活跃的广告
 					
 				}
 				if("release".equals(type)){
 					System.out.println("发布广告");
-					adservice.updateAd(curADId);
+					AD  ad = new AD();
+					ad.setAd_id(curADId);
+					ad.setAd_state(Constants.AD_STATE_RUN);
+					adservice.updateAD(ad);  
+					return "redirect:/admin/ad/adlist_activity" ;   // 重定向到未发布的广告
+					
+				}
+				if("stop".equals(type)){
+					System.out.println("发布广告");
+					AD  ad = new AD();
+					ad.setAd_id(curADId);
+					ad.setAd_state(Constants.AD_STATE_STOP);
+					adservice.updateAD(ad);  
 					return "redirect:/admin/ad/adlist_activity" ;   // 重定向到未发布的广告
 					
 				}
@@ -213,7 +227,7 @@ public class ADController {
 		ad.setAd_id(UUIDUtil.getRandom32PK());             	// iD
 		ad.setAd_position(ad_position);                    	// 页数
 		ad.setAd_weight(ad_weight);                        	// 权值
-		ad.setAd_state(Constants.AD_STATE_0);       		// 正常广告
+		ad.setAd_state(Constants.AD_STATE_WAITE);       		// 正常广告
 		if(null!=city_id){
 			ad.setCity_id(city_id);                        	//广告展示的城市
 		}

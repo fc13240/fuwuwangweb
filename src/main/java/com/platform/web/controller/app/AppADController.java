@@ -58,7 +58,7 @@ public class AppADController {
 		if (city == null) {
 			result.Error = "不支持该城市";
 		}
-		AD ad_1 = new AD(ad_position, Constants.AD_STATE_ACTIVITY, city.getCity_id());
+		AD ad_1 = new AD(ad_position, Constants.AD_STATE_RUN, city.getCity_id());
 		List<ADVo> lAD_1 = adService.select_adByCity_id(ad_1);
 		if (null == lAD_1) {
 			result.Error = "该位置没有查询到广告";

@@ -13,7 +13,6 @@ public class AD {
 	private  String  ad_pid ;      // 店铺或者 商品的ID
 	private  Date   ad_create_time ; // 添加时间；
 	private  Integer  number ;      // 点击次数
-	private Integer ad_run_state;	//上线 下线
 	private Integer ad_pd;
 	
 	private Integer city_id;
@@ -180,20 +179,12 @@ public class AD {
 		this.city_id = city_id;
 	}
 
-	public Integer getAd_run_state() {
-		return ad_run_state;
-	}
-
-	public void setAd_run_state(Integer ad_run_state) {
-		this.ad_run_state = ad_run_state;
-	}
-
 	@Override
 	public String toString() {
 		return "AD [ad_id=" + ad_id + ", ad_img=" + ad_img + ", ad_position=" + ad_position + ", ad_weight=" + ad_weight
 				+ ", ad_state=" + ad_state + ", ad_type=" + ad_type + ", ad_pid=" + ad_pid + ", ad_create_time="
-				+ ad_create_time + ", number=" + number + ", ad_run_state=" + ad_run_state + ", ad_pd=" + ad_pd
-				+ ", city_id=" + city_id + "]";
+				+ ad_create_time + ", number=" + number + ", ad_pd=" + ad_pd + ", city_id=" + city_id + "]";
 	}
+
 
 }
