@@ -80,7 +80,7 @@ public class AppGoodsController extends BaseController {
 		}
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("store_id", store_id);
-		map.put("PageSize", PageSize);
+		map.put("pageSize", PageSize);
 		map.put("offset", (PageIndex - 1) * PageSize);
 		result.Successful = true;
 		pr.ListData = goodsService.getGoodsByStoreIdForApp(map);
@@ -123,7 +123,7 @@ public class AppGoodsController extends BaseController {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("searchName", searchName);
 		map.put("cityName", cityName);
-		map.put("PageSize", PageSize);
+		map.put("pageSize", PageSize);
 		map.put("offset", (PageIndex - 1) * PageSize);
 		result.Successful = true;
 		pr.ListData = goodsService.getGoodsBySearchNameAndCityName(map);
@@ -161,7 +161,7 @@ public class AppGoodsController extends BaseController {
 		}
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("cityName", cityName);
-		map.put("PageSize", PageSize);
+		map.put("pageSize", PageSize);
 		map.put("offset", (PageIndex - 1) * PageSize);
 		result.Successful = true;
 		pr.ListData = goodsService.getLongBiGoodsByCityName(map);
@@ -205,7 +205,7 @@ public class AppGoodsController extends BaseController {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("cityName", cityName);
 		map.put("store_type1_id", store_type1_id);
-		map.put("PageSize", PageSize);
+		map.put("pageSize", PageSize);
 		map.put("offset", (PageIndex - 1) * PageSize);
 		result.Successful = true;
 		pr.ListData = goodsService.getGoodsRecommendByCityNameAndCategory(map);
