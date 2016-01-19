@@ -37,6 +37,8 @@ public interface UserService {
 	 */
 	public List<User> userlist() throws Exception;
 
+	/***** 查看商人 ******/
+	public List<User> merchantlist();
 	/**
 	 * User 锁定, 解锁,删除
 	 */

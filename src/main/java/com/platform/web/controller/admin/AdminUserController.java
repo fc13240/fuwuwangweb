@@ -282,7 +282,25 @@ public class AdminUserController {
 	public String adminchange( ){
 		return "/admin/userinfo";
 	}
-
+	/**
+	 * 查看商人
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "mlist" , method = RequestMethod.GET)
+	public  String  mlist(Model model,Integer pageNum,Integer pageSize){
+		if (pageNum == null)
+			pageNum = 1;
+		if (pageSize == null)
+			 pageSize=Constants.PAGE_SIZE;
+		
+		PageHelper.startPage(pageNum, pageSize, true);
+		model.addAttribute("page", new PageInfo<User>(userService.merchantlist()));
+		return "/admin/user/merchantlist";
+	}
+	
+	
+	
 	/*****修改密码* @throws Exception *****/
 	@RequestMapping(value = "userinfo" , method = RequestMethod.POST)
 	public String  userinfo(HttpServletRequest request , HttpSession  session, String  passWord , String newpass ) throws Exception{

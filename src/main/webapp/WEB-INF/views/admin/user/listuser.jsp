@@ -82,7 +82,7 @@
 										test="${list.user_type=='3'}">普通用户</c:if> <c:if
 										test="${list.user_type=='4'}">VIP</c:if></td>
 
-								<td align="left">
+								<td align="center">
 <fmt:formatDate value="${list.user_create_time}" type="both" />
 								</td>
 

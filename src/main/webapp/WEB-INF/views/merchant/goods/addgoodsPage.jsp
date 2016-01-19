@@ -28,7 +28,7 @@
 			<label for="inputGoodsName" class="col-sm-offset-1 col-sm-1 control-label" style="text-align:right" >商品名</label>
 			<div class="col-sm-3">
 				<input type="text" class="form-control" name="goods_name"
-					id="goods_name" placeholder="商品名称">
+					id="goods_name" placeholder="商品名称" value="${goods.goods_name}"/>
 			</div>
 			<div class="col-sm-3">
 					 <label	id="goods_nameLabel"></label>
@@ -49,7 +49,7 @@
 			<label for="inputGoodsDesc" class="col-sm-offset-1 col-sm-1 control-label"  style="text-align:right" >商品描述</label>
 			<div class="col-sm-3">
 				<textarea name="goods_desc" cols="50" id="goods_desc"
-					placeholder="商品描述" class="form-control"></textarea>
+					placeholder="商品描述" class="form-control">${goods.goods_desc}</textarea>
 			</div>
 			<div class="col-sm-3">
 				<label id="goods_descLabel"></label>
@@ -59,7 +59,7 @@
 			<label for="inputGoodsPrice" class="col-sm-offset-1 col-sm-1 control-label"  style="text-align:right" >商品价格</label>
 			<div class="col-sm-3">
 				<input type="text" class="form-control" name="goods_price"
-					id="goods_price" placeholder="商品价格" onkeyup="clearNoNum(this)">
+					id="goods_price" placeholder="商品价格" onkeyup="clearNoNum(this)"  value="${goods.goods_price}">
 			</div>
 			<div class="col-sm-3">
 					<label id="goods_priceLabel" style="color:red;">*(单位：元)</label>
@@ -77,7 +77,7 @@
 		<div class="form-group" id="longbi_number">
 			<label for="inputGoodsPriceLB" class="col-sm-offset-1 col-sm-1 control-label"  style="text-align:right" >商品龙币价格</label>
 			<div class="col-sm-3">
-				<input type="text" class="form-control" name="goods_price_LB"
+				<input type="text" class="form-control" name="goods_price_LB"  value="${goods.goods_price_LB}"
 					id="goods_price_LB" placeholder="商品龙币价格" onkeyup="this.value=this.value.replace(/[^\d]/g,'')">(单位：个) 
 			</div>
 			<div class="col-sm-3">
@@ -98,7 +98,7 @@
 		<div class="form-group">
 			<label for="inputGoodsPrice" class="col-sm-offset-1 col-sm-1 control-label"  style="text-align:right" >返券标准</label>
 			<div class="col-sm-3">
-				<input type="text" class="form-control" name="goods_return_standard"
+				<input type="text" class="form-control" name="goods_return_standard" value="${goods.goods_return_standard}"
 					id="goods_return_standard" placeholder="返券标准" onkeyup="this.value=this.value.replace(/[^\d]/g,'')">
 			</div>
 			<div class="col-sm-3">
@@ -109,7 +109,7 @@
 		<div class="form-group">
 			<label for="inputGoodsPrice" class="col-sm-offset-1 col-sm-1 control-label"  style="text-align:right" >返券数量</label>
 			<div class="col-sm-3">
-				<input type="text" class="form-control" name="goods_return_ticket"
+				<input type="text" class="form-control" name="goods_return_ticket" value="${goods.goods_return_ticket}"
 					id="goods_return_ticket" placeholder="返券数量" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" > 
 			</div>
 			<div class="col-sm-3">
@@ -120,8 +120,8 @@
 		<div class="form-group">
 			<label for="inputGoodsDesc" class="col-sm-offset-1 col-sm-1 control-label"  style="text-align:right" >购买须知</label>
 			<div class="col-sm-3">
-				<textarea name="goods_purchase_notes" cols="50" id="goods_purchase_notes"
-					placeholder="购买须知" class="form-control"></textarea>
+				<textarea name="goods_purchase_notes" cols="50" id="goods_purchase_notes" value="${goods.goods_purchase_notes}"
+					placeholder="购买须知" class="form-control">${goods.goods_purchase_notes}</textarea>
 			</div>
 			<div class="col-sm-3">
 				<label id="goods_purchase_notesLabel"></label>

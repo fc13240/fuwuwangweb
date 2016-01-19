@@ -39,6 +39,9 @@ public interface UserMapper {
 
 	/***** 查看用户 ******/
 	public List<User> userlist();
+	
+	/***** 查看商人 ******/
+	public List<User> merchantlist();
 
 	/**** 用户 锁定，解锁，删除 ****/
 	public void updateuser_state(User user);

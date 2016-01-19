@@ -303,7 +303,7 @@ function check(){
 			<label for="inputGoodsName" class="col-sm-offset-1 col-sm-1 control-label" style="text-align:right">店铺名</label>
 			<div class="col-sm-3">
 				<input type="text" class="form-control" name="store_name" id="txtstore_name"
-					placeholder="店铺名">
+					placeholder="店铺名" value="${stores.store_name}">
 			</div>
 			<div class="col-sm-3">
 				<label id="txtstore_nameLabel"></label>
@@ -324,7 +324,7 @@ function check(){
 			<label for="inputGoodsDesc" class="col-sm-offset-1 col-sm-1 control-label" style="text-align:right">店铺描述</label>
 			<div class="col-sm-3">
 				<textarea  id="txtstore_desc" name="store_desc" cols="10"  class="form-control"
-					placeholder="店铺描述"></textarea>
+					placeholder="店铺描述">${stores.store_desc}</textarea>
 			</div>
 			<div class="col-sm-3">
 					<label id="txtstore_descLabel"></label>
@@ -348,7 +348,7 @@ function check(){
 			<label for="inputGoodsPrice" class="col-sm-offset-1 col-sm-1 control-label" style="text-align:right">店铺电话</label>
 			<div class="col-sm-3">
 				<input type="text" class="form-control" name="store_phone" id="txtstore_phone"
-					placeholder="店铺电话">
+					placeholder="店铺电话" value="${stores.store_phone}">
 			</div> 
 			<div class="col-sm-3">
 			<label id="txtstore_phoneLabel"></label>
@@ -376,7 +376,7 @@ function check(){
 			<label for="inputGoodsPrice" class=" col-sm-offset-1 col-sm-1 control-label" style="text-align:right">店铺地址</label>
 			<div class="col-sm-3">
 				<input type="text" class="form-control" name="store_address"
-					placeholder="店铺地址" id="txtstore_address">
+					placeholder="店铺地址" id="txtstore_address" value="${stores.store_address}">
 			</div> 
 			<div class="col-sm-3">
 			<label id="txtstore_addressLabel"></label>

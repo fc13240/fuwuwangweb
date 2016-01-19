@@ -585,4 +585,9 @@ public class UserServiceImpl implements UserService {
 		return mapper.getUserInforByUserNameAndCode(map);
 	}
 
+	public List<User> merchantlist() {
+		// TODO Auto-generated method stub
+		return mapper.merchantlist();
+	}
+
 }

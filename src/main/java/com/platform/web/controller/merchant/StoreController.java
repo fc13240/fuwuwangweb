@@ -64,23 +64,6 @@ public class StoreController {
 		Store store = new Store();
 		String filepath=session.getServletContext().getRealPath(Constants.UPLOAD_MERCHANT_IMG_PATH);
 		store.setStore_id(UUIDUtil.getRandom32PK());
-			// MultipartFile a=(MultipartFile) goods_img;
-		try {
-			String  type = store_img.getOriginalFilename().indexOf(".") != -1 ? store_img.getOriginalFilename().substring(store_img.getOriginalFilename().lastIndexOf("."),
-					store_img.getOriginalFilename().length()) : null ;
-			type = type.toLowerCase() ;
-			 if( type .equals(".jpg")|| type.equals(".jpeg") || type.equals(".png") ){
-				 UploadUtil.saveFile(store_img, filepath, store.getStore_id());
-				 UploadUtil.img_01(store_img, filepath,  store.getStore_id() + "-1" ,  store.getStore_id());
-				 UploadUtil.img_02(store_img, filepath,  store.getStore_id() + "-2" , store.getStore_id());
-			 }else{
-				 System.out.println("图片格式不正确");
-				 request.setAttribute("info", "图片非JPG格式！");
-				 return "merchant/store/addstore";
-			 }
-			 } catch (IOException e) {
-			e.printStackTrace();
-		}
 		store.setStore_name(store_name);
 		store.setStore_desc(store_desc);
 		store.setStore_img(UploadUtil.fileName);
@@ -92,6 +75,25 @@ public class StoreController {
         store.setStore_type2_id(Integer.valueOf(store_type2_id));
         store.setStore_phone(store_phone);
         store.setStore_address(store_address);
+			// MultipartFile a=(MultipartFile) goods_img;
+		try {
+			String  type = store_img.getOriginalFilename().indexOf(".") != -1 ? store_img.getOriginalFilename().substring(store_img.getOriginalFilename().lastIndexOf("."),
+					store_img.getOriginalFilename().length()) : null ;
+			type = type.toLowerCase() ;
+			 if( type .equals(".jpg")|| type.equals(".jpeg") || type.equals(".png") ){
+				 UploadUtil.saveFile(store_img, filepath, store.getStore_id());
+				 UploadUtil.img_01(store_img, filepath,  store.getStore_id() + "-1" ,  store.getStore_id());
+				 UploadUtil.img_02(store_img, filepath,  store.getStore_id() + "-2" , store.getStore_id());
+			 }else{
+				 System.out.println("图片格式不正确");
+				 request.setAttribute("info", "图片格式应为.jpg,.jpeg,.png！");
+				 request.setAttribute("stores", store);
+				 return "merchant/store/addstore";
+			 }
+			 } catch (IOException e) {
+			e.printStackTrace();
+		}
+	
 		storeService.addStore(store);
 		request.setAttribute("info", "添加店铺成功！");
 		return "merchant/store/addstore";

@@ -147,6 +147,11 @@ public class GoodsController extends BaseController {
 		goods.setGoods_name(goods_name);
 		goods.setGoods_desc(goods_desc);
 		goods.setGoods_purchase_notes(goods_purchase_notes);
+		goods.setGoods_price((int) (Double.valueOf(goods_price) * 100));
+		goods.setStore_id(store_id);
+		goods.setGoods_return_ticket(goods_return_ticket);
+		goods.setGoods_return_type(goods_return_type);
+		goods.setGoods_return_standard(goods_return_standard);
 		if (null == goods_pay_type || ("").equals(goods_pay_type)) {
 
 			goods.setGoods_pay_type(Constants.GOODS_PAY_TYPE0);
@@ -166,16 +171,12 @@ public class GoodsController extends BaseController {
 			UploadUtil.img_01(goods_img, filepath, goods.getGoods_id() + "-1", goods.getGoods_id());
 			UploadUtil.img_02(goods_img, filepath, goods.getGoods_id() + "-2", goods.getGoods_id());
 		} else {
-			request.setAttribute("info", "图片非JPG格式！");
+			request.setAttribute("info", "图片格式应为.jpg,.jpeg,.png！");
+			request.setAttribute("goods", goods);
 			return "merchant/goods/addgoodsPage";
 		}
 		goods.setGoods_img(UploadUtil.fileName);
-		goods.setGoods_price((int) (Double.valueOf(goods_price) * 100));
 
-		goods.setStore_id(store_id);
-		goods.setGoods_return_ticket(goods_return_ticket);
-		goods.setGoods_return_type(goods_return_type);
-		goods.setGoods_return_standard(goods_return_standard);
 		System.out.println(goods);
 		goodsService.addGoods(goods);
 		request.setAttribute("info", "添加商品成功！");

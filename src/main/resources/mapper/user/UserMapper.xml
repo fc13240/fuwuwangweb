@@ -73,6 +73,18 @@
 	</select>
 
 
+	<!-- 查看所有商人 -->
+	<select id="merchantlist" resultType="com.platform.entity.User">
+
+		SELECT t_user.* , t_merchant_info.*
+		FROM t_user , t_merchant_info
+		WHERE t_user.`user_id` = t_merchant_info.`user_id`
+		AND t_user.user_type = 2
+		ORDER BY merchant_type desc, user_create_time desc
+
+	</select>
+
+
 
 	<!-- 根据商人注册，验证帐号是否存在 -->
 	<select id="selectUserlogin" parameterType="String"
