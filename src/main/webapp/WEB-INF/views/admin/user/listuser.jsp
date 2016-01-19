@@ -83,7 +83,7 @@
 										test="${list.user_type=='4'}">VIP</c:if></td>
 
 								<td align="center">
-<fmt:formatDate value="${list.user_create_time}" type="both" />
+<fmt:formatDate value="${list.user_create_time}" pattern="yyyy-MM-dd HH:mm:ss" type="both" />
 								</td>
 
 							

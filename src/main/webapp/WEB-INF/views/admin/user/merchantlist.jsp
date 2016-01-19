@@ -79,7 +79,7 @@
 	<td id="text_${list.user_id}" align="left">${list.service_man}</td>
 
 								<td align="center">
-<fmt:formatDate value="${list.user_create_time}" type="both" />
+<fmt:formatDate value="${list.user_create_time}" pattern="yyyy-MM-dd HH:mm:ss" type="both" />
 								</td>
 
 								<c:if test="${list.user_type!='4'}">

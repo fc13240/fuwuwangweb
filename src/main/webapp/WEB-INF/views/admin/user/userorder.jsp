@@ -108,10 +108,10 @@ function checkdate(){
 
 							<td class="col-md-2" align="center"><c:if
 									test="${not empty list.order_time}">
-									<fmt:formatDate value="${list.order_time}" type="both" />
+									<fmt:formatDate value="${list.order_time}" pattern="yyyy-MM-dd HH:mm:ss" type="both" />
 								</c:if></td>
 							<td class="col-md-2" align="center"><c:if test="${not empty list.pay_time}">
-									<fmt:formatDate value="${list.pay_time}" type="both" />
+									<fmt:formatDate value="${list.pay_time}" pattern="yyyy-MM-dd HH:mm:ss" type="both" />
 								</c:if></td>
 
 

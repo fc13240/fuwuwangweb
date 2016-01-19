@@ -53,7 +53,7 @@
 								<td class="col-md-1" align="right">${list.electronics_evidence}</td>
 
 								<td class="col-md-1" align="center"><fmt:formatDate
-										value="${list.order_time}" type="both" /></td>
+										value="${list.order_time}" pattern="yyyy-MM-dd HH:mm:ss" type="both" /></td>
 								<td class="col-md-1"><fmt:formatDate
 										value="${list.pay_time}" type="both" /></td>
 								<td class="col-md-1"><fmt:formatDate

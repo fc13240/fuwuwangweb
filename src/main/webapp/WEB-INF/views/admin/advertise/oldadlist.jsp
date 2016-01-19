@@ -125,7 +125,7 @@
 									<c:if test="${list.ad_pd ==3}">第三位</c:if>
 								</td>
 								<td align="center"><c:if test="${not empty list.ad_create_time}">
-										<fmt:formatDate value="${list.ad_create_time}" type="both" />
+										<fmt:formatDate value="${list.ad_create_time}" pattern="yyyy-MM-dd HH:mm:ss" type="both" />
 									</c:if></td>
 
 								<td align="right">${list.number}</td>

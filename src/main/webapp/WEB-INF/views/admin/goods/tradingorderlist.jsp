@@ -51,7 +51,7 @@
 
 							<td class="col-md-2"><c:if
 									test="${not empty order.order_time}">
-									<fmt:formatDate value="${order.order_time}"
+									<fmt:formatDate value="${order.order_time}" pattern="yyyy-MM-dd HH:mm:ss"
 										type="both" />
 								</c:if>
 							</td>

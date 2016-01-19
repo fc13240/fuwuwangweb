@@ -64,7 +64,7 @@ function check(){
 						<td class="col-md-2" align="right">${order.electronics_evidence}</td>
 						<td class="col-md-2" align="center"><c:if
 								test="${not empty order.order_time}">
-								<fmt:formatDate value="${order.order_time}" type="both" />
+								<fmt:formatDate value="${order.order_time}" pattern="yyyy-MM-dd HH:mm:ss" type="both" />
 							</c:if></td>
 						<td class="col-md-2" align="center">
 							<form class="form-horizontal"

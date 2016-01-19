@@ -127,7 +127,7 @@ function checkdate(){
 										pattern="#,##0.00#" /></td>
 										<td class="col-md-1" align="center"><c:if
 												test="${not empty list.order_time}">
-												<fmt:formatDate value="${list.order_time}" type="both" />
+												<fmt:formatDate value="${list.order_time}"  pattern="yyyy-MM-dd HH:mm:ss" type="both" />
 											</c:if></td>
 
 									</tr>
