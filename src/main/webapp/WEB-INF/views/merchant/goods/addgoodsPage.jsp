@@ -303,7 +303,7 @@ function getPhoto(){
 		var id = $('#user_id').val();
 		var merchant_type = $('#merchant_type').val();
 		//alert(merchant_type);
-		if (2 == merchant_type) {
+		if (2 != merchant_type) {
 			$("#longbi_name").hide();
 			$("#longbi_number").hide();
 		}
