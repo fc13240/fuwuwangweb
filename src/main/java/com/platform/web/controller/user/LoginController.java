@@ -120,7 +120,7 @@ public class LoginController {
 			
 		}*/
 		session.invalidate();
-		return "login";
+		return "redirect:execute";
 	}
 
 	/***** 修改密码* @throws Exception *****/

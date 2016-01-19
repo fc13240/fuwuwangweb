@@ -13,6 +13,7 @@ public class ADVo {
 	private  String  ad_pid ;      // 店铺或者 商品的ID
 	private  Date   ad_create_time ; // 添加时间；
 	private  Integer  number ;      // 点击次数
+	private Integer ad_run_state;	//上线 下线
 	private Integer ad_pd;
 	private Integer city_id;
 	private GoodsForWeb goods;
@@ -75,7 +76,7 @@ public class ADVo {
 	}
 	public ADVo(String ad_id, String ad_img, Integer ad_position,
 			Integer ad_weight, Integer ad_state, Integer ad_type,
-			String ad_pid, Date ad_create_time,Integer ad_pd,Integer city_id,StoreForApp stores) {
+			String ad_pid, Date ad_create_time,Integer ad_pd,Integer city_id,Integer ad_run_state,StoreForApp stores) {
 		this.ad_id = ad_id;
 		this.ad_img = ad_img;
 		this.ad_position = ad_position;
@@ -87,10 +88,11 @@ public class ADVo {
 		this.ad_pd=ad_pd;
 		this.stores=stores;
 		this.city_id=city_id;
+		this.ad_run_state= ad_run_state;
 	}
 	public ADVo(String ad_id, String ad_img, Integer ad_position,
 			Integer ad_weight, Integer ad_state, Integer ad_type,
-			String ad_pid, Date ad_create_time,Integer ad_pd,Integer city_id,GoodsForWeb goods) {
+			String ad_pid, Date ad_create_time,Integer ad_pd,Integer city_id,Integer ad_run_state,GoodsForWeb goods) {
 		this.ad_id = ad_id;
 		this.ad_img = ad_img;
 		this.ad_position = ad_position;
@@ -101,6 +103,7 @@ public class ADVo {
 		this.ad_create_time = ad_create_time;
 		this.ad_pd=ad_pd;
 		this.city_id=city_id;
+		this.ad_run_state= ad_run_state;
 		this.goods=goods;
 	}
 
@@ -209,16 +212,6 @@ public class ADVo {
 		this.ad_pd = ad_pd;
 	}
 
-
-	
-
-	@Override
-	public String toString() {
-		return "AD [ad_id=" + ad_id + ", ad_img=" + ad_img + ", ad_position=" + ad_position + ", ad_weight=" + ad_weight
-				+ ", ad_state=" + ad_state + ", ad_type=" + ad_type + ", ad_pid=" + ad_pid + ", ad_create_time="
-				+ ad_create_time + ", number=" + number + ", ad_pd=" + ad_pd + "]";
-	}
-
 	public GoodsForWeb getGoods() {
 		return goods;
 	}
@@ -243,8 +236,20 @@ public class ADVo {
 		this.city_id = city_id;
 	}
 
-	
-	
-	
+	public Integer getAd_run_state() {
+		return ad_run_state;
+	}
+
+	public void setAd_run_state(Integer ad_run_state) {
+		this.ad_run_state = ad_run_state;
+	}
+
+	@Override
+	public String toString() {
+		return "ADVo [ad_id=" + ad_id + ", ad_img=" + ad_img + ", ad_position=" + ad_position + ", ad_weight="
+				+ ad_weight + ", ad_state=" + ad_state + ", ad_type=" + ad_type + ", ad_pid=" + ad_pid
+				+ ", ad_create_time=" + ad_create_time + ", number=" + number + ", ad_run_state=" + ad_run_state
+				+ ", ad_pd=" + ad_pd + ", city_id=" + city_id + ", goods=" + goods + ", stores=" + stores + "]";
+	}
 
 }
