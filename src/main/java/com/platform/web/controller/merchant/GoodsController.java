@@ -161,6 +161,11 @@ public class GoodsController extends BaseController {
 			goods.setGoods_price_LB(Integer.valueOf(goods_price_LB));
 
 		}
+		if(null==goods_img){
+			request.setAttribute("info", "请选择图片");
+			request.setAttribute("goods", goods);
+			return "merchant/goods/addgoodsPage";
+		}
 		String type = goods_img.getOriginalFilename().indexOf(".") != -1 ? goods_img.getOriginalFilename().substring(
 				goods_img.getOriginalFilename().lastIndexOf("."), goods_img.getOriginalFilename().length()) : null;
 		type = type.toLowerCase();
