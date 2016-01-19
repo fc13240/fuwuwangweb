@@ -621,14 +621,14 @@ public class AppUserController {
 	}
 	
 	
-	@RequestMapping(value = "uploadAvatar", method = RequestMethod.POST)
-	@ResponseBody
-	public BaseModelJson<String> uploadAvatar(@RequestBody MultipartFile file, @RequestHeader String token) throws IOException {
-		
-		BaseModelJson<String> result = new BaseModelJson<>();
-		
-		return result;
-	}
+//	@RequestMapping(value = "uploadAvatar", method = RequestMethod.POST)
+//	@ResponseBody
+//	public BaseModelJson<String> uploadAvatar(@RequestBody MultipartFile file, @RequestHeader String token) throws IOException {
+//		
+//		BaseModelJson<String> result = new BaseModelJson<>();
+//		
+//		return result;
+//	}
 	
 	
 
