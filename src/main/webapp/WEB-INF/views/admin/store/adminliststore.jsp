@@ -71,7 +71,7 @@
 
 							<tr id="mer_${list.store_id}">
 
-								<td align="right">${vs.index+1}</td>
+								<td align="center">${vs.index+1}</td>
 
 								<td align="center"><img
 									src="${pageContext.request.contextPath}/resources/upload/store/${list.store_id}${list.store_img}"
@@ -87,7 +87,7 @@
 										test="${list.store_state=='4'}">审核未通过</c:if> <c:if
 										test="${list.store_state=='2'}">违规店铺</c:if></td>
 
-								<td id="btn_${list.store_id}" align="right"><c:if
+								<td id="btn_${list.store_id}" align="center"><c:if
 										test="${list.store_state=='1'}">
 										<button class="btn btn-info" data-toggle="modal"
 											data-target="#passModal"

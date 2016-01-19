@@ -72,7 +72,7 @@
 						<c:forEach items="${page.list}" var="list" varStatus="vs">
 
 							<tr id="mer_${list.user_id}">
-								<td align="right">${vs.index+1}</td>
+								<td align="center">${vs.index+1}</td>
 								<td align="left">${list.userLogin}</td>
 								<td align="left">${list.user_email}</td>
 	<td id="text_${list.user_id}" align="left"><c:if
@@ -92,7 +92,7 @@
 										test="${list.user_state=='1'}">锁定</c:if> <c:if
 										test="${list.user_state=='3'}">删除</c:if></td>
 								<c:if test="${list.user_type!='4'}">
-										<td id="btn_${list.user_id}" align="right"><c:if
+										<td id="btn_${list.user_id}" align="center"><c:if
 												test="${list.user_state=='2'}">
 												<button class="btn btn-info" data-toggle="modal"
 													data-target="#lockModal"

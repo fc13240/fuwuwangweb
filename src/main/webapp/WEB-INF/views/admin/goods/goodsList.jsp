@@ -104,7 +104,7 @@
 
 							<input type="hidden" value="${list.goods_id}" id="delg_id" />
 							<tr id="${list.goods_id}">
-								<td align="right">${vs.index+1}</td>
+								<td align="center">${vs.index+1}</td>
 								<td align="center"><img
 									src="${pageContext.request.contextPath}/resources/upload/goods/${list.goods_id}${list.goods_img}"
 									width="80px" height="80px" />
@@ -120,7 +120,7 @@
 										test="${list.goods_check_state=='1'}">审核通过</c:if> <c:if
 										test="${list.goods_check_state=='2'}">审核未通过</c:if></td>
 
-								<td id="btn_${list.goods_id}" align="right"><c:if
+								<td id="btn_${list.goods_id}" align="center"><c:if
 										test="${list.goods_check_state=='0'}">
 										<button class="btn btn-info" data-toggle="modal"
 											data-target="#passModal"

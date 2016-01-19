@@ -34,7 +34,7 @@
 
 
 							<tr id="mer_${list.order_id}">
-								<td class="col-md-1" align="right">${vs.index+1}</td>
+								<td class="col-md-1" align="center">${vs.index+1}</td>
 								<td class="col-md-1" align="left">${list.goods_name}</td>
 								<td class="col-md-1" align="right">
 								￥<fmt:formatNumber value="${list.goods_price/100}"

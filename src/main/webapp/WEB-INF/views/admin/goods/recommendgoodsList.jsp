@@ -79,7 +79,7 @@
 					<c:forEach items="${page.list}" var="list" varStatus="vs">
 
 						<tr id="${list.goods_id}">
-							<td align="right">${vs.index+1}</td>
+							<td align="center">${vs.index+1}</td>
 							<td align="center"><img
 								src="${pageContext.request.contextPath}/resources/upload/goods/${list.goods_id}${list.goods_img}"
 								width="80px" height="80px" />

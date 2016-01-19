@@ -156,7 +156,7 @@
 						<c:forEach items="${page.list}" var="list" varStatus="vs">
 							<input type="hidden" value="${list.goods_id}" id="delg_id" />
 							<tr id="${list.goods_id}">
-								<td align="right">${vs.index+1}</td>
+								<td align="center">${vs.index+1}</td>
 								<td align="center"><img
 									src="${pageContext.request.contextPath}/resources/upload/goods/${list.goods_id}${list.goods_img}"
 									width="80px" height="80px" /> <br> <a data-toggle="modal"
@@ -177,7 +177,7 @@
 										test="${list.goods_check_state=='0'}">待审核</c:if> <c:if
 										test="${list.goods_check_state=='1'}">审核通过</c:if> <c:if
 										test="${list.goods_check_state=='2'}">审核未通过</c:if></td>
-								<td align="right">
+								<td align="center">
 								<c:if test="${list.goods_putaway_state=='1'}">
 									<a class="btn btn-success" href="${pageContext.request.contextPath}/merchant/goods/update_goods_putaway?goods_id=${list.goods_id}&goods_putaway_state=2">下架</a>
 								</c:if>

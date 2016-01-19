@@ -41,7 +41,7 @@ function fanquan(paramstoreId){
 
 					<c:forEach items="${order}" var="list" varStatus="vs">
 						<tr id="mer_${list.order_id}">
-							<td class="col-md-1" align="right">1</td>
+							<td class="col-md-1" align="center">1</td>
 							<td class="col-md-1" align="right">￥<fmt:formatNumber value="${list.goods_price/100}"
 										pattern="#,###,##0.00#" /></td>
 							<td class="col-md-1" align="right">${list.return_number}</td>
@@ -63,7 +63,7 @@ function fanquan(paramstoreId){
 									<fmt:formatDate value="${list.order_time}"
 										pattern="yyyy-MM-dd hh:mm:ss" />
 								</c:if></td>
-							<td class="col-md-3" align="right">
+							<td class="col-md-3" align="center">
 								<form class="form-horizontal"
 									action="${pageContext.request.contextPath}/merchant/order/Return_ticket"
 									method="GET">

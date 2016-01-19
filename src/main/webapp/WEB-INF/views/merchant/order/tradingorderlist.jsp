@@ -46,7 +46,7 @@ function check(){
 
 					<c:if test="${order!=null}">
 					<tr id="mer_${order.order_id}">
-						<td class="col-md-1" align="right">1</td>
+						<td class="col-md-1" align="center">1</td>
 						<td class="col-md-1" align="left">${order.goods_name}</td>
 						<td class="col-md-1" align="left">￥<fmt:formatNumber value="${order.goods_price}"
 										pattern="#,###,##0.00#" /></td>
@@ -66,7 +66,7 @@ function check(){
 								test="${not empty order.order_time}">
 								<fmt:formatDate value="${order.order_time}" type="both" />
 							</c:if></td>
-						<td class="col-md-2" align="right">
+						<td class="col-md-2" align="center">
 							<form class="form-horizontal"
 								action="${pageContext.request.contextPath}/merchant/order/trading"
 								method="GET">

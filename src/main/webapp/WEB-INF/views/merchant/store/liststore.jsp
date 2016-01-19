@@ -26,7 +26,7 @@
 					<c:forEach items="${page.list}" var="list" varStatus="vs">
 
 						<tr id="mer_${list.store_id}">
-							<td align="right">${vs.index+1}</td>
+							<td align="center">${vs.index+1}</td>
 							<td align="center"><img
 								src="${pageContext.request.contextPath}/resources/upload/store/${list.store_id}${list.store_img}"
 								width="80" height="80"><br> <a data-toggle="modal"
@@ -41,7 +41,7 @@
 										test="${list.store_state=='3'}">正常运营</c:if> <c:if
 										test="${list.store_state=='4'}">审核未通过</c:if> <c:if
 										test="${list.store_state=='2'}">违规店铺</c:if></td>
-							<td id="text_${list.store_id}" align="right">
+							<td id="text_${list.store_id}" align="center">
 							<a class="btn btn-success" href="${pageContext.request.contextPath}/merchant/goods/goodslistbystore?store_id=${list.store_id}">
 									点击查看商品 </a>
 								<button class="btn btn-info" data-toggle="modal"

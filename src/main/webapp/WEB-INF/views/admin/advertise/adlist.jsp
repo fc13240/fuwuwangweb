@@ -50,7 +50,7 @@ function release(paramstoreId){
 						<c:forEach items="${page.list}" var="list" varStatus="vs">
 
 							<tr id="mer_${list.ad_id}">
-								<td align="right">${vs.index+1}</td>
+								<td align="center">${vs.index+1}</td>
 								<td align="center"><img
 									src="${pageContext.request.contextPath}/resources/upload/ad/${list.ad_id}${list.ad_img}"
 									width="80px" height="80px" /></td>
