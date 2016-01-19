@@ -88,6 +88,7 @@ public class AppGoodsController extends BaseController {
 		pr.PageSize = PageSize;
 		Integer count = goodsService.getGoodsCountByStoreIdForApp(store_id);
 		pr.PageCount = (count % PageSize) == 0 ? count / PageSize : (count / PageSize) + 1;
+		pr.RowCount=count;
 		result.Data = pr;
 		return result;
 	}
@@ -130,6 +131,7 @@ public class AppGoodsController extends BaseController {
 		pr.PageSize = PageSize;
 		Integer count = goodsService.getGoodsCountBySearchNameAndCityName(map);
 		pr.PageCount = (count % PageSize) == 0 ? count / PageSize : (count / PageSize) + 1;
+		pr.RowCount=count;
 		result.Data = pr;
 		return result;
 	}
@@ -167,6 +169,7 @@ public class AppGoodsController extends BaseController {
 		pr.PageSize = PageSize;
 		Integer count = goodsService.getLongBiGoodsCountByCityName(cityName);
 		pr.PageCount = (count % PageSize) == 0 ? count / PageSize : (count / PageSize) + 1;
+		pr.RowCount=count;
 		result.Data = pr;
 		return result;
 	}
@@ -210,6 +213,7 @@ public class AppGoodsController extends BaseController {
 		pr.PageSize = PageSize;
 		Integer count = goodsService.getGoodsRecommendCountByCityNameAndCategory(map);
 		pr.PageCount = (count % PageSize) == 0 ? count / PageSize : (count / PageSize) + 1;
+		pr.RowCount=count;
 		result.Data = pr;
 		return result;
 	}
