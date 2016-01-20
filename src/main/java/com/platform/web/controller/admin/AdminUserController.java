@@ -206,7 +206,7 @@ public class AdminUserController {
 			request.setAttribute("info", "帐号已存在");
 			return "admin/user/addmerchant"; 
 		} 
-		if (null != merchant_account &&! checkIsExist(merchant_account).Successful) {
+		if (null != merchant_account &&checkIsExist(merchant_account).Successful) {
 			request.setAttribute("info", "服务网帐号不存在");
 			return "admin/user/addmerchant";
 		}
