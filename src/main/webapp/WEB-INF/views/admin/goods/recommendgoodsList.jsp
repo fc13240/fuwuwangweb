@@ -112,7 +112,7 @@
 							
 							
 							</td>
-							<td align="right">
+							<td align="center">
 								<button class="btn btn-danger" data-toggle="modal"
 									data-target="#failModal"
 									onclick="getgoodsid('${list.goods_id}')">取消推荐</button>

@@ -201,24 +201,24 @@ function check(){ /* passWord newpass */
 
 
 		<div class="form-group">
-			<label for="inputGoodsPrice" class="col-sm-2 control-label">商城帐号</label>
+			<label for="inputGoodsPrice" class="col-sm-2 control-label">服务网帐号</label>
 			<div class="col-sm-3">
 				<input type="text" class="form-control" name="merchant_account" id="merchant_account"
 					placeholder="请输入服务网帐号">
 			</div>
 			<div class="col-sm-3">
-					<label id="merchant_accountLabel"></label>
+					<label id="merchant_accountLabel" style="color:red;">*可为空</label>
 			</div>
 		</div>
 
 		<div class="form-group">
-			<label for="inputGoodsPrice" class="col-sm-2 control-label">联系人</label>
+			<label for="inputGoodsPrice" class="col-sm-2 control-label">服务专员</label>
 			<div class="col-sm-3">
 				<input type="text" class="form-control" name="service_man" id="service_man"
-					placeholder="请输入联系人">
+					placeholder="请输入服务专员">
 			</div>
 			<div class="col-sm-3">
-					<label id="service_manLabel"></label>
+					<label id="service_manLabel" style="color:red;">*可为空</label>
 			</div>
 		</div>
 		<div class="form-group">
