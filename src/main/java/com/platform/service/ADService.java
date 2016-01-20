@@ -62,8 +62,12 @@ public interface ADService {
 	
 	
 	
-	
-	
+	/**
+	 * 根据广告id查询广告
+	 * @param ad_id
+	 * @return
+	 */
+	public ADVo selectADByad_id(String ad_id);
 
 	
 	

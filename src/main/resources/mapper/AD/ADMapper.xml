@@ -16,6 +16,11 @@
 		SELECT *  FROM t_ad   WHERE  ad_position= #{ad_position} AND ad_state = #{ad_state} AND city_id=#{city_id} ORDER BY ad_weight  ,ad_create_time desc
 	</select>
 	
+	<select id="selectADByad_id" parameterType="com.platform.entity.vo.ADVo" resultType="com.platform.entity.vo.ADVo">
+		
+		SELECT *  FROM t_ad   WHERE  ad_id= #{ad_id} 
+	</select>
+	
 	
 	
 	<!-- web 查看 未发布 和 正常 的广告 -->

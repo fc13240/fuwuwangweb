@@ -28,6 +28,7 @@ import com.platform.common.utils.UUIDUtil;
 import com.platform.common.utils.UploadUtil;
 import com.platform.entity.AD;
 import com.platform.entity.City;
+import com.platform.entity.vo.ADVo;
 import com.platform.entity.vo.GoodsVo;
 import com.platform.entity.vo.StoreForWeb;
 import com.platform.service.ADService;
@@ -149,25 +150,23 @@ public class ADController {
 					ad.setAd_state(Constants.AD_STATE_DEL);
 					 adservice.updateAD(ad);
 					
-					 return "redirect:/admin/ad/adlist_activity" ;   // 重定向到。。活跃的广告
+					 return "redirect:/admin/ad/adlist_activity?pageNum="+pageNum ;   // 重定向到。。活跃的广告
 					
 				}
 				if("release".equals(type)){
-					System.out.println("发布广告");
 					AD  ad = new AD();
 					ad.setAd_id(curADId);
 					ad.setAd_state(Constants.AD_STATE_RUN);
 					adservice.updateAD(ad);  
-					return "redirect:/admin/ad/adlist_activity" ;   // 重定向到未发布的广告
+					return "redirect:/admin/ad/adlist_activity?pageNum="+pageNum ;   
 					
 				}
 				if("stop".equals(type)){
-					System.out.println("发布广告");
 					AD  ad = new AD();
 					ad.setAd_id(curADId);
 					ad.setAd_state(Constants.AD_STATE_STOP);
 					adservice.updateAD(ad);  
-					return "redirect:/admin/ad/adlist_activity" ;   // 重定向到未发布的广告
+					return "redirect:/admin/ad/adlist_activity?pageNum="+pageNum ;   
 					
 				}
 
@@ -288,7 +287,22 @@ public class ADController {
 		return territoryService.findAllCitys() ;
 	}
 	
-	
+	@RequestMapping(value = "getad" , method = RequestMethod.GET)
+	public String  getad(Model model,String ad_id){
+		
+		ADVo ad=new ADVo();
+		System.out.println(ad_id);
+		ad=adservice.selectADByad_id(ad_id);
+		System.out.println(ad);
+		if(1==ad.getAd_type()){
+			ad.setStores(storerservice.findStoreinfoByStore_idForApp(ad.getAd_pid()));
+		}else{
+			ad.setGoods(goodsservice.findGoodsinfoByGoodsId(ad.getAd_pid()));
+		}
+		model.addAttribute("citys", territoryService.findAllCitys());
+		model.addAttribute("ads", ad);
+		return "admin/advertise/updateAd";
+	}
 	
 	
 	

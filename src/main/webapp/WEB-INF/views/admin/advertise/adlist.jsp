@@ -73,9 +73,9 @@ function stop(paramstoreId){
 									<c:if test="${list.ad_position ==6}">美食页</c:if>
 								</td>
 								<td align="left">
-									<c:if test="${list.ad_weight ==1}">第一层</c:if>
-									<c:if test="${list.ad_weight ==2}">第二层</c:if>
-									<c:if test="${list.ad_weight ==3}">第三层</c:if>
+									<c:if test="${list.ad_weight ==1}">第一排</c:if>
+									<c:if test="${list.ad_weight ==2}">第二排</c:if>
+									<c:if test="${list.ad_weight ==3}">第三排</c:if>
 								</td>
 								<td align="left">
 									<c:if test="${list.ad_pd ==1}">第一位</c:if>
@@ -96,6 +96,7 @@ function stop(paramstoreId){
 									<button class="btn btn-info" data-toggle="modal"
 											data-target="#stopModal"
 											onclick="stop('${list.ad_id}');">下线</button>
+										<a class="btn btn-warning"  href="${pageContext.request.contextPath}/admin/ad/getad?ad_id=${list.ad_id}">修改</a>
 										<button class="btn btn-danger" data-toggle="modal"
 											data-target="#deleteModal" onclick="delAD('${list.ad_id}');">删除</button>
 									</c:if>
@@ -103,6 +104,7 @@ function stop(paramstoreId){
 										<button class="btn btn-success" data-toggle="modal"
 											data-target="#releaseModal"
 											onclick="release('${list.ad_id}');">上线</button>
+										<a class="btn btn-warning"  href="${pageContext.request.contextPath}/admin/ad/getad?store_id=${list.ad_id}">修改</a>
 										<button class="btn btn-danger" data-toggle="modal"
 											data-target="#deleteModal" onclick="delAD('${list.ad_id}');">删除</button>
 									</c:if>
@@ -146,6 +148,7 @@ function stop(paramstoreId){
 					action="${pageContext.request.contextPath}/admin/ad/updateAD"
 					method="get" enctype="multipart/form-data">
 					<input id="curADId" name="curADId" value="${curADId}" type="hidden">
+					<input name="pageNum" value="${page.pageNum}" type="hidden">
 					<div class="modal-body">是否确认删除该广告吗？</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -172,6 +175,7 @@ function stop(paramstoreId){
 					action="${pageContext.request.contextPath}/admin/ad/stop"
 					method="get" enctype="multipart/form-data">
 					<input id="curADId2" name="curADId" value="${curADId}" type="hidden">
+					<input  name="pageNum" value="${page.pageNum}" type="hidden">
 					<div class="modal-body">是否确认该广告下线吗？</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -198,6 +202,7 @@ function stop(paramstoreId){
 					action="${pageContext.request.contextPath}/admin/ad/release"
 					method="get" enctype="multipart/form-data">
 					<input id="curADId1" name="curADId" type="hidden">
+					<input  name="pageNum" value="${page.pageNum}" type="hidden">
 					<div class="modal-body">是否确认该广告上线吗？</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>

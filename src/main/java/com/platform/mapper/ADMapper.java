@@ -50,4 +50,8 @@ public interface ADMapper {
 	/*****获取点击*****/
 	public List<AD_click>  selectAD_click(String  ad_id);
 	
+	
+	/*****根据广告id查询广告*****/
+	public ADVo selectADByad_id(String ad_id);
+	
 }
