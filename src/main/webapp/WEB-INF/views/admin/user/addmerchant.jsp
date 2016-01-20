@@ -15,7 +15,6 @@ function check(){ /* passWord newpass */
 	var txt_phone = $.trim($("#phone").attr("value")) ;
 	var txt_merchant_desc = $.trim($("#merchant_desc").attr("value")) ;
 	var txt_merchant_account = $.trim($("#merchant_account").attr("value")) ;
-	var txt_service_man = $.trim($("#service_man").attr("value")) ;
 
 	$("#userLoginLabel").text(""); 
 	$("#passwordLabel").text("");
@@ -23,7 +22,6 @@ function check(){ /* passWord newpass */
 	$("#phoneLabel").text("");
 	$("#merchant_descLabel").text("");
 	$("#merchant_accountLabel").text("");
-	$("#service_manLabel").text("");
 
 	var isSuccess = 1; 
 	if(txt_userLogin.length == 0) 
@@ -104,26 +102,13 @@ function check(){ /* passWord newpass */
 	isSuccess = 0; 
 	}
 	
-	if(txt_merchant_account.length>0) 
+	if(txt_merchant_account.length>20) 
 	{ 
-		if(txt_service_man.length ==0) 
-		{ 
-		$("#service_manLabel").text("联系人不允许为空！") 
-		$("#service_manLabel").css({"color":"red"}); 
-		isSuccess = 0; 
-		} 
-	
-	} 
-	
-	if(txt_service_man.length >0) 
-	{ 
-		if(txt_merchant_account.length==0) 
-		{ 
-		$("#merchant_accountLabel").text("服务网帐号不允许为空！") 
-		$("#merchant_accountLabel").css({"color":"red"}); 
-		isSuccess = 0; 
-		}
-	} 
+	$("#merchant_accountLabel").text("服务网帐号有误！") 
+	$("#merchant_accountLabel").css({"color":"red"}); 
+	isSuccess = 0; 
+	}
+
 	
 	if(isSuccess == 0) 
 	{ 
@@ -211,16 +196,6 @@ function check(){ /* passWord newpass */
 			</div>
 		</div>
 
-		<div class="form-group">
-			<label for="inputGoodsPrice" class="col-sm-2 control-label">服务专员</label>
-			<div class="col-sm-3">
-				<input type="text" class="form-control" name="service_man" id="service_man"
-					placeholder="请输入服务专员">
-			</div>
-			<div class="col-sm-3">
-					<label id="service_manLabel" style="color:red;">*可为空</label>
-			</div>
-		</div>
 		<div class="form-group">
 			<div class="col-sm-3 col-sm-offset-2">
 				<input type="submit" class="form-control btn btn-success" value="注册"  />

@@ -181,19 +181,15 @@ public class AdminUserController {
 	/********管理员 注册   商人*********/
 	@RequestMapping(value = "register_merchant" , method = RequestMethod.POST)
 	public  String  register_merchant(HttpServletRequest request , String  userLogin , String  password , String password_agin, String phone,
-			                          String merchant_desc, String  service_man ,String merchant_account,HttpSession session) throws Exception{
-		
-		
-		
-		
+			                          String merchant_desc ,String merchant_account,HttpSession session) throws Exception{
 		if(AppUserController.yanzheng_userLogin(userLogin).equals("请求错误")){
 
 			request.setAttribute("info", "连接失败");
 			return "admin/user/addmerchant"; 
 		}else{
 			// 判断公司 帐号是否重复
-			if (AppUserController.yanzheng_userLogin(userLogin).equals("true")) {
-	System.out.println("管理员注册商人 ，公司那边验证帐号是否存在");
+			if(! checkIsExist(userLogin).Successful) {
+				System.out.println("管理员注册商人 ，公司那边验证帐号是否存在");
 				request.setAttribute("info", "帐号已存在");
 				return "admin/user/addmerchant"; 
 
@@ -219,47 +215,26 @@ public class AdminUserController {
 			user.setUser_type(Constants.USER_STORE);
 			user.setUserLogin(userLogin);
 			user.setPassWord(Md5.getVal_UTF8(password));
-			user.setService_man(service_man);
-			user.setMerchant_account(merchant_account);
 			user.setMerchant_add_user(userbean.getUser_id());    // 办理人  的 ID   u.getUser_id()
 			user.setMerchant_phone(phone);
 			user.setMerchant_desc(merchant_desc);
 			System.out.println("merchant_account  :"+ merchant_account);	
-			System.out.println("service_man  :"+ service_man);
-			String result =  null; 
-			if( ( !"".equals(merchant_account) ) ){
-				System.out.println("account  和 man  都不是空");	
-				  if(  !"".equals(service_man)   ){
-					  user.setMerchant_type(Constants.MERCHANT_TYPE_1);
-					  result = userService.add_merchant(user,  request);
-				  }
-			}
-            if( ( "".equals(merchant_account) )    ){
-            	System.out.println("account  和 man  都是空");	
-		           if(   "".equals(service_man)  ){
-		        	     user.setMerchant_type(Constants.MERCHANT_TYPE_2);
-						  result = userService.add_merchant(user,  request);
-		           }
-			}
-            if(( "".equals(merchant_account) )  ){
-            	System.out.println("acount  是空，，man 不是空");
-                if( !"".equals(service_man)){
-                	result = "信息填写不全" ;
-                }
-            }
-            if(( !"".equals(merchant_account) )   ){
-            	System.out.println("acount  不是空，，man 是空");
-                 if( "".equals(service_man) ){
-                	
-                	result = "信息填写不全" ;
-                }
-            }
-			request.setAttribute("info", result);
+			 if(  !"".equals(merchant_account)   ){
+				  user.setMerchant_account(merchant_account);
+				  user.setMerchant_type(Constants.MERCHANT_TYPE_1);
+				  userService.add_merchant(user);
+				  request.setAttribute("info", "注册成功");
+			  }else{
+				  user.setMerchant_type(Constants.MERCHANT_TYPE_2);
+				  userService.add_merchant(user);
+				  request.setAttribute("info", "注册成功");
+			  }
+		
 			
 		}
-		else  
+		else  {
 			request.setAttribute("info", "两次密码不一致");
-		
+		}
 		
 		 return "admin/user/addmerchant"; 
 	}

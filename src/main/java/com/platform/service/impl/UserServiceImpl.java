@@ -314,44 +314,10 @@ public class UserServiceImpl implements UserService {
 	}
 
 	/******* 管理员注册 商人 ********/
-	public String add_merchant(User user, HttpServletRequest request) {
-		String result = null;
-		User userLogin = mapper.selectUserlogin(user.getUserLogin());
-
-		System.out.println("查t_user 没问题");
-
-		if (null != user.getMerchant_account() && !"".equals(user.getMerchant_account())) {
-			String merchant_account = mapper.selectUser_merchant_account(user.getMerchant_account());
-
-			System.out.println("查t_merchant——info 没问题");
-
-			if (null == userLogin) {
-
-				if (("").equals(merchant_account) || null == merchant_account) {
-
-					mapper.userrigester_user(user);
-					mapper.userrigester_merchantinfo(user); // 用户注册
-					result = "注册成功";
-				} else {
-					System.out.println(2 + "阿鬼");
-					result = "专员重复";
-				}
-			} else {
-				System.out.println(3 + "阿鬼");
-				result = "帐号已存在";
-			}
-		} else {
-			if (null == userLogin) {
-				mapper.userrigester_user(user);
-				mapper.userrigester_merchantinfo(user); // 用户注册
-				result = "注册成功";
-			} else {
-				System.out.println(3 + "阿鬼");
-				result = "帐号已存在";
-			}
-		}
-
-		return result;
+	public void add_merchant(User user) {
+		
+		mapper.userrigester_user(user);
+		mapper.userrigester_merchantinfo(user);
 	}
 
 	/****** 查看用户龙币 *******/

@@ -63,7 +63,7 @@ public interface UserService {
 	/**
 	 * 管理员注册 商人
 	 */
-	public String add_merchant(User user, HttpServletRequest request);
+	public void add_merchant(User user);
 
 	/**** user_id找用户 ****/
 	public User finduserById(String user_id);
