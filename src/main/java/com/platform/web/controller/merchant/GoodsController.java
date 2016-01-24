@@ -199,7 +199,14 @@ public class GoodsController extends BaseController {
 			Integer goods_price_LB, String goods_price, String store_id, Integer goods_return_ticket,
 			Integer goods_return_type, Integer goods_return_standard, Integer goods_pay_type,
 			String goods_purchase_notes, HttpSession session) throws Exception {
+User user=(User) session.getAttribute("bean");
 		Goods goods = new Goods();
+		if(user.getMerchant_type()==2){
+			goods.setGoods_price_LB(goods_price_LB);
+			goods.setGoods_return_ticket(goods_return_ticket);
+			goods.setGoods_return_standard(goods_return_standard);
+			goods.setGoods_return_type(goods_return_type);
+		}
 		goods.setGoods_id(goods_id);
 		goods.setGoods_check_state(Constants.GOODS_WAIT);
 		goods.setGoods_delete_state(Constants.GOODS_NORMAL);
@@ -208,8 +215,7 @@ public class GoodsController extends BaseController {
 		goods.setGoods_name(goods_name);
 		goods.setGoods_desc(goods_desc);
 		goods.setGoods_price((int) (Double.valueOf(goods_price) * 100));
-		goods.setGoods_price_LB(goods_price_LB);
-		goods.setGoods_return_ticket(goods_return_ticket);
+		
 		goods.setGoods_purchase_notes(goods_purchase_notes);
 		if (null == goods_pay_type || ("").equals(goods_pay_type)) {
 
@@ -219,8 +225,7 @@ public class GoodsController extends BaseController {
 
 		}
 		goods.setGoods_putaway_state(Constants.GOODS_PUTAWAY_WAIT);
-		goods.setGoods_return_standard(goods_return_standard);
-		goods.setGoods_return_type(goods_return_type);
+		
 		goods.setStore_id(store_id);
 
 		System.out.println("更新商品基本信息" + goods);

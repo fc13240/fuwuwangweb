@@ -81,6 +81,8 @@
 %>
 <input type="text" value="<%out.print(user_id);%>" hidden="hidden"
 	id="user_id">
+<input type="text" value="<%out.print(merchant_type);%>" hidden="hidden"
+	id="merchant_type">
 <form class="searchform"
 	action="${pageContext.request.contextPath}/merchant/goods/searchbygoods_name"
 	method="GET" id="form1" onsubmit="return check1()">
@@ -311,7 +313,7 @@
 						</div>
 					</div>
 
-					<div class="form-group">
+					<div class="form-group" id="longbi_name1">
 						<label for="inputGoodsDesc" class="col-sm-3 control-label">龙币商品：</label>
 						<div class="checkbox col-sm-1">
 							<label> <input name="goods_pay_type" type="checkbox"
@@ -331,7 +333,7 @@
 						</div>
 					</div>
 
-					<div class="form-group">
+					<div class="form-group" id="longbi_number1">
 						<label for="inputGoodsPriceLB" class="col-sm-3 control-label">商品龙币价格</label>
 						<div class="col-sm-7">
 							<input type="text" class="form-control" name="goods_price_LB"
@@ -339,7 +341,7 @@
 								onkeyup="this.value=this.value.replace(/[^\d]/g,'')">(单位：个)
 						</div>
 					</div>
-					<div class="form-group">
+					<div class="form-group" id="fanquanyiju1">
 						<label for="inputGoodsDesc" class="col-sm-3 control-label">返券依据</label>
 						<div class="radio col-sm-7">
 							<label> <input type="radio" name="goods_return_type"
@@ -351,7 +353,7 @@
 
 					</div>
 
-					<div class="form-group">
+					<div class="form-group" id="fanquanbiaozhun1">
 						<label for="inputGoodsPrice" class="col-sm-3 control-label">返券标准</label>
 						<div class="col-sm-7">
 							<input type="text" class="form-control"
@@ -361,7 +363,7 @@
 						</div>
 					</div>
 
-					<div class="form-group">
+					<div class="form-group" id="fanquanshuliang1">
 						<label for="inputGoodsPrice" class="col-sm-3 control-label">返券数量</label>
 						<div class="col-sm-7">
 							<input type="text" class="form-control"
@@ -429,16 +431,7 @@
 								style="resize: none;"></textarea>
 						</div>
 					</div>
-					<div class="form-group">
-						<label for="inputGoodsDesc" class="col-sm-3 control-label">龙币商品：</label>
-						<div class="checkbox col-sm-1">
-							<label> <input name="goods_pay_type" type="checkbox"
-								value="1" id="goods_pay_type" readonly="readonly" />
-							</label>
-						</div>
-
-					</div>
-					<div class="form-group">
+					<div class="form-group" >
 						<label for="inputGoodsPrice" class="col-sm-3 control-label">商品价格</label>
 						<div class="col-sm-7">
 							<input type="text" class="form-control" name="goods_price"
@@ -447,14 +440,23 @@
 						</div>
 					</div>
 
-					<div class="form-group">
+					<div class="form-group" id="longbi_name">
+						<label for="inputGoodsDesc" class="col-sm-3 control-label">龙币商品：</label>
+						<div class="checkbox col-sm-1">
+							<label> <input name="goods_pay_type" type="checkbox"
+								value="1" id="goods_pay_type" readonly="readonly" />
+							</label>
+						</div>
+
+					</div>
+					<div class="form-group" id="longbi_number">
 						<label for="inputGoodsPriceLB" class="col-sm-3 control-label">商品龙币价格</label>
 						<div class="col-sm-7">
 							<input type="text" class="form-control" name="goods_price_LB"
 								placeholder="商品龙币价格" id="g_price_LB1" readonly="readonly">(单位：个)
 						</div>
 					</div>
-					<div class="form-group">
+					<div class="form-group" id="fanquanyiju">
 						<label for="inputGoodsDesc" class="col-sm-3 control-label">返券依据</label>
 						<div class="radio col-sm-7">
 							<label> <input type="radio" name="goods_return_type"
@@ -468,7 +470,7 @@
 
 					</div>
 
-					<div class="form-group">
+					<div class="form-group" id="fanquanbiaozhun">
 						<label for="inputGoodsPrice" class="col-sm-3 control-label">返券标准</label>
 						<div class="col-sm-5">
 							<input type="text" class="form-control"
@@ -477,7 +479,7 @@
 						</div>
 					</div>
 
-					<div class="form-group">
+					<div class="form-group" id="fanquanshuliang">
 						<label for="inputGoodsPrice" class="col-sm-3 control-label">返券数量</label>
 						<div class="col-sm-7">
 							<input type="text" class="form-control"
@@ -531,11 +533,10 @@
 		}
 	}
 	function modifyEmp(goods_id, type) {
-		//goods_id 作为js的参数传递进来 
-		//alert(goods_id);
+		
+		var merchant_type = $('#merchant_type').val();	
 		var base = "${pageContext.request.contextPath}";
-		$
-				.ajax({
+		$.ajax({
 					url : base + "/merchant/goods/goodsinfo",
 					type : "GET",
 					datatype : "text",
@@ -552,29 +553,9 @@
 						$("#g_name").attr("value", data.goods_name);
 						$("#g_price").attr("value", '');//清空内容 
 						$("#g_price").attr("value", data.goods_price / 100);
-						$("#g_price_LB").attr("value", '');//清空内容 
-						$("#g_price_LB").attr("value", data.goods_price_LB);
-						$("#g_standard").attr("value", '');//清空内容 
-						$("#g_standard").attr("value",
-								data.goods_return_standard);
-						if (data.goods_return_type == 1) {
-							$("#optionsRadios1").attr("checked", '');//清空内容 
-							$("#optionsRadios1").attr("checked", true);
-
-						} else {
-							$("#optionsRadios0").attr("checked", '');//清空内容 
-							$("#optionsRadios0").attr("checked", true);
-						}
-						if (data.goods_pay_type == 1) {
-							$("#goods_pay_type1").attr("checked", '');//清空内容 
-							$("#goods_pay_type1").attr("checked", true);
-
-						} else {
-							$("#goods_pay_type1").attr("checked", '');//清空内容 
-							//$("#optionspay_type01").attr("checked", true);
-						}
-						$("#g_count").attr("value", '');//清空内容 
-						$("#g_count").attr("value", data.goods_return_ticket);
+						
+						
+				
 						$("#g_desc").attr("value", '');//清空内容 
 						$("#g_desc").attr("value", data.goods_desc);
 
@@ -586,12 +567,46 @@
 						$("#g_purchase_notes").attr("value", '');//清空内容 
 						$("#g_purchase_notes").attr("value",
 								data.goods_purchase_notes);
+						if (data.goods_pay_type == 1) {
+							$("#goods_pay_type1").attr("checked", '');//清空内容 
+							$("#goods_pay_type1").attr("checked", true);
+
+						} else {
+							$("#goods_pay_type1").attr("checked", '');//清空内容 
+							//$("#optionspay_type01").attr("checked", true);
+							$("#longbi_name1").hide();
+							$("#longbi_number1").hide();
+						}
+						if(merchant_type==2){
+							$("#g_price_LB").attr("value", '');//清空内容 
+							$("#g_price_LB").attr("value", data.goods_price_LB);
+							$("#g_standard").attr("value", '');//清空内容 
+							$("#g_standard").attr("value",
+									data.goods_return_standard);
+							
+							if (data.goods_return_type == 1) {
+								$("#optionsRadios1").attr("checked", '');//清空内容 
+								$("#optionsRadios1").attr("checked", true);
+
+							} else {
+								$("#optionsRadios0").attr("checked", '');//清空内容 
+								$("#optionsRadios0").attr("checked", true);
+							}
+							$("#g_count").attr("value", '');//清空内容 
+							$("#g_count").attr("value", data.goods_return_ticket);
+						}else{
+							
+							$("#fanquanyiju1").hide();
+							$("#fanquanbiaozhun1").hide();
+							$("#fanquanshuliang1").hide();
+						}
 					}
 				})
 	}
 	function modifyEmp1(goods_id, type) {
 		//goods_id 作为js的参数传递进来 
 		//alert(goods_id);
+		var merchant_type = $('#merchant_type').val();
 		var base = "${pageContext.request.contextPath}";
 		$.ajax({
 			url : base + "/merchant/goods/goodsinfo",
@@ -611,28 +626,7 @@
 				$("#g_name1").attr("value", data.goods_name);
 				$("#g_price1").attr("value", '');//清空内容 
 				$("#g_price1").attr("value", data.goods_price / 100);
-				$("#g_price_LB1").attr("value", '');//清空内容 
-				$("#g_price_LB1").attr("value", data.goods_price_LB);
-				$("#g_standard1").attr("value", '');//清空内容 
-				$("#g_standard1").attr("value", data.goods_return_standard);
-				if (data.goods_return_type == 1) {
-					$("#optionspay_type1").attr("checked", '');//清空内容 
-					$("#optionspay_type1").attr("checked", true);
-
-				} else {
-					$("#optionspay_type0").attr("checked", '');//清空内容 
-					$("#optionspay_type0").attr("checked", true);
-				}
-				if (data.goods_pay_type == 1) {
-					$("#goods_pay_type").attr("checked", '');//清空内容 
-					$("#goods_pay_type").attr("checked", true);
-
-				} else {
-					$("#goods_pay_type").attr("checked", '');//清空内容 
-					//$("#optionspay_type01").attr("checked", true);
-				}
-				$("#g_count1").attr("value", '');//清空内容 
-				$("#g_count1").attr("value", data.goods_return_ticket);
+				
 				$("#g_desc1").attr("value", '');//清空内容 
 				$("#g_desc1").attr("value", data.goods_desc);
 
@@ -641,9 +635,44 @@
 
 				$("#s_id1").attr("value", '');//清空内容 
 				$("#s_id1").attr("value", data.store_id);
+				
 				$("#g_purchase_notes1").attr("value", '');//清空内容 
-				$("#g_purchase_notes1")
-						.attr("value", data.goods_purchase_notes);
+				$("#g_purchase_notes1").attr("value", data.goods_purchase_notes);
+			
+				if (data.goods_pay_type == 1) {
+					$("#goods_pay_type").attr("checked", '');//清空内容 
+					$("#goods_pay_type").attr("checked", true);
+
+				} else {
+					$("#goods_pay_type").attr("checked", '');//清空内容 
+					$("#longbi_name").hide();
+					$("#longbi_number").hide();
+					//$("#optionspay_type01").attr("checked", true);
+				}
+				if(merchant_type==2){
+					$("#g_price_LB1").attr("value", '');//清空内容 
+					$("#g_price_LB1").attr("value", data.goods_price_LB);
+					
+					$("#g_standard1").attr("value", '');//清空内容 
+					$("#g_standard1").attr("value", data.goods_return_standard);
+					if (data.goods_return_type == 1) {
+						$("#optionspay_type1").attr("checked", '');//清空内容 
+						$("#optionspay_type1").attr("checked", true);
+
+					} else {
+						$("#optionspay_type0").attr("checked", '');//清空内容 
+						$("#optionspay_type0").attr("checked", true);
+					}
+					$("#g_count1").attr("value", '');//清空内容 
+					$("#g_count1").attr("value", data.goods_return_ticket);
+				}else{
+					
+					$("#fanquanyiju").hide();
+					$("#fanquanbiaozhun").hide();
+					$("#fanquanshuliang").hide();
+				}
+				
+				
 			}
 		})
 	}
@@ -673,7 +702,8 @@
 		$("#goods_id_fimg1").attr("value", id);
 	}
 	function check() { /* passWord newpass */
-
+		var merchant_type = $('#merchant_type').val();
+		
 		var txt_goods_name = $.trim($("#g_name").attr("value"));
 		var txt_goods_desc = $.trim($("#g_desc").attr("value"));
 		var txt_goods_purchase_notes = $.trim($("#g_purchase_notes").attr(
@@ -735,33 +765,35 @@
 			});
 			isSuccess = 0;
 		}
-		if (txt_goods_return_standard.length == 0) {
-			$("#goods_return_standardLabel").text("请填写返券标准")
-			$("#goods_return_standardLabel").css({
-				"color" : "red"
-			});
-			isSuccess = 0;
-		}
-		if (txt_goods_return_standard >10000) {
-			$("#goods_return_standardLabel").text("返券标准不能大于10000")
-			$("#goods_return_standardLabel").css({
-				"color" : "red"
-			});
-			isSuccess = 0;
-		}
-		if (txt_goods_return_ticket.length == 0) {
-			$("#goods_return_ticketLabel").text("请填写返券数量")
-			$("#goods_return_ticketLabel").css({
-				"color" : "red"
-			});
-			isSuccess = 0;
-		}
-		if (txt_goods_return_ticket >10000) {
-			$("#goods_return_ticketLabel").text("返券数量不能大于10000")
-			$("#goods_return_ticketLabel").css({
-				"color" : "red"
-			});
-			isSuccess = 0;
+		if(merchant_type==2){
+			if (txt_goods_return_standard.length == 0) {
+				$("#goods_return_standardLabel").text("请填写返券标准")
+				$("#goods_return_standardLabel").css({
+					"color" : "red"
+				});
+				isSuccess = 0;
+			}
+			if (txt_goods_return_standard >10000) {
+				$("#goods_return_standardLabel").text("返券标准不能大于10000")
+				$("#goods_return_standardLabel").css({
+					"color" : "red"
+				});
+				isSuccess = 0;
+			}
+			if (txt_goods_return_ticket.length == 0) {
+				$("#goods_return_ticketLabel").text("请填写返券数量")
+				$("#goods_return_ticketLabel").css({
+					"color" : "red"
+				});
+				isSuccess = 0;
+			}
+			if (txt_goods_return_ticket >10000) {
+				$("#goods_return_ticketLabel").text("返券数量不能大于10000")
+				$("#goods_return_ticketLabel").css({
+					"color" : "red"
+				});
+				isSuccess = 0;
+			}	
 		}
 		if (isSuccess == 0) {
 			//alert('失败');

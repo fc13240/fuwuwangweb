@@ -84,7 +84,7 @@
 					<label id="goods_price_LB"></label>
 			</div>
 		</div>
-		<div class="form-group">
+		<div class="form-group" id="fanquanyiju">
 			<label for="inputGoodsDesc" class="col-sm-offset-1 col-sm-1 control-label"  style="text-align:right" >返券依据</label>
 			<div class="radio col-sm-3">
 				<label> <input type="radio" name="goods_return_type"
@@ -95,7 +95,7 @@
 			</div>
 		</div>
 
-		<div class="form-group">
+		<div class="form-group" id="fanquanbiaozhun">
 			<label for="inputGoodsPrice" class="col-sm-offset-1 col-sm-1 control-label"  style="text-align:right" >返券标准</label>
 			<div class="col-sm-3">
 				<input type="text" class="form-control" name="goods_return_standard" value="${goods.goods_return_standard}"
@@ -106,7 +106,7 @@
 			</div>
 		</div>
 
-		<div class="form-group">
+		<div class="form-group" id="fanquanshuliang">
 			<label for="inputGoodsPrice" class="col-sm-offset-1 col-sm-1 control-label"  style="text-align:right" >返券数量</label>
 			<div class="col-sm-3">
 				<input type="text" class="form-control" name="goods_return_ticket" value="${goods.goods_return_ticket}"
@@ -172,11 +172,42 @@ function getPhoto(){
 	}
 	function check() { /* passWord newpass */
 
+		var merchant_type = $('#merchant_type').val();
+		//alert(merchant_type);
+		if (2 == merchant_type) {//判断是不是服务网商家
+			if (txt_goods_return_standard.length == 0) {
+				$("#goods_return_standardLabel").text("请填写返券标准")
+				$("#goods_return_standardLabel").css({
+					"color" : "red"
+				});
+				isSuccess = 0;
+			}
+			if (txt_goods_return_standard >10000) {
+				$("#goods_return_standardLabel").text("返券标准不能大于10000")
+				$("#goods_return_standardLabel").css({
+					"color" : "red"
+				});
+				isSuccess = 0;
+			}
+			if (txt_goods_return_ticket.length == 0) {
+				$("#goods_return_ticketLabel").text("请填写返券数量")
+				$("#goods_return_ticketLabel").css({
+					"color" : "red"
+				});
+				isSuccess = 0;
+			}
+			if (txt_goods_return_ticket>10000) {
+				$("#goods_return_ticketLabel").text("请填写返券数量不能超过10000张")
+				$("#goods_return_ticketLabel").css({
+					"color" : "red"
+				});
+				isSuccess = 0;
+			}
+		}
 		var txt_store_name = $.trim($("#store_name").attr("value"));
 		var txt_goods_name = $.trim($("#goods_name").attr("value"));
 		var txt_goods_img = $.trim($("#goods_img").attr("value"));
 		var txt_goods_desc = $.trim($("#goods_desc").attr("value"));
-		//alert(txt_goods_desc);
 		var txt_goods_price = $.trim($("#goods_price").attr("value"));
 		//var txt_goods_pay_type1 = $.trim($("#goods_pay_type1").attr("value")); 
 		//var txt_goods_price_LB  = $.trim($("#goods_price_LB").attr("value"));
@@ -262,34 +293,7 @@ function getPhoto(){
 			});
 			isSuccess = 0;
 		}
-		if (txt_goods_return_standard.length == 0) {
-			$("#goods_return_standardLabel").text("请填写返券标准")
-			$("#goods_return_standardLabel").css({
-				"color" : "red"
-			});
-			isSuccess = 0;
-		}
-		if (txt_goods_return_standard >10000) {
-			$("#goods_return_standardLabel").text("返券标准不能大于10000")
-			$("#goods_return_standardLabel").css({
-				"color" : "red"
-			});
-			isSuccess = 0;
-		}
-		if (txt_goods_return_ticket.length == 0) {
-			$("#goods_return_ticketLabel").text("请填写返券数量")
-			$("#goods_return_ticketLabel").css({
-				"color" : "red"
-			});
-			isSuccess = 0;
-		}
-		if (txt_goods_return_ticket>10000) {
-			$("#goods_return_ticketLabel").text("请填写返券数量不能超过10000张")
-			$("#goods_return_ticketLabel").css({
-				"color" : "red"
-			});
-			isSuccess = 0;
-		}
+		
 		if (isSuccess == 0) {
 			//alert('失败');
 			return false;
@@ -306,6 +310,9 @@ function getPhoto(){
 		if (2 != merchant_type) {
 			$("#longbi_name").hide();
 			$("#longbi_number").hide();
+			$("#fanquanyiju").hide();
+			$("#fanquanbiaozhun").hide();
+			$("#fanquanshuliang").hide();
 		}
 
 		var base = "${pageContext.request.contextPath}";

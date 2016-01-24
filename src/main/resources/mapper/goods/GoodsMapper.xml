@@ -43,15 +43,22 @@
 		UPDATE t_goods SET
 		goods_name = #{goods_name},
 		goods_desc = #{goods_desc},
-		goods_price =
-		#{goods_price},
+		goods_price =#{goods_price},
+		  <if test="goods_price_LB !=null ">  
 		goods_price_LB = #{goods_price_LB},
+		</if> 
+		  <if test="goods_return_ticket !=null ">  
 		goods_return_ticket
 		= #{goods_return_ticket},
+		</if>
 		goods_pay_type = #{goods_pay_type},
+		  <if test="goods_return_type !=null ">  
 		goods_return_type = #{goods_return_type},
+		</if>
+		  <if test="goods_return_standard !=null ">  
 		goods_return_standard =
 		#{goods_return_standard},
+		</if>
 		goods_purchase_notes=#{goods_purchase_notes},
 		goods_check_state=#{goods_check_state},
 		goods_putaway_state=#{goods_putaway_state},
