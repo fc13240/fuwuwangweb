@@ -271,5 +271,7 @@ public class StoreServiceImpl implements StoreService{
 		return mapper.selectStoreCountByNameAndCityName(searchName, cityName);
 	}
 
-
+	public StoreForWeb findStoreWebByStore_id(String store_id){
+		return  mapper.findStoreWebByStore_id(store_id);
+	}
 }

@@ -52,7 +52,7 @@ public class Constants {
 	 * 商品审核状态 
 	 * 0:商品未审核 
 	 * 1：商品审核通过
-	 *  -1：商品审核未通过
+	 *  2：商品审核未通过
 	 */
 	public static final Integer GOODS_WAIT = 0;// 商品正常显示，不显示在APP 上
 

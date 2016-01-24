@@ -28,6 +28,7 @@ import com.platform.common.utils.UUIDUtil;
 import com.platform.common.utils.UploadUtil;
 import com.platform.entity.AD;
 import com.platform.entity.City;
+import com.platform.entity.vo.ADForWeb;
 import com.platform.entity.vo.ADVo;
 import com.platform.entity.vo.GoodsVo;
 import com.platform.entity.vo.StoreForWeb;
@@ -124,7 +125,7 @@ public class ADController {
 	
 	@RequestMapping(value = "{type}" , method = RequestMethod.GET)
 	public String  adlist_position_weight(Model model , @PathVariable String type, Integer pageNum, Integer pageSize,
-			                              String actionType,String curADId ){
+			                              String actionType,String curADId,Integer city_id ){
 		
 		       //System.out.println(actionType +"方法类型  And  用户ID"+ curADId);
 		       
@@ -142,6 +143,13 @@ public class ADController {
 				if(("adlist_activity").equals(type)){
 					lAD = adservice.selectAD_state(Constants.AD_STATE_DEL);   // 默认查找未发布  和 已发布  的广告
 					model.addAttribute("page", new PageInfo<AD>(lAD));
+					model.addAttribute("citys", territoryService.findAllCitys());
+				}
+				if(("adlistByCity_id").equals(type)){
+					lAD = adservice.findADlistByCity_id(city_id);   
+					model.addAttribute("page", new PageInfo<AD>(lAD));
+					model.addAttribute("citys", territoryService.findAllCitys());
+					model.addAttribute("city_id", city_id);
 				}
 				
 				if("updateAD".equals(type)){           // 删除 广告
@@ -171,7 +179,7 @@ public class ADController {
 				}
 
 				
-				model.addAttribute("page", new PageInfo<AD>(lAD));
+				//model.addAttribute("page", new PageInfo<AD>(lAD));
 
 				return "admin/advertise/adlist";
 		
@@ -227,6 +235,7 @@ public class ADController {
 		ad.setAd_position(ad_position);                    	// 页数
 		ad.setAd_weight(ad_weight);                        	// 权值
 		ad.setAd_state(Constants.AD_STATE_WAITE);       		// 正常广告
+		ad.setAd_pd(ad_pd);									//第几位
 		if(null!=city_id){
 			ad.setCity_id(city_id);                        	//广告展示的城市
 		}
@@ -257,12 +266,101 @@ public class ADController {
 		}}
 		ad.setAd_img(UploadUtil.fileName);                   // 获取图片的后缀插入到 数据库
 		
-		
-		ad.setAd_pd(ad_pd);
 		adservice.addAD(ad);
 		System.out.println("添加广告成功");
 		request.setAttribute("info","添加广告成功！");
 		return "admin/advertise/addAd" ;
+	}
+	
+	/******修改广告*******/
+	@RequestMapping(value = "change_AD" , method = RequestMethod.POST)
+	public String  change_AD(Model model,String store_id,String  ad_id, String goods_id ,Integer city_id,Integer ad_type,
+			Integer ad_position, Integer ad_weight,Integer ad_pd,MultipartFile ad_img, HttpSession  session,HttpServletRequest request){
+		//System.out.println("我进来了"+ ad_position +"   "+ ad_weight +"  "+ ad_img );
+		System.out.println("修改广告："+ad_type);
+		ADForWeb ad_yuan=adservice.selectADByad_id(ad_id);
+		if(null==ad_yuan){
+			request.setAttribute("info","广告信息错误，修改广告失败！");
+			return "admin/advertise/updateAd" ;
+		}
+		AD ad = new AD();
+		ad.setAd_id(ad_id);             	// iD
+		if(null!=ad_position){
+			
+			ad.setAd_position(ad_position);                    	// 页数
+		}else{
+			ad.setAd_position(ad_yuan.getAd_position());
+		}
+		if(null!=ad_weight){
+			
+			ad.setAd_weight(ad_weight);                        	// 权值
+		}else{
+			ad.setAd_weight(ad_yuan.getAd_weight());                        	// 权值
+			
+		}
+		ad.setAd_state(Constants.AD_STATE_WAITE);       		// 正常广告
+		if(null!=city_id){
+			ad.setCity_id(city_id);                        	//广告展示的城市
+		}else{
+			ad.setCity_id(ad_yuan.getCity_id());                        	//广告展示的城市
+			
+		}
+		if(null!=store_id){ 
+			ad.setAd_pid(store_id);                        	// pid 的 ID（ 这里是店铺）
+			ad.setAd_type(Constants.AD_TYPE_STORE);        	// 类型是店铺  
+		}
+		else if(null!=goods_id){
+			System.out.println("添加商品广告"+goods_id);
+			ad.setAd_pid(goods_id);                         // pid 的 ID （这里是商品）
+			ad.setAd_type(Constants.AD_TYPE_GOODS);         // 类型是商品
+		}else{
+			ad.setAd_pid(ad_yuan.getAd_pid());
+			ad.setAd_type(ad_yuan.getAd_type());
+		}
+		
+		// 存放路径
+		if(!ad_img.isEmpty()){
+			
+		String filepath=session.getServletContext().getRealPath(Constants.UPLOAD_AD_IMG_PATH);
+		String  type = ad_img.getOriginalFilename().indexOf(".") != -1 ? ad_img.getOriginalFilename().substring(ad_img.getOriginalFilename().lastIndexOf("."),
+				ad_img.getOriginalFilename().length()) : null ;
+		type = type.toLowerCase() ;
+		if( type .equals(".jpg")|| type.equals(".jpeg") || type.equals(".png") ){
+			// 存放到指定路径
+			try {
+				UploadUtil.saveFile(ad_img, filepath, ad.getAd_id()); 
+				UploadUtil.img_01(ad_img, filepath, ad.getAd_id() + "-1" , ad.getAd_id());
+				UploadUtil.img_02(ad_img, filepath, ad.getAd_id() + "-2" , ad.getAd_id());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}}
+		ad.setAd_img(UploadUtil.fileName);                   // 获取图片的后缀插入到 数据库
+		}else{
+			ad.setAd_img(ad_yuan.getAd_img());
+		}
+		if(null!=ad_pd){
+			
+			ad.setAd_pd(ad_pd);
+		}else{
+			ad.setAd_pd(ad_yuan.getAd_pd());
+			
+		}
+		adservice.updateADByID(ad);
+		ADForWeb ad1=new ADForWeb();
+		System.out.println(ad_id);
+		ad1=adservice.selectADByad_id(ad_id);
+		System.out.println(ad);
+		if(1==ad1.getAd_type()){
+			ad1.setStores(storerservice.findStoreWebByStore_id(ad.getAd_pid()));
+		}else{
+			ad1.setGoods(goodsservice.findGoodsinfoByGoodsId(ad.getAd_pid()));
+		}
+		model.addAttribute("citys", territoryService.findAllCitys());
+		model.addAttribute("ads", ad1);
+		System.out.println("修改广告成功");
+		request.setAttribute("info","修改广告成功！");
+		return "admin/advertise/updateAd" ;
 	}
 	
 	
@@ -290,12 +388,12 @@ public class ADController {
 	@RequestMapping(value = "getad" , method = RequestMethod.GET)
 	public String  getad(Model model,String ad_id){
 		
-		ADVo ad=new ADVo();
+		ADForWeb ad=new ADForWeb();
 		System.out.println(ad_id);
 		ad=adservice.selectADByad_id(ad_id);
 		System.out.println(ad);
 		if(1==ad.getAd_type()){
-			ad.setStores(storerservice.findStoreinfoByStore_idForApp(ad.getAd_pid()));
+			ad.setStores(storerservice.findStoreWebByStore_id(ad.getAd_pid()));
 		}else{
 			ad.setGoods(goodsservice.findGoodsinfoByGoodsId(ad.getAd_pid()));
 		}
@@ -303,12 +401,5 @@ public class ADController {
 		model.addAttribute("ads", ad);
 		return "admin/advertise/updateAd";
 	}
-	
-	
-	
-	
-	
-	
-	
 	
 }

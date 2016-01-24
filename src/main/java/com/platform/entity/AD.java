@@ -13,7 +13,7 @@ public class AD {
 	private  String  ad_pid ;      // 店铺或者 商品的ID
 	private  Date   ad_create_time ; // 添加时间；
 	private  Integer  number ;      // 点击次数
-	private Integer ad_pd;
+	private Integer ad_pd;			//具体位置第一位，第二位，第三位
 	
 	private Integer city_id;
 	public AD() {

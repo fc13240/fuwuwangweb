@@ -171,5 +171,7 @@ public interface StoreService {
 	 * @return
 	 */
 	public Integer selectStoreCountByConditions(Store_help sHelp); //	
+	
+	public StoreForWeb findStoreWebByStore_id(String store_id);
  	
 }

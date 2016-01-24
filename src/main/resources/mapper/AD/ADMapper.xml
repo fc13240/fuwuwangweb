@@ -16,7 +16,7 @@
 		SELECT *  FROM t_ad   WHERE  ad_position= #{ad_position} AND ad_state = #{ad_state} AND city_id=#{city_id} ORDER BY ad_weight  ,ad_create_time desc
 	</select>
 	
-	<select id="selectADByad_id" parameterType="com.platform.entity.vo.ADVo" resultType="com.platform.entity.vo.ADVo">
+	<select id="selectADByad_id"  resultType="com.platform.entity.vo.ADForWeb">
 		
 		SELECT *  FROM t_ad   WHERE  ad_id= #{ad_id} 
 	</select>
@@ -27,6 +27,11 @@
 	<select id="selectAD_state" parameterType="Integer" resultType="com.platform.entity.AD">
 		
 		SELECT *  FROM t_ad   WHERE  ad_state  != #{ad_state} ORDER BY ad_state ASC , ad_position  ASC ,ad_state ASC, ad_weight ASC,ad_create_time desc
+	</select>
+	<!-- web 查看 未发布 和 正常 的广告 -->
+	<select id="findADlistByCity_id" parameterType="Integer"  resultType="com.platform.entity.AD">
+		
+		SELECT *  FROM t_ad   WHERE  ad_state  != 2 and city_id=#{city_id} ORDER BY ad_state ASC , ad_position  ASC ,ad_state ASC, ad_weight ASC,ad_create_time desc
 	</select>
 	
 	<!-- web 查看 删除的广告 -->
@@ -64,6 +69,16 @@
 				ad_state = #{ad_state},
 			</if>	
 		</set>
+			WHERE ad_id = #{ad_id}	
+	</update>
+	
+	<!--广告修改-->
+	<update id="updateADByID" parameterType="com.platform.entity.AD">
+		UPDATE t_ad
+			set ad_img=#{ad_img}, ad_position=#{ad_position},
+			 ad_weight=#{ad_weight}, ad_state=#{ad_state},
+			  ad_type=#{ad_type}, ad_pid=#{ad_pid} , ad_pd=#{ad_pd},
+			  city_id=#{city_id}
 			WHERE ad_id = #{ad_id}	
 	</update>
 	

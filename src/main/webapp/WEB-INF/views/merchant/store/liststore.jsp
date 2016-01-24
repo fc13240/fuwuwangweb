@@ -16,12 +16,11 @@
 					<tr>
 						<th>#</th>
 						<th>图片</th>
-						<th>商家名称</th>
+						<th>店铺名称</th>
 						<th>电话</th>
 						<th>店铺状态</th>
 						<th>操作</th>
 					</tr>
-
 
 					<c:forEach items="${page.list}" var="list" varStatus="vs">
 

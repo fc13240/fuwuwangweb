@@ -9,6 +9,7 @@ import com.platform.common.contants.Constants;
 import com.platform.entity.AD;
 import com.platform.entity.AD_click;
 import com.platform.entity.AD_time;
+import com.platform.entity.vo.ADForWeb;
 import com.platform.entity.vo.ADVo;
 import com.platform.mapper.ADMapper;
 import com.platform.service.ADService;
@@ -132,22 +133,27 @@ public class ADServiceImpl   implements ADService{
 	 * @param ad_id
 	 * @return
 	 */
-	public ADVo selectADByad_id(String ad_id){
-		ADVo ad=new ADVo();
-		ad=mapper.selectADByad_id(ad_id);
-	
-		return ad;
+	public ADForWeb selectADByad_id(String ad_id){
+		return mapper.selectADByad_id(ad_id);
 	}
 
 
 
 		
 
-	
+	/**
+	 * 城市id
+	 */
+	public List<AD> findADlistByCity_id(Integer city_id){
+		return mapper.findADlistByCity_id(city_id);
+	}
 
-
-
-
+	/**
+	 * 修改广告
+	 */
+	public void updateADByID(AD ad){
+		mapper.updateADByID(ad);
+	}
 
 	
 

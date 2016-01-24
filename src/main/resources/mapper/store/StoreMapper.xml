@@ -118,7 +118,7 @@
 		resultType="com.platform.entity.Store">
 		SELECT * FROM t_store 
 			WHERE user_id=#{user_id} 
-				order by store_create_time desc
+				order by store_state,store_create_time desc 
 	</select>
 	<!-- 根据商家ID获取所有 “店铺” 信息（正常） -->
 	<select id="findstoreByUserId" parameterType="String"
@@ -145,6 +145,14 @@
 		and ts.store_state='3'
 		and tc.city_id =#{city_id}
 
+	</select>
+	<select id="findStoreWebByStore_id" parameterType="String" resultType="com.platform.entity.vo.StoreForWeb">
+		select ts.*,tu.userLogin from t_store as ts
+		join t_user as tu on ts.user_id=tu.user_id
+		join t_street as tst on ts.street_id=tst.street_id
+		join t_region as tr on tr.region_id=tst.region_id
+		WHERE ts.store_id=#{store_id}
+		and ts.store_state='3'
 	</select>
 
 	<!-- 安卓根据Storename获取模糊查找 “店铺” 信息 -->

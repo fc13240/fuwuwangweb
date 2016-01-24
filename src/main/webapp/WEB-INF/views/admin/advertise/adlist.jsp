@@ -21,7 +21,17 @@ function stop(paramstoreId){
 
 }
 
+function getADBycity_id() {
+	var base = "${pageContext.request.contextPath}";
+	var city_id = $('#city_id').val();
+	if (city_id == 0) {
+		return false;
+	} else {
 
+		window.location.href = base
+				+ '/admin/ad/adlistByCity_id?city_id=' + city_id;
+	}
+}
 </script>
 <style>
 .table th {
@@ -30,7 +40,24 @@ function stop(paramstoreId){
 </style>
 </head>
 <body>
-
+<div class=" searchform">
+	<div class="col-md-2">
+		<select class="form-control" onchange="getADBycity_id()"
+			id="city_id">
+			<option value="0" selected="selected">根据城市查询广告</option>
+			<c:forEach items="${citys}" var="citys" varStatus="vs">
+			<c:choose>
+<c:when test="${citys.city_id==city_id}">
+			<option value="${citys.city_id}" selected="selected">${citys.city_name}</option>
+</c:when>
+<c:otherwise>
+			<option value="${citys.city_id}" >${citys.city_name}</option>
+</c:otherwise>
+</c:choose>
+			</c:forEach>
+		</select>
+	</div>
+</div>
 
 	<div class="wrapper">
 		<div class="container-fluid">
@@ -50,7 +77,6 @@ function stop(paramstoreId){
 							<th>时间</th>
 							<th>操作</th>
 						</tr>
-
 
 						<c:forEach items="${page.list}" var="list" varStatus="vs">
 
@@ -104,7 +130,7 @@ function stop(paramstoreId){
 										<button class="btn btn-success" data-toggle="modal"
 											data-target="#releaseModal"
 											onclick="release('${list.ad_id}');">上线</button>
-										<a class="btn btn-warning"  href="${pageContext.request.contextPath}/admin/ad/getad?store_id=${list.ad_id}">修改</a>
+										<a class="btn btn-warning"  href="${pageContext.request.contextPath}/admin/ad/getad?ad_id=${list.ad_id}">修改</a>
 										<button class="btn btn-danger" data-toggle="modal"
 											data-target="#deleteModal" onclick="delAD('${list.ad_id}');">删除</button>
 									</c:if>
@@ -116,10 +142,12 @@ function stop(paramstoreId){
 					</table>
 
 					<!-- 分页 -->
-					<jsp:include page="../../common/pager.jsp">
-						<jsp:param value="phone" name="paramKey" />
-						<jsp:param value="${phone}" name="paramVal" />
-					</jsp:include>
+					<c:if test="${page.pages>1}">
+						<jsp:include page="../../common/pager.jsp">
+							<jsp:param value="phone" name="paramKey" />
+							<jsp:param value="${phone}" name="paramVal" />
+						</jsp:include>
+					</c:if>
 					<%@ include file="../../common/footer.jsp"%>
 
 

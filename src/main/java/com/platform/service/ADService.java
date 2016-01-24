@@ -3,6 +3,7 @@ package com.platform.service;
 import java.util.List;
 
 import com.platform.entity.AD;
+import com.platform.entity.vo.ADForWeb;
 import com.platform.entity.vo.ADVo;
 
 
@@ -67,11 +68,18 @@ public interface ADService {
 	 * @param ad_id
 	 * @return
 	 */
-	public ADVo selectADByad_id(String ad_id);
+	public ADForWeb selectADByad_id(String ad_id);
 
 	
 	
 	
+	public List<AD> findADlistByCity_id(Integer city_id);
 	
+	
+	/**
+	 * 修改广告
+	 * @param ad
+	 */
+	public void updateADByID(AD ad);
 	
 }

@@ -30,10 +30,9 @@ function getPhoto(){
 		var city_id = $.trim($("#ad_city_id").attr("value")) ;
 
 		var flag = false;
-		var txt_store_value = $("input[name='type']:checked").val();
+		var txt_store_value = $("input[name='ad_type']:checked").val();
 		//var txt_goods_value = $.trim($("#goods_value").attr("value")) ;
 		if (txt_store_value.length > 0) {
-			//alert(txt_store_value);
 			flag = true;
 		} else {
 			flag = false;
@@ -52,9 +51,10 @@ function getPhoto(){
 			flag = false;
 		}
 		if (flag) {
-			console.log(city_id);
+			//console.log(city_id);
 
 			var base = "${pageContext.request.contextPath}";
+
 			$.ajax({
 						url : base + "/admin/ad/select_store_goods",
 						type : "POST",
@@ -63,15 +63,16 @@ function getPhoto(){
 								+ txt_likename+"&city_id="+city_id,
 						error : function(XMLHttpRequest, textStatus,
 								errorThrown) {
-							//alert(XMLHttpRequest.status);
-							//alert(XMLHttpRequest.readyState);
-							//alert(textStatus);
+							alert(XMLHttpRequest.status);
+							alert(XMLHttpRequest.readyState);
+							alert(textStatus);
 						},
 						success : function(data) {
 							var data1 = eval(data);
 							//var data1=JSON.parse(data);
 							
 							if (data1.type == 1) {
+								console.log(1123123);
 								//alert(data1.list[0].store_img);
 								$("#content_store_goods").html("");
 								for ( var i in data1.list) {
@@ -133,18 +134,24 @@ function getPhoto(){
 					ad_p_state=1;
 		}
 	}
-	function check(){ /* ad_img ad_position ad_weight store_goods*/
-		var txt_ad_img = $.trim($("#ad_img").attr("value")) ;
+	function check(ad_type_yuan){ 
 		var txt_ad_position = $.trim($("#ad_position").attr("value")) ;
 		var txt_ad_weight = $.trim($("#ad_weight").attr("value")) ;
 		var txt_ad_pd = $.trim($("#ad_pd").attr("value")) ;
-		var txt_store_value = $("input[name='type']:checked").val();
+		var txt_store_value = $("input[name='ad_type']:checked").val();
 		var city_id = $.trim($("#ad_city_id").attr("value")) ;
-		var txt_store_goods;
+		 
+		var txt_store_goods=5;
+		var isSuccess = 0; 
 		if(txt_store_value==1){
 			 txt_store_goods = $("input[name='store_id']:checked").val();
 		}else{
 			 txt_store_goods = $("input[name='goods_id']:checked").val();
+		}
+		if(ad_type_yuan!=txt_store_value){
+			console.log(txt_store_goods);
+			isSuccess=0;
+			
 		}
 		$("#ad_imgLabel").text("") ;
 		$("#ad_positionLabel").text(""); 
@@ -152,15 +159,7 @@ function getPhoto(){
 		$("#store_goodsLabel").text(""); 
 		$("#ad_city_idLabel").text(""); 
 
-		var isSuccess = 0; 
-		if(txt_ad_img.length == 0) 
-		{ 
-		$("#ad_imgLabel").text("广告图片不能为空！") 
-		$("#ad_imgLabel").css({"color":"red"}); 
-		isSuccess = 0; 
-		}else{
-			isSuccess=1;
-		}
+
 		if(city_id== 0) 
 		{ 
 		$("#ad_city_idLabel").text("请选择广告所在的城市！") 
@@ -194,26 +193,20 @@ function getPhoto(){
 		}else{
 			isSuccess=1;
 		}
-		if(ad_p_state==0){
+	/* 	if(ad_p_state==0){
+			console.log("状态123");
 			isSuccess = 0;
 			
 		}else{
 			isSuccess=1;
-		/* 
-			if(txt_store_goods.length==0){
-				isSuccess = 0; 
-				alert(isSuccess);
-			}else{
-				isSuccess = 1; 
-				alert(isSuccess);
-			}
-			 */
+
 			
-		}
+		} */
 		
 		//alert(isSuccess);
 		if(isSuccess == 0) 
 		{ 
+			console.log("123");
 			//alert('失败');
 			return false; 
 		}else{
@@ -222,41 +215,34 @@ function getPhoto(){
 		}
 		
 		} 
+
+
 </script>
 <h1>
 	<label class="text-info">修改广告</label>
 </h1>
 	<label style="color:red">&nbsp;&nbsp;${info}</label>
 <div class="wrapper">
-	<div class="container-fluid">
+	<div class="container-fluid"> 
 
 		<div class="row ">
 
 			<form class="form-horizontal"
-				action="${pageContext.request.contextPath}/admin/ad/addAD"
-				method="post" enctype="multipart/form-data"  onsubmit = "return check();">
-				<div class="row form-group" style="text-align:center;">
-					<div class="col-md-2">
-						<label for="inputGoodsName" class=" control-label ">属性</label>
-					</div>
-					<div class="col-md-2">
-						广告现在状态
-					</div>
-					<div class="col-md-3">
-						修改区
-					</div>
-					<div class="col-md-4">
-						提示信息
-					</div>
-
-				</div>
+				 action="${pageContext.request.contextPath}/admin/ad/change_AD"
+				method="post" enctype="multipart/form-data"  onsubmit = "return check('${ads.ad_type}');">
+					<input type="hidden" value="${ads.ad_id}" name="ad_id"/>
 				<div class="row form-group">
 					<div class="col-md-2">
-						<label for="inputGoodsName" class=" control-label ">图片</label>
+						<label for="inputGoodsName" class=" control-label ">请选择图片</label>
 					</div>
-					<div class="col-md-2" align="center">
-					<img src="${pageContext.request.contextPath}/resources/upload/ad/${ads.ad_id}${ads.ad_img}" width="80" height="80"/>
-					</div>
+					<div class="col-md-1" align="center">
+					<c:if test="${ads.ad_type==1}">
+					<a class="btn btn-default" data-toggle="modal" data-target="#adinfoModal">原图</a>
+					</c:if>
+					<c:if test="${ads.ad_type==2}">
+					<a class="btn btn-default" data-toggle="modal" data-target="#adinfoModal" >原图</a>
+					</c:if>
+					 </div>
 					<div class="col-md-3">
 						<input name="ad_img" type="file" class="form-control" id="ad_img" onchange="getPhoto()">
 					</div>
@@ -268,25 +254,76 @@ function getPhoto(){
 				
 				<div class="row form-group">
 					<div class="col-md-2">
-						<label for="inputGoodsName" class="control-label">位置</label>
+						<label for="inputGoodsName" class="control-label">请选择位置</label>
 					</div>
-					<div class="col-md-2">
-						<c:if test="${ads.ad_position ==1}">首页</c:if>
-						<c:if test="${ads.ad_position ==2}">休闲娱乐页</c:if>
-						<c:if test="${ads.ad_position ==3}">丽人页</c:if>
-						<c:if test="${ads.ad_position ==4}">周边游玩页</c:if>
-						<c:if test="${ads.ad_position ==5}">龙币页</c:if>
-						<c:if test="${ads.ad_position ==6}">美食页</c:if>
+					<div class="col-md-1">
 					</div>
 					<div class="col-md-3">
 						<select name="ad_position" class="form-control" id="ad_position">
+					
 							<option value='0'>请选择位置</option>
-							<option value='1'>首页</option>
+						<%--<c:choose>
+								<c:when test="${ads.ad_position ==1}">
+									<option value='1' selected="selected">首页</option>
+								</c:when>
+								<c:otherwise>
+									<option value='1'>首页</option>
+								</c:otherwise>
+								<c:when test="${ads.ad_position ==2}">
+									<option value='2' selected="selected">休闲娱乐页</option>
+								</c:when>
+								<c:otherwise>
+									<option value='2'>休闲娱乐页</option>
+								</c:otherwise>
+							</c:choose> --%>
+							<c:if test="${ads.ad_position ==1}">
+							<option value='1' selected="selected">首页</option>
 							<option value='2'>休闲娱乐页</option>
 							<option value='3'>丽人页</option>
 							<option value='4'>周边游玩页</option>
 							<option value='5'>龙币专区页</option>
 							<option value='6'>美食页</option>
+						</c:if>
+						<c:if test="${ads.ad_position ==2}">
+							<option value='1' >首页</option>
+							<option value='2' selected="selected">休闲娱乐页</option>
+							<option value='3'>丽人页</option>
+							<option value='4'>周边游玩页</option>
+							<option value='5'>龙币专区页</option>
+							<option value='6'>美食页</option>
+						</c:if>
+						<c:if test="${ads.ad_position ==3}">
+							<option value='1' >首页</option>
+							<option value='2'>休闲娱乐页</option>
+							<option value='3' selected="selected">丽人页</option>
+							<option value='4'>周边游玩页</option>
+							<option value='5'>龙币专区页</option>
+							<option value='6'>美食页</option>
+						</c:if>
+						<c:if test="${ads.ad_position ==4}">
+							<option value='1' >首页</option>
+							<option value='2'>休闲娱乐页</option>
+							<option value='3'>丽人页</option>
+							<option value='4' selected="selected">周边游玩页</option>
+							<option value='5'>龙币专区页</option>
+							<option value='6'>美食页</option>
+						</c:if>
+						<c:if test="${ads.ad_position ==5}">
+							<option value='1' >首页</option>
+							<option value='2'>休闲娱乐页</option>
+							<option value='3'>丽人页</option>
+							<option value='4'>周边游玩页</option>
+							<option value='5' selected="selected">龙币专区页</option>
+							<option value='6'>美食页</option>
+						</c:if>
+						<c:if test="${ads.ad_position ==6}">
+							<option value='1' >首页</option>
+							<option value='2'>休闲娱乐页</option>
+							<option value='3'>丽人页</option>
+							<option value='4'>周边游玩页</option>
+							<option value='5'>龙币专区页</option>
+							<option value='6' selected="selected">美食页</option>
+						</c:if>
 						</select>
 					</div>
 					<div class="col-md-3">
@@ -295,19 +332,28 @@ function getPhoto(){
 				</div>
 				<div class="row form-group">
 					<div class="col-md-2">
-						<label for="inputGoodsName" class="control-label">权重</label>
+						<label for="inputGoodsName" class="control-label">请选择权重</label>
 					</div>
-					<div class="col-md-2">
-						<c:if test="${ads.ad_weight ==1}">第一排</c:if>
-						<c:if test="${ads.ad_weight ==2}">第二排</c:if>
-						<c:if test="${ads.ad_weight ==3}">第三排</c:if>
+					<div class="col-md-1">
 					</div>
 					<div class="col-md-3">
 						<select name="ad_weight" class="form-control" id="ad_weight">
 							<option value='0'>请选择权重</option>
-							<option value='1'>第一排</option>
+						<c:if test="${ads.ad_weight ==1}">
+							<option value='1' selected="selected">第一排</option>
 							<option value='2'>第二排</option>
 							<option value='3'>第三排</option>
+							</c:if>
+						<c:if test="${ads.ad_weight ==2}">
+							<option value='1'>第一排</option>
+							<option value='2' selected="selected">第二排</option>
+							<option value='3'>第三排</option>
+							</c:if>
+						<c:if test="${ads.ad_weight ==3}">
+							<option value='1'>第一排</option>
+							<option value='2'>第二排</option>
+							<option value='3' selected="selected">第三排</option>
+							</c:if>
 						</select> 
 					</div>
 					<div class="col-md-3">
@@ -316,19 +362,28 @@ function getPhoto(){
 				</div>
 				<div class="row form-group">
 					<div class="col-md-2">
-						<label for="inputGoodsName" class="control-label">具体位置</label>
+						<label for="inputGoodsName" class="control-label">请选择具体位置</label>
 					</div>
-					<div class="col-md-2">
-						<c:if test="${ads.ad_pd ==1}">第一位</c:if>
-						<c:if test="${ads.ad_pd ==2}">第二位</c:if>
-						<c:if test="${ads.ad_pd ==3}">第三位</c:if>
+					<div class="col-md-1">
 					</div>
 					<div class="col-md-3">
 						<select name="ad_pd" class="form-control" id="ad_pd">
 							<option value='0'>请选择具体位置</option>
-							<option value='1'>第一位</option>
+						<c:if test="${ads.ad_pd ==1}">
+							<option value='1' selected="selected">第一位</option>
 							<option value='2'>第二位</option>
 							<option value='3'>第三位</option>
+						</c:if>
+						<c:if test="${ads.ad_pd ==2}">
+							<option value='1'>第一位</option>
+							<option value='2' selected="selected">第二位</option>
+							<option value='3'>第三位</option>
+						</c:if>
+						<c:if test="${ads.ad_pd ==3}">
+							<option value='1'>第一位</option>
+							<option value='2'>第二位</option>
+							<option value='3' selected="selected">第三位</option>
+						</c:if>
 						</select> 
 					</div>
 					<div class="col-md-3">
@@ -338,18 +393,22 @@ function getPhoto(){
 				</div>
 				<div class="row form-group">
 					<div class="col-md-2">
-						<label for="inputGoodsName" class="control-label">广告所在城市</label>
+						<label for="inputGoodsName" class="control-label">请选择城市</label>
 					</div>
-					<div class="col-md-2">
-					<c:forEach items="${citys}" var="list" >
-						<c:if test="${list.city_id==ads.city_id}">${list.city_name}</c:if>
-					</c:forEach>
+					<div class="col-md-1">
 					</div>
 					<div class="col-md-3">
 						<select name="city_id" class="form-control" id="ad_city_id">
 									<option value="0">请选择广告所在的城市</option>
 							<c:forEach items="${citys}" var="list" >
+									<c:choose>
+									<c:when test="${list.city_id==ads.city_id}">
+									<option value='${list.city_id}' selected="selected">${list.city_name}</option>
+									</c:when>
+									<c:otherwise>
 									<option value='${list.city_id}'>${list.city_name}</option>
+									</c:otherwise>
+									</c:choose>
 							</c:forEach>
 							 
 							
@@ -361,45 +420,76 @@ function getPhoto(){
 				</div>
 				<div class="row form-group">
 					<div class="col-md-2 ">
-						<label class="control-label"> 广告类别 ： </label>
+						<label class="control-label"> 选择广告类别 ： </label>
 					</div>
-					<div class="col-md-3 ">
-					<c:if test="${ads.ad_type ==1}">
+					<div class="col-md-1">
+					
+					</div>
 					<div class="col-md-2 ">
-						<label class=" control-label"> <input type="radio"
-							 value="1" class="form-horizontal" 
-							id="store_value" checked/>店铺
+						<label class=" control-label"> 
+						<c:choose>
+							<c:when test="${ads.ad_type ==1}">
+								<input name="ad_type" value="1" type="radio"   id="store_value" checked="checked"/>店铺
+							</c:when>
+							<c:otherwise>
+								<input name="ad_type" value="1" type="radio" id="store_value" />店铺
+							</c:otherwise>
+						</c:choose>
+						<c:choose>
+							<c:when test="${ads.ad_type ==2}">
+							 	<input name="ad_type" value="2" type="radio" id="goods_value" checked="checked"/>商品
+							</c:when>
+							<c:otherwise>
+								<input name="ad_type" value="2" type="radio" id="goods_value" />商品
+							</c:otherwise>
+						</c:choose>
 						</label>
 					</div>
-					</c:if>
-					<c:if test="${ads.ad_type ==2}">
-					<div class="col-md-2">
-						<label class=" control-label"> <input type="radio"
-							 value="2" class="form-horizontal"   id="goods_value" checked/>商品
-						</label>
-					</div>
-					</c:if>
-					</div>
-					<div class="col-md-3">
-					<div class="col-md-1 ">
-						<label class=" control-label"> <input type="radio"
-							name="type" value="1" class="form-horizontal" checked
-							id="store_value" />店铺
-						</label>
-					</div>
-						<div class="col-md-1 ">
-						<label class=" control-label"> <input type="radio"
-							name="type" value="2" class="form-horizontal" id="goods_value" />商品
-						</label>
-					</div>
+				</div>
+				<div class="row form-group">
+						<div class="col-md-2 ">
+						<label class="control-label">广告关联信息： </label>
+					</div></div>
+				<c:if test="${ads.ad_type==1}">
+					<div class="row form-group">
+						<div class="col-sm-3">
+							<img
+								src="${pageContext.request.contextPath}/resources/upload/store/${ads.stores.store_id}${ads.stores.store_img}"
+								id="ad_img_src" width="80" height="80" />
+						</div>
+						<div class="col-sm-3">
+						店铺名称:&nbsp;&nbsp;${ads.stores.store_name}
+						</div>
+						<div class="col-sm-3">
+						所属商人:&nbsp;&nbsp;${ads.stores.userLogin}
+						
+
+						</div>
 					</div>
 				
-				</div>
+					
+					</c:if>
+					<c:if test="${ads.ad_type==2}">
+					<div class="row form-group">
+						<div class="col-sm-3">
+							<img
+								src="${pageContext.request.contextPath}/resources/upload/goods/${ads.goods.goods_id}${ads.goods.goods_img}"
+								id="ad_img_src" width="80" height="80" />
+						</div>
+						<div class="col-sm-3">
+							商品名:&nbsp;&nbsp;${ads.goods.goods_name}
+						</div>
+						<div class="col-sm-3">所属店铺:&nbsp;&nbsp;${ads.goods.store_name}</div>
+					</div>
+				
+			
+					</c:if>
 				<div class="row form-group">
 					<div class="col-md-2">
 						搜索关联物品
 					</div>
-					<div class="col-md-2">
+					<div class="col-md-1"></div>
+					<div class="col-md-3">
 						<input name="likename" type="text" class="form-control"
 							id="likename" placeholder="请想要搜索的名字：">
 					</div>
@@ -408,7 +498,6 @@ function getPhoto(){
 							onclick="searchbyname()" value="查找" />
 					</div>
 				</div>
-
 				<h5>请选择店铺或商品：</h5>
 				<div class=" form-group">
 					<table class="table table-hover">
@@ -438,6 +527,110 @@ function getPhoto(){
 	</div>
 </div>
 
+	<!--模态框  -->
+	<div class="modal fade" id="adinfoModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+				
+				<div class="modal-body">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<img src="${pageContext.request.contextPath}/resources/upload/ad/${ads.ad_id}${ads.ad_img}"
+								id="ad_img_src" width="100" height="100" align="center" style="margin-top: 100px;margin-left:250px;"/>
+					</div>
+				</div>
+	</div>
+	
+	<%-- <div class="modal fade" id="adinfoModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+		
+			<div class="modal-content">
+				
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">广告信息</h4>
+				</div>
 
+				<div class="form-horizontal col-sm-offset-2">
+				
+					<div class="modal-body">
+					<div class="form-group">
+						<label for="inputGoodsDesc" class="col-sm-3 control-label">广告图片</label>
+						<div class="col-sm-7">
+							<img
+								src="${pageContext.request.contextPath}/resources/upload/ad/${ads.ad_id}${ads.ad_img}"
+								id="ad_img_src" width="80" height="80" />
+						</div>
+					</div>
+					<c:if test="${ads.ad_type==1}">
+					<div class="form-group">
+						<label for="inputGoodsName" class="col-sm-3 control-label">店铺名称</label>
+						<div class="col-sm-7">
+							<input type="text" class="form-control" name="goods_name"
+								placeholder="店铺名称" id="g_name1" value="${ads.stores.store_name}"
+								readonly="readonly">
 
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inputGoodsDesc" class="col-sm-3 control-label">店铺图片</label>
+						<div class="col-sm-7">
+							<img
+								src="${pageContext.request.contextPath}/resources/upload/goods/${ads.stores.store_id}${ads.stores.store_img}"
+								id="ad_img_src" width="80" height="80" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inputGoodsName" class="col-sm-3 control-label">所属商人</label>
+						<div class="col-sm-7">
+							<input type="text" class="form-control" name="goods_name"
+								placeholder="店铺名称" id="g_name1" value="${ads.stores.user_Login}"
+								readonly="readonly">
+
+						</div>
+					</div>
+					</c:if>
+					<c:if test="${ads.ad_type==2}">
+					<div class="form-group">
+						<label for="inputGoodsName" class="col-sm-3 control-label">商品名</label>
+						<div class="col-sm-7">
+							<input type="text" class="form-control" name="goods_name"
+								placeholder="商品名称" id="g_name1" value="${ads.goods.goods_name}"
+								readonly="readonly">
+
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inputGoodsDesc" class="col-sm-3 control-label">商品图片</label>
+						<div class="col-sm-7">
+							<img
+								src="${pageContext.request.contextPath}/resources/upload/goods/${ads.goods.goods_id}${ads.goods.goods_img}"
+								id="ad_img_src" width="80" height="80" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inputGoodsName" class="col-sm-3 control-label">所属店铺</label>
+						<div class="col-sm-7">
+							<input type="text" class="form-control" name="goods_name"
+								placeholder="店铺名称" id="g_name1" value="${ads.goods.store_name}"
+								readonly="readonly">
+
+						</div>
+					</div>
+					</c:if>
+				</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+ --%>
 <%@ include file="../../common/footer.jsp"%>

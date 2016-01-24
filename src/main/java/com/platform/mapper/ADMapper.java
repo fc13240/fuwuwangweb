@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import com.platform.entity.AD;
 import com.platform.entity.AD_click;
 import com.platform.entity.AD_time;
+import com.platform.entity.vo.ADForWeb;
 import com.platform.entity.vo.ADVo;
 
 
@@ -28,6 +29,8 @@ public interface ADMapper {
 	/****管理员 查看发布或者 已发布的--广告*/
 	public List<AD> selectAD_state(Integer ad_state);
 	
+	public List<AD> findADlistByCity_id(Integer city_id);
+	
 	
 	/****管理员  删除   的--广告*/
 	public List<AD> selectAD_Delete(Integer ad_state);
@@ -37,6 +40,9 @@ public interface ADMapper {
 	
 	/****管理员 查看 删除 或者 正常的--广告*/
 	public void updateAD(AD ad);
+	
+	/**修改广告**/
+	public void updateADByID(AD ad);
 	
 	
 	/*******条件查找广告**********/
@@ -52,6 +58,6 @@ public interface ADMapper {
 	
 	
 	/*****根据广告id查询广告*****/
-	public ADVo selectADByad_id(String ad_id);
+	public ADForWeb selectADByad_id(String ad_id);
 	
 }

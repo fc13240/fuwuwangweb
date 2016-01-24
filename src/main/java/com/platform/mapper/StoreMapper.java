@@ -130,5 +130,5 @@ public interface StoreMapper {
 																	// 一级分类 二级分类
 																	// 获取 正常状态下的
 																	// “店铺总数”
-
+	public StoreForWeb findStoreWebByStore_id(String store_id);
 }
