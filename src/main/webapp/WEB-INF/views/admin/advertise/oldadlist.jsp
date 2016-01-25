@@ -141,11 +141,22 @@
 
 
 	<!-- 分页 -->
+		<c:if test="${page.pages>1}">
 	<jsp:include page="../../common/pager.jsp">
 		<jsp:param value="phone" name="paramKey" />
 		<jsp:param value="${phone}" name="paramVal" />
 	</jsp:include>
-	<%@ include file="../../common/footer.jsp"%>
+	</c:if>
+		<c:choose>
+				<c:when test="${page.pages>1&&page.pageSize>3}">
+					<%@ include file="../../common/footer.jsp"%>
+				</c:when>
+				<c:otherwise>
+					<div style="position:fixed;bottom:0px;width:80%;">
+					<%@ include file="../../common/footer.jsp"%>
+					</div>
+				</c:otherwise>
+				</c:choose>
 
 				</div>
 			</div>

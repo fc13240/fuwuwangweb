@@ -81,7 +81,16 @@ function fanquan(paramstoreId){
 						</tr>
 					</c:forEach>
 				</table>
-<%@ include file="../../common/footer.jsp"%>
+	<c:choose>
+				<c:when test="${page.pages>1&&page.pageSize>3}">
+					<%@ include file="../../common/footer.jsp"%>
+				</c:when>
+				<c:otherwise>
+					<div style="position:fixed;bottom:0px;width:80%;">
+					<%@ include file="../../common/footer.jsp"%>
+					</div>
+				</c:otherwise>
+				</c:choose>
 			</div>
 		</div>
 	</div>

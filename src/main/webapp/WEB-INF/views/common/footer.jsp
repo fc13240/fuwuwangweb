@@ -6,7 +6,7 @@
 
 
         <!--footer section start-->
-        <footer style="text-align:center;">
+        <footer style="text-align:center; width:100%;">
             版权所有：中财卓创智源（北京）科技有限公司 增值电信业务经营许可证： 京ICP证101008号  |  京ICP备12014530号  |  京网文[2015]0372-152号
         </footer>
         <!--footer section end-->
