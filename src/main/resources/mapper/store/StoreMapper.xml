@@ -42,7 +42,7 @@
 			<if test="street_id != null and street_id!='' ">
 				street_id = #{street_id},
 			</if>
-			<if test="store_state != null and store_state'' ">
+			<if test="store_state != null and store_state!='' ">
 				store_state = #{store_state},
 			</if>
 		</set>

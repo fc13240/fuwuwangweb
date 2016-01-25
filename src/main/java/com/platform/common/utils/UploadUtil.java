@@ -50,7 +50,7 @@ public static String fileName;
 		
 		
 System.out.println("图片一的  地址 ："  + filePath+"\\"+ (user_id_01+url)) ;
-		UploadUtil.img_max(800, 800, filePath, user_id_01+url  , user_id+url);
+		UploadUtil.img_max(3000, 3000, filePath, user_id_01+url  , user_id+url);
 	}
 		
 	 
@@ -60,7 +60,7 @@ System.out.println("图片一的  地址 ："  + filePath+"\\"+ (user_id_01+url)
 		
     	 String url =  UploadUtil.saveFile(file, filePath, user_id_02) ;
     	 
-    	 UploadUtil.img_max(20, 20, filePath, user_id_02+url , user_id+url);
+    	 UploadUtil.img_max(2000, 2000, filePath, user_id_02+url , user_id+url);
     	 
 	}
 	
