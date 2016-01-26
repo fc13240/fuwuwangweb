@@ -223,7 +223,7 @@ public class ADController {
 	
 	/******添加广告*******/
 	@RequestMapping(value = "addAD" , method = RequestMethod.POST)
-	public String  addAD(String  store_id, String goods_id ,Integer city_id,
+	public String  addAD(Model model,String  store_id, String goods_id ,Integer city_id,
 			Integer ad_position, Integer ad_weight,Integer ad_pd,MultipartFile ad_img, HttpSession  session,HttpServletRequest request){
 		//System.out.println("我进来了"+ ad_position +"   "+ ad_weight +"  "+ ad_img );
 		if(null==store_id&&null==goods_id){
@@ -268,6 +268,7 @@ public class ADController {
 		
 		adservice.addAD(ad);
 		System.out.println("添加广告成功");
+		model.addAttribute("citys", territoryService.findAllCitys());
 		request.setAttribute("info","添加广告成功！");
 		return "admin/advertise/addAd" ;
 	}
