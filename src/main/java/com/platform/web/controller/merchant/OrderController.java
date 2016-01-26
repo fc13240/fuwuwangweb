@@ -185,7 +185,7 @@ public class OrderController {
 		System.out.println("session : 商人 agui ：" + user);
 		Return_ticket ort = orderService.selectfanquan_info(order_id);
 		ort.setPay_password(pay_password);
-		ort.setMerchant_name(user.getUserLogin());
+		ort.setMerchant_name(user.getMerchant_account());
 		ort.setFace_money("7");
 		String successful = send_ticketInfo(ort); // 返券信息 发给公司
 		if (successful.equals("true")) {
