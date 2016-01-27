@@ -53,14 +53,7 @@
 		SELECT *  FROM t_ad   WHERE  ad_create_time >=STR_TO_DATE(CONCAT(#{ad_create_start},'0:0:0'),'%Y-%m-%d %H:%i:%s')AND STR_TO_DATE(CONCAT(#{ad_create_end},'23:59:59'),'%Y-%m-%d %H:%i:%s')>=ad_create_time
     AND ad_state= 2  
 	</select>
-	
-	
-	
-	
-	
-	
-	
-	
+
 	<!--广告删除-->
 	<update id="updateAD" parameterType="com.platform.entity.AD">
 		UPDATE t_ad
@@ -102,12 +95,4 @@
 			VALUES
 		(#{ad_id},now())
 	</insert>
-	
-	
-	
-	
-	
-	
-	
-	
 </mapper>

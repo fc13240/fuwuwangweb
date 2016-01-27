@@ -221,9 +221,11 @@
 		JOIN t_store AS ts ON tg.store_id=ts.store_id
 		JOIN t_merchant_info AS
 		tm ON tm.user_id = ts.user_id
+		JOIN t_user as tu 	ON tu.user_id=ts.user_id
 		WHERE tg.goods_id = #{goods_id}
 		AND tg.goods_delete_state = 0
 		AND tg.goods_putaway_state=1
+		AND tu.user_state=2
 		
 
 	</select>
@@ -519,12 +521,15 @@
 		ts.store_id=tg.store_id
 		JOIN t_merchant_info AS tm ON tm.user_id
 		=ts.user_id
+		JOIN t_user AS tu ON tu.user=tm.user_id
 		WHERE
 		tg.goods_delete_state=0
 		AND
 		tg.goods_check_state=1
 		AND
 		ts.store_state=3
+		AND
+		tu.user_state=2
 	</sql>
 
 	<!-- 根据商品名获取商品列表 (限制删除状态和审核状态，不限制用户)提供给app -->
@@ -566,12 +571,15 @@
 		JOIN t_region tr ON tr.region_id=tst.region_id
 		JOIN t_city tc ON
 		tc.city_id=tr.city_id
+		JOIN t_user tu ON tu.user_id=ts.user_id
 		WHERE
 		tg.goods_delete_state=0
 		AND
 		tg.goods_check_state=1
 		AND
 		ts.store_state=3
+		AND
+		tu.user_state=2
 		AND
 		tc.city_name=#{cityName}
 	</sql>
@@ -630,6 +638,7 @@
 	
 	<sql id="getGoodsRecommendByCityNameAndCategorySql">
 		FROM t_goods AS tg
+		JOIN t_user AS tu ON tu.user_id=ts.user_id
 		JOIN t_store AS ts ON ts.store_id=tg.store_id
 		JOIN t_merchant_info AS tm ON tm.user_id=ts.user_id
 		JOIN t_street tst ON tst.street_id=ts.street_id

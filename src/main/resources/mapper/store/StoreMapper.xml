@@ -184,14 +184,17 @@
 	<select id="findStoreByType_Street" parameterType="com.platform.entity.Store_help"
 		resultType="com.platform.entity.vo.StoreForApp">
 		SELECT ts.*,tc.city_name,tr.region_name,tst.street_name
-		from t_store as ts,t_city as tc,t_region as tr,t_street as tst
+		from 
+		t_store as ts
+		JOIN    t_street as tst ON ts.street_id=tst.street_id
+		JOIN 	t_region as tr ON  tr.region_id=tst.region_id
+		JOIN	t_city as tc ON tc.city_id=tr.city_id
+		JOIN 	t_user as tu ON tu.user_id=ts.user_id
 		WHERE tst.street_id=#{street_id}
 		AND store_type2_id in
 		(SELECT store_type2_id FROM t_store_type2 WHERE
 		store_type1_id=#{store_type1_id})
-		and ts.street_id=tst.street_id
-		and tr.region_id=tst.region_id
-		and tc.city_id=tr.city_id
+		and tu.user_state=2
         and ts.store_state='3'
 	</select>
 
@@ -216,11 +219,13 @@
 	<select id="selectStoreBytype2" parameterType="Integer"
 		resultType="com.platform.entity.vo.StoreForApp">
 		SELECT ts.*,tc.city_name,tr.region_name,tst.street_name
-		from t_store as ts,t_city as tc,t_region as tr,t_street as tst
+		from t_store as ts
+		JOIN    t_street as tst ON ts.street_id=tst.street_id
+		JOIN 	t_region as tr ON  tr.region_id=tst.region_id
+		JOIN	t_city as tc ON tc.city_id=tr.city_id
+		JOIN 	t_user as tu ON tu.user_id=ts.user_id
 		WHERE ts.store_type2_id = #{store_type2_id}
-		and ts.street_id=tst.street_id
-		and tr.region_id=tst.region_id
-		and tc.city_id=tr.city_id
+		and tu.user_state=2
 		and ts.store_state='3'
 
 	</select>
@@ -231,11 +236,14 @@
 		resultType="com.platform.entity.vo.StoreForApp">
 
 		SELECT ts.*,tc.city_name,tr.region_name,tst.street_name
-		from t_store as ts,t_city as tc,t_region as tr,t_street as tst
+		from 
+		t_store as ts
+		JOIN    t_street as tst ON ts.street_id=tst.street_id
+		JOIN 	t_region as tr ON  tr.region_id=tst.region_id
+		JOIN	t_city as tc ON tc.city_id=tr.city_id
+		JOIN 	t_user as tu ON tu.user_id=ts.user_id
 		WHERE ts.store_type2_id = #{store_type2_id} AND ts.street_id = #{street_id}
-		and ts.street_id=tst.street_id
-		and tr.region_id=tst.region_id
-		and tc.city_id=tr.city_id
+		and tu.user_state=2	
 		and ts.store_state=3
 
 	</select>
@@ -252,6 +260,7 @@
 		ts.user_id=tu.user_id
 		WHERE ts.store_id = #{store_id}
 		and ts.store_state='3'
+		and tu.user_state=2
 	</select>
 
 	<!-- 根据电话号码获取商家 -->
@@ -337,7 +346,8 @@
 		JOIN t_region AS tr ON tr.region_id=tst.region_id
 		JOIN t_city AS tc ON
 		tc.city_id=tr.city_id
-		WHERE ts.store_state=3
+		JOIN t_user AS tu ON tu.user_id =ts.user_id
+		WHERE ts.store_state=3 and tu.user_state=2
 		<if test="cityName != null">
 			AND tc.city_name=#{cityName}
 		</if>
@@ -382,7 +392,8 @@
 		t_region AS tr ON tst.region_id=tr.region_id
 		JOIN t_city AS tc ON
 		tr.city_id=tc.city_id
-		WHERE ts.store_state=3
+		JOIN t_user AS tu ON tu.user_id=ts.user_id
+		WHERE ts.store_state=3 and tu.user_state=2
 		AND ts.store_name LIKE
 		CONCAT(CONCAT('%', #{searchName}),'%')
 		AND tc.city_name=#{city_name}

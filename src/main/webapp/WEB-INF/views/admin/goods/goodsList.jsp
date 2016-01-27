@@ -224,7 +224,7 @@
 					<input type="hidden" value="" name="store_id" id="s_id1">
 					<div class="form-group">
 						<label for="inputGoodsName" class="col-sm-3 control-label">商品名</label>
-						<div class="col-sm-4">
+						<div class="col-sm-6">
 							<input type="text" class="form-control" name="goods_name"
 								placeholder="商品名称" id="g_name1" value="${info.goods_name}"
 								readonly="readonly">
@@ -235,7 +235,7 @@
 
 					<div class="form-group">
 						<label for="inputGoodsPrice" class="col-sm-3 control-label">商品价格</label>
-						<div class="col-sm-4">
+						<div class="col-sm-6">
 							<input type="text" class="form-control" name="goods_price"
 								placeholder="商品价格" id="g_price1" value="${goods.goods_price }"
 								readonly="readonly">(单位：元)
@@ -244,15 +244,15 @@
 
 					<div class="form-group">
 						<label for="inputGoodsPriceLB" class="col-sm-3 control-label">商品龙币价格</label>
-						<div class="col-sm-4">
+						<div class="col-sm-6">
 							<input type="text" class="form-control" name="goods_price_LB"
 								placeholder="商品龙币价格" id="g_price_LB1" readonly="readonly">(单位：个)
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="inputGoodsDesc" class="col-sm-3 control-label">商品描述</label>
-						<div class="col-sm-4">
-							<textarea id="g_desc1" name="goods_desc" cols="16"
+						<div class="col-sm-6">
+							<textarea id="g_desc1" name="goods_desc" cols="28"
 								placeholder="商品描述" readonly="readonly"></textarea>
 						</div>
 					</div>
@@ -270,7 +270,7 @@
 					</div>
 					<div class="form-group">
 						<label for="inputGoodsDesc" class="col-sm-3 control-label">返券依据</label>
-						<div class="radio col-sm-4">
+						<div class="radio col-sm-6">
 							<label> <input type="radio" name="goods_return_type"
 								id="optionspay_type1" value="1" checked> 根据数量返券
 							</label> <label> <input type="radio" name="goods_return_type"
@@ -282,7 +282,7 @@
 
 					<div class="form-group">
 						<label for="inputGoodsPrice" class="col-sm-3 control-label">返券标准</label>
-						<div class="col-sm-4">
+						<div class="col-sm-6">
 							<input type="text" class="form-control"
 								name="goods_return_standard" placeholder="返券标准" id="g_standard1"
 								readonly="readonly">
@@ -291,7 +291,7 @@
 
 					<div class="form-group">
 						<label for="inputGoodsPrice" class="col-sm-3 control-label">返券数量</label>
-						<div class="col-sm-4">
+						<div class="col-sm-6">
 							<input type="text" class="form-control"
 								name="goods_return_ticket" placeholder="返券数量" id="g_count1"
 								readonly="readonly">
@@ -319,8 +319,7 @@
 		//JSON.parse(data);
 		//	console.log(type+"商品"+goods_id);
 		var base = "${pageContext.request.contextPath}";
-		$
-				.ajax({
+		$.ajax({
 					url : base + "/admin/goods/goodsinfo",
 					type : "GET",
 					datatype : "text",
@@ -381,6 +380,7 @@
 
 						} else {
 							$("#goods_pay_type").attr("checked", '');//清空内容 
+							$("#goods_pay_type").attr("checked", false);
 							//$("#optionspay_type01").attr("checked", true);
 						}
 						$("#g_count1").attr("value", '');//清空内容 
