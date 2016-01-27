@@ -25,7 +25,6 @@ import com.platform.common.utils.UUIDUtil;
 import com.platform.entity.Order;
 import com.platform.entity.User;
 import com.platform.service.UserService;
-import com.platform.service.impl.UserServiceImpl;
 import com.platform.web.controller.app.AppUserController;
 import com.platform.web.controller.app.BaseModel;
 import com.squareup.okhttp.OkHttpClient;
@@ -118,7 +117,6 @@ public class AdminUserController {
 		
 		model.addAttribute("page", new PageInfo<User>(lUsers));
 
-		System.out.println(lUsers);
 
 		return "admin/user/listuser";
 
@@ -187,9 +185,8 @@ public class AdminUserController {
 			request.setAttribute("info", "连接失败");
 			return "admin/user/addmerchant"; 
 		}else{
-			// 判断公司 帐号是否重复
+			// 判断登陆账号和公司 帐号是否重复
 			if(! checkIsExist(userLogin).Successful) {
-				System.out.println("管理员注册商人 ，公司那边验证帐号是否存在");
 				request.setAttribute("info", "帐号已存在");
 				return "admin/user/addmerchant"; 
 
@@ -202,6 +199,7 @@ public class AdminUserController {
 			request.setAttribute("info", "帐号已存在");
 			return "admin/user/addmerchant"; 
 		} 
+		// 判断服务网账号是否正确
 		if (null != merchant_account &&checkIsExist(merchant_account).Successful) {
 			request.setAttribute("info", "服务网帐号不存在");
 			return "admin/user/addmerchant";
@@ -262,15 +260,66 @@ public class AdminUserController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "mlist" , method = RequestMethod.GET)
-	public  String  mlist(Model model,Integer pageNum,Integer pageSize){
+	@RequestMapping(value = "merchant/{merchanttype}" , method = RequestMethod.GET)
+	public  String  mlist(Model model,@PathVariable String merchanttype, String merchant_name, String curUserId,Integer pageNum,Integer pageSize){
 		if (pageNum == null)
 			pageNum = 1;
 		if (pageSize == null)
 			 pageSize=Constants.PAGE_SIZE;
-		
 		PageHelper.startPage(pageNum, pageSize, true);
-		model.addAttribute("page", new PageInfo<User>(userService.merchantlist()));
+		List<User> MerchantList=new ArrayList<User>();
+		User merchant=new User();
+		if("mlist".equals(merchanttype)){
+			
+			MerchantList=userService.merchantlist();
+		}
+		 else if (("search").equals(merchanttype)) {
+				
+					MerchantList = userService.findMerchantByname(merchant_name);
+			
+			  System.out.println("name 查 用户" + MerchantList);
+		}
+
+		else if (("lockuser").equals(merchanttype)) {
+			
+			System.out.println("传回的请求类别："+merchanttype+"传回的userid:"+curUserId);
+			merchant.setUser_id(curUserId);
+			merchant.setUser_state(Constants.USER_LOCK);
+			userService.updateuser_state(merchant);
+			System.out.println("锁定用户成功");
+			return "redirect:/admin/user/merchant/mlist";
+
+		}
+		else if (("activityuser").equals(merchanttype)) {
+			System.out.println("传回的请求类别："+merchanttype+"传回的userid:"+curUserId);
+			merchant.setUser_id(curUserId);
+			merchant.setUser_state(Constants.USER_ACTIVE);
+			userService.updateuser_state(merchant);
+			System.out.println("解锁用户成功");
+			return "redirect:/admin/user/merchant/mlist";
+			
+		}
+		else if (("deluser").equals(merchanttype)) {
+			System.out.println("传回的请求类别："+merchanttype+"传回的userid:"+curUserId);
+			merchant.setUser_id(curUserId);
+			merchant.setUser_state(Constants.USER_DELETE);
+			userService.updateuser_state(merchant);
+			System.out.println("删除用户成功");
+			return "redirect:/admin/user/merchant/mlist";
+
+		}
+
+		
+		List<String> params = new ArrayList<String>();
+		if(merchant_name!=null && merchant_name.length() != 0 ){
+			String param1 = "merchant_name="+merchant_name+"&";
+			params.add(param1);
+		}
+
+	    model.addAttribute("params", params);
+		
+		model.addAttribute("page", new PageInfo<User>(MerchantList));
+
 		return "/admin/user/merchantlist";
 	}
 	

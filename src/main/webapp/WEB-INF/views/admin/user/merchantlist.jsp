@@ -41,14 +41,14 @@
 
 <body>
 
-<%-- 
+
 	<form class="searchform"
-		action="${pageContext.request.contextPath}/admin/user/search"
+		action="${pageContext.request.contextPath}/admin/user/merchant/search"
 		method="GET" onsubmit="return check();">
-		<input type="text" class="form-control" name="phone" value="${phone}"
+		<input type="text" class="form-control" name="merchant_name" value="${merchant_name}"
 			id="phone" placeholder="请输入用户名称" /> <input type="submit"
 			class="form-control btn btn-success" value="查找" />
-	</form> --%>
+	</form>
 	<div class="container-fluid">
 		<div class="wrapper">
 			<div class="row ">
@@ -140,7 +140,7 @@
 				</div>
 
 				<form class="form-horizontal col-sm-offset-2"
-					action="${pageContext.request.contextPath}/admin/user/deluser"
+					action="${pageContext.request.contextPath}/admin/user/merchant/deluser"
 					method="get" enctype="multipart/form-data">
 					<input id="curUserId" name="curUserId" type="hidden">
 					<div class="modal-body">是否确认删除该用户吗？</div>
@@ -166,7 +166,7 @@
 				</div>
 
 				<form class="form-horizontal col-sm-offset-2"
-					action="${pageContext.request.contextPath}/admin/user/lockuser"
+					action="${pageContext.request.contextPath}/admin/user/merchant/lockuser"
 					method="get" enctype="multipart/form-data">
 					<input id="curUserId1" name="curUserId" type="hidden">
 					<div class="modal-body">是否确认锁定该改用户吗？</div>
@@ -192,7 +192,7 @@
 				</div>
 
 				<form class="form-horizontal col-sm-offset-2"
-					action="${pageContext.request.contextPath}/admin/user/activityuser"
+					action="${pageContext.request.contextPath}/admin/user/merchant/activityuser"
 					method="get" enctype="multipart/form-data">
 					<input id="curUserId2" name="curUserId" type="hidden">
 					<div class="modal-body">是否确认解锁该改用户吗？</div>

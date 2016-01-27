@@ -51,6 +51,8 @@ public interface UserMapper {
 
 	/**** 模糊查找用户 ****/
 	public List<User> finduserByname(String phone);
+	/**** 模糊查找用户 ****/
+	public List<User> findMerchantByname(String merchant_name);
 
 	/**** user_id找用户 ****/
 	public User finduserById(String user_id);

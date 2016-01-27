@@ -42,7 +42,7 @@ public interface UserService {
 	/**
 	 * User 锁定, 解锁,删除
 	 */
-	public void updateuser_state(User user) throws Exception;
+	public void updateuser_state(User user);
 
 	/**
 	 * 修改密码
@@ -52,7 +52,11 @@ public interface UserService {
 	/**
 	 * 通过名字查找用户
 	 */
-	public List<User> finduserByname(String phone) throws Exception;
+	public List<User> finduserByname(String phone);
+	/**
+	 * 通过名字查找商人
+	 */
+	public List<User> findMerchantByname(String merchant_name);
 
 	/**
 	 * 查看订单

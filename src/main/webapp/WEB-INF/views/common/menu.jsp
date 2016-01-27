@@ -58,7 +58,7 @@
 					<li><a
 						href="${pageContext.request.contextPath}/admin/user/ulist">用户列表</a></li>
 					<li><a
-						href="${pageContext.request.contextPath}/admin/user/mlist">商人列表</a></li>
+						href="${pageContext.request.contextPath}/admin/user/merchant/mlist">商人列表</a></li>
 					<li><a
 						href="${pageContext.request.contextPath}/admin/user/selectOrder_user">用户订单</a></li>
 					<li><a

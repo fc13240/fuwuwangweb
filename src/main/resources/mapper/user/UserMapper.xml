@@ -49,6 +49,18 @@
 		CONCAT(CONCAT('%', #{phone}), '%')
 
 	</select>
+	<!-- name 模糊查商家 -->
+	<select id="findMerchantByname" resultType="com.platform.entity.User"
+		parameterType="String">
+		SELECT t_user.* , t_merchant_info.* 
+		FROM t_user , t_merchant_info
+		WHERE
+		t_user.`user_id` = t_merchant_info.`user_id` 
+		AND t_user.userLogin LIKE
+		CONCAT(CONCAT('%', #{merchant_name}), '%')
+		AND user_type='2'
+		ORDER BY merchant_type desc, user_create_time desc
+	</select>
 
 
 	<!-- user_id查用户 -->

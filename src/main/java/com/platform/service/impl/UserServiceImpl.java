@@ -266,7 +266,7 @@ public class UserServiceImpl implements UserService {
 	/**
 	 * 用户锁定,解锁，删除
 	 */
-	public void updateuser_state(User user) throws Exception {
+	public void updateuser_state(User user)  {
 
 		mapper.updateuser_state(user);
 		System.out.println("对用户进行了用户锁定,解锁，删除");
@@ -288,9 +288,14 @@ public class UserServiceImpl implements UserService {
 	}
 
 	/***** 根据名字查用户 *****/
-	public List<User> finduserByname(String phone) throws Exception {
+	public List<User> finduserByname(String phone)  {
 
 		List<User> list = mapper.finduserByname(phone);
+		return list;
+	}
+	public List<User> findMerchantByname(String merchant_name)  {
+		
+		List<User> list = mapper.findMerchantByname(merchant_name);
 		return list;
 	}
 
