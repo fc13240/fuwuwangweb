@@ -203,6 +203,7 @@ function changeRegion(){
 		})
 }
 function check(){ 
+	var isSuccess = 0; 
 	/*     type2    */
 	var txtstore_name = $.trim($("#txtstore_name").attr("value"));
 	var txtstore_img = $.trim($("#txtstore_img").attr("value"));
@@ -220,13 +221,12 @@ function check(){
 	$("#type2Label").text(""); 
 	$("#streetLabel").text(""); 
 
-	var isSuccess = 1; 
 	if(txtstore_img.length == 0) 
 	{ 
 	$("#txtstore_imgLabel").text("店铺图片不能为空！") 
 	$("#txtstore_imgLabel").css({"color":"red"}); 
 	isSuccess = 0; 
-	} 
+	}
 	if(type2== 0) 
 	{ 
 	$("#type2Label").text("店铺类别不能为空！") 
@@ -248,6 +248,7 @@ function check(){
 		if(txtstore_name.length >20){
 			$("#txtstore_nameLabel").text("店铺名不能超过20个汉字！") 
 			$("#txtstore_nameLabel").css({"color":"red"}); 
+			isSuccess = 0; 
 		}
 	}
 	
@@ -257,7 +258,7 @@ function check(){
 	$("#txtstore_descLabel").css({"color":"red"}); 
 	isSuccess = 0; 
 	} 
-	if(xtstore_desc.length>300) 
+	if(txtstore_desc.length>300) 
 	{ 
 	$("#txtstore_descLabel").text("店铺描述不能超过300个汉字！") 
 	$("#txtstore_descLabel").css({"color":"red"}); 
@@ -282,12 +283,13 @@ function check(){
 	$("#txtstore_addressLabel").css({"color":"red"}); 
 	isSuccess = 0; 
 	} 
-	if(isSuccess == 0) 
-	{ 
-	return false; 
-	} 
-	return true; 
-	} 
+	
+	if (isSuccess == 0) {
+			return false;
+		} else {
+			return true;
+		}
+	}
 </script>
 </head>
 <!--body wrapper start-->
@@ -298,7 +300,7 @@ function check(){
 	<label style="color:red">&nbsp;&nbsp;${info}</label>
 	<form class="form-horizontal"
 		action="${pageContext.request.contextPath}/merchant/store/addStore"
-		method="post" enctype="multipart/form-data" onsubmit = "return check();">
+		method="post" enctype="multipart/form-data"  >
 		<div class="form-group">
 			<label for="inputGoodsName" class="col-sm-offset-1 col-sm-1 control-label" style="text-align:right">店铺名</label>
 			<div class="col-sm-3">
@@ -385,7 +387,7 @@ function check(){
  
 		<div class="form-group row ">
 			<div class="col-md-3 col-md-offset-2">
-				<button type="submit" class="btn btn-success form-control"
+				<button type="button" class="btn btn-success form-control"
 					onclick="return check()">提交</button>
 			</div>
 			<div class="col-md-3">
