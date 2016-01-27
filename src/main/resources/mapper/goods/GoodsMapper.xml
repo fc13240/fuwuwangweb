@@ -638,8 +638,8 @@
 	
 	<sql id="getGoodsRecommendByCityNameAndCategorySql">
 		FROM t_goods AS tg
-		JOIN t_user AS tu ON tu.user_id=ts.user_id
 		JOIN t_store AS ts ON ts.store_id=tg.store_id
+		JOIN t_user AS tu ON tu.user_id=ts.user_id
 		JOIN t_merchant_info AS tm ON tm.user_id=ts.user_id
 		JOIN t_street tst ON tst.street_id=ts.street_id
 		JOIN t_region tr ON tr.region_id=tst.region_id
@@ -656,6 +656,7 @@
 		AND 
 		tgr.goods_recommend_state=1
 		AND tg.goods_putaway_state=1
+		AND tu.user_state=2
 		AND
 		tc.city_name=#{cityName}
 		<if test="store_type1_id != null">

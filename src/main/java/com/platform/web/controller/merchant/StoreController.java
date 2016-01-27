@@ -66,7 +66,6 @@ public class StoreController {
 		store.setStore_id(UUIDUtil.getRandom32PK());
 		store.setStore_name(store_name);
 		store.setStore_desc(store_desc);
-		store.setStore_img(UploadUtil.fileName);
 		User user=(User) session.getAttribute("bean");
 		store.setUser_id(user.getUser_id());
 		store.setStore_state(Constants.MERCHANT_WAIT);
@@ -94,6 +93,7 @@ public class StoreController {
 			e.printStackTrace();
 		}
 	
+		store.setStore_img(UploadUtil.fileName);
 		storeService.addStore(store);
 		request.setAttribute("info", "添加店铺成功！");
 		return "merchant/store/addstore";

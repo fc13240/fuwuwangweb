@@ -110,7 +110,7 @@ function changeType1(){
 			alert(textStatus);  */
 		},
 		success : function(data) {
-			console.log("获得二级分类数据："+data);
+			//console.log('获得二级分类数据：'+data);
 			//var data = JSON.parse(data);
 			var data1=eval(data.type2s);
 			//alert(data1[0].store_type2_name);
@@ -203,7 +203,6 @@ function changeRegion(){
 		})
 }
 function check(){ 
-	var isSuccess = 0; 
 	/*     type2    */
 	var txtstore_name = $.trim($("#txtstore_name").attr("value"));
 	var txtstore_img = $.trim($("#txtstore_img").attr("value"));
@@ -221,6 +220,7 @@ function check(){
 	$("#type2Label").text(""); 
 	$("#streetLabel").text(""); 
 
+	var isSuccess = 1; 
 	if(txtstore_img.length == 0) 
 	{ 
 	$("#txtstore_imgLabel").text("店铺图片不能为空！") 
@@ -274,6 +274,7 @@ function check(){
 				&& !(new RegExp("^[0-9]{3,4}-[0-9]{7,8}$")).test(txtstore_phone)){
 			$("#txtstore_phoneLabel").text("店铺电话格式有误！") 
 			$("#txtstore_phoneLabel").css({"color":"red"}); 
+			console.log('店铺电话格式有误');
 			isSuccess = 0; 
 		}
 	}
@@ -281,11 +282,13 @@ function check(){
 	{ 
 	$("#txtstore_addressLabel").text("店铺地址不能为空！") 
 	$("#txtstore_addressLabel").css({"color":"red"}); 
+			console.log('店铺地址不能为空');
 	isSuccess = 0; 
 	} 
 	
 	if (isSuccess == 0) {
 			return false;
+			console.log('错误');
 		} else {
 			return true;
 		}
@@ -387,8 +390,8 @@ function check(){
  
 		<div class="form-group row ">
 			<div class="col-md-3 col-md-offset-2">
-				<button type="button" class="btn btn-success form-control"
-					onclick="return check()">提交</button>
+				<button type="submit" class="btn btn-success form-control"
+					onclick="return check();">提交</button>
 			</div>
 			<div class="col-md-3">
 				<button type="reset" class="btn btn-default form-control">重置</button>
