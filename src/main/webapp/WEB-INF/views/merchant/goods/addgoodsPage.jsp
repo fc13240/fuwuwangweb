@@ -130,7 +130,7 @@
 		<div class="row form-group">
 			<div class="col-md-3 col-md-offset-2">
 				<button type="submit" class="btn btn-success form-control"
-					onclick="return check()">提交</button>
+					onclick="return check();">提交</button>
 			</div>
 			<div class="col-md-3">
 				<button type="reset" class="btn btn-default form-control">重置</button>
@@ -171,39 +171,6 @@ function getPhoto(){
 	}
 	}
 	function check() { /* passWord newpass */
-
-		var merchant_type = $('#merchant_type').val();
-		//alert(merchant_type);
-		if (2 == merchant_type) {//判断是不是服务网商家
-			if (txt_goods_return_standard.length == 0) {
-				$("#goods_return_standardLabel").text("请填写返券标准")
-				$("#goods_return_standardLabel").css({
-					"color" : "red"
-				});
-				isSuccess = 0;
-			}
-			if (txt_goods_return_standard >10000) {
-				$("#goods_return_standardLabel").text("返券标准不能大于10000")
-				$("#goods_return_standardLabel").css({
-					"color" : "red"
-				});
-				isSuccess = 0;
-			}
-			if (txt_goods_return_ticket.length == 0) {
-				$("#goods_return_ticketLabel").text("请填写返券数量")
-				$("#goods_return_ticketLabel").css({
-					"color" : "red"
-				});
-				isSuccess = 0;
-			}
-			if (txt_goods_return_ticket>10000) {
-				$("#goods_return_ticketLabel").text("请填写返券数量不能超过10000张")
-				$("#goods_return_ticketLabel").css({
-					"color" : "red"
-				});
-				isSuccess = 0;
-			}
-		}
 		var txt_store_name = $.trim($("#store_name").attr("value"));
 		var txt_goods_name = $.trim($("#goods_name").attr("value"));
 		var txt_goods_img = $.trim($("#goods_img").attr("value"));
@@ -216,6 +183,9 @@ function getPhoto(){
 		var txt_goods_return_ticket = $.trim($("#goods_return_ticket").attr(
 				"value"));
 		var txt_goods_purchase_notes = $.trim($("#goods_purchase_notes").attr("value"));
+		
+		
+		
 
 		$("#store_nameLabel").text("");
 		$("#goods_nameLabel").text("");
@@ -226,14 +196,56 @@ function getPhoto(){
 		$("#goods_price_LBLabel").text("");
 		$("#goods_return_standardLabel").text("");
 		$("#goods_return_ticketLabel").text("");
-
+		var merchant_type = $('#merchant_type').val();
+	
 		var isSuccess = 1;
+	if (2 == merchant_type) {//判断是不是服务网商家
+			if (txt_goods_return_standard.length == 0) {
+				$("#goods_return_standardLabel").text("请填写返券标准")
+				$("#goods_return_standardLabel").css({
+					"color" : "red"
+				});
+				console.log('返券标准1');
+				isSuccess = 0;
+			}
+			if (txt_goods_return_standard >10000) {
+				$("#goods_return_standardLabel").text("返券标准不能大于10000")
+				$("#goods_return_standardLabel").css({
+					"color" : "red"
+				});
+				console.log('返券标准2');
+				isSuccess = 0;
+			}
+			if (txt_goods_return_ticket.length == 0) {
+				$("#goods_return_ticketLabel").text("请填写返券数量")
+				$("#goods_return_ticketLabel").css({
+					"color" : "red"
+				});
+				console.log('返券数量1');
+				isSuccess = 0;
+			}
+			if (txt_goods_return_ticket>10000) {
+				$("#goods_return_ticketLabel").text("请填写返券数量不能超过10000张")
+				$("#goods_return_ticketLabel").css({
+					"color" : "red"
+				});
+				
+				console.log('返券数量2');
+				isSuccess = 0;
+			}
+		}
+	
+
+
+
+	
 		if (txt_store_name == 0) {
 			$("#store_nameLabel").text("请选择店铺名！")
 			$("#store_nameLabel").css({
 				"color" : "red"
 			});
 			isSuccess = 0;
+			console.log('1');
 		}
 
 		if (txt_goods_name.length == 0||txt_goods_name.length>20) {
@@ -242,6 +254,7 @@ function getPhoto(){
 				"color" : "red"
 			});
 			isSuccess = 0;
+			console.log('2');
 		}
 		
 		if (txt_goods_name.length>20) {
@@ -250,6 +263,7 @@ function getPhoto(){
 				"color" : "red"
 			});
 			isSuccess = 0;
+			console.log('3');
 		}
 		if (txt_goods_img == null) {
 			$("#goods_imgLabel").text("请选择商品图片！")
@@ -257,6 +271,7 @@ function getPhoto(){
 				"color" : "red"
 			});
 			isSuccess = 0;
+			console.log('4');
 		}
 		if (txt_goods_desc.length == 0) {
 			$("#goods_descLabel").text("请填写商品描述！")
@@ -264,6 +279,7 @@ function getPhoto(){
 				"color" : "red"
 			});
 			isSuccess = 0;
+			console.log('5');
 		}
 		if (txt_goods_desc.length>300) {
 			$("#goods_descLabel").text("商品描述字数不能超过300个汉字！")
@@ -271,6 +287,7 @@ function getPhoto(){
 				"color" : "red"
 			});
 			isSuccess = 0;
+			console.log('6');
 		}
 		if (txt_goods_purchase_notes.length == 0) {
 			$("#goods_purchase_notesLabel").text("请填写购买须知！")
@@ -278,6 +295,7 @@ function getPhoto(){
 				"color" : "red"
 			});
 			isSuccess = 0;
+			console.log('7');
 		}
 		if (txt_goods_purchase_notes.length>300) {
 			$("#goods_purchase_notesLabel").text("购买须知字数不能超过300个汉字！")
@@ -285,6 +303,7 @@ function getPhoto(){
 				"color" : "red"
 			});
 			isSuccess = 0;
+			console.log('8');
 		}
 		if (txt_goods_price.length == 0) {
 			$("#goods_priceLabel").text("请填写商品价格")
@@ -292,13 +311,16 @@ function getPhoto(){
 				"color" : "red"
 			});
 			isSuccess = 0;
+			console.log('9');
 		}
 		
 		if (isSuccess == 0) {
 			//alert('失败');
+			console.log('失败');
 			return false;
 		} else {
 			//alert('成功');
+			console.log('成功');
 			return true;
 		}
 	}
