@@ -521,7 +521,7 @@
 		ts.store_id=tg.store_id
 		JOIN t_merchant_info AS tm ON tm.user_id
 		=ts.user_id
-		JOIN t_user AS tu ON tu.user=tm.user_id
+		JOIN t_user AS tu ON tu.user_id=tm.user_id
 		WHERE
 		tg.goods_delete_state=0
 		AND
