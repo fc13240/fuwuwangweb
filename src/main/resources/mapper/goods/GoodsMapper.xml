@@ -662,6 +662,7 @@
 		<if test="store_type1_id != null">
 		 AND tsto.store_type1_id=#{store_type1_id}
 		</if>
+		ORDER BY tgr.goods_position ASC
 	</sql>
 
 </mapper>
