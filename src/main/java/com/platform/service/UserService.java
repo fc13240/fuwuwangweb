@@ -25,7 +25,7 @@ public interface UserService {
 	/**
 	 * Web用户登录
 	 */
-	public String weblogin(String userLogin, String passWord, HttpSession session);
+	public User weblogin(String userLogin);
 
 	/**
 	 * APP用户注册
@@ -178,4 +178,13 @@ public interface UserService {
 	 * @return
 	 */
 	public User getUserInforByUserNameAndCode(Map<String, String> map);
+
+
+
+	/**
+	 * 获取商人信息
+	 * @param userLogin
+	 * @return
+	 */
+	public User findmerchantByuserlogin(String userLogin);
 }

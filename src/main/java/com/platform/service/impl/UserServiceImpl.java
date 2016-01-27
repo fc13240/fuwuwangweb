@@ -182,65 +182,12 @@ public class UserServiceImpl implements UserService {
 	/**
 	 * web 端 登录
 	 */
-	public String weblogin(String userLogin, String passWord, HttpSession session) {
+	public User weblogin(String userLogin) {
 
 		User user = mapper.selectUserlogin(userLogin);
-		if (null != user && !"".equals(user)) {
 
-			if (user.getUser_type().equals("0")) { // 超级管理员
 
-				if (user.getPassWord().equals(Md5.getVal_UTF8(passWord))) {
-
-					session.setAttribute("bean", user);
-
-					results = "成功"; // 密码正确
-				} else {
-
-					results = "密码错误"; // 密码错误
-				}
-
-			}
-			if (user.getUser_type().equals("1")) { // 管理员
-				user = mapper.findByUsername(userLogin);
-
-				if (user.getPassWord().equals(Md5.getVal_UTF8(passWord))) {
-
-					session.setAttribute("bean", user);
-
-					results = "管理员成功"; // 密码正确
-				} else {
-
-					results = "管理员密码错误"; // 密码错误
-				}
-			}
-			if (user.getUser_type().equals("2")) { // 商人
-
-				user = mapper.findmerchantByuserlogin(userLogin); // 再查一次 商人对应的
-																	// 表
-				if (user.getUser_state().equals("2")) { // 正常用户
-
-					if (user.getPassWord().equals(Md5.getVal_UTF8(passWord))) {
-
-						session.setAttribute("bean", user);
-						results = "商人成功"; // 密码正确
-					} else {
-
-						results = "商人密码错误"; // 密码错误
-					}
-				} else {
-					results = "已被冻结"; // 违规用户
-				}
-			}
-			if (!user.getUser_type().equals("0") & !user.getUser_type().equals("1")
-					& !user.getUser_type().equals("2")) {
-				results = "该帐号不可用";
-			}
-
-		} else {
-			results = "帐号不存在";
-		}
-
-		return results;
+		return user;
 	}
 
 	/**
@@ -560,5 +507,11 @@ public class UserServiceImpl implements UserService {
 		// TODO Auto-generated method stub
 		return mapper.merchantlist();
 	}
-
+	/**
+	 * 根据用户名获取商人信息
+	 */
+	public User findmerchantByuserlogin(String userLogin){
+		
+		return 	mapper.findmerchantByuserlogin(userLogin);
+	}
 }
