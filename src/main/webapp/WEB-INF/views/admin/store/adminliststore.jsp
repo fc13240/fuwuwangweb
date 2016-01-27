@@ -79,7 +79,7 @@
 								<td align="left"><a data-toggle="modal" data-target="#infoModal"
 									onclick="javasript:modifyEmp('${list.store_id}','${list.store_id}');">
 										${list.store_name} </a></td>
-								<td align="right">${list.store_phone}</td>
+								<td align="center">${list.store_phone}</td>
 								<td align="left">${list.userLogin}</td>
 								<td id="text_${list.store_id}" align="left"><c:if
 										test="${list.store_state=='1'}">待审核</c:if> <c:if

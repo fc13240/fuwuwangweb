@@ -74,7 +74,7 @@
 							<tr id="mer_${list.user_id}">
 								<td align="center">${vs.index+1}</td>
 								<td align="left">${list.userLogin}</td>
-								<td align="left">${list.merchant_phone}</td>
+								<td align="center">${list.merchant_phone}</td>
 	<td id="text_${list.user_id}" align="left">${list.merchant_account}</td>
 	<td id="text_${list.user_id}" align="left">${list.service_man}</td>
 

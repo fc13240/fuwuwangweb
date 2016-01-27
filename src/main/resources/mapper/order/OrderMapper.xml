@@ -24,7 +24,7 @@
 		t_user AS u
 		WHERE o.`order_id`=#{order_id}
 		AND u.`user_id`=o.`user_id`
-		ORDER BY order_time DESC
+		ORDER BY o.order_time DESC
 	</select>
 
 
@@ -49,7 +49,7 @@
 		AND o.`goods_id` =
 		g.`goods_id`
 		AND o.`order_state` =3
-		ORDER BY order_time DESC
+		ORDER BY o.order_time DESC
 	</select>
 
 
@@ -69,21 +69,20 @@
 		AND o.`goods_id` = g.`goods_id`
 		AND
 		o.`user_id` = u.`user_id`
-		ORDER BY order_time DESC
+		ORDER BY o.order_time DESC
 	</select>
 
 
 	<!-- Goods_id , time_start..end查 订单 -->
 	<select id="findOrderByGoodsId" resultType="com.platform.entity.Order"
 		parameterType="com.platform.entity.Order_time">
-
 		SELECT * , g.`goods_name` , s.`store_name` FROM t_order
 		AS o , t_goods AS g
-		, t_store AS s WHERE order_time
+		, t_store AS s WHERE o.order_time
 		>=STR_TO_DATE(CONCAT(#{order_time_start},'0:0:0'),'%Y-%m-%d %H:%i:%s')
 
 		AND STR_TO_DATE(CONCAT(#{order_time_end},'23:59:59'),'%Y-%m-%d
-		%H:%i:%s')>=order_time
+		%H:%i:%s')>=o.order_time
 		AND o.`goods_id` in (SELECT goods_id FROM
 		t_goods WHERE store_id in
 		(SELECT store_id FROM t_store WHERE
@@ -91,7 +90,7 @@
 		AND o.`goods_id` = g.`goods_id`
 		AND
 		g.`store_id` = s.`store_id`
-		ORDER BY order_time DESC
+	ORDER BY o.order_time DESC
 
 	</select>
 
@@ -107,11 +106,12 @@
 		WHERE
 		u.`userLogin`=#{user_name} AND s.`store_id` IN( SELECT store_id FROM
 		t_goods WHERE goods_id=o.`goods_id`)
-		AND order_time
+		AND o.`order_time`
 		>=STR_TO_DATE(CONCAT(#{order_time_start},'0:0:0'),'%Y-%m-%d %H:%i:%s')
 		AND STR_TO_DATE(CONCAT(#{order_time_end},'23:59:59'),'%Y-%m-%d
-		%H:%i:%s')>=order_time
+		%H:%i:%s')>=o.`order_time`
 		AND o.`goods_id` = g.`goods_id`
+		ORDER BY o.order_time DESC
 		UNION
 		SELECT
 		u.`userLogin`,g.`goods_name`,o.`gooods_number`,o.`order_time`,SUM(o.`LB_money`)
@@ -121,10 +121,10 @@
 		WHERE
 		u.`userLogin`=#{user_name} AND s.`store_id` IN( SELECT store_id FROM
 		t_goods WHERE goods_id=o.`goods_id`)
-		AND order_time
+		AND o.`order_time`
 		>=STR_TO_DATE(CONCAT(#{order_time_start},'0:0:0'),'%Y-%m-%d %H:%i:%s')
 		AND STR_TO_DATE(CONCAT(#{order_time_end},'23:59:59'),'%Y-%m-%d
-		%H:%i:%s')>=order_time
+		%H:%i:%s')>=o.`order_time`
 		AND o.`goods_id` = g.`goods_id`
 	</select>
 
@@ -132,7 +132,7 @@
 	<!-- 财富管理store_name , time_start..end查 订单 -->
 	<select id="findOrderByStoreName" resultType="com.platform.entity.Order"
 		parameterType="com.platform.entity.Order_time">
-
+		select * from (
 		SELECT
 		s.`store_name`,g.`goods_name`,o.`gooods_number`,o.`order_time`,o.`LB_money`,o.`electronics_money`,o.`Unionpay_money`,o.order_id
 		FROM t_store AS s,t_order AS o , t_goods AS g
@@ -140,12 +140,14 @@
 		s.`store_name`=#{store_name} AND s.`store_id` IN( SELECT store_id
 		FROM
 		t_goods WHERE goods_id=o.`goods_id`)
-		AND order_time
+		AND o.`order_time`
 		>=STR_TO_DATE(CONCAT(#{order_time_start},'0:0:0'),'%Y-%m-%d %H:%i:%s')
 		AND STR_TO_DATE(CONCAT(#{order_time_end},'23:59:59'),'%Y-%m-%d
-		%H:%i:%s')>=order_time
+		%H:%i:%s')>=o.`order_time`
 		AND o.`goods_id` = g.`goods_id`
+		ORDER BY o.order_time DESC) t1
 		UNION
+		select * from (
 		SELECT
 		s.`store_name`,g.`goods_name`,o.`gooods_number`,o.`order_time`,SUM(o.`LB_money`)
 		LB_money,SUM(o.`electronics_money`)
@@ -155,18 +157,18 @@
 		s.`store_name`=#{store_name} AND s.`store_id` IN( SELECT store_id
 		FROM
 		t_goods WHERE goods_id=o.`goods_id`)
-		AND order_time
+		AND o.`order_time`
 		>=STR_TO_DATE(CONCAT(#{order_time_start},'0:0:0'),'%Y-%m-%d %H:%i:%s')
 		AND STR_TO_DATE(CONCAT(#{order_time_end},'23:59:59'),'%Y-%m-%d
-		%H:%i:%s')>=order_time
-		AND o.`goods_id` = g.`goods_id`
+		%H:%i:%s')>=o.`order_time`
+		AND o.`goods_id` = g.`goods_id`) t2
 	</select>
 
 
 	<!-- 财富管理 time_start..end查 订单 -->
 	<select id="findOrderByStore" resultType="com.platform.entity.Order"
 		parameterType="com.platform.entity.Order_time">
-
+		select * from (
 		SELECT
 		s.`store_name`,g.`goods_name`,o.`order_time`,o.`LB_money`,o.`electronics_money`,o.`Unionpay_money`,o.order_id
 		,o.`gooods_number`FROM t_store AS s,t_order AS o ,t_goods AS g
@@ -181,7 +183,9 @@
 		t_goods WHERE store_id
 		=s.`store_id`)
 		AND o.`goods_id`=g.`goods_id`
+		ORDER BY o.order_time DESC) t1
 		UNION
+		select * from (
 		SELECT
 		s.`store_name`,g.`goods_name`,o.`order_time`,SUM(o.`LB_money`)
 		LB_money,SUM(o.`electronics_money`)
@@ -197,14 +201,14 @@
 		AND o.`goods_id` IN( SELECT goods_id FROM
 		t_goods WHERE store_id
 		=s.`store_id`)
-		AND o.`goods_id`=g.`goods_id`
+		AND o.`goods_id`=g.`goods_id`) t2
 	</select>
 
 
 	<!-- 财富管理 time_start..end查 订单 -->
 	<select id="findOrderByUser" resultType="com.platform.entity.Order"
 		parameterType="com.platform.entity.Order_time">
-
+		select * from (
 		SELECT u.`userLogin`
 		userLogin,o.`order_time`,g.`goods_name`
 		,o.`gooods_number`,o.`LB_money` LB_money,o.`electronics_money`
@@ -220,7 +224,9 @@
 		t_user WHERE user_id
 		=u.`user_id`)
 		AND o.`goods_id` = g.`goods_id`
+		ORDER BY o.order_time DESC) t1
 		UNION
+		select * from(
 		SELECT u.`userLogin`
 		userLogin,o.`order_time`,g.`goods_name`,o.`gooods_number`,SUM(o.`LB_money`)
 		LB_money,SUM(o.`electronics_money`)
@@ -235,7 +241,7 @@
 		AND o.`user_id` IN( SELECT user_id FROM
 		t_user WHERE user_id
 		=u.`user_id`)
-		AND o.`goods_id` = g.`goods_id`
+		AND o.`goods_id` = g.`goods_id`) t2
 	</select>
 
 
@@ -246,7 +252,7 @@
 	<!-- 财富管理 time_start..end查 订单 -->
 	<select id="findOrderByGoods" resultType="com.platform.entity.Order"
 		parameterType="com.platform.entity.Order_time">
-
+select * from(
 		SELECT o.`order_time`,g.`goods_name`
 		,o.`gooods_number`,o.`LB_money`
 		LB_money,o.`electronics_money`
@@ -263,7 +269,9 @@
 		t_user WHERE user_id
 		=u.`user_id`)
 		AND o.`goods_id` = g.`goods_id`
+		ORDER BY o.order_time DESC ) t1
 		UNION
+		select * from (
 		SELECT
 		o.`order_time`,g.`goods_name`,o.`gooods_number`,SUM(o.`LB_money`)
 		LB_money,SUM(o.`electronics_money`)
@@ -278,14 +286,14 @@
 		AND o.`user_id` IN( SELECT user_id FROM
 		t_user WHERE user_id
 		=u.`user_id`)
-		AND o.`goods_id` = g.`goods_id`
+		AND o.`goods_id` = g.`goods_id`) t2
 	</select>
 
 
 	<!-- 财富管理store_name , time_start..end查 订单 -->
 	<select id="findOrderByGoodsName" resultType="com.platform.entity.Order"
 		parameterType="com.platform.entity.Order_time">
-
+		select * from(
 		SELECT
 		g.`goods_name`,o.`gooods_number`,o.`order_time`,o.`LB_money`,o.`electronics_money`,o.`Unionpay_money`,o.order_id
 		FROM t_store AS s,t_order AS o , t_goods AS g
@@ -293,12 +301,14 @@
 		g.`goods_name`=#{goods_name} AND s.`store_id` IN( SELECT store_id
 		FROM
 		t_goods WHERE goods_id=o.`goods_id`)
-		AND order_time
+		AND o.`order_time`
 		>=STR_TO_DATE(CONCAT(#{order_time_start},'0:0:0'),'%Y-%m-%d %H:%i:%s')
 		AND STR_TO_DATE(CONCAT(#{order_time_end},'23:59:59'),'%Y-%m-%d
-		%H:%i:%s')>=order_time
+		%H:%i:%s')>=o.`order_time`
 		AND o.`goods_id` = g.`goods_id`
+		ORDER BY o.order_time DESC) t1
 		UNION
+		select * from(
 		SELECT
 		g.`goods_name`,o.`gooods_number`,o.`order_time`,SUM(o.`LB_money`)
 		LB_money,SUM(o.`electronics_money`)
@@ -308,11 +318,11 @@
 		g.`goods_name`=#{goods_name} AND s.`store_id` IN( SELECT store_id
 		FROM
 		t_goods WHERE goods_id=o.`goods_id`)
-		AND order_time
+		AND o.`order_time`
 		>=STR_TO_DATE(CONCAT(#{order_time_start},'0:0:0'),'%Y-%m-%d %H:%i:%s')
 		AND STR_TO_DATE(CONCAT(#{order_time_end},'23:59:59'),'%Y-%m-%d
-		%H:%i:%s')>=order_time
-		AND o.`goods_id` = g.`goods_id`
+		%H:%i:%s')>=o.`order_time`
+		AND o.`goods_id` = g.`goods_id`) t2
 	</select>
 
 
@@ -322,24 +332,26 @@
 	<!-- 默认 。。。。。。。商品当天 销售 -->
 	<select id="findOrdergoodsdefault" resultType="com.platform.entity.Order"
 		parameterType="com.platform.entity.Order_time">
-
+		select * from (
 		SELECT o.`order_time`,g.`goods_name`
 		,o.`gooods_number`,o.`LB_money`
 		LB_money,o.`electronics_money`
 		electronics_money,o.`Unionpay_money`
 		Unionpay_money,o.order_id FROM
 		t_user AS u,t_order AS o ,t_goods AS g
-		WHERE o.`order_time`
+		WHERE o.order_time
 		>=STR_TO_DATE(CONCAT(#{order_time_start},'0:0:0'),('%Y-%m-%d
 		%H:%i:%s'))
 		AND
 		STR_TO_DATE(CONCAT(#{order_time_end},'23:59:59'),('%Y-%m-%d
-		%H:%i:%s'))>=o.`order_time`
+		%H:%i:%s'))>=o.order_time
 		AND o.`user_id` IN( SELECT user_id FROM
 		t_user WHERE user_id
 		=u.`user_id`)
 		AND o.`goods_id` = g.`goods_id`
+		ORDER BY o.order_time DESC) t1
 		UNION
+		select * from (
 		SELECT
 		o.`order_time`,g.`goods_name`,o.`gooods_number`,SUM(o.`LB_money`)
 		LB_money,SUM(o.`electronics_money`)
@@ -354,7 +366,7 @@
 		AND o.`user_id` IN( SELECT user_id FROM
 		t_user WHERE user_id
 		=u.`user_id`)
-		AND o.`goods_id` = g.`goods_id`
+		AND o.`goods_id` = g.`goods_id`) t2
 	</select>
 
 
@@ -362,7 +374,7 @@
 	<!--默认...... time_start..end查 订单 -->
 	<select id="findOrderstoredefault" resultType="com.platform.entity.Order"
 		parameterType="com.platform.entity.Order_time">
-
+		select * from(
 		SELECT
 		s.`store_name`,g.`goods_name`,o.`order_time`,o.`LB_money`,o.`electronics_money`,o.`Unionpay_money`,o.order_id
 		,o.`gooods_number`FROM t_store AS s,t_order AS o ,t_goods AS g
@@ -377,7 +389,9 @@
 		t_goods WHERE store_id
 		=s.`store_id`)
 		AND o.`goods_id`=g.`goods_id`
+		ORDER BY o.order_time DESC) t1
 		UNION
+		select *from(
 		SELECT
 		s.`store_name`,g.`goods_name`,o.`order_time`,SUM(o.`LB_money`)
 		LB_money,SUM(o.`electronics_money`)
@@ -393,14 +407,14 @@
 		AND o.`goods_id` IN( SELECT goods_id FROM
 		t_goods WHERE store_id
 		=s.`store_id`)
-		AND o.`goods_id`=g.`goods_id`
+		AND o.`goods_id`=g.`goods_id`) t2
 	</select>
 
 
 	<!-- 默认当天time_start..end查 订单 -->
 	<select id="findOrderuserdefault" resultType="com.platform.entity.Order"
 		parameterType="com.platform.entity.Order_time">
-
+select * from (
 		SELECT u.`userLogin`
 		userLogin,o.`order_time`,g.`goods_name`
 		,o.`gooods_number`,o.`LB_money` LB_money,o.`electronics_money`
@@ -416,10 +430,13 @@
 		t_user WHERE user_id
 		=u.`user_id`)
 		AND o.`goods_id` = g.`goods_id`
+		ORDER BY o.order_time DESC) t1
 		UNION
+		select * from (
 		SELECT u.`userLogin`
 		userLogin,o.`order_time`,g.`goods_name`,o.`gooods_number`,SUM(o.`LB_money`)
 		LB_money,SUM(o.`electronics_money`)
+		
 		electronics_money,SUM(o.`Unionpay_money`) Unionpay_money, o.order_id
 		FROM t_user AS u,t_order AS o,t_goods AS g
 		WHERE o.`order_time`
@@ -432,6 +449,7 @@
 		t_user WHERE user_id
 		=u.`user_id`)
 		AND o.`goods_id` = g.`goods_id`
+		) t2
 	</select>
 
 
@@ -458,7 +476,7 @@
 		AND o.`goods_id` = g.`goods_id`
 		AND g.`store_id` =
 		s.`store_id`
-		ORDER BY order_time DESC
+		ORDER BY o.order_time DESC
 
 	</select>
 
@@ -480,7 +498,7 @@
 		u.`user_id`
 		AND g.`store_id` = s.`store_id`
 		AND s.`user_id` = #{user_id}
-		ORDER BY order_time DESC
+		ORDER BY o.order_time DESC
 
 	</select>
 
@@ -488,18 +506,19 @@
 	<select id="findOrderBytime_1" resultType="com.platform.entity.Order"
 		parameterType="com.platform.entity.Order_time">
 
+
 		SELECT * , g.`goods_name` , s.`store_name`,
 		u.`userLogin` FROM t_order AS o
 		, t_goods AS g , t_user AS u , t_store
-		AS s WHERE order_time
+		AS s WHERE o.order_time
 		>=STR_TO_DATE(CONCAT(#{order_time_start},'0:0:0'),'%Y-%m-%d %H:%i:%s')
 		AND STR_TO_DATE(CONCAT(#{order_time_end},'23:59:59'),'%Y-%m-%d
-		%H:%i:%s')>=order_time
+		%H:%i:%s')>=o.order_time
 		AND o.`goods_id` = g.`goods_id`
 		AND o.`user_id` =
 		u.`user_id`
 		AND g.`store_id` = s.`store_id`
-		ORDER BY order_time DESC
+		ORDER BY o.order_time DESC
 
 	</select>
 
@@ -527,7 +546,7 @@
 		AND g.`store_id` =s.store_id
 		AND
 		o.`order_state` != 4
-		ORDER BY order_time DESC
+		ORDER BY o.order_time DESC
 
 
 	</select>
@@ -555,8 +574,7 @@
 		AND g.`store_id` =s.store_id
 		AND o.order_state
 		= #{order_state}
-		ORDER BY
-		order_time DESC
+		ORDER BY o.order_time DESC
 
 	</select>
 
@@ -592,7 +610,7 @@
 		AND
 		STR_TO_DATE(CONCAT(#{order_time_end},'23:59:59'),('%Y-%m-%d
 		%H:%i:%s'))>=o.`order_time`
-		ORDER BY order_time DESC
+		ORDER BY o.order_time DESC
 	</select>
 
 
