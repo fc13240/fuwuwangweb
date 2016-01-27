@@ -195,7 +195,7 @@ public class StoreController {
 	@RequestMapping(value = "findstoreByUser_id", method = RequestMethod.GET)
 	@ResponseBody
 	public PageInfo<Store> findstoreByUser_id(Model model,String user_id) {
-		PageHelper.startPage(1, 20, true);
+		PageHelper.startPage(1, 100, true);
 		List<Store> stores=null;
 		 stores =  storeService.findstoreByUserId(user_id);
 		 PageInfo<Store> stores1= new PageInfo<Store>(stores);
