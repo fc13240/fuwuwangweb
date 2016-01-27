@@ -66,12 +66,11 @@ function check(){
 								<fmt:formatDate value="${order.order_time}" pattern="yyyy-MM-dd HH:mm:ss" type="both" />
 							</c:if></td>
 						<td class="col-md-2" align="center">
-							<form class="form-horizontal"
-								action="${pageContext.request.contextPath}/merchant/order/trading"
-								method="GET">
-								<input type="hidden" value="${order.order_id}" name="order_id">
-								<input type="submit" class="btn btn-success " value="交易" />
-							</form>
+					
+								<input type="button" 
+								class="btn btn-success " data-toggle="modal"
+													data-target="#tradingModal"
+								 value="使用" />
 						</td>
 					</tr>
 					</c:if>
@@ -91,7 +90,31 @@ function check(){
 	</div>
 </div>
 
+<div class="modal fade" id="tradingModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">使用确认</h4>
+				</div>
 
+					<form class="form-horizontal col-sm-offset-2"
+								action="${pageContext.request.contextPath}/merchant/order/trading"
+								method="post" enctype="multipart/form-data">
+					<input  name="order_id" value="${order.order_id}" type="hidden">
+					<div class="modal-body">是否确认使用该消费码？</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+						<button type="submit" class="btn btn-primary">确认使用</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 
 
 

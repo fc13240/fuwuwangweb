@@ -97,8 +97,8 @@ public class OrderController {
 	}
 
 	/*** 订单交易 ***/
-	@RequestMapping(value = "trading", method = RequestMethod.GET)
-	public String trading(String order_id,HttpServletRequest request) {
+	@RequestMapping(value = "trading", method = RequestMethod.POST)
+	public String trading(Model model,String order_id,HttpServletRequest request) {
 
 		Order order = new Order();
 		order.setOrder_id(order_id);
@@ -106,8 +106,8 @@ public class OrderController {
 
 		order.setOrder_state(Constants.ORDER_STATE_01);
 		orderService.updateOrderBystate(order);
-		request.setAttribute("info", "交易成功");
-		return "redirect:/merchant/order/execute";
+		model.addAttribute("info", "使用成功");
+		return "merchant/order/tradingorderlist";
 
 	}
 
