@@ -43,13 +43,14 @@
 	<select id="findOrderBytrading_number" resultType="com.platform.entity.Order"
 		parameterType="String">
 
-		SELECT o.* ,g.`goods_name` FROM t_order AS o , t_goods
-		AS g
-		WHERE electronics_evidence = #{trading_number}
-		AND o.`goods_id` =
-		g.`goods_id`
+		SELECT o.* ,g.`goods_name` FROM t_order AS o 
+		JOIN t_goods AS g ON o.`goods_id` =g.`goods_id`
+		JOIN t_store AS ts ON g.store_id=ts.store_id
+		JOIN t_user AS  tu ON tu.user_id=ts.user_id
+		WHERE 
+		o.electronics_evidence = #{trading_number}
+		AND tu.user_id=#{user_id}
 		AND o.`order_state` =3
-		ORDER BY o.order_time DESC
 	</select>
 
 

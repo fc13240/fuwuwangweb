@@ -81,11 +81,17 @@ public class OrderController {
 
 	/**** --消费码 查订单 *****/
 	@RequestMapping(value = "selectorder", method = RequestMethod.GET)
-	public String selectorder(Model model, String trading_number) {
+	public String selectorder(Model model, String trading_number,HttpSession session) {
 		System.out.println("订单——order_id");
-		Order lorders = orderService.findOrderBytrading_number(trading_number);
-
-		model.addAttribute("order", lorders);
+		User user=(User) session.getAttribute("bean");
+		Order lorders = orderService.findOrderBytrading_number(trading_number,user.getUser_id());
+		if(lorders!=null){
+			
+			model.addAttribute("order", lorders);
+			
+		}else{
+			model.addAttribute("info", "消费码有误，请重新输入！");
+		}
 
 		return "merchant/order/tradingorderlist";
 	}

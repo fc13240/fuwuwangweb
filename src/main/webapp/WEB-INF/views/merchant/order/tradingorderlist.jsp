@@ -23,7 +23,6 @@ function check(){
 			placeholder="请输入消费码" id="trading_number" /> <input type="submit"
 			class="form-control btn btn-success" value="查找" />
 	</form>
-	<label>${info}</label>
 	<div class="container-fluid">
 	<label class="text-info">${info}</label>
 		<div class="row ">
