@@ -356,7 +356,7 @@
 
 				$("#s_createtime").attr("value", '');//清空内容 
 				$("#s_createtime").attr("value",
-						FormatDate(data.store_create_time));
+						data.store_create_time);
 				$("#s_user_name").attr("value", '');//清空内容 
 				$("#s_user_name").attr("value", data.userLogin);
 
