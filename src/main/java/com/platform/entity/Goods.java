@@ -50,6 +50,8 @@ public class Goods{
 	
 	private Integer goods_putaway_state;
 	
+	private String goods_return_mz;
+	
 	public Goods(){
 		
 	}
@@ -59,7 +61,8 @@ public class Goods{
 			, Integer goods_price, Integer goods_price_LB, String store_id, Integer goods_return_ticket
 			, Integer goods_return_type, Integer goods_return_standard, Integer goods_pay_type, Date goods_create_time
 			, Date goods_update_time,Integer goods_type2_id,Integer goods_check_state,Integer goods_delete_state
-			,Date goods_check_time,String goods_check_user,String goods_purchase_notes,Integer goods_putaway_state){
+			,Date goods_check_time,String goods_check_user,String goods_purchase_notes,Integer goods_putaway_state,
+			String goods_return_mz){
 		this.goods_id=goods_id;
 		this.goods_name=goods_name;
 		this.goods_desc=goods_desc;
@@ -80,7 +83,7 @@ public class Goods{
 		this.goods_check_user=goods_check_user;
 		this.goods_purchase_notes=goods_purchase_notes;
 		this.goods_putaway_state=goods_putaway_state;
-		
+		this.goods_return_mz=goods_return_mz;
 	}
 
 	public String getGoods_id() {
@@ -235,6 +238,15 @@ public class Goods{
 		this.goods_putaway_state = goods_putaway_state;
 	}
 
+	public String getGoods_return_mz() {
+		return goods_return_mz;
+	}
+
+
+	public void setGoods_return_mz(String goods_return_mz) {
+		this.goods_return_mz = goods_return_mz;
+	}
+
 
 	@Override
 	public String toString() {
@@ -246,8 +258,8 @@ public class Goods{
 				+ goods_update_time + ", goods_type2_id=" + goods_type2_id + ", goods_delete_state="
 				+ goods_delete_state + ", goods_check_state=" + goods_check_state + ", goods_check_time="
 				+ goods_check_time + ", goods_check_user=" + goods_check_user + ", goods_purchase_notes="
-				+ goods_purchase_notes + ", goods_putaway_state=" + goods_putaway_state + "]";
+				+ goods_purchase_notes + ", goods_putaway_state=" + goods_putaway_state + ", goods_return_mz="
+				+ goods_return_mz + "]";
 	}
 
-	
 }

@@ -32,6 +32,8 @@ public class GoodsVo{
 	
 	private Integer goods_return_standard;
 	
+	private String goods_return_mz;
+	
 	private Date goods_create_time;
 
 	private Date goods_update_time;
@@ -65,7 +67,7 @@ public class GoodsVo{
 			, Integer goods_return_type, Integer goods_return_standard, Integer goods_pay_type, Date goods_create_time
 			, Date goods_update_time,Integer goods_type2_id,Integer goods_check_state,Integer goods_delete_state
 			,Date goods_check_time,String goods_check_user,Integer merchant_type,String goods_purchase_notes,
-			String store_name,String street_name,Integer goods_putaway_state){
+			String store_name,String street_name,Integer goods_putaway_state,String goods_return_mz){
 		this.goods_id=goods_id;
 		this.goods_name=goods_name;
 		this.goods_desc=goods_desc;
@@ -89,6 +91,7 @@ public class GoodsVo{
 		this.store_name=store_name;
 		this.street_name=street_name;
 		this.goods_putaway_state= goods_putaway_state;
+		this.goods_return_mz=goods_return_mz;
  	}
 
 	public String getGoods_id() {
@@ -274,6 +277,15 @@ public class GoodsVo{
 		this.goods_putaway_state = goods_putaway_state;
 	}
 
+	public String getGoods_return_mz() {
+		return goods_return_mz;
+	}
+
+
+	public void setGoods_return_mz(String goods_return_mz) {
+		this.goods_return_mz = goods_return_mz;
+	}
+
 
 	@Override
 	public String toString() {
@@ -281,12 +293,13 @@ public class GoodsVo{
 				+ ", goods_img=" + goods_img + ", goods_price=" + goods_price + ", goods_price_LB=" + goods_price_LB
 				+ ", store_id=" + store_id + ", goods_pay_type=" + goods_pay_type + ", goods_return_ticket="
 				+ goods_return_ticket + ", goods_return_type=" + goods_return_type + ", goods_return_standard="
-				+ goods_return_standard + ", goods_create_time=" + goods_create_time + ", goods_update_time="
-				+ goods_update_time + ", goods_type2_id=" + goods_type2_id + ", goods_delete_state="
-				+ goods_delete_state + ", goods_check_state=" + goods_check_state + ", goods_check_time="
-				+ goods_check_time + ", goods_check_user=" + goods_check_user + ", merchant_type=" + merchant_type
-				+ ", goods_purchase_notes=" + goods_purchase_notes + ", store_name=" + store_name + ", street_name="
-				+ street_name + ", goods_putaway_state=" + goods_putaway_state + "]";
+				+ goods_return_standard + ", goods_return_mz=" + goods_return_mz + ", goods_create_time="
+				+ goods_create_time + ", goods_update_time=" + goods_update_time + ", goods_type2_id=" + goods_type2_id
+				+ ", goods_delete_state=" + goods_delete_state + ", goods_check_state=" + goods_check_state
+				+ ", goods_check_time=" + goods_check_time + ", goods_check_user=" + goods_check_user
+				+ ", merchant_type=" + merchant_type + ", goods_purchase_notes=" + goods_purchase_notes
+				+ ", store_name=" + store_name + ", street_name=" + street_name + ", goods_putaway_state="
+				+ goods_putaway_state + "]";
 	}
 	
 	

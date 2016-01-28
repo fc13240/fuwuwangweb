@@ -30,6 +30,8 @@ public class GoodsForPay{
 	
 	private Integer goods_return_type;
 	
+	private String goods_return_mz;
+	
 	private Integer goods_return_standard;
 	
 	private Date goods_create_time;
@@ -68,7 +70,7 @@ public class GoodsForPay{
 			, Integer goods_return_type, Integer goods_return_standard, Integer goods_pay_type, Date goods_create_time
 			, Date goods_update_time,Integer goods_type2_id,Integer goods_check_state,Integer goods_delete_state
 			,Date goods_check_time,String goods_check_user,Integer merchant_type,String goods_purchase_notes,
-			String store_name,String userLogin,Integer goods_putaway_state){
+			String store_name,String userLogin,Integer goods_putaway_state,String goods_return_mz){
 		this.goods_id=goods_id;
 		this.goods_name=goods_name;
 		this.goods_desc=goods_desc;
@@ -92,6 +94,7 @@ public class GoodsForPay{
 		this.store_name=store_name;
 		this.userLogin=userLogin;
 		this.goods_putaway_state=goods_putaway_state;
+		this.goods_return_mz=goods_return_mz;
  	}
 
 	public String getGoods_id() {
@@ -292,6 +295,16 @@ public class GoodsForPay{
 
 	public void setGoods_putaway_state(Integer goods_putaway_state) {
 		this.goods_putaway_state = goods_putaway_state;
+	}
+
+
+	public String getGoods_return_mz() {
+		return goods_return_mz;
+	}
+
+
+	public void setGoods_return_mz(String goods_return_mz) {
+		this.goods_return_mz = goods_return_mz;
 	}
 
 	
