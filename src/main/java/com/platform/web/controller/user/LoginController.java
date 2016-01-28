@@ -56,51 +56,79 @@ public class LoginController {
 	 */
 	@RequestMapping(value = "login", method = RequestMethod.POST)
 	public String login(Model model, String checkcode, String userLogin, String passWord, HttpSession session) {
+		User Login_User = new User();
 		String generateCheckCode = (String) session.getAttribute("CheckCode");
-		
+
 		if (generateCheckCode == null || !generateCheckCode.equalsIgnoreCase(checkcode)) {
 			model.addAttribute("result", "验证码不正确！");// info_checkcode
 			return "login";
 		} else {
 			System.out.println(userLogin + "\n" + passWord);
-			String result = userService.weblogin(userLogin, passWord, session);
-			User user = (User) session.getAttribute("bean");
-			/*if(user!=null&&user.getLogin_state()==1){
-				model.addAttribute("result", "用户已经登录");
-				return "login";
-			}*/
-			User Login_User = new User();
-			model.addAttribute("result", result);
-			if (result.equals("管理员成功")) {
-				Login_User.setUser_id(user.getUser_id());
-				Login_User.setLogin_state(Constants.USER_LOGIN);
-				userService.update_login_state(Login_User);
-				session.setAttribute("UrlList", resourceService.findResource_idByUser_Role_Type(1));
-				System.out.println("服务层修改用户" + user.getUser_id() + "登录状态");
-				return "redirect:/admin/store/list";
-			}
-			if (result.equals("商人成功")) {
-				Login_User.setUser_id(user.getUser_id());
-				Login_User.setLogin_state(Constants.USER_LOGIN);
-				userService.update_login_state(Login_User);
-				session.setAttribute("UrlList", resourceService.findResource_idByUser_Role_Type(2));
+			User resultUser = userService.weblogin(userLogin);
+			if (null != resultUser) {
+				if (("0").equals(resultUser.getUser_type())) {
+					if (resultUser.getPassWord().equals(Md5.getVal_UTF8(passWord))) {
+						User session_user = userService.usermsg(userLogin);
+						session.setAttribute("bean", session_user);
 
-				return "redirect:/merchant/store/selStoreByUser_id";
-			}
-			if (result.equals("商人密码错误")) {
+						Login_User.setUser_id(resultUser.getUser_id());
+						Login_User.setLogin_state(Constants.USER_LOGIN);
+						userService.update_login_state(Login_User);
+						session.setAttribute("UrlList", resourceService.findResource_idByUser_Role_Type(1));
+						return "redirect:/admin/store/list";
+					} else {
 
-				return "login";
-			}
-			if (result.equals("管理员密码错误")) {
+						model.addAttribute("result", "账号或密码错误，请重试");
+						return "login";
+					}
 
-				return "login";
-			}
-			if (result.equals("帐号不存在")) {
+				} else if (("1").equals(resultUser.getUser_type())) {//管理员
+					if (resultUser.getPassWord().equals(Md5.getVal_UTF8(passWord))) {
+						User session_user = userService.usermsg(userLogin);
 
+						session.setAttribute("bean", session_user);
+						session.setAttribute("UrlList", resourceService.findResource_idByUser_Role_Type(1));
+
+						return "redirect:/admin/store/list";
+					} else {
+
+						model.addAttribute("result", "账号或密码错误，请重试");
+						return "login";
+					}
+				} else if (("2").equals(resultUser.getUser_type())) {//商家
+					if (("2").equals(resultUser.getUser_state())) { // 正常用户
+
+						if (resultUser.getPassWord().equals(Md5.getVal_UTF8(passWord))) {
+							User session_user = userService.findmerchantByuserlogin(userLogin);
+							session.setAttribute("bean", session_user);
+							Login_User.setUser_id(resultUser.getUser_id());
+							Login_User.setLogin_state(Constants.USER_LOGIN);
+							userService.update_login_state(Login_User);
+							session.setAttribute("UrlList", resourceService.findResource_idByUser_Role_Type(2));
+
+							return "redirect:/merchant/store/selStoreByUser_id";
+						} else {
+
+							model.addAttribute("result", "账号或密码错误，请重试");
+							return "login";
+						}
+					} else {
+						// 违规用户
+						model.addAttribute("result", "该用户已被暂停使用");
+						return "login";
+					}
+				}else{
+					model.addAttribute("result", "该用户无法使用后台管理平台");
+					return "login";
+				}
+
+				
+			}else{
+				model.addAttribute("result", "账号或密码错误，请重试");
 				return "login";
 			}
 		}
-		return "main";
+
 	}
 
 	/**

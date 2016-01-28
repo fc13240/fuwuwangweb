@@ -381,7 +381,8 @@ function check(){
 
 					$("#s_createtime").attr("value", '');//清空内容 
 					 var date = new Date(data.store_create_time);
-					$("#s_createtime").attr("value", FormatDate(data.store_create_time));
+					//$("#s_createtime").attr("value", FormatDate(data.store_create_time));
+					$("#s_createtime").attr("value",data.store_create_time);
 					//$("#s_createtime").attr("value", date.format("yyyy-MM-dd hh:mm:ss"));
 
 				}

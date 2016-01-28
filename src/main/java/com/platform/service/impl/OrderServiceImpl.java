@@ -158,9 +158,9 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	/****** 查 订单，条件：trading_number ******/
-	public Order findOrderBytrading_number(String trading_number) {
+	public Order findOrderBytrading_number(String trading_number,String user_id) {
 
-		return orderMapper.findOrderBytrading_number(trading_number);
+		return orderMapper.findOrderBytrading_number(trading_number,user_id);
 	}
 
 	/***** 商人 查 所有没有返券的订单 ******/

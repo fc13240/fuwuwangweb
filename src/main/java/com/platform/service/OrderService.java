@@ -103,7 +103,7 @@ public interface OrderService {
 	 * @param trading_number
 	 * @return
 	 */
-	public Order findOrderBytrading_number(String trading_number);
+	public Order findOrderBytrading_number(String trading_number,String user_id);
 
 	/**
 	 * 支付成功后修改 订单 消费码

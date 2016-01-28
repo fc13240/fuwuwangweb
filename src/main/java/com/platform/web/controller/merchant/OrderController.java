@@ -81,18 +81,24 @@ public class OrderController {
 
 	/**** --消费码 查订单 *****/
 	@RequestMapping(value = "selectorder", method = RequestMethod.GET)
-	public String selectorder(Model model, String trading_number) {
+	public String selectorder(Model model, String trading_number,HttpSession session) {
 		System.out.println("订单——order_id");
-		Order lorders = orderService.findOrderBytrading_number(trading_number);
-
-		model.addAttribute("order", lorders);
+		User user=(User) session.getAttribute("bean");
+		Order lorders = orderService.findOrderBytrading_number(trading_number,user.getUser_id());
+		if(lorders!=null){
+			
+			model.addAttribute("order", lorders);
+			
+		}else{
+			model.addAttribute("info", "消费码有误，请重新输入！");
+		}
 
 		return "merchant/order/tradingorderlist";
 	}
 
 	/*** 订单交易 ***/
-	@RequestMapping(value = "trading", method = RequestMethod.GET)
-	public String trading(String order_id,HttpServletRequest request) {
+	@RequestMapping(value = "trading", method = RequestMethod.POST)
+	public String trading(Model model,String order_id,HttpServletRequest request) {
 
 		Order order = new Order();
 		order.setOrder_id(order_id);
@@ -100,8 +106,8 @@ public class OrderController {
 
 		order.setOrder_state(Constants.ORDER_STATE_01);
 		orderService.updateOrderBystate(order);
-		request.setAttribute("info", "交易成功");
-		return "redirect:/merchant/order/execute";
+		model.addAttribute("info", "使用成功");
+		return "merchant/order/tradingorderlist";
 
 	}
 

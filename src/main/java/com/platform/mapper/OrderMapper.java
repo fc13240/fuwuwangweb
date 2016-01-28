@@ -2,6 +2,7 @@ package com.platform.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.platform.entity.APP_Order;
@@ -31,7 +32,7 @@ public interface OrderMapper {
 	public Order findOrderById(String order_id);
 
 	/***** 查 订单，条件：trading_number *****/
-	public Order findOrderBytrading_number(String trading_number);
+	public Order findOrderBytrading_number(@Param(value="trading_number")String trading_number,@Param(value="user_id")String user_id);
 
 	/***** App,user_ID , order_state查 所有订单 *****/
 	public List<APP_Order> findOrder_all(Order order); // 全部 订单
