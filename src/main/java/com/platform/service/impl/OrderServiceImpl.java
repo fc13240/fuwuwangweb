@@ -164,9 +164,9 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	/***** 商人 查 所有没有返券的订单 ******/
-	public List<Order> selectUseVip_fanquan() {
+	public List<Order> selectUseVip_fanquan(String user_id) {
 
-		List<Order> list = orderMapper.selectUseVip_fanquan();
+		List<Order> list = orderMapper.selectUseVip_fanquan(user_id);
 
 		return list;
 	}

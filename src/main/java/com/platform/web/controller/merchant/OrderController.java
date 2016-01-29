@@ -171,9 +171,9 @@ public class OrderController {
 
 	/*** 查所有会员 没有返券的订单 **/
 	@RequestMapping(value = "fanquan", method = RequestMethod.GET)
-	public String fanquan(Model model) {
-
-		List<Order> lorder = orderService.selectUseVip_fanquan();
+	public String fanquan(Model model,HttpSession session) {
+User user=(User) session.getAttribute("bean");
+		List<Order> lorder = orderService.selectUseVip_fanquan(user.getUser_id());
 		System.out.println("输出所有的订单 ：" + lorder);
 		model.addAttribute("order", lorder);
 

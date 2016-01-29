@@ -84,7 +84,7 @@ public interface OrderMapper {
 	public List<Order> findOrderstoredefault(Order_time order_time);
 
 	/******* 查 所有的会员 没有返券的订单 *******/
-	public List<Order> selectUseVip_fanquan();
+	public List<Order> selectUseVip_fanquan(String user_id);
 
 	/*** 获取 下单用户的 帐号 和 返券数量 ****/
 	public Return_ticket selectfanquan_info(String order_id);
