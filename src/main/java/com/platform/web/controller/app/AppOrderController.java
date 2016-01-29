@@ -148,11 +148,11 @@ public class AppOrderController {
 		if (Constants.USER_VIP.equals(u.getUser_type())) {
 			order.setReturn_number_state(Constants.ORDER_RETURN_NUMBER_STATE_02); // 未返券
 			if (gfw.getGoods_return_type() == 0) { // 根据数量返券
-				if (gfw.getGoods_return_standard() < order.getGooods_number()) {
+				if (gfw.getGoods_return_standard() <= order.getGooods_number()) {
 					order.setReturn_number(gfw.getGoods_return_ticket());
 				}
 			} else if (gfw.getGoods_return_type() == 1) { // 根据金额返券
-				if (gfw.getGoods_return_standard() < order.getGooods_number() * (gfw.getGoods_price() * 1.00 / 100)) {
+				if (gfw.getGoods_return_standard() <= order.getGooods_number() * (gfw.getGoods_price() * 1.00 / 100)) {
 					order.setReturn_number(gfw.getGoods_return_ticket());
 				}
 			}
