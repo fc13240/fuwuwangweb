@@ -543,7 +543,7 @@ select * from (
 		o.`LB_money`,o.`Unionpay_money`,o.`pay_type`,o.`gooods_number`,o.`order_state`,
 		o.`order_time` ,o.`pay_time`,o.`deal_time`,o.`chrCode`,o.`transId`,
 		o.`dianzibi_pay_state` ,o.`longbi_pay_state` ,o.`yinlian_pay_state`
-		,o.`pay_type`,o.merSign
+		,o.`pay_type`,o.merSign,o.`return_number` ,o.`return_number_state` ,o.`return_mz` 
 		FROM t_store AS s,t_order AS o , t_user AS u
 		,t_goods AS g
 		WHERE
@@ -571,7 +571,7 @@ select * from (
 		o.`LB_money`,o.`Unionpay_money`,o.`pay_type`,o.`gooods_number`,o.`order_state`,
 		o.`order_time` ,o.`pay_time`,o.`deal_time`,o.`chrCode`,o.`transId`,
 		o.`dianzibi_pay_state` ,o.`longbi_pay_state` ,o.`yinlian_pay_state`
-		,o.`pay_type`,o.merSign
+		,o.`pay_type`,o.merSign,o.`return_number` ,o.`return_number_state` ,o.`return_mz` 
 		FROM t_store AS s,t_order AS o , t_user AS u ,t_goods AS
 		g
 		WHERE
@@ -809,11 +809,11 @@ select * from (
 		order_state ,
 		pay_type,LB_money,electronics_money,Unionpay_money
 		,chrCode,transId,electronics_evidence,order_time,dianzibi_pay_state,yinlian_pay_state
-		,longbi_pay_state,merSign)
+		,longbi_pay_state,merSign,return_number_state,return_mz)
 		VALUES
 		(#{order_id},#{user_id},#{goods_id},#{gooods_number},#{goods_price},#{return_number},#{order_state},#{pay_type},#{LB_money},#{electronics_money}
 		,#{Unionpay_money}, #{chrCode}, #{transId}, #{electronics_evidence},
-		#{order_time},#{dianzibi_pay_state},#{yinlian_pay_state},#{longbi_pay_state},#{merSign})
+		#{order_time},#{dianzibi_pay_state},#{yinlian_pay_state},#{longbi_pay_state},#{merSign},#{return_number_state},#{return_mz})
 	</insert>
 
 
