@@ -158,11 +158,13 @@ public class Constants {
 	 */
 	public static final Integer GOODS_PAY_TYPE1 = 1; // 龙币商品
 	public static final Integer GOODS_PAY_TYPE0 = 0; // 普通商品
+	
 	/**
 	 * 商品返券依据 0:数量   1：价格
 	 */
 	public static final Integer GOODS_RETURN_TYPE1 = 1; // 根据金额返券
 	public static final Integer GOODS_RETURN_TYPE0 = 0; // 根据数量返券
+	
 	/**
 	 * 推荐商品 1.推荐商品  0.已经取消的推荐商品
 	 */
