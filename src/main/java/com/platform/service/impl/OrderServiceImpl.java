@@ -27,6 +27,7 @@ import com.platform.entity.Pay_info;
 import com.platform.entity.Return_ticket;
 import com.platform.entity.User;
 import com.platform.entity.vo.GoodsForWeb;
+import com.platform.entity.vo.OrderVo;
 import com.platform.mapper.GoodsMapper;
 import com.platform.mapper.OrderMapper;
 import com.platform.mapper.UserMapper;
@@ -164,9 +165,9 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	/***** 商人 查 所有没有返券的订单 ******/
-	public List<Order> selectUseVip_fanquan(String user_id) {
+	public List<OrderVo> selectUseVip_fanquan(String user_id) {
 
-		List<Order> list = orderMapper.selectUseVip_fanquan(user_id);
+		List<OrderVo> list = orderMapper.selectUseVip_fanquan(user_id);
 
 		return list;
 	}
