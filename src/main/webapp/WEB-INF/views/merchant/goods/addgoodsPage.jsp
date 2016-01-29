@@ -81,7 +81,7 @@
 					id="goods_price_LB" placeholder="商品龙币价格" onkeyup="this.value=this.value.replace(/[^\d]/g,'')">(单位：个) 
 			</div>
 			<div class="col-sm-3">
-					<label id="goods_price_LB"></label>
+					<label id="goods_price_LBLabel"></label>
 			</div>
 		</div>
 		<div class="form-group" id="fanquanyiju">
@@ -198,7 +198,7 @@ function getPhoto(){
 		var txt_goods_desc = $.trim($("#goods_desc").attr("value"));
 		var txt_goods_price = $.trim($("#goods_price").attr("value"));
 		//var txt_goods_pay_type1 = $.trim($("#goods_pay_type1").attr("value")); 
-		//var txt_goods_price_LB  = $.trim($("#goods_price_LB").attr("value"));
+		var txt_goods_price_LB  = $.trim($("#goods_price_LB").attr("value"));
 		var txt_goods_return_standard = $.trim($("#goods_return_standard")
 				.attr("value"));
 		var txt_goods_return_ticket = $.trim($("#goods_return_ticket").attr(
@@ -250,6 +250,16 @@ function getPhoto(){
 				
 				isSuccess = 0;
 			}
+			if($('#goods_pay_type1').is(':checked')){
+				if(txt_goods_price_LB.length==0){
+					$("#goods_price_LBLabel").text("龙币商品，龙币价格不能为空");
+					$("#goods_price_LBLabel").css({
+						"color" : "red"
+					});
+					
+					isSuccess = 0;
+				}
+			}
 		}
 	
 
@@ -279,7 +289,7 @@ function getPhoto(){
 			});
 			isSuccess = 0;
 		}
-		if (txt_goods_img == null) {
+		if (txt_goods_img.length==0) {
 			$("#goods_imgLabel").text("请选择商品图片！")
 			$("#goods_imgLabel").css({
 				"color" : "red"
@@ -323,10 +333,8 @@ function getPhoto(){
 		}
 		
 		if (isSuccess == 0) {
-			console.log('失败');
 			return false;
 		} else {
-			console.log('成功');
 			return true;
 		}
 	}
