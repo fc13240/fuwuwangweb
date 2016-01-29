@@ -601,7 +601,7 @@ select * from (
 		o.`LB_money`,o.`Unionpay_money`,o.`pay_type`,o.`gooods_number`,o.`order_state`,
 		o.`order_time` ,o.`pay_time`,o.`deal_time`,o.`chrCode`,o.`transId`,
 		o.`dianzibi_pay_state` ,o.`longbi_pay_state` ,o.`yinlian_pay_state`
-		,o.`pay_type`,o.merSign
+		,o.`pay_type`,o.merSign,o.`return_number` ,o.`return_number_state` ,o.`return_mz` 
 		FROM t_store AS s,t_order AS o , t_user AS u ,t_goods AS
 		g
 		WHERE

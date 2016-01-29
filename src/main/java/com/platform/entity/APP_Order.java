@@ -34,6 +34,11 @@ public class APP_Order {
 	private Integer yinlian_pay_state;
 	private Integer longbi_pay_state;
 
+	private String return_mz;
+	private Integer return_number_state;
+	private Integer return_number;
+	
+	
 	// 银联订单返回结果
 	private String transId;
 	private String chrCode;
@@ -241,6 +246,30 @@ public class APP_Order {
 
 	public void setOrder_time(Date order_time) {
 		this.order_time = order_time;
+	}
+
+	public String getReturn_mz() {
+		return return_mz;
+	}
+
+	public void setReturn_mz(String return_mz) {
+		this.return_mz = return_mz;
+	}
+
+	public Integer getReturn_number_state() {
+		return return_number_state;
+	}
+
+	public void setReturn_number_state(Integer return_number_state) {
+		this.return_number_state = return_number_state;
+	}
+
+	public Integer getReturn_number() {
+		return return_number;
+	}
+
+	public void setReturn_number(Integer return_number) {
+		this.return_number = return_number;
 	}
 
 	@Override

@@ -16,6 +16,7 @@ public class Order {
 	private Integer electronics_money; // 点子币
 	private Integer Unionpay_money; // 银联
 	private String electronics_evidence; // 点子凭证
+	private String return_mz;//返券面值
 
 	private Date order_time; // 下单时间
 	private Date pay_time; // 支付时间
@@ -262,6 +263,14 @@ public class Order {
 
 	public void setMerSign(String merSign) {
 		this.merSign = merSign;
+	}
+
+	public String getReturn_mz() {
+		return return_mz;
+	}
+
+	public void setReturn_mz(String return_mz) {
+		this.return_mz = return_mz;
 	}
 	
 
