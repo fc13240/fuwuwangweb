@@ -381,6 +381,26 @@
 								id="goods_return_ticketLabel"></label>
 						</div>
 					</div>
+					<div class="form-group" id="fanquanmianzhi1">
+						<label for="inputGoodsDesc" class="col-sm-3 control-label"
+							style="text-align: right">返券面值</label>
+						<div class="radio col-sm-7">
+						
+							<label> <input type="radio" name="goods_return_mz"
+								id="mzRadio20" value="0" > 不返券
+							</label> 
+							<label> <input type="radio" name="goods_return_mz"
+								id="mzRadio21" value="7" > 100面值
+							</label> 
+							<label> <input type="radio" name="goods_return_mz"
+								id="mzRadio22" value="8"> 200面值
+							</label> <label> <input type="radio" name="goods_return_mz"
+								id="mzRadio23" value="10"> 400面值
+							</label> <label> <input type="radio" name="goods_return_mz"
+								id="mzRadio24" value="9"> 500面值
+							</label>
+						</div>
+					</div>
 					<div class="form-group">
 						<label for="inputGoodsDesc" class="col-sm-3 control-label">购买须知</label>
 						<div class="col-sm-7">
@@ -481,7 +501,7 @@
 
 					<div class="form-group" id="fanquanbiaozhun">
 						<label for="inputGoodsPrice" class="col-sm-3 control-label">返券标准</label>
-						<div class="col-sm-5">
+						<div class="col-sm-7">
 							<input type="text" class="form-control"
 								name="goods_return_standard" placeholder="返券标准" id="g_standard1"
 								readonly="readonly">
@@ -494,6 +514,24 @@
 							<input type="text" class="form-control"
 								name="goods_return_ticket" placeholder="返券数量" id="g_count1"
 								readonly="readonly">
+						</div>
+					</div>
+					<div class="form-group" id="fanquanmianzhi">
+						<label for="inputGoodsDesc" class="col-sm-3 control-label"
+							style="text-align: right">返券面值</label>
+						<div class="radio col-sm-7">
+							<label> <input type="radio" name="goods_return_mz"
+								id="mzRadio10" value="0" > 不返券
+							</label>
+							 <label> <input type="radio"
+								name="goods_return_mz" id="mzRadio11" value="7"> 100面值
+							</label> <label> <input type="radio"
+								name="goods_return_mz" id="mzRadio12" value="8"> 200面值
+							</label> <label> <input type="radio"
+								name="goods_return_mz" id="mzRadio13" value="10"> 400面值
+							</label> <label> <input type="radio"
+								name="goods_return_mz" id="mzRadio14" value="9"> 500面值
+							</label>
 						</div>
 					</div>
 					<div class="form-group">
@@ -603,11 +641,32 @@
 							}
 							$("#g_count").attr("value", '');//清空内容 
 							$("#g_count").attr("value", data.goods_return_ticket);
+							if (data.goods_return_mz == 0) {
+								$("#mzRadio20").attr("checked", '');//清空内容 
+								$("#mzRadio20").attr("checked", true);//清空内容 
+								
+							}else if (data.goods_return_mz == 7) {
+								$("#mzRadio21").attr("checked", '');//清空内容 
+								$("#mzRadio21").attr("checked", true);//清空内容 
+								
+							}else if(data.goods_return_mz == 8){
+								$("#mzRadio22").attr("checked", '');//清空内容 
+								$("#mzRadio22").attr("checked", true);//清空内容 
+								
+							}else if(data.goods_return_mz == 9){
+								$("#mzRadio24").attr("checked", '');//清空内容 
+								$("#mzRadio24").attr("checked", true);//清空内容 
+							}else if(data.goods_return_mz == 10){
+								$("#mzRadio23").attr("checked", '');//清空内容 
+								$("#mzRadio23").attr("checked", true);//清空内容 
+								
+							}
 						}else{
 							
 							$("#fanquanyiju1").hide();
 							$("#fanquanbiaozhun1").hide();
 							$("#fanquanshuliang1").hide();
+							$("#fanquanmianzhi1").hide();
 						}
 					}
 				})
@@ -674,13 +733,34 @@
 					}
 					$("#g_count1").attr("value", '');//清空内容 
 					$("#g_count1").attr("value", data.goods_return_ticket);
+					if(data.goods_return_mz==0){
+						
+						$("#mzRadio10").attr("checked", '');//清空内容 
+						$("#mzRadio10").attr("checked", true);//清空内容 
+						
+					}else if (data.goods_return_mz == 7) {
+						$("#mzRadio11").attr("checked", '');//清空内容 
+						$("#mzRadio11").attr("checked", true);//清空内容 
+						
+					}else if(data.goods_return_mz == 8){
+						$("#mzRadio12").attr("checked", '');//清空内容 
+						$("#mzRadio12").attr("checked", true);//清空内容 
+						
+					}else if(data.goods_return_mz == 9){
+						$("#mzRadio14").attr("checked", '');//清空内容 
+						$("#mzRadio14").attr("checked", true);//清空内容 
+					}else if(data.goods_return_mz == 10){
+						$("#mzRadio13").attr("checked", '');//清空内容 
+						$("#mzRadio13").attr("checked", true);//清空内容 
+						
+					}
 				}else{
 					
 					$("#fanquanyiju").hide();
 					$("#fanquanbiaozhun").hide();
 					$("#fanquanshuliang").hide();
+					$("#fanquanmianzhi").hide();
 				}
-				
 				
 			}
 		})

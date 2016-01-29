@@ -135,7 +135,7 @@ public class GoodsController extends BaseController {
 	public String addgoods(Model model, String goods_name, String goods_desc, MultipartFile goods_img,
 			String goods_price_LB, String goods_price, String store_id, Integer goods_return_ticket,
 			Integer goods_return_type, Integer goods_return_standard, Integer goods_pay_type,
-			String goods_purchase_notes, HttpServletRequest request, HttpSession session) throws Exception {
+			String goods_purchase_notes,String goods_return_mz, HttpServletRequest request, HttpSession session) throws Exception {
 
 		Goods goods = new Goods();
 		goods.setGoods_check_state(Constants.GOODS_WAIT);
@@ -152,6 +152,7 @@ public class GoodsController extends BaseController {
 		goods.setGoods_return_ticket(goods_return_ticket);
 		goods.setGoods_return_type(goods_return_type);
 		goods.setGoods_return_standard(goods_return_standard);
+		goods.setGoods_return_mz(goods_return_mz);
 		if (null == goods_pay_type || ("").equals(goods_pay_type)) {
 
 			goods.setGoods_pay_type(Constants.GOODS_PAY_TYPE0);
@@ -198,7 +199,7 @@ public class GoodsController extends BaseController {
 	public String updategoods(Model model, String goods_id, String goods_name, String goods_desc,
 			Integer goods_price_LB, String goods_price, String store_id, Integer goods_return_ticket,
 			Integer goods_return_type, Integer goods_return_standard, Integer goods_pay_type,
-			String goods_purchase_notes, HttpSession session) throws Exception {
+			String goods_purchase_notes,String goods_return_mz, HttpSession session) throws Exception {
 User user=(User) session.getAttribute("bean");
 		Goods goods = new Goods();
 		if(user.getMerchant_type()==2){
@@ -206,6 +207,7 @@ User user=(User) session.getAttribute("bean");
 			goods.setGoods_return_ticket(goods_return_ticket);
 			goods.setGoods_return_standard(goods_return_standard);
 			goods.setGoods_return_type(goods_return_type);
+			goods.setGoods_return_mz(goods_return_mz);
 		}
 		goods.setGoods_id(goods_id);
 		goods.setGoods_check_state(Constants.GOODS_WAIT);

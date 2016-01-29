@@ -117,6 +117,27 @@
 			</div>
 		</div>
 		
+		<div class="form-group" id="fanquanmianzhi">
+			<label for="inputGoodsDesc" class="col-sm-offset-1 col-sm-1 control-label"  style="text-align:right" >返券面值</label>
+			<div class="radio col-sm-2">
+				<label>
+				 	<input type="radio" name="goods_return_mz" id="mzRadio0" value="0" checked> 不返券
+				</label>
+				<label>
+				 	<input type="radio" name="goods_return_mz" id="mzRadio1" value="7"> 100面值
+				</label>
+				 <label> 
+				 	<input type="radio" name="goods_return_mz" id="mzRadio2" value="8"> 200面值
+				</label>
+				 <label> 
+				 	<input type="radio" name="goods_return_mz" id="mzRadio3" value="10"> 400面值
+				</label>
+				 <label> 
+				 	<input type="radio" name="goods_return_mz" id="mzRadio4" value="9"> 500面值
+				</label>
+			</div>
+		</div>
+		
 		<div class="form-group">
 			<label for="inputGoodsDesc" class="col-sm-offset-1 col-sm-1 control-label"  style="text-align:right" >购买须知</label>
 			<div class="col-sm-3">
@@ -205,7 +226,6 @@ function getPhoto(){
 				$("#goods_return_standardLabel").css({
 					"color" : "red"
 				});
-				console.log('返券标准1');
 				isSuccess = 0;
 			}
 			if (txt_goods_return_standard >10000) {
@@ -213,7 +233,6 @@ function getPhoto(){
 				$("#goods_return_standardLabel").css({
 					"color" : "red"
 				});
-				console.log('返券标准2');
 				isSuccess = 0;
 			}
 			if (txt_goods_return_ticket.length == 0) {
@@ -221,7 +240,6 @@ function getPhoto(){
 				$("#goods_return_ticketLabel").css({
 					"color" : "red"
 				});
-				console.log('返券数量1');
 				isSuccess = 0;
 			}
 			if (txt_goods_return_ticket>10000) {
@@ -230,7 +248,6 @@ function getPhoto(){
 					"color" : "red"
 				});
 				
-				console.log('返券数量2');
 				isSuccess = 0;
 			}
 		}
@@ -245,7 +262,6 @@ function getPhoto(){
 				"color" : "red"
 			});
 			isSuccess = 0;
-			console.log('1');
 		}
 
 		if (txt_goods_name.length == 0||txt_goods_name.length>20) {
@@ -254,7 +270,6 @@ function getPhoto(){
 				"color" : "red"
 			});
 			isSuccess = 0;
-			console.log('2');
 		}
 		
 		if (txt_goods_name.length>20) {
@@ -263,7 +278,6 @@ function getPhoto(){
 				"color" : "red"
 			});
 			isSuccess = 0;
-			console.log('3');
 		}
 		if (txt_goods_img == null) {
 			$("#goods_imgLabel").text("请选择商品图片！")
@@ -271,7 +285,6 @@ function getPhoto(){
 				"color" : "red"
 			});
 			isSuccess = 0;
-			console.log('4');
 		}
 		if (txt_goods_desc.length == 0) {
 			$("#goods_descLabel").text("请填写商品描述！")
@@ -279,7 +292,6 @@ function getPhoto(){
 				"color" : "red"
 			});
 			isSuccess = 0;
-			console.log('5');
 		}
 		if (txt_goods_desc.length>300) {
 			$("#goods_descLabel").text("商品描述字数不能超过300个汉字！")
@@ -287,7 +299,6 @@ function getPhoto(){
 				"color" : "red"
 			});
 			isSuccess = 0;
-			console.log('6');
 		}
 		if (txt_goods_purchase_notes.length == 0) {
 			$("#goods_purchase_notesLabel").text("请填写购买须知！")
@@ -295,7 +306,6 @@ function getPhoto(){
 				"color" : "red"
 			});
 			isSuccess = 0;
-			console.log('7');
 		}
 		if (txt_goods_purchase_notes.length>300) {
 			$("#goods_purchase_notesLabel").text("购买须知字数不能超过300个汉字！")
@@ -303,7 +313,6 @@ function getPhoto(){
 				"color" : "red"
 			});
 			isSuccess = 0;
-			console.log('8');
 		}
 		if (txt_goods_price.length == 0) {
 			$("#goods_priceLabel").text("请填写商品价格")
@@ -311,15 +320,12 @@ function getPhoto(){
 				"color" : "red"
 			});
 			isSuccess = 0;
-			console.log('9');
 		}
 		
 		if (isSuccess == 0) {
-			//alert('失败');
 			console.log('失败');
 			return false;
 		} else {
-			//alert('成功');
 			console.log('成功');
 			return true;
 		}
@@ -335,6 +341,7 @@ function getPhoto(){
 			$("#fanquanyiju").hide();
 			$("#fanquanbiaozhun").hide();
 			$("#fanquanshuliang").hide();
+			$("#fanquanmianzhi").hide();
 		}
 
 		var base = "${pageContext.request.contextPath}";
