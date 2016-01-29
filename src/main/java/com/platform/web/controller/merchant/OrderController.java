@@ -30,6 +30,7 @@ import com.platform.common.utils.DateUtil;
 import com.platform.entity.Order;
 import com.platform.entity.Order_time;
 import com.platform.entity.User;
+import com.platform.entity.vo.OrderVo;
 import com.platform.service.OrderService;
 
 @Controller
@@ -173,7 +174,7 @@ public class OrderController {
 	@RequestMapping(value = "fanquan", method = RequestMethod.GET)
 	public String fanquan(Model model,HttpSession session) {
 User user=(User) session.getAttribute("bean");
-		List<Order> lorder = orderService.selectUseVip_fanquan(user.getUser_id());
+		List<OrderVo> lorder = orderService.selectUseVip_fanquan(user.getUser_id());
 		System.out.println("输出所有的订单 ：" + lorder);
 		model.addAttribute("order", lorder);
 
