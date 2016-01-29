@@ -69,7 +69,7 @@
 			<label for="inputGoodsDesc" class="col-sm-offset-1 col-sm-1 control-label"  style="text-align:right" >龙币商品</label>
 			<div class="checkbox col-sm-1">
 				<label> <input name="goods_pay_type" type="checkbox"
-					value="1" id="goods_pay_type1" />
+					value="0" id="goods_pay_type1" />
 				</label>
 			</div>
 		</div>
@@ -266,6 +266,8 @@ function getPhoto(){
 				isSuccess = 0;
 			}
 			if($('#goods_pay_type1').is(':checked')){
+				$("#goods_pay_type1").attr("value", 1);
+
 				if(txt_goods_price_LB.length==0){
 					$("#goods_price_LBLabel").text("龙币商品，龙币价格不能为空");
 					$("#goods_price_LBLabel").css({
@@ -274,6 +276,9 @@ function getPhoto(){
 					
 					isSuccess = 0;
 				}
+			}else{
+				$("#goods_pay_type1").attr("value",0);
+
 			}
 		}
 	

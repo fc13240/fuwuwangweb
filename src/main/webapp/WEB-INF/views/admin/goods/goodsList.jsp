@@ -260,7 +260,7 @@
 						<label for="inputGoodsDesc" class="col-sm-3 control-label">龙币商品：</label>
 						<div class="checkbox col-sm-1">
 							<label> <input name="goods_pay_type" type="checkbox"
-								value="1" id="goods_pay_type" /> <!-- 	<input type="radio" name="goods_pay_type"
+								value="0" id="goods_pay_type"  readonly="readonly"/> <!-- 	<input type="radio" name="goods_pay_type"
 								id="optionspay_type11" value="" > 龙币支付
 							</label> <label> <input type="radio" name="goods_pay_type"
 								id="optionspay_type01" value="0">电子币支付 -->

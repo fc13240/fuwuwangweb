@@ -214,29 +214,29 @@ public class OrderController {
 		User user = (User) session.getAttribute("bean");
 		System.out.println("session : 商人 agui ：" + user);
 		Return_ticket ort = orderService.selectfanquan_info(order_id);
-		ort.setPay_password(pay_password);
-		ort.setMerchant_name(user.getMerchant_account());
-		ort.setgoods_return_mz(ort.getgoods_return_mz());
-		String successful = send_ticketInfo(ort); // 返券信息 发给公司
-		if (successful.equals("true")) {
+		//String successful = send_ticketInfo(ort); // 返券信息 发给公司
+		BaseModelJson<String> result=toMemberElectronicVoucher(ort.getReturn_mz(),ort.getReturn_number().toString(),ort.getUserLogin(),user.getMerchant_account(),pay_password);
+		//System.out.println(result.Error);
+		if (result.Successful) {
 
 			Order order = new Order();
 			order.setOrder_id(order_id);
 			order.setReturn_number_state(Constants.ORDER_RETURN_NUMBER_STATE_03);
 			orderService.updateorder_return_number_state(order);
-
+			request.setAttribute("info", "返券成功");
+			return "redirect:/merchant/order/fanquan";
 		} else {
-			request.setAttribute("result", "支付密码错误");
+			request.setAttribute("info","返券错误，"+result.Error);
+			return "/merchant/order/fanquan";
 		}
 
-		return "redirect:/merchant/order/fanquan";
 	}
 
 	/***** 给公司发送发送返券信息 *****/
 	public static String send_ticketInfo(Return_ticket orTicket) {
 
 		String successful = null;
-		String url = "http://124.254.56.58:8007/api/Content/ToMemberElectronicVoucher?mz=" + orTicket.getgoods_return_mz()
+		String url = "http://124.254.56.58:8007/api/Content/ToMemberElectronicVoucher?mz=" + orTicket.getReturn_mz()
 				+ "&num=" + orTicket.getReturn_number() + "&ulogin=" + orTicket.getUserLogin() + "&comName="
 				+ orTicket.getMerchant_name() + "&compw=" + orTicket.getPay_password();
 

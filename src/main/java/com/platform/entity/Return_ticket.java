@@ -6,26 +6,23 @@ public class Return_ticket {
 	private  Integer return_number ;          // 返券的数量
 	
 	private  String  pay_password;            //  商人的支付密码
-	private  String  goods_return_mz;               // 面值  暂定 7 
+	private  String  return_mz;               // 面值  暂定 7 
 	private  String  merchant_name;            // 商人帐号
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	public Return_ticket(String userLogin, Integer return_number,
-			String pay_password, String goods_return_mz, String merchant_name) {
+			String pay_password, String return_mz, String merchant_name) {
 		super();
 		this.userLogin = userLogin;
 		this.return_number = return_number;
 		this.pay_password = pay_password;
-		this.goods_return_mz = goods_return_mz;
+		this.return_mz = return_mz;
 		this.merchant_name = merchant_name;
+	}
+	public String getReturn_mz() {
+		return return_mz;
+	}
+	public void setReturn_mz(String return_mz) {
+		this.return_mz = return_mz;
 	}
 	public Return_ticket(String userLogin, Integer return_number
 			) {
@@ -35,15 +32,6 @@ public class Return_ticket {
 	public Return_ticket(	) {
 		
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	public String getUserLogin() {
 		return userLogin;
 	}
@@ -62,12 +50,7 @@ public class Return_ticket {
 	public void setPay_password(String pay_password) {
 		this.pay_password = pay_password;
 	}
-	public String getgoods_return_mz() {
-		return goods_return_mz;
-	}
-	public void setgoods_return_mz(String goods_return_mz) {
-		this.goods_return_mz = goods_return_mz;
-	}
+	
 	public String getMerchant_name() {
 		return merchant_name;
 	}
@@ -87,7 +70,7 @@ public class Return_ticket {
 	public String toString() {
 		return "Order_Return_ticket [userLogin=" + userLogin
 				+ ", return_number=" + return_number + ", pay_password="
-				+ pay_password + ", goods_return_mz=" + goods_return_mz
+				+ pay_password + ", return_mz=" + return_mz
 				+ ", merchant_name=" + merchant_name + "]";
 	}
 	

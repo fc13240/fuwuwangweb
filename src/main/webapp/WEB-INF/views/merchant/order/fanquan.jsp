@@ -11,7 +11,7 @@ function fanquan(paramstoreId){
 		if (flag) {
 		
 		document.getElementById("order_id").value=paramstoreId;
-		document.forms[0].method="get";
+		document.forms[0].method="post";
 		 
 		}
 		return flag;
@@ -59,7 +59,7 @@ function getOrderByReturn_num_state() {
 	<div class="container-fluid">
 		<div class="row ">
 			<div class="col-xs-12 col-md-12">
-				<font color="red">${result}</font>
+				<font size="3" color="red">${info}</font>
 				<table class="table table-hover">
 					<tr>
 						<th class="col-md-1" style="text-align: center;">#</th>
@@ -105,19 +105,21 @@ function getOrderByReturn_num_state() {
 										pattern="yyyy-MM-dd hh:mm:ss" />
 								</c:if></td>
 							<td class="col-md-3" align="center">
+							<c:if test="${return_num_state==2}">
 								<form class="form-horizontal"
 									action="${pageContext.request.contextPath}/merchant/order/Return_ticket"
 									method="post">
-									<input id="order_id" name="order_id" value="${order_id}"
+									<input id="order_id" name="order_id" value="${list.order_id}"
 										type="hidden" />
 									<div class="col-md-8">
-										<input type="text" class="form-control " name="pay_password"
+										<input type="password" class="form-control " name="pay_password"
 											placeholder="请输入支付密码" />
 									</div>
-									<input type="submit" class="btn btn-success " value="返券"
+									<input type="submit" class="btn btn-success " value="返券" 
 										onclick="return fanquan('${list.order_id}')" />
 
 								</form>
+								</c:if>
 							</td>
 						</tr>
 					</c:forEach>
@@ -136,8 +138,5 @@ function getOrderByReturn_num_state() {
 		</div>
 	</div>
 </div>
-
-
-
 
 

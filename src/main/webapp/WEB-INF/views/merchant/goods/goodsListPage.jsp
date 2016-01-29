@@ -657,9 +657,12 @@
 							if (data.goods_pay_type == 1) {
 								$("#goods_pay_type1").attr("checked", '');//清空内容 
 								$("#goods_pay_type1").attr("checked", true);
+								$("#goods_pay_type1").attr("value", data.goods_pay_type);
 
 							} else {
 								$("#goods_pay_type1").attr("checked", false);//清空内容 
+								$("#goods_pay_type1").attr("value", data.goods_pay_type);
+
 								//$("#optionspay_type01").attr("checked", true);
 								
 							}
@@ -765,10 +768,13 @@
 							if (data.goods_pay_type == 1) {
 								$("#goods_pay_type").attr("checked", '');//清空内容 
 								$("#goods_pay_type").attr("checked", true);
+								$("#goods_pay_type").attr("value", data.goods_pay_type);
+
 
 							} else {
 								$("#goods_pay_type").attr("checked", false);//清空内容 
-								
+								$("#goods_pay_type").attr("value", data.goods_pay_type);
+
 								//$("#optionspay_type01").attr("checked", true);
 							}
 						} else {
@@ -904,6 +910,7 @@
 				isSuccess = 0;
 			}
 			if ($('#goods_pay_type1').is(':checked')) {
+				$("#goods_pay_type1").attr("value", 1);
 				if (txt_goods_priceLB.length == 0) {
 					$("#goods_priceLBLabel").text("龙币商品，龙币价格不能为空");
 					$("#goods_priceLBLabel").css({
@@ -911,6 +918,8 @@
 					});
 					isSuccess = 0;
 				}
+			}else{
+				$("#goods_pay_type1").attr("value", 0);
 			}
 		}
 		if (isSuccess == 0) {
