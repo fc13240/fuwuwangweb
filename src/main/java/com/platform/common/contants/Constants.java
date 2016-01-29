@@ -67,6 +67,15 @@ public class Constants {
 	public static final Integer RETURN_BY_COUNT = 0;// 0:数量
 
 	public static final Integer RETURN_BY_PRICE = 1; // 1：价格
+	
+	
+	/**
+	 * 商品返券面值
+	 */
+	public static final String GOODS_RETURN_100="7";
+	public static final String GOODS_RETURN_200="8";
+	public static final String GOODS_RETURN_500="9";
+	public static final String GOODS_RETURN_400="10";
 
 	/**
 	 * user_state用户 1.删除 2.锁定 3.解锁

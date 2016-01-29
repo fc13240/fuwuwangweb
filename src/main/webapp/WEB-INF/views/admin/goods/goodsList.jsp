@@ -224,7 +224,7 @@
 					<input type="hidden" value="" name="store_id" id="s_id1">
 					<div class="form-group">
 						<label for="inputGoodsName" class="col-sm-3 control-label">商品名</label>
-						<div class="col-sm-6">
+						<div class="col-sm-7">
 							<input type="text" class="form-control" name="goods_name"
 								placeholder="商品名称" id="g_name1" value="${info.goods_name}"
 								readonly="readonly">
@@ -235,7 +235,7 @@
 
 					<div class="form-group">
 						<label for="inputGoodsPrice" class="col-sm-3 control-label">商品价格</label>
-						<div class="col-sm-6">
+						<div class="col-sm-7">
 							<input type="text" class="form-control" name="goods_price"
 								placeholder="商品价格" id="g_price1" value="${goods.goods_price }"
 								readonly="readonly">(单位：元)
@@ -244,15 +244,15 @@
 
 					<div class="form-group">
 						<label for="inputGoodsPriceLB" class="col-sm-3 control-label">商品龙币价格</label>
-						<div class="col-sm-6">
+						<div class="col-sm-7">
 							<input type="text" class="form-control" name="goods_price_LB"
 								placeholder="商品龙币价格" id="g_price_LB1" readonly="readonly">(单位：个)
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="inputGoodsDesc" class="col-sm-3 control-label">商品描述</label>
-						<div class="col-sm-6">
-							<textarea id="g_desc1" name="goods_desc" cols="28"
+						<div class="col-sm-7">
+							<textarea id="g_desc1" name="goods_desc" cols="28" class="form-control"
 								placeholder="商品描述" readonly="readonly"></textarea>
 						</div>
 					</div>
@@ -270,11 +270,11 @@
 					</div>
 					<div class="form-group">
 						<label for="inputGoodsDesc" class="col-sm-3 control-label">返券依据</label>
-						<div class="radio col-sm-6">
+						<div class="radio col-sm-7">
 							<label> <input type="radio" name="goods_return_type"
-								id="optionspay_type1" value="1" checked> 根据数量返券
+								id="optionspay_type1" value="1" checked readonly="readonly"> 根据数量返券
 							</label> <label> <input type="radio" name="goods_return_type"
-								id="optionspay_type0" value="0"> 根据金额返券
+								id="optionspay_type0" value="0" readonly="readonly"> 根据金额返券
 							</label>
 						</div>
 
@@ -282,7 +282,7 @@
 
 					<div class="form-group">
 						<label for="inputGoodsPrice" class="col-sm-3 control-label">返券标准</label>
-						<div class="col-sm-6">
+						<div class="col-sm-7">
 							<input type="text" class="form-control"
 								name="goods_return_standard" placeholder="返券标准" id="g_standard1"
 								readonly="readonly">
@@ -291,10 +291,29 @@
 
 					<div class="form-group">
 						<label for="inputGoodsPrice" class="col-sm-3 control-label">返券数量</label>
-						<div class="col-sm-6">
+						<div class="col-sm-7">
 							<input type="text" class="form-control"
 								name="goods_return_ticket" placeholder="返券数量" id="g_count1"
 								readonly="readonly">
+						</div>
+					</div>
+					<div class="form-group" >
+						<label for="inputGoodsDesc" class="col-sm-3 control-label"
+							style="text-align: right">返券面值</label>
+						<div class="radio col-sm-6">
+							<label> <input type="radio" name="goods_return_mz"
+								id="mzRadio0" value="0"  readonly="readonly"> 不返券
+							</label>
+							<label> <input type="radio" name="goods_return_mz"
+								id="mzRadio1" value="7"  readonly="readonly"> 100面值
+							</label>
+							 <label> <input type="radio" name="goods_return_mz"
+								id="mzRadio2" value="8" readonly="readonly"> 200面值
+							</label> <label> <input type="radio" name="goods_return_mz"
+								id="mzRadio3" value="10" readonly="readonly"> 400面值
+							</label> <label> <input type="radio" name="goods_return_mz"
+								id="mzRadio4" value="9" readonly="readonly"> 500面值
+							</label>
 						</div>
 					</div>
 				</div>
@@ -382,6 +401,27 @@
 							$("#goods_pay_type").attr("checked", '');//清空内容 
 							$("#goods_pay_type").attr("checked", false);
 							//$("#optionspay_type01").attr("checked", true);
+						}
+						
+						if (data1.goods_return_mz == 0) {
+							$("#mzRadio0").attr("checked", '');//清空内容 
+							$("#mzRadio0").attr("checked", true);//清空内容 
+							
+						}else if (data1.goods_return_mz == 7) {
+							$("#mzRadio1").attr("checked", '');//清空内容 
+							$("#mzRadio1").attr("checked", true);//清空内容 
+							
+						}else if(data1.goods_return_mz == 8){
+							$("#mzRadio2").attr("checked", '');//清空内容 
+							$("#mzRadio2").attr("checked", true);//清空内容 
+							
+						}else if(data1.goods_return_mz == 9){
+							$("#mzRadio4").attr("checked", '');//清空内容 
+							$("#mzRadio4").attr("checked", true);//清空内容 
+						}else if(data1.goods_return_mz == 10){
+							$("#mzRadio3").attr("checked", '');//清空内容 
+							$("#mzRadio3").attr("checked", true);//清空内容 
+							
 						}
 						$("#g_count1").attr("value", '');//清空内容 
 						$("#g_count1").attr("value", data1.goods_return_ticket);

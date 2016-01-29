@@ -19,11 +19,13 @@
 	<select id="selectfanquan_info" resultType="com.platform.entity.Return_ticket"
 		parameterType="String">
 
-		SELECT userLogin, return_number
-		FROM t_order AS o ,
-		t_user AS u
+		SELECT userLogin, return_number,goods_return_mz
+		FROM t_order AS o 
+		JOIN
+		t_user AS u ON  u.`user_id`=o.`user_id`
+		JOIN
+		t_goods AS g ON g.goods_id=o.goods_id
 		WHERE o.`order_id`=#{order_id}
-		AND u.`user_id`=o.`user_id`
 		ORDER BY o.order_time DESC
 	</select>
 

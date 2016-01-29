@@ -192,7 +192,7 @@ public class OrderController {
 		Return_ticket ort = orderService.selectfanquan_info(order_id);
 		ort.setPay_password(pay_password);
 		ort.setMerchant_name(user.getMerchant_account());
-		ort.setFace_money("7");
+		ort.setgoods_return_mz(ort.getgoods_return_mz());
 		String successful = send_ticketInfo(ort); // 返券信息 发给公司
 		if (successful.equals("true")) {
 
@@ -212,7 +212,7 @@ public class OrderController {
 	public static String send_ticketInfo(Return_ticket orTicket) {
 
 		String successful = null;
-		String url = "http://124.254.56.58:8007/api/Content/ToMemberElectronicVoucher?mz=" + orTicket.getFace_money()
+		String url = "http://124.254.56.58:8007/api/Content/ToMemberElectronicVoucher?mz=" + orTicket.getgoods_return_mz()
 				+ "&num=" + orTicket.getReturn_number() + "&ulogin=" + orTicket.getUserLogin() + "&comName="
 				+ orTicket.getMerchant_name() + "&compw=" + orTicket.getPay_password();
 
