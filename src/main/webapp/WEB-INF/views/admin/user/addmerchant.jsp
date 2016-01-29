@@ -114,9 +114,77 @@ function check(){ /* passWord newpass */
 	{ 
 	return false; 
 	} 
+	show();
 	return true; 
 	} 
+	
+function show(){  
+	   
+	  var docHeight = $(document).height(); //获取窗口高度  
+	     
+	  $('body').append('<div id="overlay"><div class="spinner"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div></div>');  
+	  $('#overlay')  
+	    .height(docHeight)  
+	    .css({  
+	      'opacity': .5, //透明度  
+	      'position': 'absolute',  
+	      'top': 0,  
+	      'left': 0,  
+	      'background-color': 'black',  
+	      'width': '100%',  
+	      'z-index': 5000 //保证这个悬浮层位于其它内容之上  
+	    });  
+	       
+	    //setTimeout(function(){$('#overlay').fadeOut('slow')}, 2000); //设置3秒后覆盖层自动淡出  
+	}  
+	
 </script>
+<style type="text/css">
+.spinner {
+  margin: 300px auto; 
+  width: 350px;
+  text-align: center;
+}
+ 
+.spinner > div {
+  width: 50px;
+  height: 50px;
+  background-color: #67CF22;
+ 
+  border-radius: 100%;
+  display: inline-block;
+  -webkit-animation: bouncedelay 1.4s infinite ease-in-out;
+  animation: bouncedelay 1.4s infinite ease-in-out;
+  /* Prevent first frame <span id="3_nwp" style="width: auto; height: auto; float: none;"><a id="3_nwl" href="http://cpro.baidu.com/cpro/ui/uijs.php?adclass=0&app_id=0&c=news&cf=1001&ch=0&di=128&fv=20&is_app=0&jk=9884b0a7d90405dd&k=from&k0=from&kdi0=0&luki=2&mcpm=0&n=10&p=baidu&q=06011078_cpr&rb=0&rs=1&seller_id=1&sid=dd0504d9a7b08498&ssp2=1&stid=9&t=tpclicked3_hc&td=1922429&tu=u1922429&u=http%3A%2F%2Fwww%2Eadmin10000%2Ecom%2Fdocument%2F3601%2Ehtml&urlid=0" target="_blank" mpid="3" style="text-decoration: none;"><span style="color:#0000ff;font-size:14px;width:auto;height:auto;float:none;">from</span></a></span> flickering when animation starts */
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+ 
+.spinner .bounce1 {
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s;
+}
+ 
+.spinner .bounce2 {
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s;
+}
+ 
+@-webkit-keyframes bouncedelay {
+  0%, 80%, 100% { -webkit-transform: scale(0.0) }
+  40% { -webkit-transform: scale(1.0) }
+}
+ 
+@keyframes bouncedelay {
+  0%, 80%, 100% { 
+    transform: scale(0.0);
+    -webkit-transform: scale(0.0);
+  } 40% { 
+    transform: scale(1.0);
+    -webkit-transform: scale(1.0);
+  }
+}
+</style>
 <!--body wrapper start-->
 <div class="wrapper">
 	<h1>

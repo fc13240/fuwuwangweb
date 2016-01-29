@@ -84,6 +84,26 @@
 					<label id="goods_price_LBLabel"></label>
 			</div>
 		</div>
+		<div class="form-group" id="fanquanmianzhi">
+			<label for="inputGoodsDesc" class="col-sm-offset-1 col-sm-1 control-label"  style="text-align:right" >返券面值</label>
+			<div class="radio col-sm-3" onchange="showfanquan()">
+				<label>
+				 	<input type="radio" name="goods_return_mz" id="mzRadio0" value="0" checked> 不返券
+				</label>
+				<label>
+				 	<input type="radio" name="goods_return_mz" id="mzRadio1" value="7"> 100面值
+				</label>
+				 <label> 
+				 	<input type="radio" name="goods_return_mz" id="mzRadio2" value="8"> 200面值
+				</label>
+				 <label> 
+				 	<input type="radio" name="goods_return_mz" id="mzRadio3" value="10"> 400面值
+				</label>
+				 <label> 
+				 	<input type="radio" name="goods_return_mz" id="mzRadio4" value="9"> 500面值
+				</label>
+			</div>
+		</div>
 		<div class="form-group" id="fanquanyiju">
 			<label for="inputGoodsDesc" class="col-sm-offset-1 col-sm-1 control-label"  style="text-align:right" >返券依据</label>
 			<div class="radio col-sm-3">
@@ -117,26 +137,7 @@
 			</div>
 		</div>
 		
-		<div class="form-group" id="fanquanmianzhi">
-			<label for="inputGoodsDesc" class="col-sm-offset-1 col-sm-1 control-label"  style="text-align:right" >返券面值</label>
-			<div class="radio col-sm-2">
-				<label>
-				 	<input type="radio" name="goods_return_mz" id="mzRadio0" value="0" checked> 不返券
-				</label>
-				<label>
-				 	<input type="radio" name="goods_return_mz" id="mzRadio1" value="7"> 100面值
-				</label>
-				 <label> 
-				 	<input type="radio" name="goods_return_mz" id="mzRadio2" value="8"> 200面值
-				</label>
-				 <label> 
-				 	<input type="radio" name="goods_return_mz" id="mzRadio3" value="10"> 400面值
-				</label>
-				 <label> 
-				 	<input type="radio" name="goods_return_mz" id="mzRadio4" value="9"> 500面值
-				</label>
-			</div>
-		</div>
+		
 		
 		<div class="form-group">
 			<label for="inputGoodsDesc" class="col-sm-offset-1 col-sm-1 control-label"  style="text-align:right" >购买须知</label>
@@ -158,12 +159,26 @@
 			</div>
 		</div>
 	</form>
+
 	<input type="text" value="<%out.print(user_id);%>" hidden="hidden"
 		id="user_id"> <input type="text"
 		value="<%out.print(merchant_type);%>" hidden="hidden"
 		id="merchant_type">
 </div>
+
 <script type="text/javascript">
+function showfanquan(){
+var fanquan=$("input[name='goods_return_mz']:checked").val();
+if(0!=fanquan){
+	$("#fanquanbiaozhun").show();
+	$("#fanquanshuliang").show();
+	$("#fanquanyiju").show();
+}else{
+	$("#fanquanbiaozhun").hide();
+	$("#fanquanshuliang").hide();
+	$("#fanquanyiju").hide();
+}
+}
 function clearNoNum(obj)
 {
    obj.value = obj.value.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符
@@ -335,6 +350,7 @@ function getPhoto(){
 		if (isSuccess == 0) {
 			return false;
 		} else {
+			show();
 			return true;
 		}
 	}
@@ -342,13 +358,14 @@ function getPhoto(){
 	window.onload = function() {
 		var id = $('#user_id').val();
 		var merchant_type = $('#merchant_type').val();
+		$("#fanquanyiju").hide();
+		$("#fanquanbiaozhun").hide();
+		$("#fanquanshuliang").hide();
 		//alert(merchant_type);
 		if (2 != merchant_type) {
 			$("#longbi_name").hide();
 			$("#longbi_number").hide();
-			$("#fanquanyiju").hide();
-			$("#fanquanbiaozhun").hide();
-			$("#fanquanshuliang").hide();
+		
 			$("#fanquanmianzhi").hide();
 		}
 
@@ -380,7 +397,72 @@ function getPhoto(){
 			}
 		})
 	}
+	function show(){  
+		   
+		  var docHeight = $(document).height(); //获取窗口高度  
+		     
+		  $('body').append('<div id="overlay"><div class="spinner"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div></div>');  
+		  $('#overlay')  
+		    .height(docHeight)  
+		    .css({  
+		      'opacity': .5, //透明度  
+		      'position': 'absolute',  
+		      'top': 0,  
+		      'left': 0,  
+		      'background-color': 'black',  
+		      'width': '100%',  
+		      'z-index': 5000 //保证这个悬浮层位于其它内容之上  
+		    });  
+		       
+		   //setTimeout(function(){$('#overlay').fadeOut('slow')}, 5000); //设置3秒后覆盖层自动淡出  
+		}  
 </script>
+<style type="text/css">
+.spinner {
+  margin: 500px auto; 
+  width: 350px;
+  text-align: center;
+}
+ 
+.spinner > div {
+  width: 50px;
+  height: 50px;
+  background-color: #67CF22;
+ 
+  border-radius: 100%;
+  display: inline-block;
+  -webkit-animation: bouncedelay 1.4s infinite ease-in-out;
+  animation: bouncedelay 1.4s infinite ease-in-out;
+  /* Prevent first frame <span id="3_nwp" style="width: auto; height: auto; float: none;"><a id="3_nwl" href="http://cpro.baidu.com/cpro/ui/uijs.php?adclass=0&app_id=0&c=news&cf=1001&ch=0&di=128&fv=20&is_app=0&jk=9884b0a7d90405dd&k=from&k0=from&kdi0=0&luki=2&mcpm=0&n=10&p=baidu&q=06011078_cpr&rb=0&rs=1&seller_id=1&sid=dd0504d9a7b08498&ssp2=1&stid=9&t=tpclicked3_hc&td=1922429&tu=u1922429&u=http%3A%2F%2Fwww%2Eadmin10000%2Ecom%2Fdocument%2F3601%2Ehtml&urlid=0" target="_blank" mpid="3" style="text-decoration: none;"><span style="color:#0000ff;font-size:14px;width:auto;height:auto;float:none;">from</span></a></span> flickering when animation starts */
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+ 
+.spinner .bounce1 {
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s;
+}
+ 
+.spinner .bounce2 {
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s;
+}
+ 
+@-webkit-keyframes bouncedelay {
+  0%, 80%, 100% { -webkit-transform: scale(0.0) }
+  40% { -webkit-transform: scale(1.0) }
+}
+ 
+@keyframes bouncedelay {
+  0%, 80%, 100% { 
+    transform: scale(0.0);
+    -webkit-transform: scale(0.0);
+  } 40% { 
+    transform: scale(1.0);
+    -webkit-transform: scale(1.0);
+  }
+}
+</style>
 <%@ include file="../../common/footer.jsp"%>
 
 
