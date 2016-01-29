@@ -348,6 +348,8 @@
 							<input type="text" class="form-control" name="goods_price_LB"
 								placeholder="商品龙币价格" id="g_price_LB"
 								onkeyup="this.value=this.value.replace(/[^\d]/g,'')">(单位：个)
+								<label
+								id="goods_priceLBLabel"></label>
 						</div>
 					</div>
 					<div class="form-group" id="fanquanyiju1">
@@ -614,16 +616,7 @@
 						$("#g_purchase_notes").attr("value", '');//清空内容 
 						$("#g_purchase_notes").attr("value",
 								data.goods_purchase_notes);
-						if (data.goods_pay_type == 1) {
-							$("#goods_pay_type1").attr("checked", '');//清空内容 
-							$("#goods_pay_type1").attr("checked", true);
-
-						} else {
-							$("#goods_pay_type1").attr("checked", '');//清空内容 
-							//$("#optionspay_type01").attr("checked", true);
-							$("#longbi_name1").hide();
-							$("#longbi_number1").hide();
-						}
+						
 						if(merchant_type==2){
 							$("#g_price_LB").attr("value", '');//清空内容 
 							$("#g_price_LB").attr("value", data.goods_price_LB);
@@ -661,12 +654,23 @@
 								$("#mzRadio23").attr("checked", true);//清空内容 
 								
 							}
+							if (data.goods_pay_type == 1) {
+								$("#goods_pay_type1").attr("checked", '');//清空内容 
+								$("#goods_pay_type1").attr("checked", true);
+
+							} else {
+								$("#goods_pay_type1").attr("checked", false);//清空内容 
+								//$("#optionspay_type01").attr("checked", true);
+								
+							}
 						}else{
 							
 							$("#fanquanyiju1").hide();
 							$("#fanquanbiaozhun1").hide();
 							$("#fanquanshuliang1").hide();
 							$("#fanquanmianzhi1").hide();
+							$("#longbi_name1").hide();
+							$("#longbi_number1").hide();
 						}
 					}
 				})
@@ -690,80 +694,95 @@
 				//	var data1=eval(data);
 				//alert(data);
 				//var data = eval("("+data+")");
-				$("#g_name1").attr("value", '');//清空内容 
-				$("#g_name1").attr("value", data.goods_name);
-				$("#g_price1").attr("value", '');//清空内容 
-				$("#g_price1").attr("value", data.goods_price / 100);
-				
-				$("#g_desc1").attr("value", '');//清空内容 
-				$("#g_desc1").attr("value", data.goods_desc);
-
-				$("#g_id1").attr("value", '');//清空内容 
-				$("#g_id1").attr("value", data.goods_id);
-
-				$("#s_id1").attr("value", '');//清空内容 
-				$("#s_id1").attr("value", data.store_id);
-				
-				$("#g_purchase_notes1").attr("value", '');//清空内容 
-				$("#g_purchase_notes1").attr("value", data.goods_purchase_notes);
 			
-				if (data.goods_pay_type == 1) {
-					$("#goods_pay_type").attr("checked", '');//清空内容 
-					$("#goods_pay_type").attr("checked", true);
+						$("#goods_nameLabel").text("");
+						$("#goods_descLabel").text("");
+						$("#goods_priceLabel").text("");
+						$("#goods_pay_type1Label").text("");
+						$("#goods_price_LBLabel").text("");
+						$("#goods_return_standardLabel").text("");
+						$("#goods_return_ticketLabel").text("");
 
-				} else {
-					$("#goods_pay_type").attr("checked", '');//清空内容 
-					$("#longbi_name").hide();
-					$("#longbi_number").hide();
-					//$("#optionspay_type01").attr("checked", true);
-				}
-				if(merchant_type==2){
-					$("#g_price_LB1").attr("value", '');//清空内容 
-					$("#g_price_LB1").attr("value", data.goods_price_LB);
-					
-					$("#g_standard1").attr("value", '');//清空内容 
-					$("#g_standard1").attr("value", data.goods_return_standard);
-					if (data.goods_return_type == 1) {
-						$("#optionspay_type1").attr("checked", '');//清空内容 
-						$("#optionspay_type1").attr("checked", true);
+						$("#g_name1").attr("value", '');//清空内容 
+						$("#g_name1").attr("value", data.goods_name);
+						$("#g_price1").attr("value", '');//清空内容 
+						$("#g_price1").attr("value", data.goods_price / 100);
 
-					} else {
-						$("#optionspay_type0").attr("checked", '');//清空内容 
-						$("#optionspay_type0").attr("checked", true);
+						$("#g_desc1").attr("value", '');//清空内容 
+						$("#g_desc1").attr("value", data.goods_desc);
+
+						$("#g_id1").attr("value", '');//清空内容 
+						$("#g_id1").attr("value", data.goods_id);
+
+						$("#s_id1").attr("value", '');//清空内容 
+						$("#s_id1").attr("value", data.store_id);
+
+						$("#g_purchase_notes1").attr("value", '');//清空内容 
+						$("#g_purchase_notes1").attr("value",
+								data.goods_purchase_notes);
+
+						
+						if (merchant_type == 2) {
+							$("#g_price_LB1").attr("value", '');//清空内容 
+							$("#g_price_LB1")
+									.attr("value", data.goods_price_LB);
+
+							$("#g_standard1").attr("value", '');//清空内容 
+							$("#g_standard1").attr("value",
+									data.goods_return_standard);
+							if (data.goods_return_type == 1) {
+								$("#optionspay_type1").attr("checked", '');//清空内容 
+								$("#optionspay_type1").attr("checked", true);
+
+							} else {
+								$("#optionspay_type0").attr("checked", '');//清空内容 
+								$("#optionspay_type0").attr("checked", true);
+							}
+							$("#g_count1").attr("value", '');//清空内容 
+							$("#g_count1").attr("value",
+									data.goods_return_ticket);
+							if (data.goods_return_mz == 0) {
+
+								$("#mzRadio10").attr("checked", '');//清空内容 
+								$("#mzRadio10").attr("checked", true);//清空内容 
+
+							} else if (data.goods_return_mz == 7) {
+								$("#mzRadio11").attr("checked", '');//清空内容 
+								$("#mzRadio11").attr("checked", true);//清空内容 
+
+							} else if (data.goods_return_mz == 8) {
+								$("#mzRadio12").attr("checked", '');//清空内容 
+								$("#mzRadio12").attr("checked", true);//清空内容 
+
+							} else if (data.goods_return_mz == 9) {
+								$("#mzRadio14").attr("checked", '');//清空内容 
+								$("#mzRadio14").attr("checked", true);//清空内容 
+							} else if (data.goods_return_mz == 10) {
+								$("#mzRadio13").attr("checked", '');//清空内容 
+								$("#mzRadio13").attr("checked", true);//清空内容 
+
+							}
+							if (data.goods_pay_type == 1) {
+								$("#goods_pay_type").attr("checked", '');//清空内容 
+								$("#goods_pay_type").attr("checked", true);
+
+							} else {
+								$("#goods_pay_type").attr("checked", false);//清空内容 
+								
+								//$("#optionspay_type01").attr("checked", true);
+							}
+						} else {
+
+							$("#fanquanyiju").hide();
+							$("#fanquanbiaozhun").hide();
+							$("#fanquanshuliang").hide();
+							$("#fanquanmianzhi").hide();
+							$("#longbi_name").hide();
+							$("#longbi_number").hide();
+						}
+
 					}
-					$("#g_count1").attr("value", '');//清空内容 
-					$("#g_count1").attr("value", data.goods_return_ticket);
-					if(data.goods_return_mz==0){
-						
-						$("#mzRadio10").attr("checked", '');//清空内容 
-						$("#mzRadio10").attr("checked", true);//清空内容 
-						
-					}else if (data.goods_return_mz == 7) {
-						$("#mzRadio11").attr("checked", '');//清空内容 
-						$("#mzRadio11").attr("checked", true);//清空内容 
-						
-					}else if(data.goods_return_mz == 8){
-						$("#mzRadio12").attr("checked", '');//清空内容 
-						$("#mzRadio12").attr("checked", true);//清空内容 
-						
-					}else if(data.goods_return_mz == 9){
-						$("#mzRadio14").attr("checked", '');//清空内容 
-						$("#mzRadio14").attr("checked", true);//清空内容 
-					}else if(data.goods_return_mz == 10){
-						$("#mzRadio13").attr("checked", '');//清空内容 
-						$("#mzRadio13").attr("checked", true);//清空内容 
-						
-					}
-				}else{
-					
-					$("#fanquanyiju").hide();
-					$("#fanquanbiaozhun").hide();
-					$("#fanquanshuliang").hide();
-					$("#fanquanmianzhi").hide();
-				}
-				
-			}
-		})
+				})
 	}
 	function detelegoods() {
 		var goods_id = $("#delg_id").val();
@@ -792,13 +811,14 @@
 	}
 	function check() { /* passWord newpass */
 		var merchant_type = $('#merchant_type').val();
-		
+
 		var txt_goods_name = $.trim($("#g_name").attr("value"));
 		var txt_goods_desc = $.trim($("#g_desc").attr("value"));
 		var txt_goods_purchase_notes = $.trim($("#g_purchase_notes").attr(
 				"value"));
 		//alert(txt_goods_desc);
 		var txt_goods_price = $.trim($("#g_price").attr("value"));
+		var txt_goods_priceLB = $.trim($("#g_price_LB").attr("value"));
 		var txt_goods_return_standard = $.trim($("#g_standard").attr("value"));
 		var txt_goods_return_ticket = $.trim($("#g_count").attr("value"));
 
@@ -854,7 +874,7 @@
 			});
 			isSuccess = 0;
 		}
-		if(merchant_type==2){
+		if (merchant_type == 2) {
 			if (txt_goods_return_standard.length == 0) {
 				$("#goods_return_standardLabel").text("请填写返券标准")
 				$("#goods_return_standardLabel").css({
@@ -862,7 +882,7 @@
 				});
 				isSuccess = 0;
 			}
-			if (txt_goods_return_standard >10000) {
+			if (txt_goods_return_standard > 10000) {
 				$("#goods_return_standardLabel").text("返券标准不能大于10000")
 				$("#goods_return_standardLabel").css({
 					"color" : "red"
@@ -876,19 +896,26 @@
 				});
 				isSuccess = 0;
 			}
-			if (txt_goods_return_ticket >10000) {
+			if (txt_goods_return_ticket > 10000) {
 				$("#goods_return_ticketLabel").text("返券数量不能大于10000")
 				$("#goods_return_ticketLabel").css({
 					"color" : "red"
 				});
 				isSuccess = 0;
-			}	
+			}
+			if ($('#goods_pay_type1').is(':checked')) {
+				if (txt_goods_priceLB.length == 0) {
+					$("#goods_priceLBLabel").text("龙币商品，龙币价格不能为空");
+					$("#goods_priceLBLabel").css({
+						"color" : "red"
+					});
+					isSuccess = 0;
+				}
+			}
 		}
 		if (isSuccess == 0) {
-			//alert('失败');
 			return false;
 		} else {
-			//alert('成功');
 			return true;
 		}
 	}
