@@ -869,38 +869,5 @@ public class AppOrderController {
 		}
 		return bmj;
 	}
-	/**
-	 * 
-	 * @param mz 面值 7：100面值兑现券 8：200面值兑现券 9：500面值兑现券 10：400面值兑现券
-	 * @param num 数量
-	 * @param ulogin 会员登陆用户名
-	 * @param comName 服务网帐号
-	 * @param compw 商家支付密码
-	 * @return
-	 */
-	public  BaseModelJson<String> toMemberElectronicVoucher(String mz,String num,String ulogin,String comName,String compw){
-		String url = Constants.PATH + "Content/ToMemberElectronicVoucher?mz=" + mz + "&num=" + num + "&ulogin="
-				+ ulogin + "&comName=" + comName+ "&compw=" + compw;
-		JSONObject param = new JSONObject();
-		com.squareup.okhttp.RequestBody body = com.squareup.okhttp.RequestBody.create(JSONTPYE, gson.toJson(param));
-		Request request = new Request.Builder().url(url).post(body).build();
-		BaseModelJson<String> bmj = null;
-		try {
-			Response response = client.newCall(request).execute();
-			if (response.isSuccessful()) {
-				bmj = gson.fromJson(response.body().string(), new TypeToken<BaseModelJson<String>>(){}.getType());
-			} else {
-				bmj = new BaseModelJson<>();
-				bmj.Successful = false;
-				bmj.Error = "服务器繁忙";
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			bmj = new BaseModelJson<>();
-			bmj.Successful = false;
-			bmj.Error = "服务器繁忙";
-		}
-		return bmj;
-	}
+
 }

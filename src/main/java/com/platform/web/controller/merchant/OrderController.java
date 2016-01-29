@@ -1,5 +1,6 @@
 package com.platform.web.controller.merchant;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -22,6 +23,8 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.platform.common.contants.Constants;
 import com.platform.common.utils.DateUtil;
 import com.platform.entity.Order;
@@ -29,6 +32,11 @@ import com.platform.entity.Order_time;
 import com.platform.entity.Return_ticket;
 import com.platform.entity.User;
 import com.platform.service.OrderService;
+import com.platform.web.controller.app.BaseModelJson;
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
 @Controller
 @RequestMapping(value = "/merchant/order/")
@@ -37,6 +45,12 @@ public class OrderController {
 	@Autowired
 	private OrderService orderService;
 
+	OkHttpClient client = new OkHttpClient();
+
+	public static final MediaType JSONTPYE = MediaType.parse("application/json; charset=utf-8");
+
+	Gson gson = new Gson();
+	
 	/******* 当天订单 查看 ******/
 	@RequestMapping(value = "{type}", method = RequestMethod.GET)
 	public String order(Model model, @PathVariable String type, Integer pageNum, Integer pageSize,
@@ -251,4 +265,40 @@ public class OrderController {
 		return successful;
 	}
 
+	
+	/**
+	 * 
+	 * @param mz 面值 7：100面值兑现券 8：200面值兑现券 9：500面值兑现券 10：400面值兑现券
+	 * @param num 数量
+	 * @param ulogin 会员登陆用户名
+	 * @param comName 服务网帐号
+	 * @param compw 商家支付密码
+	 * @return
+	 */
+	public  BaseModelJson<String> toMemberElectronicVoucher(String mz,String num,String ulogin,String comName,String compw){
+		String url = Constants.PATH + "Content/ToMemberElectronicVoucher?mz=" + mz + "&num=" + num + "&ulogin="
+				+ ulogin + "&comName=" + comName+ "&compw=" + compw;
+		JSONObject param = new JSONObject();
+		com.squareup.okhttp.RequestBody body = com.squareup.okhttp.RequestBody.create(JSONTPYE, gson.toJson(param));
+		Request request = new Request.Builder().url(url).post(body).build();
+		BaseModelJson<String> bmj = null;
+		try {
+			Response response = client.newCall(request).execute();
+			if (response.isSuccessful()) {
+				bmj = gson.fromJson(response.body().string(), new TypeToken<BaseModelJson<String>>(){}.getType());
+			} else {
+				bmj = new BaseModelJson<>();
+				bmj.Successful = false;
+				bmj.Error = "服务器繁忙";
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			bmj = new BaseModelJson<>();
+			bmj.Successful = false;
+			bmj.Error = "服务器繁忙";
+		}
+		return bmj;
+	}
+	
 }

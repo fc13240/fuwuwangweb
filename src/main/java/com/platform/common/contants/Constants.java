@@ -206,7 +206,7 @@ public class Constants {
      *银联请求地址
      */
 //    public static final String creatOrderUrl = "https://mpos.quanminfu.com:6004/merFrontMgr/orderBusinessServlet";      // 下单地址
-//    public static final String queryOrderUrl = "https://116.228.21.162:8603/merFrontMgr/orderQueryServlet";      //  订单查询地址
+//    public static final String queryOrderUrl = "https://mpos.quanminfu.com:6004/merFrontMgr/orderQueryServlet";      //  订单查询地址
 //    
 //    public static final String VERIFYKEY_MOD ="b1edf6247df2d09d59f1666823bce2c64d4a35c8b5697f8078501a888f5b93ba2efa5169dd1e506abe30ec56bce821425a956bfa9944b627d96631ca501d9c5017a2e3a8e5ccbf3e720810c347780db87f78a7a40811654780f82a36b02c71ef00eeddb9a41bf53406ea064be969014c960cb9e89fcc0b894eef0e43e6c5d26b";//生成环境银商验签公钥
 //    public static final String VERIFYKEY_EXP ="0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010001";
