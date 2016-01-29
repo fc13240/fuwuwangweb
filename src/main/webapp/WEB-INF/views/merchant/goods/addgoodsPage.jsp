@@ -110,7 +110,7 @@
 			<label for="inputGoodsPrice" class="col-sm-offset-1 col-sm-1 control-label"  style="text-align:right" >返券数量</label>
 			<div class="col-sm-3">
 				<input type="text" class="form-control" name="goods_return_ticket" value="${goods.goods_return_ticket}"
-					id="goods_return_ticket" placeholder="返券数量" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" > 
+					id="goods_return_ticket" placeholder="返券数量" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" >
 			</div>
 			<div class="col-sm-3">
 					<label id="goods_return_ticketLabel" style="color:red;">*请输入数字</label>

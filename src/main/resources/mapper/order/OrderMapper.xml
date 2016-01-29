@@ -8,11 +8,16 @@
 
 
 	<!-- (WEB) 查会员的返券 -->
-	<select id="selectUseVip_fanquan" resultType="com.platform.entity.Order">
+	<select id="selectUseVip_fanquan"  parameterType="String" 
+	resultType="com.platform.entity.vo.OrderVo">
 
-		SELECT * from
-		t_order where return_number_state = 2
-		ORDER BY order_time DESC
+		SELECT *,tg.goods_return_mz from
+		t_order  as o
+		JOIN t_goods as tg ON tg.goods_id=o.goods_id
+		JOIN t_store as ts ON ts.store_id=tg.store_id
+		where o.return_number_state = 2
+		and ts.user_id=#{user_id}
+		ORDER BY o.order_time DESC
 	</select>
 
 	<!-- 商人给 会员返券时获取： 该 用户名字 和 返券数量 -->
