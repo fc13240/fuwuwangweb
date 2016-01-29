@@ -9,7 +9,6 @@ import com.platform.entity.APP_Order;
 import com.platform.entity.Order;
 import com.platform.entity.Order_time;
 import com.platform.entity.Return_ticket;
-import com.platform.entity.vo.OrderVo;
 
 @Repository
 public interface OrderMapper {
@@ -85,7 +84,7 @@ public interface OrderMapper {
 	public List<Order> findOrderstoredefault(Order_time order_time);
 
 	/******* 查 所有的会员 没有返券的订单 *******/
-	public List<OrderVo> selectUseVip_fanquan(String user_id);
+	public List<Order> selectUseVip_fanquan(@Param(value="user_id")String user_id,@Param(value="return_number_state")Integer return_number_state);
 
 	/*** 获取 下单用户的 帐号 和 返券数量 ****/
 	public Return_ticket selectfanquan_info(String order_id);

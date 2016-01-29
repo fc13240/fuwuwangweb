@@ -16,12 +16,46 @@ function fanquan(paramstoreId){
 		}
 		return flag;
 	}
+function getOrderByReturn_num_state() {
+	var base = "${pageContext.request.contextPath}";
+	var return_number_state = $('#return_number_state').val();
+	if ("return_number_state" == 4) {
+		return false;
+	} else {
 
+		window.location.href = base
+				+ '/merchant/order/zhaofanquan?return_number_state=' + return_number_state;
+	}
+}
 </script>
 </head>
 
 <div class="wrapper">
-
+<div class=" searchform">
+	<div class="col-md-3">
+		<select class="form-control" onchange="getOrderByReturn_num_state()"
+			id="return_number_state">
+			<c:choose>
+			<c:when test="${return_number_state==2}">
+			<option value="0" >根据返券状态查询</option>
+			<option value="2" selected="selected">未返券</option>
+			<option value="3">已返券</option>
+			</c:when>
+			<c:when test="${return_number_state==3}">
+			<option value="0" >根据返券状态查询</option>
+			<option value="2" >未返券</option>
+			<option value="3" selected="selected">已返券</option>
+			</c:when>
+			<c:otherwise>
+			<option value="0" selected="selected">根据返券状态查询</option>
+			<option value="2" >未返券</option>
+			<option value="3" >已返券</option>
+			</c:otherwise>
+			</c:choose>
+		
+		</select>
+	</div>
+</div>
 	<div class="container-fluid">
 		<div class="row ">
 			<div class="col-xs-12 col-md-12">
@@ -47,10 +81,10 @@ function fanquan(paramstoreId){
 										pattern="#,###,##0.00#" /></td>
 							<td class="col-md-1" align="right">${list.return_number}张</td>
 							<td class="col-md-1" align="left">
-								<c:if test="${list.goods_return_mz ==7}">100</c:if>
-								<c:if test="${list.goods_return_mz ==8}">200</c:if>
-								<c:if test="${list.goods_return_mz ==9}">500</c:if>
-								<c:if test="${list.goods_return_mz ==10}">400</c:if>
+								<c:if test="${list.return_mz ==7}">100</c:if>
+								<c:if test="${list.return_mz ==8}">200</c:if>
+								<c:if test="${list.return_mz ==9}">500</c:if>
+								<c:if test="${list.return_mz ==10}">400</c:if>
 							</td>
 							<td class="col-md-1" align="left"><c:if test="${list.order_state ==1}">已消费</c:if>
 								<c:if test="${list.order_state ==2}">未支付</c:if> <c:if
@@ -73,8 +107,8 @@ function fanquan(paramstoreId){
 							<td class="col-md-3" align="center">
 								<form class="form-horizontal"
 									action="${pageContext.request.contextPath}/merchant/order/Return_ticket"
-									method="GET">
-									<input id="order_id" name="order_id" value="${order_id }"
+									method="post">
+									<input id="order_id" name="order_id" value="${order_id}"
 										type="hidden" />
 									<div class="col-md-8">
 										<input type="text" class="form-control " name="pay_password"
