@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.platform.entity.MerchantInfo;
 import com.platform.entity.Order;
 import com.platform.entity.User;
 import com.platform.entity.User_token;
@@ -68,6 +69,9 @@ public interface UserService {
 	 * 管理员注册 商人
 	 */
 	public void add_merchant(User user);
+	
+
+	
 
 	/**** user_id找用户 ****/
 	public User finduserById(String user_id);
@@ -187,4 +191,19 @@ public interface UserService {
 	 * @return
 	 */
 	public User findmerchantByuserlogin(String userLogin);
+	
+	
+	/**
+	 * 用户登录
+	 * @param map
+	 * @return
+	 */
+	public MerchantInfo getUserLogin(Map<String,String> map);
+
+	/**
+	 * 添加商人
+	 * @param merchantInfo
+	 */
+	public void addMerchant(MerchantInfo merchantInfo);
+	
 }

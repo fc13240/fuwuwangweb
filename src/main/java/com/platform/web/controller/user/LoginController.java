@@ -6,6 +6,8 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
@@ -14,20 +16,17 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.http.HttpRequest;
-import org.apache.http.HttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMessage;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.platform.common.contants.Constants;
 import com.platform.common.utils.Md5;
+import com.platform.entity.MerchantInfo;
 import com.platform.entity.User;
 import com.platform.service.ResourceService;
 import com.platform.service.UserService;
@@ -56,80 +55,136 @@ public class LoginController {
 	 */
 	@RequestMapping(value = "login", method = RequestMethod.POST)
 	public String login(Model model, String checkcode, String userLogin, String passWord, HttpSession session) {
-		User Login_User = new User();
+		if (checkcode == null || "".equals(checkcode.trim())) {
+			model.addAttribute("result", "验证码不能为空！");
+			return "login";
+		} else if (userLogin == null || "".equals(userLogin.trim())) {
+			model.addAttribute("result", "用户名不能为空！");
+			return "login";
+		} else if (passWord == null || "".equals(passWord.trim())) {
+			model.addAttribute("result", "密码不能为空！");
+			return "login";
+		}
+		//getAttribute("bean")
+		MerchantInfo resultUser = new MerchantInfo();
 		String generateCheckCode = (String) session.getAttribute("CheckCode");
-
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("userLogin", userLogin);
+		map.put("passWord", passWord);
 		if (generateCheckCode == null || !generateCheckCode.equalsIgnoreCase(checkcode)) {
 			model.addAttribute("result", "验证码不正确！");// info_checkcode
 			return "login";
 		} else {
-			System.out.println(userLogin + "\n" + passWord);
-			User resultUser = userService.weblogin(userLogin);
+			resultUser = userService.getUserLogin(map);
 			if (null != resultUser) {
-				if (("0").equals(resultUser.getUser_type())) {
-					if (resultUser.getPassWord().equals(Md5.getVal_UTF8(passWord))) {
-						User session_user = userService.usermsg(userLogin);
-						session.setAttribute("bean", session_user);
-
-						Login_User.setUser_id(resultUser.getUser_id());
-						Login_User.setLogin_state(Constants.USER_LOGIN);
-						userService.update_login_state(Login_User);
-						session.setAttribute("UrlList", resourceService.findResource_idByUser_Role_Type(1));
-						return "redirect:/admin/store/list";
-					} else {
-
-						model.addAttribute("result", "账号或密码错误，请重试");
-						return "login";
-					}
-
-				} else if (("1").equals(resultUser.getUser_type())) {//管理员
-					if (resultUser.getPassWord().equals(Md5.getVal_UTF8(passWord))) {
-						User session_user = userService.usermsg(userLogin);
-
-						session.setAttribute("bean", session_user);
-						session.setAttribute("UrlList", resourceService.findResource_idByUser_Role_Type(1));
-
-						return "redirect:/admin/store/list";
-					} else {
-
-						model.addAttribute("result", "账号或密码错误，请重试");
-						return "login";
-					}
-				} else if (("2").equals(resultUser.getUser_type())) {//商家
-					if (("2").equals(resultUser.getUser_state())) { // 正常用户
-
-						if (resultUser.getPassWord().equals(Md5.getVal_UTF8(passWord))) {
-							User session_user = userService.findmerchantByuserlogin(userLogin);
-							session.setAttribute("bean", session_user);
-							Login_User.setUser_id(resultUser.getUser_id());
-							Login_User.setLogin_state(Constants.USER_LOGIN);
-							userService.update_login_state(Login_User);
-							session.setAttribute("UrlList", resourceService.findResource_idByUser_Role_Type(2));
-
-							return "redirect:/merchant/store/selStoreByUser_id";
-						} else {
-
-							model.addAttribute("result", "账号或密码错误，请重试");
-							return "login";
-						}
-					} else {
-						// 违规用户
-						model.addAttribute("result", "该用户已被暂停使用");
-						return "login";
-					}
-				}else{
+				if ("0".equals(resultUser.getUser_type())) { // 管理员
+					session.setAttribute("bean", resultUser);
+					session.setAttribute("UrlList", resourceService.findResource_idByUser_Role_Type(1));
+					return "redirect:/admin/store/list";
+				} else if ("1".equals(resultUser.getUser_type())) {// 管理员
+					session.setAttribute("bean", resultUser);
+					session.setAttribute("UrlList", resourceService.findResource_idByUser_Role_Type(1));
+					return "redirect:/admin/store/list";
+				} else if ("2".equals(resultUser.getUser_type()) && "2".equals(resultUser.getUser_state())) {// 商家
+					// 正常用户
+					session.setAttribute("bean", resultUser);
+					session.setAttribute("UrlList", resourceService.findResource_idByUser_Role_Type(2));
+					return "redirect:/merchant/store/selStoreByUser_id";
+				} else if ("2".equals(resultUser.getUser_type()) && !"2".equals(resultUser.getUser_state())) {
+					// 违规用户
+					model.addAttribute("result", "该用户已被暂停使用");
+					return "login";
+				} else {
 					model.addAttribute("result", "该用户无法使用后台管理平台");
 					return "login";
 				}
-
-				
-			}else{
+			} else {
 				model.addAttribute("result", "账号或密码错误，请重试");
 				return "login";
 			}
 		}
-
 	}
+
+	// @RequestMapping(value = "login", method = RequestMethod.POST)
+	// public String login(Model model, String checkcode, String userLogin,
+	// String passWord, HttpSession session) {
+	// User Login_User = new User();
+	// String generateCheckCode = (String) session.getAttribute("CheckCode");
+	//
+	// if (generateCheckCode == null ||
+	// !generateCheckCode.equalsIgnoreCase(checkcode)) {
+	// model.addAttribute("result", "验证码不正确！");// info_checkcode
+	// return "login";
+	// } else {
+	// System.out.println(userLogin + "\n" + passWord);
+	// User resultUser = userService.weblogin(userLogin);
+	// if (null != resultUser) {
+	// if (("0").equals(resultUser.getUser_type())) {
+	// if (resultUser.getPassWord().equals(Md5.getVal_UTF8(passWord))) {
+	// User session_user = userService.usermsg(userLogin);
+	// session.setAttribute("bean", session_user);
+	//
+	// Login_User.setUser_id(resultUser.getUser_id());
+	// Login_User.setLogin_state(Constants.USER_LOGIN);
+	// userService.update_login_state(Login_User);
+	// session.setAttribute("UrlList",
+	// resourceService.findResource_idByUser_Role_Type(1));
+	// return "redirect:/admin/store/list";
+	// } else {
+	//
+	// model.addAttribute("result", "账号或密码错误，请重试");
+	// return "login";
+	// }
+	//
+	// } else if (("1").equals(resultUser.getUser_type())) {//管理员
+	// if (resultUser.getPassWord().equals(Md5.getVal_UTF8(passWord))) {
+	// User session_user = userService.usermsg(userLogin);
+	//
+	// session.setAttribute("bean", session_user);
+	// session.setAttribute("UrlList",
+	// resourceService.findResource_idByUser_Role_Type(1));
+	//
+	// return "redirect:/admin/store/list";
+	// } else {
+	//
+	// model.addAttribute("result", "账号或密码错误，请重试");
+	// return "login";
+	// }
+	// } else if (("2").equals(resultUser.getUser_type())) {//商家
+	// if (("2").equals(resultUser.getUser_state())) { // 正常用户
+	//
+	// if (resultUser.getPassWord().equals(Md5.getVal_UTF8(passWord))) {
+	// User session_user = userService.findmerchantByuserlogin(userLogin);
+	// session.setAttribute("bean", session_user);
+	// Login_User.setUser_id(resultUser.getUser_id());
+	// Login_User.setLogin_state(Constants.USER_LOGIN);
+	// userService.update_login_state(Login_User);
+	// session.setAttribute("UrlList",
+	// resourceService.findResource_idByUser_Role_Type(2));
+	//
+	// return "redirect:/merchant/store/selStoreByUser_id";
+	// } else {
+	//
+	// model.addAttribute("result", "账号或密码错误，请重试");
+	// return "login";
+	// }
+	// } else {
+	// // 违规用户
+	// model.addAttribute("result", "该用户已被暂停使用");
+	// return "login";
+	// }
+	// }else{
+	// model.addAttribute("result", "该用户无法使用后台管理平台");
+	// return "login";
+	// }
+	//
+	//
+	// }else{
+	// model.addAttribute("result", "账号或密码错误，请重试");
+	// return "login";
+	// }
+	// }
+	// }
 
 	/**
 	 * 用户退出
@@ -137,16 +192,15 @@ public class LoginController {
 	@RequestMapping(value = "logout", method = RequestMethod.GET)
 	public String logout(HttpSession session) {
 		/*
-		 * User user = (User) session.getAttribute("bean");
-		if (user != null) {
-			System.out.println("用户退出");
-			User LoginUser = new User();
-			LoginUser.setUser_id(user.getUser_id());
-			LoginUser.setLogin_state(Constants.USER_LOGOUT);
-			userService.update_login_state(LoginUser);
-			session.removeAttribute("bean");
-			
-		}*/
+		 * User user = (User) session.getAttribute("bean"); if (user != null) {
+		 * System.out.println("用户退出"); User LoginUser = new User();
+		 * LoginUser.setUser_id(user.getUser_id());
+		 * LoginUser.setLogin_state(Constants.USER_LOGOUT);
+		 * userService.update_login_state(LoginUser);
+		 * session.removeAttribute("bean");
+		 * 
+		 * }
+		 */
 		session.invalidate();
 		return "redirect:execute";
 	}

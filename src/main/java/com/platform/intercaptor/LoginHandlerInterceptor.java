@@ -2,12 +2,15 @@ package com.platform.intercaptor;
 
 import java.io.PrintWriter;
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+
 import com.platform.common.contants.Constants;
-import com.platform.entity.User;
+import com.platform.entity.MerchantInfo;
 
 
 
@@ -23,7 +26,7 @@ public class LoginHandlerInterceptor extends HandlerInterceptorAdapter{
 			return true;
 		}else{
 			HttpSession session = request.getSession();
-			User user = (User)session.getAttribute("bean");
+			MerchantInfo user = (MerchantInfo)session.getAttribute("bean");
 			if(user==null){
 				response.sendRedirect(request.getContextPath()+"/admin/execute");
 				System.out.println("没有登录，请登录");
@@ -32,16 +35,13 @@ public class LoginHandlerInterceptor extends HandlerInterceptorAdapter{
 				String user_role_type=user.getUser_type();//根据用户类别获得用户的权限
 				System.out.println("用户的权限"+user_role_type);
 				//List<String> resourceslist=resourceService.findResource_idByUser_Role_Type(Integer.valueOf(user_role_type));
-				List<String> resourceslist=null;
-				resourceslist=(List<String>) session.getAttribute("UrlList");
-				System.out.println("获得的资源路径"+resourceslist);
+				List<String> resourceslist=(List<String>) session.getAttribute("UrlList");
 				for(String resourceUrl : resourceslist){
 						if(path.contains(resourceUrl)){
 							System.out.println("满足条件的路径"+path);
 							return true;
 						}
 				}
-				
 				PrintWriter out=response.getWriter();
 				out.println("抱歉，您没有权限访问该资源！");
 				out.close();

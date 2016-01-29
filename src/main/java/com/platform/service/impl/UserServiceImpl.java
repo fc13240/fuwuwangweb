@@ -20,6 +20,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.platform.common.contants.Constants;
 import com.platform.common.utils.Md5;
 import com.platform.common.utils.UUIDUtil;
+import com.platform.entity.MerchantInfo;
 import com.platform.entity.Order;
 import com.platform.entity.Order_time;
 import com.platform.entity.User;
@@ -514,4 +515,23 @@ public class UserServiceImpl implements UserService {
 		
 		return 	mapper.findmerchantByuserlogin(userLogin);
 	}
+	
+	/**
+	 * 用户登录
+	 * @param map
+	 * @return
+	 */
+	@Override
+	public MerchantInfo getUserLogin(Map<String,String> map){
+		return mapper.getUserLogin(map);
+	}
+	
+	/**
+	 * 添加商人
+	 * @param merchantInfo
+	 */
+	public void addMerchant(MerchantInfo merchantInfo){
+		mapper.addMerchant(merchantInfo);
+	}
+	
 }

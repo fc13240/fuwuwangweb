@@ -21,6 +21,7 @@ import com.github.pagehelper.PageInfo;
 import com.platform.common.contants.Constants;
 import com.platform.entity.Goods;
 import com.platform.entity.GoodsRecommend;
+import com.platform.entity.MerchantInfo;
 import com.platform.entity.User;
 import com.platform.entity.vo.GoodsForWeb;
 import com.platform.entity.vo.GoodsRecommendVo;
@@ -91,7 +92,6 @@ public class AdminGoodsController extends BaseController {
 			pageSize = Constants.PAGE_SIZE;
 		
 		Page<GoodsForWeb> goods = new Page<GoodsForWeb>();
-		User user=(User) session.getAttribute("bean");
 		PageHelper.startPage(pageNum, pageSize);
 		goods = goodsService.selectGoodsByGoods_state(goods_state);
 		System.out.println("结果 ：" + goods);
@@ -111,11 +111,11 @@ public class AdminGoodsController extends BaseController {
 	@RequestMapping(value="checkgoods_pass", method= RequestMethod.POST)
 	public String checkgoods_pass(Model model, String goods_id,HttpSession session)
 			throws Exception{
-		User user=(User) session.getAttribute("bean");
+		MerchantInfo user=(MerchantInfo) session.getAttribute("bean");
 		Goods goods = new Goods();
 		goods.setGoods_id(goods_id);
 		goods.setGoods_check_state(Constants.GOODS_ACTIVE);
-		goods.setGoods_check_user(user.getUser_id());
+		goods.setGoods_check_user(user.getUserLogin());
 		goods.setGoods_delete_state(Constants.GOODS_NORMAL);
 		goods.setGoods_putaway_state(Constants.GOODS_PUTAWAY_FAIL);
 		goodsService.updatecheckgoods(goods);
@@ -124,11 +124,11 @@ public class AdminGoodsController extends BaseController {
 	@RequestMapping(value="checkgoods_fail", method= RequestMethod.POST)
 	public String checkgoods_fail(Model model, String goods_id,HttpSession session)
 			throws Exception{	 	
-		User user=(User) session.getAttribute("bean");
+		MerchantInfo user=(MerchantInfo) session.getAttribute("bean");
 		Goods goods = new Goods();
 		goods.setGoods_id(goods_id);
 		goods.setGoods_check_state(Constants.GOODS_FAILURE);
-		goods.setGoods_check_user(user.getUser_id());
+		goods.setGoods_check_user(user.getUserLogin());
 		goods.setGoods_delete_state(Constants.GOODS_NORMAL);
 		goods.setGoods_putaway_state(Constants.GOODS_PUTAWAY_WAIT);
 		goodsService.updatecheckgoods(goods);

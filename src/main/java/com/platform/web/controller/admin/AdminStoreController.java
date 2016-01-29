@@ -18,6 +18,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.platform.common.contants.Constants;
 import com.platform.common.utils.DateUtil;
+import com.platform.entity.MerchantInfo;
 import com.platform.entity.Order;
 import com.platform.entity.Store_state;
 import com.platform.entity.User;
@@ -86,11 +87,11 @@ public class AdminStoreController {
 	
 	@RequestMapping(value = "auditsuccess", method = RequestMethod.POST)
 	public String checkstore(Model model,String store_id, HttpSession session) throws Exception {
-		User u = (User) session.getAttribute("bean");
+		MerchantInfo u=(MerchantInfo) session.getAttribute("bean");
 		Store_state state = new Store_state();
 		state.setStore_id(store_id);
 		state.setStore_state(Constants.STORE_ACTIVE);
-		state.setCheck_user_id(u.getUser_id());
+		state.setCheck_user_id(u.getUserLogin());
 		storeService.updateStoreState(state);
 		System.out.println("执行审核通过"+"  "+"状态："+state+" "+"店铺："+store_id+"  "+"用户："+u);
 		return "redirect:/admin/store/list";
@@ -98,11 +99,11 @@ public class AdminStoreController {
 		}
 	@RequestMapping(value = "auditfail", method = RequestMethod.POST)
 	public String auditfail(Model model,String store_id, HttpSession session) throws Exception {
-		User u = (User) session.getAttribute("bean");
+		MerchantInfo u=(MerchantInfo) session.getAttribute("bean");
 		Store_state state = new Store_state();
 		state.setStore_id(store_id);
 		state.setStore_state(Constants.STORE_FAILURE);
-		state.setCheck_user_id(u.getUser_id());
+		state.setCheck_user_id(u.getUserLogin());
 		storeService.updateStoreState(state);
 		System.out.println("执行拒绝审核"+"  "+"状态："+state+" "+"店铺："+store_id+"  "+"用户："+u);
 		return "redirect:/admin/store/list";
@@ -110,11 +111,11 @@ public class AdminStoreController {
 	}
 	@RequestMapping(value = "lockstore", method = RequestMethod.POST)
 	public String lockstore(Model model,String store_id, HttpSession session) throws Exception {
-		User u = (User) session.getAttribute("bean");
+		MerchantInfo u=(MerchantInfo) session.getAttribute("bean");
 		Store_state state = new Store_state();
 		state.setStore_id(store_id);
 		state.setStore_state(Constants.STORE_LOCK);
-		state.setCheck_user_id(u.getUser_id());
+		state.setCheck_user_id(u.getUserLogin());
 		storeService.updateStoreState(state);
 		System.out.println("执行锁定店铺"+"  "+"状态："+state+" "+"店铺："+store_id+"  "+"用户："+u);
 		return "redirect:/admin/store/list";
@@ -122,10 +123,10 @@ public class AdminStoreController {
 	}
 	@RequestMapping(value = "activitystore", method = RequestMethod.POST)
 	public String activitystore(Model model,String store_id, HttpSession session) throws Exception {
-		User u = (User) session.getAttribute("bean");
+		MerchantInfo u=(MerchantInfo) session.getAttribute("bean");
 		Store_state state = new Store_state();
 		state.setStore_id(store_id);
-		state.setCheck_user_id(u.getUser_id());
+		state.setCheck_user_id(u.getUserLogin());
 		state.setStore_state(Constants.STORE_ACTIVE);
 		storeService.updateStoreState(state);
 		System.out.println("执行解锁店铺"+"  "+"状态："+state+" "+"店铺："+store_id+"  "+"用户："+u);

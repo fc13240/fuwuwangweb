@@ -3,6 +3,7 @@ package com.platform.mapper;
 import java.util.List;
 import java.util.Map;
 
+import com.platform.entity.MerchantInfo;
 import com.platform.entity.User;
 
 /**
@@ -33,6 +34,8 @@ public interface UserMapper {
 
 	/** 验证 商人是否 存在 *********/
 	public User selectUserlogin(String userLogin);
+	
+
 
 	/** 验证 专员 是否 存在 *********/
 	public String selectUser_merchant_account(String merchant_account);
@@ -128,4 +131,16 @@ public interface UserMapper {
 	public User getUserInforByUserNameAndCode(Map<String,String> map);
 	
 	
+	/**
+	 * 用户登录
+	 * @param map
+	 * @return
+	 */
+	public MerchantInfo getUserLogin(Map<String,String> map);
+	
+	/**
+	 * 添加商人
+	 * @param merchantInfo
+	 */
+	public void addMerchant(MerchantInfo merchantInfo);
 }

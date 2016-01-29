@@ -106,6 +106,16 @@
 		#{userLogin}
 	</select>
 
+	<!-- 登录 -->
+	<select id="getUserLogin" parameterType="java.util.Map"
+		resultType="com.platform.entity.MerchantInfo">
+		SELECT * FROM t_merchant_info tmi 
+		WHERE tmi.`userLogin`=#{userLogin}
+		AND tmi.`password`= #{userLogin}
+	</select>
+	
+
+
 	<select id="selectUser_merchant_account" parameterType="String"
 		resultType="String">
 
@@ -273,6 +283,21 @@
 		WHERE (tu.user_state='2' OR tu.user_state='1')
 		
 	</sql>
+	
+
+
+	<!-- WEB 商人注册_t_merchant_info -->
+	<insert id="addMerchant" parameterType="com.platform.entity.MerchantInfo"
+		keyProperty="merchant_id">
+		INSERT INTO
+		t_merchant_info
+		(user_id,merchant_desc,merchant_add_user,merchant_add_time,merchant_phone,
+		service_man,merchant_account,merchant_type,userLogin,user_type,user_state,passWord,createDate)
+		VALUES
+		(#{user_id},#{merchant_desc},#{merchant_add_user},now(),#{merchant_phone},
+		#{service_man},#{merchant_account},#{merchant_type},#{userLogin},#{user_type},#{user_state},#{passWord},now())
+	</insert>
+
 
 
 </mapper>
