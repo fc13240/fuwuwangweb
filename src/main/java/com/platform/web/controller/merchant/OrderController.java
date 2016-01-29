@@ -5,11 +5,8 @@ import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import com.platform.entity.Return_ticket;
 
-import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -29,8 +26,8 @@ import com.platform.common.contants.Constants;
 import com.platform.common.utils.DateUtil;
 import com.platform.entity.Order;
 import com.platform.entity.Order_time;
+import com.platform.entity.Return_ticket;
 import com.platform.entity.User;
-import com.platform.entity.vo.OrderVo;
 import com.platform.service.OrderService;
 
 @Controller
@@ -173,20 +170,32 @@ public class OrderController {
 	/*** 查所有会员 没有返券的订单 **/
 	@RequestMapping(value = "fanquan", method = RequestMethod.GET)
 	public String fanquan(Model model,HttpSession session) {
-User user=(User) session.getAttribute("bean");
-		List<OrderVo> lorder = orderService.selectUseVip_fanquan(user.getUser_id());
-		System.out.println("输出所有的订单 ：" + lorder);
+		User user=(User) session.getAttribute("bean");
+		List<Order> lorder = orderService.selectUseVip_fanquan(user.getUser_id(),Constants.ORDER_RETURN_NUMBER_STATE_02);
 		model.addAttribute("order", lorder);
 
+		model.addAttribute("return_number_state", Constants.ORDER_RETURN_NUMBER_STATE_02);
 		return "merchant/order/fanquan";
 
 	}
+	/*** 查所有会员返券的订单根据返券状态 **/
+	@RequestMapping(value = "zhaofanquan", method = RequestMethod.GET)
+	public String zhaofanquan(Model model,HttpSession session,Integer return_number_state) {
+		User user=(User) session.getAttribute("bean");
+		List<Order> lorder = orderService.selectUseVip_fanquan(user.getUser_id(),return_number_state);
+		System.out.println("输出所有的订单 ：" + lorder);
+		model.addAttribute("order", lorder);
+		model.addAttribute("return_number_state", return_number_state);
+		
+		return "merchant/order/fanquan";
+		
+	}
 
 	/***** 给 会员返券 ******/
-	@RequestMapping(value = "Return_ticket", method = RequestMethod.GET)
+	@RequestMapping(value = "Return_ticket", method = RequestMethod.POST)
 	public String Return_ticket(HttpServletRequest request, String order_id, String pay_password, HttpSession session) {
 
-		System.out.println("返券：  订单的ID ：" + order_id + "  商人的支付密码 ： " + pay_password);
+		//System.out.println("返券：  订单的ID ：" + order_id + "  商人的支付密码 ： " + pay_password);
 
 		User user = (User) session.getAttribute("bean");
 		System.out.println("session : 商人 agui ：" + user);
