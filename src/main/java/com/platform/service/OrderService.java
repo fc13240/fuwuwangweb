@@ -7,6 +7,7 @@ import com.platform.entity.Json_send;
 import com.platform.entity.Order;
 import com.platform.entity.Pay_info;
 import com.platform.entity.Return_ticket;
+import com.platform.entity.vo.OrderVo;
 import com.platform.entity.Order_time;
 
 public interface OrderService {
@@ -75,7 +76,7 @@ public interface OrderService {
 	/**
 	 * 商人 查所有的 未返券的订单
 	 */
-	public List<Order> selectUseVip_fanquan(String user_id);
+	public List<OrderVo> selectUseVip_fanquan(String user_id);
 
 	/**
 	 * 获取 下单用户的 帐号 和 返券数量
