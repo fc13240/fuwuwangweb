@@ -22,7 +22,6 @@ import com.platform.common.contants.Constants;
 import com.platform.entity.Goods;
 import com.platform.entity.GoodsRecommend;
 import com.platform.entity.MerchantInfo;
-import com.platform.entity.User;
 import com.platform.entity.vo.GoodsForWeb;
 import com.platform.entity.vo.GoodsRecommendVo;
 import com.platform.service.GoodsService;

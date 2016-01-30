@@ -186,6 +186,7 @@ public class AdminUserController {
 			merchantInfo.setUser_state(Constants.USER_ACTIVE);
 			merchantInfo.setUser_id(UUIDUtil.getRandom32PK());
 			merchantInfo.setUser_type(Constants.USER_STORE);
+			merchantInfo.setLogin_state(1);
 			merchantInfo.setUserLogin(userLogin);
 			merchantInfo.setPassWord(Md5.getVal_UTF8(password));
 			merchantInfo.setMerchant_add_user(userbean.getUserLogin()); // 办理人 的

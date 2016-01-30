@@ -114,8 +114,8 @@
 								<td align="center">￥<fmt:formatNumber value="${list.goods_price/100}"
 										pattern="#,##0.00#" /></td>
 								<td align="center">${list.goods_price_LB}</td>
-								<td align="left">${list.store_name}</td>
-								<td id="text_${list.goods_id}" align="left"><c:if
+								<td align="center">${list.store_name}</td>
+								<td id="text_${list.goods_id}" align="center"><c:if
 										test="${list.goods_check_state=='0'}">待审核</c:if> <c:if
 										test="${list.goods_check_state=='1'}">审核通过</c:if> <c:if
 										test="${list.goods_check_state=='2'}">审核未通过</c:if></td>

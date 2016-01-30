@@ -87,7 +87,7 @@
 								</td>
 
 							
-								<td id="text_${list.user_id}" align="left"><c:if
+								<td id="text_${list.user_id}" align="center"><c:if
 										test="${list.user_state=='2'}">活跃</c:if> <c:if
 										test="${list.user_state=='1'}">锁定</c:if> <c:if
 										test="${list.user_state=='3'}">删除</c:if></td>

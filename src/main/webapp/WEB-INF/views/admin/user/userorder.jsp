@@ -100,7 +100,7 @@ function checkdate(){
 								<c:if test="${list.order_state ==2}">未支付</c:if> <c:if
 									test="${list.order_state ==3}">未消费</c:if></td>
 
-							<td class="col-md-1" align="left"><c:if test="${list.pay_type ==1}">银联</c:if>
+							<td class="col-md-1" align="center"><c:if test="${list.pay_type ==1}">银联</c:if>
 								<c:if test="${list.pay_type ==2}">银联、龙币、电子币</c:if> <c:if
 									test="${list.pay_type ==3}">龙币、电子币</c:if></td>
 

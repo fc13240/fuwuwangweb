@@ -35,7 +35,7 @@
 								onclick="modifyEmp('${list.store_id}','${list.store_id}')">
 									${list.store_name} </a></td>
 							<td align="center">${list.store_phone}</td>
-										<td id="text_${list.store_id}" align="left"><c:if
+										<td id="text_${list.store_id}" align="center"><c:if
 										test="${list.store_state=='1'}">待审核</c:if> <c:if
 										test="${list.store_state=='3'}">正常运营</c:if> <c:if
 										test="${list.store_state=='4'}">审核未通过</c:if> <c:if
