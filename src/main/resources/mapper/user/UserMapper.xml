@@ -302,7 +302,6 @@
 		AND `password`= #{passWord}
 	</update>
 
-
 	<!-- 登录 -->
 	<select id="getUserLogin" parameterType="java.util.Map"
 		resultType="com.platform.entity.MerchantInfo">
@@ -311,6 +310,13 @@
 		AND tmi.`password`= #{passWord}
 	</select>
 	
+	<!-- 登录 -->
+	<select id="checkUserLoginIsExist" parameterType="String"
+		resultType="Integer">
+		SELECT COUNT(*) FROM t_merchant_info tmi 
+		WHERE tmi.`userLogin`=#{userLogin}
+		
+	</select>
 
 
 </mapper>

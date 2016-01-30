@@ -552,4 +552,13 @@ public class UserServiceImpl implements UserService {
 		return mapper.updatePassword(map);
 	}
 
+	/**
+	 * 判断用户是否存在
+	 * @param userLogin
+	 * @return
+	 */
+	public int checkUserLoginIsExist(String userLogin){
+		return mapper.checkUserLoginIsExist(userLogin);
+	}
+	
 }

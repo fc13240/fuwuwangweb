@@ -215,4 +215,11 @@ public interface UserService {
 	 */
 	public int updatePassword(Map<String,String> map);
 	
+	/**
+	 * 判断用户是否存在
+	 * @param userLogin
+	 * @return
+	 */
+	public int checkUserLoginIsExist(String userLogin);
+	
 }

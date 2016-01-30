@@ -23,6 +23,7 @@ import com.google.gson.Gson;
 import com.platform.common.contants.Constants;
 import com.platform.common.utils.DateUtil;
 import com.platform.common.utils.Md5;
+import com.platform.common.utils.ServiceAPI;
 import com.platform.common.utils.UUIDUtil;
 import com.platform.entity.MerchantInfo;
 import com.platform.entity.Order;
@@ -42,8 +43,6 @@ public class AdminUserController {
 	private UserService userService;
 
 	User user = new User();
-	OkHttpClient client = new OkHttpClient();
-	Gson gson = new Gson();
 
 	/**
 	 * 查看所有用户
@@ -170,27 +169,20 @@ public class AdminUserController {
 	@RequestMapping(value = "register_merchant", method = RequestMethod.POST)
 	public String register_merchant(HttpServletRequest request, String userLogin, String password, String password_agin,
 			String phone, String merchant_desc, String merchant_account, HttpSession session) throws Exception {
-		if (AppUserController.yanzheng_userLogin(userLogin).equals("请求错误")) {
-
-			request.setAttribute("info", "连接失败");
-			return "admin/user/addmerchant";
-		} else {
-			// 判断登陆账号和公司 帐号是否重复
-			if (!checkIsExist(userLogin).Successful) {
-				request.setAttribute("info", "帐号已存在");
-				return "admin/user/addmerchant";
-
-			}
-		}
 		// 本地帐号是否重复
-		User u = userService.selectUserlogin(userLogin);
-		if (null != u) {
-			System.out.println("管理员注册商人 ，本地这边验证帐号是否存在");
+		if (userService.checkUserLoginIsExist(userLogin)<=0) {
 			request.setAttribute("info", "帐号已存在");
 			return "admin/user/addmerchant";
 		}
+		//判断服务网帐号是否存在
+		BaseModel bm = ServiceAPI.checkIsExist(user.getUserLogin());
+		if (!bm.Successful) {
+			request.setAttribute("info", bm.Error);
+			return "admin/user/addmerchant";
+		}
 		// 判断服务网账号是否正确
-		if (null != merchant_account && checkIsExist(merchant_account).Successful) {
+		BaseModel bml = ServiceAPI.checkIsExist(merchant_account);
+		if (null != merchant_account && bml.Successful) {
 			request.setAttribute("info", "服务网帐号不存在");
 			return "admin/user/addmerchant";
 		}
@@ -309,50 +301,16 @@ public class AdminUserController {
 			throws Exception {
 		MerchantInfo user_2 = (MerchantInfo) session.getAttribute("bean");
 		if (null != user_2) {
-			
 			Map<String,String> map= new HashMap<>();
 			map.put("userLogin", user_2.getUserLogin());
 			map.put("password", Md5.getVal_UTF8(passWord));
 			map.put("newPassword", Md5.getVal_UTF8(newpass));
-			// 老密码正确
 			if (userService.updatePassword(map)>0) {
-
 				request.setAttribute("result", "修改成功");
 			} else {
 				request.setAttribute("result", "旧密码错误");
 			}
 		}
-
 		return "/admin/userinfo";
-	}
-
-	/**
-	 * 验证用户名是否存在
-	 * 
-	 * @param username
-	 *            用户名
-	 * @return
-	 */
-	public BaseModel checkIsExist(String username) {
-		String url = Constants.PATH + "Content/CheckUserLogin?ulogin=" + username;
-		BaseModel bm = null;
-		Request request = new Request.Builder().get().url(url).build();
-		try {
-			Response response = client.newCall(request).execute();
-			if (response.isSuccessful()) {
-				bm = gson.fromJson(response.body().string(), BaseModel.class);
-			} else {
-				bm = new BaseModel();
-				bm.Successful = false;
-				bm.Error = "服务器繁忙";
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			bm = new BaseModel();
-			bm.Successful = false;
-			bm.Error = "服务器繁忙";
-		}
-		return bm;
 	}
 }
