@@ -131,13 +131,13 @@
 	<!-- web根据Storename获取模糊查找 “店铺” 信息 -->
 	<select id="findstoreByname" parameterType="String"
 		resultType="com.platform.entity.vo.StoreForWeb">
-		select ts.*,tu.userLogin from t_store as ts,t_user as tu
+		select ts.*,tm.userLogin from t_store as ts,t_merchant_info as tm
 		WHERE ts.store_name LIKE CONCAT(CONCAT('%', #{store_name}), '%')
-		and ts.user_id=tu.user_id
+		and ts.user_id=tm.user_id
 	</select>
 	<select id="findstoreByNameAndCity_id" resultType="com.platform.entity.vo.StoreForWeb">
-		select ts.*,tu.userLogin from t_store as ts
-		join t_user as tu on ts.user_id=tu.user_id
+		select ts.*,tm.userLogin from t_store as ts
+		join t_merchant_info as tm on ts.user_id=tm.user_id
 		join t_street as tst on ts.street_id=tst.street_id
 		join t_region as tr on tr.region_id=tst.region_id
 		join t_city as tc on tc.city_id=tr.city_id
@@ -147,8 +147,8 @@
 
 	</select>
 	<select id="findStoreWebByStore_id" parameterType="String" resultType="com.platform.entity.vo.StoreForWeb">
-		select ts.*,tu.userLogin from t_store as ts
-		join t_user as tu on ts.user_id=tu.user_id
+		select ts.*,tm.userLogin from t_store as ts
+		join t_merchant_info as tu on ts.user_id=tm.user_id
 		join t_street as tst on ts.street_id=tst.street_id
 		join t_region as tr on tr.region_id=tst.region_id
 		WHERE ts.store_id=#{store_id}
@@ -189,7 +189,7 @@
 		JOIN    t_street as tst ON ts.street_id=tst.street_id
 		JOIN 	t_region as tr ON  tr.region_id=tst.region_id
 		JOIN	t_city as tc ON tc.city_id=tr.city_id
-		JOIN 	t_user as tu ON tu.user_id=ts.user_id
+		JOIN 	t_merchant_info as tu ON tu.user_id=ts.user_id
 		WHERE tst.street_id=#{street_id}
 		AND store_type2_id in
 		(SELECT store_type2_id FROM t_store_type2 WHERE
@@ -223,7 +223,7 @@
 		JOIN    t_street as tst ON ts.street_id=tst.street_id
 		JOIN 	t_region as tr ON  tr.region_id=tst.region_id
 		JOIN	t_city as tc ON tc.city_id=tr.city_id
-		JOIN 	t_user as tu ON tu.user_id=ts.user_id
+		JOIN 	t_merchant_info as tu ON tu.user_id=ts.user_id
 		WHERE ts.store_type2_id = #{store_type2_id}
 		and tu.user_state=2
 		and ts.store_state='3'
@@ -241,7 +241,7 @@
 		JOIN    t_street as tst ON ts.street_id=tst.street_id
 		JOIN 	t_region as tr ON  tr.region_id=tst.region_id
 		JOIN	t_city as tc ON tc.city_id=tr.city_id
-		JOIN 	t_user as tu ON tu.user_id=ts.user_id
+		JOIN 	t_merchant_info as tu ON tu.user_id=ts.user_id
 		WHERE ts.store_type2_id = #{store_type2_id} AND ts.street_id = #{street_id}
 		and tu.user_state=2	
 		and ts.store_state=3
@@ -256,7 +256,7 @@
 		JOIN t_street AS tst ON ts.street_id=tst.street_id
 		JOIN t_region AS tr ON tr.region_id=tst.region_id
 		JOIN t_city AS tc ON tc.city_id=tr.city_id
-		JOIN t_user AS tu ON
+		JOIN t_merchant_info AS tu ON
 		ts.user_id=tu.user_id
 		WHERE ts.store_id = #{store_id}
 		and ts.store_state='3'
@@ -298,7 +298,7 @@
 		,city.city_name,region.region_name,street.street_name,ts.store_address,tu.userLogin,ts.store_create_time
 		FROM t_store as ts
 		, t_store_type2 as st2,t_store_type1 as st1
-		,t_city as city,t_region as region,t_street as street,t_user as tu
+		,t_city as city,t_region as region,t_street as street,t_merchant_info as tu
 		where
 		ts.store_type2_id =st2.store_type2_id
 		and st1.store_type1_id=st2.store_type1_id
@@ -310,7 +310,7 @@
 	</select>
 	<select id="findStoreOrderByStatus" resultType="com.platform.entity.vo.StoreForWeb">
 		SELECT ts.*,tu.userLogin
-		from t_store as ts,t_user as tu
+		from t_store as ts,t_merchant_info as tu
 		where ts.user_id=tu.user_id 
 		and store_state!=4
 		order by store_state
@@ -346,7 +346,7 @@
 		JOIN t_region AS tr ON tr.region_id=tst.region_id
 		JOIN t_city AS tc ON
 		tc.city_id=tr.city_id
-		JOIN t_user AS tu ON tu.user_id =ts.user_id
+		JOIN t_merchant_info AS tu ON tu.user_id =ts.user_id
 		WHERE ts.store_state=3 and tu.user_state=2
 		<if test="cityName != null">
 			AND tc.city_name=#{cityName}
@@ -392,7 +392,7 @@
 		t_region AS tr ON tst.region_id=tr.region_id
 		JOIN t_city AS tc ON
 		tr.city_id=tc.city_id
-		JOIN t_user AS tu ON tu.user_id=ts.user_id
+		JOIN t_merchant_info AS tu ON tu.user_id=ts.user_id
 		WHERE ts.store_state=3 and tu.user_state=2
 		AND ts.store_name LIKE
 		CONCAT(CONCAT('%', #{searchName}),'%')
