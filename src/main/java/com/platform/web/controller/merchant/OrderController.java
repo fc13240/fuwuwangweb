@@ -27,6 +27,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.platform.common.contants.Constants;
 import com.platform.common.utils.DateUtil;
+import com.platform.entity.MerchantInfo;
 import com.platform.entity.Order;
 import com.platform.entity.Order_time;
 import com.platform.entity.Return_ticket;
@@ -56,8 +57,7 @@ public class OrderController {
 	public String order(Model model, @PathVariable String type, Integer pageNum, Integer pageSize,
 			HttpSession session) {
 
-		User u = (User) session.getAttribute("bean");
-		System.out.println("商人的ID ：" + u.getUser_id());
+		MerchantInfo u=(MerchantInfo) session.getAttribute("bean");
 		// 默认显示待审核状态
 		if (pageNum == null)
 			pageNum = 1;
@@ -68,21 +68,15 @@ public class OrderController {
 		List<Order> lOrders = new ArrayList<Order>();
 
 		if (type.equals("treated")) { // 当天已经处理的订单
-			System.out.println("当天已处理订单");
-
 			order.setOrder_state(Constants.ORDER_STATE_01);
 			order.setUser_id(u.getUser_id());
-			System.out.println("  时间 ： " + order.getOrder_time() + "  state :" + order.getOrder_state());
-
 			lOrders = orderService.findOrderBystate(order);
-
 			model.addAttribute("page", new PageInfo<Order>(lOrders));
 			return "merchant/order/treatedorderlist";
 		} else if (type.equals("untreated")) { // 当天未处理的订单
 			System.out.println("当天wei处理订单");
 			order.setUser_id(u.getUser_id());
 			order.setOrder_state(Constants.ORDER_STATE_02);
-			System.out.println("  时间 ： " + order.getOrder_time() + "  state :" + order.getOrder_state());
 			lOrders = orderService.findOrderBystate(order);
 		}
 		System.out.println(lOrders);
@@ -95,7 +89,7 @@ public class OrderController {
 	@RequestMapping(value = "selectorder", method = RequestMethod.GET)
 	public String selectorder(Model model, String trading_number,HttpSession session) {
 		System.out.println("订单——order_id");
-		User user=(User) session.getAttribute("bean");
+		MerchantInfo user=(MerchantInfo) session.getAttribute("bean");
 		Order lorders = orderService.findOrderBytrading_number(trading_number,user.getUser_id());
 		if(lorders!=null){
 			
@@ -128,7 +122,7 @@ public class OrderController {
 	public String oldorder(Model model, Integer pageNum, Integer pageSize, String order_time_start,
 			String order_time_end, HttpSession session) {
 
-		User u = (User) session.getAttribute("bean");
+		MerchantInfo u=(MerchantInfo) session.getAttribute("bean");
 		System.out.println("商人的ID ：" + u.getUser_id());
 		// 默认显示待审核状态
 		if (pageNum == null)
@@ -184,7 +178,7 @@ public class OrderController {
 	/*** 查所有会员 没有返券的订单 **/
 	@RequestMapping(value = "fanquan", method = RequestMethod.GET)
 	public String fanquan(Model model,HttpSession session) {
-		User user=(User) session.getAttribute("bean");
+		MerchantInfo user=(MerchantInfo) session.getAttribute("bean");
 		List<Order> lorder = orderService.selectUseVip_fanquan(user.getUser_id(),Constants.ORDER_RETURN_NUMBER_STATE_02);
 		model.addAttribute("order", lorder);
 
@@ -195,7 +189,7 @@ public class OrderController {
 	/*** 查所有会员返券的订单根据返券状态 **/
 	@RequestMapping(value = "zhaofanquan", method = RequestMethod.GET)
 	public String zhaofanquan(Model model,HttpSession session,Integer return_number_state) {
-		User user=(User) session.getAttribute("bean");
+		MerchantInfo user=(MerchantInfo) session.getAttribute("bean");
 		List<Order> lorder = orderService.selectUseVip_fanquan(user.getUser_id(),return_number_state);
 		System.out.println("输出所有的订单 ：" + lorder);
 		model.addAttribute("order", lorder);
@@ -211,14 +205,10 @@ public class OrderController {
 
 		//System.out.println("返券：  订单的ID ：" + order_id + "  商人的支付密码 ： " + pay_password);
 
-		User user = (User) session.getAttribute("bean");
-		System.out.println("session : 商人 agui ：" + user);
+		MerchantInfo user=(MerchantInfo) session.getAttribute("bean");
 		Return_ticket ort = orderService.selectfanquan_info(order_id);
-		//String successful = send_ticketInfo(ort); // 返券信息 发给公司
 		BaseModelJson<String> result=toMemberElectronicVoucher(ort.getReturn_mz(),ort.getReturn_number().toString(),ort.getUserLogin(),user.getMerchant_account(),pay_password);
-		//System.out.println(result.Error);
 		if (result.Successful) {
-
 			Order order = new Order();
 			order.setOrder_id(order_id);
 			order.setReturn_number_state(Constants.ORDER_RETURN_NUMBER_STATE_03);

@@ -23,6 +23,7 @@ import com.platform.common.contants.Constants;
 import com.platform.common.utils.UUIDUtil;
 import com.platform.common.utils.UploadUtil;
 import com.platform.entity.City;
+import com.platform.entity.MerchantInfo;
 import com.platform.entity.Region;
 import com.platform.entity.Store;
 import com.platform.entity.Store_state;
@@ -66,7 +67,7 @@ public class StoreController {
 		store.setStore_id(UUIDUtil.getRandom32PK());
 		store.setStore_name(store_name);
 		store.setStore_desc(store_desc);
-		User user=(User) session.getAttribute("bean");
+		MerchantInfo user=(MerchantInfo) session.getAttribute("bean");
 		store.setUser_id(user.getUser_id());
 		store.setStore_state(Constants.MERCHANT_WAIT);
 		store.setStreet_id(Integer.valueOf(street_id));
@@ -182,7 +183,7 @@ public class StoreController {
 			pageSize=Constants.PAGE_SIZE;
 			//pageSize = 2;
 		PageHelper.startPage(pageNum, pageSize, true);
-		User user=(User) session.getAttribute("bean");
+		MerchantInfo user=(MerchantInfo) session.getAttribute("bean");
 		List<Store> ls = storeService.findstoreByid(user.getUser_id());
 
 		model.addAttribute("page", new PageInfo<Store>(ls));

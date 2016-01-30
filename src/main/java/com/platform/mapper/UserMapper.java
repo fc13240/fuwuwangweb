@@ -142,5 +142,18 @@ public interface UserMapper {
 	 * 添加商人
 	 * @param merchantInfo
 	 */
-	public void addMerchant(MerchantInfo merchantInfo);
+	public int addMerchant(MerchantInfo merchantInfo);
+	
+	/**
+	 * 更新登录时间
+	 * @param merchantInfo
+	 */
+	public int updateLoginState(MerchantInfo merchantInfo);
+	
+	/**
+	 * 修改密码
+	 * @param map
+	 */
+	public int updatePassword(Map<String,String> map);
+	
 }

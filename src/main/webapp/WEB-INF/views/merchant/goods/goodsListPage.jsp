@@ -75,7 +75,7 @@
 </style>
 <!--body wrapper start-->
 <%
-	User user = (User) session.getAttribute("bean");
+	MerchantInfo user = (MerchantInfo) session.getAttribute("bean");
 	String user_id = user.getUser_id();
 	int merchant_type = user.getMerchant_type();
 %>

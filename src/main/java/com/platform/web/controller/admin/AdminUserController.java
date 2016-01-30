@@ -3,8 +3,9 @@ package com.platform.web.controller.admin;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -206,7 +207,6 @@ public class AdminUserController {
 																		// u.getUser_id()
 			merchantInfo.setMerchant_phone(phone);
 			merchantInfo.setMerchant_desc(merchant_desc);
-			merchantInfo.setCreateDate(new Date());
 			if (!"".equals(merchant_account)) {
 				merchantInfo.setMerchant_account(merchant_account);
 				merchantInfo.setMerchant_type(Constants.MERCHANT_TYPE_1);
@@ -307,24 +307,20 @@ public class AdminUserController {
 	@RequestMapping(value = "userinfo", method = RequestMethod.POST)
 	public String userinfo(HttpServletRequest request, HttpSession session, String passWord, String newpass)
 			throws Exception {
-		System.out.println("个人信息，进来了");
-		User u = new User();
 		MerchantInfo user_2 = (MerchantInfo) session.getAttribute("bean");
-		System.out.println(user_2);
 		if (null != user_2) {
-//			// 老密码正确
-//			if (Md5.getVal_UTF8(passWord).equals(user_2.getPassWord())) {
-//
-//				u.setUserLogin(user_2.getUserLogin());
-//				u.setPassWord(Md5.getVal_UTF8(newpass));
-//				userService.updatepass(u);
-//
-//				request.setAttribute("result", "修改成功");
-//
-//			} else {
-//
-//				request.setAttribute("result", "旧密码错误");
-//			}
+			
+			Map<String,String> map= new HashMap<>();
+			map.put("userLogin", user_2.getUserLogin());
+			map.put("password", Md5.getVal_UTF8(passWord));
+			map.put("newPassword", Md5.getVal_UTF8(newpass));
+			// 老密码正确
+			if (userService.updatePassword(map)>0) {
+
+				request.setAttribute("result", "修改成功");
+			} else {
+				request.setAttribute("result", "旧密码错误");
+			}
 		}
 
 		return "/admin/userinfo";

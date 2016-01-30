@@ -24,7 +24,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.platform.common.contants.Constants;
 import com.platform.common.utils.Md5;
 import com.platform.entity.MerchantInfo;
 import com.platform.entity.User;
@@ -70,7 +69,7 @@ public class LoginController {
 		String generateCheckCode = (String) session.getAttribute("CheckCode");
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("userLogin", userLogin);
-		map.put("passWord", passWord);
+		map.put("passWord", Md5.getVal_UTF8(passWord));
 		if (generateCheckCode == null || !generateCheckCode.equalsIgnoreCase(checkcode)) {
 			model.addAttribute("result", "验证码不正确！");// info_checkcode
 			return "login";
@@ -191,16 +190,6 @@ public class LoginController {
 	 */
 	@RequestMapping(value = "logout", method = RequestMethod.GET)
 	public String logout(HttpSession session) {
-		/*
-		 * User user = (User) session.getAttribute("bean"); if (user != null) {
-		 * System.out.println("用户退出"); User LoginUser = new User();
-		 * LoginUser.setUser_id(user.getUser_id());
-		 * LoginUser.setLogin_state(Constants.USER_LOGOUT);
-		 * userService.update_login_state(LoginUser);
-		 * session.removeAttribute("bean");
-		 * 
-		 * }
-		 */
 		session.invalidate();
 		return "redirect:execute";
 	}
