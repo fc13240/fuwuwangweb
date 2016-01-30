@@ -105,7 +105,7 @@ function getOrderByReturn_num_state() {
 										pattern="yyyy-MM-dd hh:mm:ss" />
 								</c:if></td>
 							<td class="col-md-3" align="center">
-							<c:if test="${return_num_state==2}">
+							<c:if test="${list.return_number_state==2}">
 								<form class="form-horizontal"
 									action="${pageContext.request.contextPath}/merchant/order/Return_ticket"
 									method="post">
