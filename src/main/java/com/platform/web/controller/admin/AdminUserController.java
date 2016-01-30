@@ -170,11 +170,11 @@ public class AdminUserController {
 	public String register_merchant(HttpServletRequest request, String userLogin, String password, String password_agin,
 			String phone, String merchant_desc, String merchant_account, HttpSession session) throws Exception {
 		// 本地帐号是否重复
-		if (userService.checkUserLoginIsExist(userLogin)<=0) {
+		if (userService.checkUserLoginIsExist(userLogin) <= 0) {
 			request.setAttribute("info", "帐号已存在");
 			return "admin/user/addmerchant";
 		}
-		//判断服务网帐号是否存在
+		// 判断服务网帐号是否存在
 		BaseModel bm = ServiceAPI.checkIsExist(user.getUserLogin());
 		if (!bm.Successful) {
 			request.setAttribute("info", bm.Error);
@@ -243,54 +243,38 @@ public class AdminUserController {
 		if (pageSize == null)
 			pageSize = Constants.PAGE_SIZE;
 		PageHelper.startPage(pageNum, pageSize, true);
-		List<User> MerchantList = new ArrayList<User>();
-		User merchant = new User();
+		List<MerchantInfo> MerchantList = new ArrayList<>();
+		MerchantInfo merchant = new MerchantInfo();
 		if ("mlist".equals(merchanttype)) {
-
-			MerchantList = userService.merchantlist();
+			MerchantList = userService.getMerchantList();
 		} else if (("search").equals(merchanttype)) {
-
-			MerchantList = userService.findMerchantByname(merchant_name);
-
-			System.out.println("name 查 用户" + MerchantList);
+			MerchantList = userService.findMerchantByUserLogin(merchant_name);
 		}
-
 		else if (("lockuser").equals(merchanttype)) {
-
-			System.out.println("传回的请求类别：" + merchanttype + "传回的userid:" + curUserId);
 			merchant.setUser_id(curUserId);
 			merchant.setUser_state(Constants.USER_LOCK);
-			userService.updateuser_state(merchant);
-			System.out.println("锁定用户成功");
+			userService.updateUserState(merchant);
 			return "redirect:/admin/user/merchant/mlist";
 
 		} else if (("activityuser").equals(merchanttype)) {
-			System.out.println("传回的请求类别：" + merchanttype + "传回的userid:" + curUserId);
 			merchant.setUser_id(curUserId);
 			merchant.setUser_state(Constants.USER_ACTIVE);
-			userService.updateuser_state(merchant);
-			System.out.println("解锁用户成功");
+			userService.updateUserState(merchant);
 			return "redirect:/admin/user/merchant/mlist";
 
 		} else if (("deluser").equals(merchanttype)) {
-			System.out.println("传回的请求类别：" + merchanttype + "传回的userid:" + curUserId);
 			merchant.setUser_id(curUserId);
 			merchant.setUser_state(Constants.USER_DELETE);
-			userService.updateuser_state(merchant);
-			System.out.println("删除用户成功");
+			userService.updateUserState(merchant);
 			return "redirect:/admin/user/merchant/mlist";
-
 		}
-
 		List<String> params = new ArrayList<String>();
 		if (merchant_name != null && merchant_name.length() != 0) {
 			String param1 = "merchant_name=" + merchant_name + "&";
 			params.add(param1);
 		}
-
 		model.addAttribute("params", params);
-
-		model.addAttribute("page", new PageInfo<User>(MerchantList));
+		model.addAttribute("page", new PageInfo<MerchantInfo>(MerchantList));
 
 		return "/admin/user/merchantlist";
 	}
@@ -301,11 +285,11 @@ public class AdminUserController {
 			throws Exception {
 		MerchantInfo user_2 = (MerchantInfo) session.getAttribute("bean");
 		if (null != user_2) {
-			Map<String,String> map= new HashMap<>();
+			Map<String, String> map = new HashMap<>();
 			map.put("userLogin", user_2.getUserLogin());
 			map.put("password", Md5.getVal_UTF8(passWord));
 			map.put("newPassword", Md5.getVal_UTF8(newpass));
-			if (userService.updatePassword(map)>0) {
+			if (userService.updatePassword(map) > 0) {
 				request.setAttribute("result", "修改成功");
 			} else {
 				request.setAttribute("result", "旧密码错误");

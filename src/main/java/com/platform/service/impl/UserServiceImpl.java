@@ -561,4 +561,30 @@ public class UserServiceImpl implements UserService {
 		return mapper.checkUserLoginIsExist(userLogin);
 	}
 	
+	/**
+	 * 获取商人列表
+	 * @return
+	 */
+	@Override
+	public List<MerchantInfo> getMerchantList(){
+		return mapper.getMerchantList();
+	}
+	
+	/**
+	 * 根据帐号模糊查找商人
+	 * @param merchant_name
+	 * @return
+	 */
+	public List<MerchantInfo> findMerchantByUserLogin(String userLogin){
+		return mapper.findMerchantByUserLogin(userLogin);
+	}
+	
+	/**
+	 * 用户锁定，解锁，删除 
+	 * @param merchantInfo
+	 * @return
+	 */
+	public int updateUserState(MerchantInfo merchantInfo){
+		return mapper.updateUserState(merchantInfo);
+	}
 }

@@ -221,5 +221,25 @@ public interface UserService {
 	 * @return
 	 */
 	public int checkUserLoginIsExist(String userLogin);
+
+	/**
+	 * 获取商人列表
+	 * @return
+	 */
+	List<MerchantInfo> getMerchantList();
 	
+	
+	/**
+	 * 根据帐号模糊查找商人
+	 * @param merchant_name
+	 * @return
+	 */
+	List<MerchantInfo> findMerchantByUserLogin(String userLogin);
+	
+	/**
+	 * 用户锁定，解锁，删除 
+	 * @param merchantInfo
+	 * @return
+	 */
+	int updateUserState(MerchantInfo merchantInfo);
 }

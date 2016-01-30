@@ -163,4 +163,24 @@ public interface UserMapper {
 	 */
 	public int checkUserLoginIsExist(String userLogin);
 	
+	/**
+	 * 获取商人列表
+	 * @return
+	 */
+	public List<MerchantInfo> getMerchantList();
+	
+	/**
+	 * 根据帐号模糊查找商人
+	 * @param merchant_name
+	 * @return
+	 */
+	public List<MerchantInfo> findMerchantByUserLogin(String userLogin);
+	
+	/**
+	 * 用户锁定，解锁，删除 
+	 * @param merchantInfo
+	 * @return
+	 */
+	public int updateUserState(MerchantInfo merchantInfo);
+	
 }

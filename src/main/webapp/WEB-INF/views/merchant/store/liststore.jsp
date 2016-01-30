@@ -31,7 +31,7 @@
 								width="80" height="80"><br> <a data-toggle="modal"
 								data-target="#changeImg"
 								onclick="getgoods_id('${list.store_id}')">点击修改</a></td>
-							<td align="left"><a data-toggle="modal" data-target="#infoModal"
+							<td align="center"><a data-toggle="modal" data-target="#infoModal"
 								onclick="modifyEmp('${list.store_id}','${list.store_id}')">
 									${list.store_name} </a></td>
 							<td align="center">${list.store_phone}</td>

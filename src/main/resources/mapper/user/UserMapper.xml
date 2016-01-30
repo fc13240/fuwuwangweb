@@ -310,13 +310,38 @@
 		AND tmi.`password`= #{passWord}
 	</select>
 	
-	<!-- 登录 -->
+	<!-- 查看用户名是否存在 -->
 	<select id="checkUserLoginIsExist" parameterType="String"
 		resultType="Integer">
 		SELECT COUNT(*) FROM t_merchant_info tmi 
 		WHERE tmi.`userLogin`=#{userLogin}
 		
 	</select>
-
+	<!-- 查询商人列表-->
+	<select id="getMerchantList" resultType="com.platform.entity.MerchantInfo">
+		SELECT * FROM t_merchant_info tmi 
+		WHERE tmi.user_type='2'
+		ORDER BY merchant_type DESC, merchant_add_time DESC
+	</select>
+	
+	<!-- 查询商人列表-->
+	<select id="findMerchantByUserLogin" parameterType="String" resultType="com.platform.entity.MerchantInfo">
+		SELECT * FROM t_merchant_info tmi 
+		WHERE tmi.user_type='2'
+		AND tmi.userLogin LIKE
+		CONCAT(CONCAT('%', #{userLogin}), '%')
+		ORDER BY merchant_type DESC, merchant_add_time DESC
+	</select>
+	
+	<!--用户锁定，解锁，删除 -->
+	<update id="updateUserState" parameterType="com.platform.entity.MerchantInfo">
+		UPDATE t_merchant_info
+		<set>
+			<if test="user_state != null and user_state !='' ">
+				user_state = #{user_state}
+			</if>
+		</set>
+		WHERE user_id = #{user_id}
+	</update>
 
 </mapper>

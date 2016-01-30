@@ -164,13 +164,13 @@
 									width="80px" height="80px" /> <br> <a data-toggle="modal"
 									data-target="#updateImg"
 									onclick="getgoods_id('${list.goods_id}')">点击修改</a></td>
-								<td align="left"><a data-toggle="modal" data-target="#infoModal"
+								<td align="center"><a data-toggle="modal" data-target="#infoModal"
 									onclick="modifyEmp1('${list.goods_id}','1')">${list.goods_name}
 								</a></td>
-								<td align="right">￥<fmt:formatNumber value="${list.goods_price/100}"
+								<td align="center">￥<fmt:formatNumber value="${list.goods_price/100}"
 										pattern="#,###,##0.00#" /></td>
-								<td align="right">${list.goods_price_LB}</td>
-								<td align="left">${list.store_name}</td>
+								<td align="center">${list.goods_price_LB}</td>
+								<td align="center">${list.store_name}</td>
 										<td id="text_${list.goods_id}" align="left"><c:if
 										test="${list.goods_putaway_state=='0'}">未上架</c:if> <c:if
 										test="${list.goods_putaway_state=='1'}">已上架</c:if> <c:if
