@@ -148,7 +148,7 @@
 	</select>
 	<select id="findStoreWebByStore_id" parameterType="String" resultType="com.platform.entity.vo.StoreForWeb">
 		select ts.*,tm.userLogin from t_store as ts
-		join t_merchant_info as tu on ts.user_id=tm.user_id
+		join t_merchant_info as tm on ts.user_id=tm.user_id
 		join t_street as tst on ts.street_id=tst.street_id
 		join t_region as tr on tr.region_id=tst.region_id
 		WHERE ts.store_id=#{store_id}
