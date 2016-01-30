@@ -105,6 +105,24 @@
 								<c:if test="${not empty list.order_time}">
 									<fmt:formatDate value="${list.order_time}"
 										pattern="yyyy-MM-dd hh:mm:ss" />
+
+								</c:if></td>
+							<td class="col-md-3" align="center">
+							<c:if test="${list.return_number_state==2}">
+								<form class="form-horizontal"
+									action="${pageContext.request.contextPath}/merchant/order/Return_ticket"
+									method="post">
+									<input id="order_id" name="order_id" value="${list.order_id}"
+										type="hidden" />
+									<div class="col-md-8">
+										<input type="password" class="form-control " name="pay_password"
+											placeholder="请输入支付密码" />
+									</div>
+									<input type="submit" class="btn btn-success " value="返券" 
+										onclick="return fanquan('${list.order_id}')" />
+
+								</form>
+
 								</c:if>
 							</td>
 							<td class="col-md-3" align="center">

@@ -84,7 +84,7 @@ function checkdate(){
 
 					<c:forEach items="${page}" var="list" varStatus="vs">
 						<c:choose>
-							<c:when test="${vs.last}">
+							<c:when test="${vs.last&&vs.index!=0}">
 
 								<tr id="mer_${list.order_id}">
 									<td class="col-md-1" align="center">合计</td>
