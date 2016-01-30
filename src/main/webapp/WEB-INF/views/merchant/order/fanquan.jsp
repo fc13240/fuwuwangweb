@@ -32,7 +32,7 @@
 </head>
 
 <div class="wrapper">
-	<div class=" searchform">
+	<div class="searchform">
 		<div class="col-md-3">
 			<select class="form-control" onchange="getOrderByReturn_num_state()"
 				id="return_number_state">
@@ -53,7 +53,6 @@
 						<option value="3">已返券</option>
 					</c:otherwise>
 				</c:choose>
-
 			</select>
 		</div>
 	</div>
