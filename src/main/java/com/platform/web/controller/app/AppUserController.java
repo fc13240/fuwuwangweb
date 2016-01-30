@@ -18,10 +18,6 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.servlet.http.HttpSession;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,10 +27,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.platform.common.contants.Constants;
 import com.platform.common.utils.DateUtil;
 import com.platform.common.utils.Md5;
@@ -43,14 +35,11 @@ import com.platform.common.utils.ServiceAPI;
 import com.platform.common.utils.Tools;
 import com.platform.common.utils.UUIDUtil;
 import com.platform.common.utils.UploadUtil;
+import com.platform.entity.MerchantInfo;
 import com.platform.entity.User;
 import com.platform.entity.User_token;
 import com.platform.mapper.UserMapper;
 import com.platform.service.UserService;
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 /*import com.sun.mail.util.MailLogger;*/
 @Controller
@@ -704,38 +693,41 @@ public class AppUserController {
 		return map;
 	}
 
-	/** 验证会员帐号是否存在 */
-	public static String yanzheng_userLogin(String userLogin) {
-
-		String url = "http://124.254.56.58:8007/api/Content/GetUserNameByUlogin?ulogin=" + userLogin;
-
-		String R = null;
-		HttpResponse httpResponse = null;
-		try {
-			HttpGet httpPost = new HttpGet(url);
-
-			httpResponse = new DefaultHttpClient().execute(httpPost);
-			System.out.println(httpResponse.getStatusLine().getStatusCode());
-
-			if (httpResponse.getStatusLine().getStatusCode() == 200) {
-				String result = EntityUtils.toString(httpResponse.getEntity());
-				result = result.replaceAll("\r", "");
-				System.out.println(result);
-
-				JSONObject aObject = JSON.parseObject(result);
-
-				R = aObject.get("Successful").toString();
-				System.out.println("successful :" + R);
-
-			}
-
-		} catch (Exception e) {
-			e.getMessage();
-		}
-
-		return R;
-	}
-
 	
-
+	/**
+	 * 提供申请接口
+	 * @param merchantInfo
+	 * @return
+	 */
+	@RequestMapping(value = "applyMerchant", method = RequestMethod.POST)
+	@ResponseBody
+	public BaseModel applyMerchant(@RequestBody MerchantInfo merchantInfo){
+		BaseModel result = new BaseModel();
+		if(merchantInfo==null){
+			result.Error="参数错误";
+		}else if(merchantInfo.getUserLogin()==null||merchantInfo.getUserLogin().isEmpty()){
+			result.Error="用户名不能为空！";
+		}else if(merchantInfo.getPassWord()==null||merchantInfo.getPassWord().isEmpty()){
+			result.Error="密码不能为空！";
+		}else if(merchantInfo.getMerchant_account()==null||merchantInfo.getMerchant_account().isEmpty()){
+			result.Error="服务网帐号不能为空";
+		}else{
+			// 本地帐号是否重复
+			if (userService.checkUserLoginIsExist(merchantInfo.getUserLogin()) > 0) {
+				result.Error="帐号已存在";
+			}else{
+				merchantInfo.setUser_id(UUIDUtil.getRandom32PK());
+				merchantInfo.setUser_state(Constants.USER_LOCK);
+				merchantInfo.setUser_type(Constants.USER_STORE);
+				merchantInfo.setMerchant_type(Constants.MERCHANT_TYPE_1);
+				if(userService.addMerchant(merchantInfo)>0){
+					result.Successful=true;
+				}else{
+					result.Error="申请失败";
+				}
+			}
+		}
+		return result;
+	}
+	
 }

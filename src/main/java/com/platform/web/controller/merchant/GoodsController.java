@@ -25,7 +25,6 @@ import com.platform.common.utils.UUIDUtil;
 import com.platform.common.utils.UploadUtil;
 import com.platform.entity.Goods;
 import com.platform.entity.MerchantInfo;
-import com.platform.entity.User;
 import com.platform.entity.vo.GoodsForWeb;
 import com.platform.service.GoodsService;
 import com.platform.service.StoreService;

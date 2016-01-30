@@ -30,7 +30,6 @@ import com.platform.entity.Store_state;
 import com.platform.entity.Store_type1;
 import com.platform.entity.Store_type2;
 import com.platform.entity.Street;
-import com.platform.entity.User;
 import com.platform.entity.vo.StoreVo;
 import com.platform.service.StoreService;
 import com.platform.service.StoreTypeService;

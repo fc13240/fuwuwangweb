@@ -1,6 +1,5 @@
 package com.platform.web.controller.admin;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.google.gson.Gson;
 import com.platform.common.contants.Constants;
 import com.platform.common.utils.DateUtil;
 import com.platform.common.utils.Md5;
@@ -29,11 +27,7 @@ import com.platform.entity.MerchantInfo;
 import com.platform.entity.Order;
 import com.platform.entity.User;
 import com.platform.service.UserService;
-import com.platform.web.controller.app.AppUserController;
 import com.platform.web.controller.app.BaseModel;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 @Controller
 @RequestMapping("/admin/user/")
@@ -170,7 +164,7 @@ public class AdminUserController {
 	public String register_merchant(HttpServletRequest request, String userLogin, String password, String password_agin,
 			String phone, String merchant_desc, String merchant_account, HttpSession session) throws Exception {
 		// 本地帐号是否重复
-		if (userService.checkUserLoginIsExist(userLogin) <= 0) {
+		if (userService.checkUserLoginIsExist(userLogin) > 0) {
 			request.setAttribute("info", "帐号已存在");
 			return "admin/user/addmerchant";
 		}

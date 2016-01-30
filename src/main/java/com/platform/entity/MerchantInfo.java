@@ -35,6 +35,10 @@ public class MerchantInfo {
 	private Date lastLoginDate;
 	
 	private String user_state;
+	
+	private String realName;
+	
+	private String user_email;
 
 	public Integer getMerchant_id() {
 		return merchant_id;
@@ -164,6 +168,20 @@ public class MerchantInfo {
 	public void setMerchant_type(Integer merchant_type) {
 		this.merchant_type = merchant_type;
 	}
-	
-	
+
+	public String getRealName() {
+		return realName;
+	}
+
+	public void setRealName(String realName) {
+		this.realName = realName;
+	}
+
+	public String getUser_email() {
+		return user_email;
+	}
+
+	public void setUser_email(String user_email) {
+		this.user_email = user_email;
+	}
 }
