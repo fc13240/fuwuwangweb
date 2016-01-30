@@ -91,42 +91,23 @@
 									test="${list.order_state ==2}">未支付</c:if> <c:if
 									test="${list.order_state ==3}">未消费</c:if></td>
 
-							<td class="col-md-1" align="center">
-									<c:if test="${list.pay_type ==0}">无</c:if>
-									 <c:if test="${list.pay_type ==1}">银联</c:if>
-									 <c:if test="${list.pay_type ==2}">银联、龙币、电子币</c:if> 
-									 <c:if test="${list.pay_type ==3}">龙币、电子币</c:if>
-							 </td>
+							<td class="col-md-1" align="center"><c:if
+									test="${list.pay_type ==0}">无</c:if> <c:if
+									test="${list.pay_type ==1}">银联</c:if> <c:if
+									test="${list.pay_type ==2}">银联、龙币、电子币</c:if> <c:if
+									test="${list.pay_type ==3}">龙币、电子币</c:if></td>
 
 							<td class="col-md-2" align="center">${list.electronics_evidence}</td>
 
 
-							<td class="col-md-2" align="center">
-								<c:if test="${not empty list.order_time}">
+							<td class="col-md-2" align="center"><c:if
+									test="${not empty list.order_time}">
 									<fmt:formatDate value="${list.order_time}"
 										pattern="yyyy-MM-dd hh:mm:ss" />
 
 								</c:if></td>
-							<td class="col-md-3" align="center">
-							<c:if test="${list.return_number_state==2}">
-								<form class="form-horizontal"
-									action="${pageContext.request.contextPath}/merchant/order/Return_ticket"
-									method="post">
-									<input id="order_id" name="order_id" value="${list.order_id}"
-										type="hidden" />
-									<div class="col-md-8">
-										<input type="password" class="form-control " name="pay_password"
-											placeholder="请输入支付密码" />
-									</div>
-									<input type="submit" class="btn btn-success " value="返券" 
-										onclick="return fanquan('${list.order_id}')" />
-
-								</form>
-
-								</c:if>
-							</td>
-							<td class="col-md-3" align="center">
-							 <c:if test="${return_num_state==2}">
+							<td class="col-md-3" align="center"><c:if
+									test="${list.return_number_state==2}">
 									<form class="form-horizontal"
 										action="${pageContext.request.contextPath}/merchant/order/Return_ticket"
 										method="post">
@@ -138,9 +119,9 @@
 										</div>
 										<input type="submit" class="btn btn-success " value="返券"
 											onclick="return fanquan('${list.order_id}')" />
-
 									</form>
 								</c:if></td>
+
 						</tr>
 					</c:forEach>
 				</table>

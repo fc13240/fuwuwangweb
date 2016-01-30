@@ -22,7 +22,7 @@
 		parameterType="String">
 		SELECT u.userLogin,o.return_number,o.return_mz
 		FROM t_order AS o 
-			JOIN t_merchant_info AS u ON  u.user_id=o.user_id
+			JOIN t_user AS u ON  u.user_id=o.user_id
 		WHERE o.order_id=#{order_id}
 			ORDER BY o.order_time DESC
 	</select>
