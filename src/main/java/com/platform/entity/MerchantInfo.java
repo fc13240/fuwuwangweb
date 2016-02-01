@@ -3,41 +3,24 @@ package com.platform.entity;
 import java.util.Date;
 
 public class MerchantInfo {
-	
+
 	private Integer merchant_id;
-	
+	private String merchant_desc; // 商人描述
+	private String merchant_add_user; // 操作人
+	private String merchant_phone; // 电话
+	private String service_man; // 联系人
+	private String merchant_account; // 服务号
+	private Integer merchant_type; // 商人类型
+	private String user_type; // 用户 类型
+	private String user_state; // 用户状态
+	private String userLogin; // 用户名
+	private String passWord; // 密码
+	private Integer login_state;// 登录状态
+	private Date lastLoginDate;// 最后一次登录状态
 	private String user_id;
-	
-	private String merchant_desc;
-	
-	private String merchant_add_user;
-	
 	private Date merchant_add_time;
-	
-	private String merchant_phone;
-	
-	private String service_man;
-	
-	private String merchant_account;
-	
-	private Integer merchant_type;
-	
-	private String userLogin;
-	
-	private String passWord;
-	
-	private String user_type;
-	
-	private Integer login_state;
-	
 	private Date updateDate;
-	
-	private Date lastLoginDate;
-	
-	private String user_state;
-	
 	private String realName;
-	
 	private String user_email;
 
 	public Integer getMerchant_id() {
