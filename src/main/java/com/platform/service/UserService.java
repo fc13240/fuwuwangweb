@@ -3,9 +3,6 @@ package com.platform.service;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import com.platform.entity.MerchantInfo;
 import com.platform.entity.Order;
 import com.platform.entity.User;
@@ -204,6 +201,45 @@ public interface UserService {
 	 * 添加商人
 	 * @param merchantInfo
 	 */
-	public void addMerchant(MerchantInfo merchantInfo);
+	public int addMerchant(MerchantInfo merchantInfo);
 	
+	/**
+	 * 更新登录时间
+	 * @param merchantInfo
+	 */
+	public int updateLoginState(MerchantInfo merchantInfo);
+	
+	/**
+	 * 修改密码
+	 * @param map
+	 */
+	public int updatePassword(Map<String,String> map);
+	
+	/**
+	 * 判断用户是否存在
+	 * @param userLogin
+	 * @return
+	 */
+	public int checkUserLoginIsExist(String userLogin);
+
+	/**
+	 * 获取商人列表
+	 * @return
+	 */
+	List<MerchantInfo> getMerchantList();
+	
+	
+	/**
+	 * 根据帐号模糊查找商人
+	 * @param merchant_name
+	 * @return
+	 */
+	List<MerchantInfo> findMerchantByUserLogin(String userLogin);
+	
+	/**
+	 * 用户锁定，解锁，删除 
+	 * @param merchantInfo
+	 * @return
+	 */
+	int updateUserState(MerchantInfo merchantInfo);
 }

@@ -46,21 +46,21 @@ function check(){
 					<c:if test="${order!=null}">
 					<tr id="mer_${order.order_id}">
 						<td class="col-md-1" align="center">1</td>
-						<td class="col-md-1" align="left">${order.goods_name}</td>
-						<td class="col-md-1" align="left">￥<fmt:formatNumber value="${order.goods_price}"
+						<td class="col-md-1" align="center">${order.goods_name}</td>
+						<td class="col-md-1" align="center">￥<fmt:formatNumber value="${order.goods_price}"
 										pattern="#,###,##0.00#" /></td>
-						<td class="col-md-1" align="left">${order.return_number}</td>
-						<td class="col-md-1" align="left">
+						<td class="col-md-1" align="center">${order.return_number}</td>
+						<td class="col-md-1" align="center">
 							<c:if test="${order.order_state ==1}">已消费</c:if>
 							<c:if test="${order.order_state ==2}">未支付</c:if>
 							<c:if test="${order.order_state ==3}">未消费</c:if></td>
-						<td class="col-md-1" align="left">
+						<td class="col-md-1" align="center">
 							<c:if test="${order.pay_type ==0}">无</c:if>
 							<c:if test="${order.pay_type ==1}">银联</c:if>
 							<c:if test="${order.pay_type ==2}">银联、龙币、电子币</c:if>
 							<c:if test="${order.pay_type ==3}">龙币、电子币</c:if>
 						</td>
-						<td class="col-md-2" align="right">${order.electronics_evidence}</td>
+						<td class="col-md-2" align="center">${order.electronics_evidence}</td>
 						<td class="col-md-2" align="center"><c:if
 								test="${not empty order.order_time}">
 								<fmt:formatDate value="${order.order_time}" pattern="yyyy-MM-dd HH:mm:ss" type="both" />

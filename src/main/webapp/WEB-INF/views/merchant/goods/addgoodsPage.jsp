@@ -1,9 +1,10 @@
+<%@page import="com.platform.entity.MerchantInfo"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="../../common/mheader.jsp"%>
 <%@ include file="../../common/cmenu.jsp"%>
 <%
-	User user = (User) session.getAttribute("bean");
+	MerchantInfo user = (MerchantInfo) session.getAttribute("bean");
 	String user_id = user.getUser_id();
 	int merchant_type = user.getMerchant_type();
 %>

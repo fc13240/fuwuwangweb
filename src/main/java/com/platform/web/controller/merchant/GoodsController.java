@@ -24,7 +24,7 @@ import com.platform.common.contants.Constants;
 import com.platform.common.utils.UUIDUtil;
 import com.platform.common.utils.UploadUtil;
 import com.platform.entity.Goods;
-import com.platform.entity.User;
+import com.platform.entity.MerchantInfo;
 import com.platform.entity.vo.GoodsForWeb;
 import com.platform.service.GoodsService;
 import com.platform.service.StoreService;
@@ -56,7 +56,7 @@ public class GoodsController extends BaseController {
 		PageHelper.startPage(pageNum, pageSize);
 		Page<GoodsForWeb> goods = new Page<GoodsForWeb>();
 
-		User user = (User) session.getAttribute("bean");
+		MerchantInfo user=(MerchantInfo) session.getAttribute("bean");
 		String u_id = user.getUser_id();
 		if (type.equals("list")) {
 			goods = goodsService.findGoodsByUserId(u_id);
@@ -115,7 +115,7 @@ public class GoodsController extends BaseController {
 			pageSize = Constants.PAGE_SIZE;
 		
 		Page<GoodsForWeb> goods = new Page<GoodsForWeb>();
-		User user=(User) session.getAttribute("bean");
+		MerchantInfo user=(MerchantInfo) session.getAttribute("bean");
 		PageHelper.startPage(pageNum, pageSize);
 		goods = goodsService.goodslistbyGoods_state(goods_state,user.getUser_id());
 		System.out.println("结果 ：" + goods);
@@ -200,7 +200,7 @@ public class GoodsController extends BaseController {
 			Integer goods_price_LB, String goods_price, String store_id, Integer goods_return_ticket,
 			Integer goods_return_type, Integer goods_return_standard, Integer goods_pay_type,
 			String goods_purchase_notes,String goods_return_mz, HttpSession session) throws Exception {
-User user=(User) session.getAttribute("bean");
+		MerchantInfo user=(MerchantInfo) session.getAttribute("bean");
 		Goods goods = new Goods();
 		if(user.getMerchant_type()==2){
 			goods.setGoods_price_LB(goods_price_LB);

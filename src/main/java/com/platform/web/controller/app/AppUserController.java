@@ -18,10 +18,6 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.servlet.http.HttpSession;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,25 +27,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.platform.common.contants.Constants;
 import com.platform.common.utils.DateUtil;
 import com.platform.common.utils.Md5;
 import com.platform.common.utils.New_token;
+import com.platform.common.utils.ServiceAPI;
 import com.platform.common.utils.Tools;
 import com.platform.common.utils.UUIDUtil;
 import com.platform.common.utils.UploadUtil;
+import com.platform.entity.MerchantInfo;
 import com.platform.entity.User;
 import com.platform.entity.User_token;
 import com.platform.mapper.UserMapper;
 import com.platform.service.UserService;
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 /*import com.sun.mail.util.MailLogger;*/
 @Controller
@@ -62,11 +52,7 @@ public class AppUserController {
 	@Autowired
 	private UserMapper mapper;
 
-	OkHttpClient client = new OkHttpClient();
-
-	public static final MediaType JSONTPYE = MediaType.parse("application/json; charset=utf-8");
-
-	Gson gson = new Gson();
+	
 
 	/**
 	 * 功能：用户注册
@@ -126,13 +112,13 @@ public class AppUserController {
 			result.Error = "您输入的邮箱已经存在";
 			return result;
 		}
-		BaseModel bm = checkIsExist(user.getUserLogin());
+		BaseModel bm = ServiceAPI.checkIsExist(user.getUserLogin());
 		if (!bm.Successful) {
 			result.Error = bm.Error;
 			return result;
 		}
 		if (Constants.USER_VIP.equals(user.getUser_type())) {
-			BaseModelJson<String> bmj = register(user.getUserLogin(), user.getPassWord(), user.getPassWordConfirm(),
+			BaseModelJson<String> bmj = ServiceAPI.register(user.getUserLogin(), user.getPassWord(), user.getPassWordConfirm(),
 					user.getZy());
 			if (bmj.Successful) {
 //				result.Data = bmj.Data;
@@ -178,7 +164,7 @@ public class AppUserController {
 			return result;
 		}
 		if (Constants.USER_VIP.equals(type)) {
-			BaseModelJson<String> bmj = sigIn(userLogin, passWord);
+			BaseModelJson<String> bmj = ServiceAPI.sigIn(userLogin, passWord);
 			if (bmj.Successful) {
 				User uu = userService.findUser(userLogin);
 				if (uu == null) {
@@ -189,7 +175,7 @@ public class AppUserController {
 					uu.setUser_type(Constants.USER_VIP); // 会员用户
 					uu.setUser_state(Constants.USER_ACTIVE); // 活跃
 					mapper.userrigester_user(uu); // 注册的会员插入到
-					BaseModelJson<FwwUser> fww = getFwwUserInfo(bmj.Data);
+					BaseModelJson<FwwUser> fww = ServiceAPI.getFwwUserInfo(bmj.Data);
 					
 					if (fww.Successful) {
 						FwwUser fu= fww.Data;
@@ -707,176 +693,41 @@ public class AppUserController {
 		return map;
 	}
 
-	/** 验证会员帐号是否存在 */
-	public static String yanzheng_userLogin(String userLogin) {
-
-		String url = "http://124.254.56.58:8007/api/Content/GetUserNameByUlogin?ulogin=" + userLogin;
-
-		String R = null;
-		HttpResponse httpResponse = null;
-		try {
-			HttpGet httpPost = new HttpGet(url);
-
-			httpResponse = new DefaultHttpClient().execute(httpPost);
-			System.out.println(httpResponse.getStatusLine().getStatusCode());
-
-			if (httpResponse.getStatusLine().getStatusCode() == 200) {
-				String result = EntityUtils.toString(httpResponse.getEntity());
-				result = result.replaceAll("\r", "");
-				System.out.println(result);
-
-				JSONObject aObject = JSON.parseObject(result);
-
-				R = aObject.get("Successful").toString();
-				System.out.println("successful :" + R);
-
-			}
-
-		} catch (Exception e) {
-			e.getMessage();
-		}
-
-		return R;
-	}
-
-	/*** 调用服务网 接口 **/
-
+	
 	/**
-	 * 验证用户名是否存在
-	 * 
-	 * @param username
-	 *            用户名
+	 * 提供申请接口
+	 * @param merchantInfo
 	 * @return
 	 */
-	public BaseModel checkIsExist(String username) {
-		String url = Constants.PATH + "Content/CheckUserLogin?ulogin=" + username;
-		BaseModel bm = null;
-		Request request = new Request.Builder().get().url(url).build();
-		try {
-			Response response = client.newCall(request).execute();
-			if (response.isSuccessful()) {
-				bm = gson.fromJson(response.body().string(), BaseModel.class);
-			} else {
-				bm = new BaseModel();
-				bm.Successful = false;
-				bm.Error = "服务器繁忙";
+	@RequestMapping(value = "applyMerchant", method = RequestMethod.POST)
+	@ResponseBody
+	public BaseModel applyMerchant(@RequestBody MerchantInfo merchantInfo){
+		BaseModel result = new BaseModel();
+		if(merchantInfo==null){
+			result.Error="参数错误";
+		}else if(merchantInfo.getUserLogin()==null||merchantInfo.getUserLogin().isEmpty()){
+			result.Error="用户名不能为空！";
+		}else if(merchantInfo.getPassWord()==null||merchantInfo.getPassWord().isEmpty()){
+			result.Error="密码不能为空！";
+		}else if(merchantInfo.getMerchant_account()==null||merchantInfo.getMerchant_account().isEmpty()){
+			result.Error="服务网帐号不能为空";
+		}else{
+			// 本地帐号是否重复
+			if (userService.checkUserLoginIsExist(merchantInfo.getUserLogin()) > 0) {
+				result.Error="帐号已存在";
+			}else{
+				merchantInfo.setUser_id(UUIDUtil.getRandom32PK());
+				merchantInfo.setUser_state(Constants.USER_LOCK);
+				merchantInfo.setUser_type(Constants.USER_STORE);
+				merchantInfo.setMerchant_type(Constants.MERCHANT_TYPE_1);
+				if(userService.addMerchant(merchantInfo)>0){
+					result.Successful=true;
+				}else{
+					result.Error="申请失败";
+				}
 			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			bm = new BaseModel();
-			bm.Successful = false;
-			bm.Error = "服务器繁忙";
 		}
-		return bm;
+		return result;
 	}
-
-	/**
-	 * 会员注册
-	 * 
-	 * @param userLogin
-	 *            帐号
-	 * @param passWord
-	 *            密码
-	 * @param passWordConfirm
-	 *            去人密码
-	 * @param zy
-	 *            服务专员
-	 * @return
-	 */
-	public BaseModelJson<String> register(String userLogin, String passWord, String passWordConfirm, String zy) {
-		String url = Constants.PATH + "Content/RegisterNew";
-		BaseModelJson<String> bmj = null;
-		JSONObject param = new JSONObject();
-		param.put("userLogin", userLogin);
-		param.put("passWord", passWord);
-		param.put("passWordConfirm", passWordConfirm);
-		param.put("zy", zy);
-		param.put("kbn", "0");
-		param.put("cardNo", "");
-		com.squareup.okhttp.RequestBody body = com.squareup.okhttp.RequestBody.create(JSONTPYE, gson.toJson(param));
-		Request request = new Request.Builder().url(url).post(body).build();
-		try {
-			Response response = client.newCall(request).execute();
-			if (response.isSuccessful()) {
-				bmj = gson.fromJson(response.body().string(),  new TypeToken<BaseModelJson<String>>(){}.getType());
-			} else {
-				bmj = new BaseModelJson<>();
-				bmj.Successful = false;
-				bmj.Error = "服务器繁忙";
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			bmj = new BaseModelJson<>();
-			bmj.Successful = false;
-			bmj.Error = "服务器繁忙";
-		}
-		return bmj;
-	}
-
-	/**
-	 * 登录
-	 * 
-	 * @param userLogin
-	 *            帐号
-	 * @param passWord
-	 *            密码
-	 * @return
-	 */
-	public BaseModelJson<String> sigIn(String userLogin, String passWord) {
-		String url = Constants.PATH + "Content/SignIn?userLogin=" + userLogin + "&userPass=" + passWord;
-		JSONObject param = new JSONObject();
-		com.squareup.okhttp.RequestBody body = com.squareup.okhttp.RequestBody.create(JSONTPYE, gson.toJson(param));
-		Request request = new Request.Builder().url(url).post(body).build();
-		BaseModelJson<String> bmj = null;
-		try {
-			Response response = client.newCall(request).execute();
-			if (response.isSuccessful()) {
-				bmj = gson.fromJson(response.body().string(),  new TypeToken<BaseModelJson<String>>(){}.getType());
-			} else {
-				bmj = new BaseModelJson<>();
-				bmj.Successful = false;
-				bmj.Error = "服务器繁忙";
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			bmj = new BaseModelJson<>();
-			bmj.Successful = false;
-			bmj.Error = "服务器繁忙";
-		}
-		return bmj;
-	}
-
-	/**
-	 * 根据token获取 会员信息
-	 * 
-	 * @param token
-	 * @return
-	 */
-	public BaseModelJson<FwwUser> getFwwUserInfo(String token) {
-		String url = Constants.PATH + "Member/GetZcUserById";
-		Request request = new Request.Builder().url(url).addHeader("Token", token).get().build();
-		Gson gson = new Gson();
-		BaseModelJson<FwwUser> bmj = null;
-		try {
-			Response response = client.newCall(request).execute();
-			if (response.isSuccessful()) {
-				bmj = gson.fromJson(response.body().string(), new TypeToken<BaseModelJson<FwwUser>>(){}.getType());
-			} else {
-				bmj = new BaseModelJson<>();
-				bmj.Successful = false;
-				bmj.Error = "服务器繁忙";
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			bmj = new BaseModelJson<>();
-			bmj.Successful = false;
-			bmj.Error = "服务器繁忙";
-		}
-		return bmj;
-	}
-
+	
 }

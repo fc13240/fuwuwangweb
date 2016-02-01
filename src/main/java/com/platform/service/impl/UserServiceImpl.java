@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -187,7 +184,6 @@ public class UserServiceImpl implements UserService {
 
 		User user = mapper.selectUserlogin(userLogin);
 
-
 		return user;
 	}
 
@@ -214,7 +210,7 @@ public class UserServiceImpl implements UserService {
 	/**
 	 * 用户锁定,解锁，删除
 	 */
-	public void updateuser_state(User user)  {
+	public void updateuser_state(User user) {
 
 		mapper.updateuser_state(user);
 		System.out.println("对用户进行了用户锁定,解锁，删除");
@@ -236,13 +232,14 @@ public class UserServiceImpl implements UserService {
 	}
 
 	/***** 根据名字查用户 *****/
-	public List<User> finduserByname(String phone)  {
+	public List<User> finduserByname(String phone) {
 
 		List<User> list = mapper.finduserByname(phone);
 		return list;
 	}
-	public List<User> findMerchantByname(String merchant_name)  {
-		
+
+	public List<User> findMerchantByname(String merchant_name) {
+
 		List<User> list = mapper.findMerchantByname(merchant_name);
 		return list;
 	}
@@ -268,7 +265,7 @@ public class UserServiceImpl implements UserService {
 
 	/******* 管理员注册 商人 ********/
 	public void add_merchant(User user) {
-		
+
 		mapper.userrigester_user(user);
 		mapper.userrigester_merchantinfo(user);
 	}
@@ -508,30 +505,86 @@ public class UserServiceImpl implements UserService {
 		// TODO Auto-generated method stub
 		return mapper.merchantlist();
 	}
+
 	/**
 	 * 根据用户名获取商人信息
 	 */
-	public User findmerchantByuserlogin(String userLogin){
-		
-		return 	mapper.findmerchantByuserlogin(userLogin);
+	public User findmerchantByuserlogin(String userLogin) {
+
+		return mapper.findmerchantByuserlogin(userLogin);
 	}
-	
+
 	/**
 	 * 用户登录
+	 * 
 	 * @param map
 	 * @return
 	 */
 	@Override
-	public MerchantInfo getUserLogin(Map<String,String> map){
+	public MerchantInfo getUserLogin(Map<String, String> map) {
 		return mapper.getUserLogin(map);
+	}
+
+	/**
+	 * 添加商人
+	 * 
+	 * @param merchantInfo
+	 */
+	public int addMerchant(MerchantInfo merchantInfo) {
+		return mapper.addMerchant(merchantInfo);
+	}
+
+	/**
+	 * 更新登录时间
+	 * 
+	 * @param merchantInfo
+	 */
+	public int updateLoginState(MerchantInfo merchantInfo) {
+		return mapper.updateLoginState(merchantInfo);
+	}
+
+	/**
+	 * 修改密码
+	 * 
+	 * @param map
+	 */
+	public int updatePassword(Map<String, String> map) {
+		return mapper.updatePassword(map);
+	}
+
+	/**
+	 * 判断用户是否存在
+	 * @param userLogin
+	 * @return
+	 */
+	public int checkUserLoginIsExist(String userLogin){
+		return mapper.checkUserLoginIsExist(userLogin);
 	}
 	
 	/**
-	 * 添加商人
-	 * @param merchantInfo
+	 * 获取商人列表
+	 * @return
 	 */
-	public void addMerchant(MerchantInfo merchantInfo){
-		mapper.addMerchant(merchantInfo);
+	@Override
+	public List<MerchantInfo> getMerchantList(){
+		return mapper.getMerchantList();
 	}
 	
+	/**
+	 * 根据帐号模糊查找商人
+	 * @param merchant_name
+	 * @return
+	 */
+	public List<MerchantInfo> findMerchantByUserLogin(String userLogin){
+		return mapper.findMerchantByUserLogin(userLogin);
+	}
+	
+	/**
+	 * 用户锁定，解锁，删除 
+	 * @param merchantInfo
+	 * @return
+	 */
+	public int updateUserState(MerchantInfo merchantInfo){
+		return mapper.updateUserState(merchantInfo);
+	}
 }

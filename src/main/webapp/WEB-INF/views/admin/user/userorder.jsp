@@ -92,19 +92,19 @@ function checkdate(){
 
 						<tr id="mer_${list.order_id}">
 							<td class="col-md-1" align="center">${vs.index+1}</td>
-							<td class="col-md-1" align="left">${list.userLogin}</td>
-							<td class="col-md-1" align="left">${list.goods_name}</td>
-							<td class="col-md-1" align="right">${list.goods_price/100}</td>
-							<td class="col-md-1" align="right">${list.return_number}</td>
-							<td class="col-md-1" align="left"><c:if test="${list.order_state ==1}">已消费</c:if>
+							<td class="col-md-1" align="center">${list.userLogin}</td>
+							<td class="col-md-1" align="center">${list.goods_name}</td>
+							<td class="col-md-1" align="center">${list.goods_price/100}</td>
+							<td class="col-md-1" align="center">${list.return_number}</td>
+							<td class="col-md-1" align="center"><c:if test="${list.order_state ==1}">已消费</c:if>
 								<c:if test="${list.order_state ==2}">未支付</c:if> <c:if
 									test="${list.order_state ==3}">未消费</c:if></td>
 
-							<td class="col-md-1" align="left"><c:if test="${list.pay_type ==1}">银联</c:if>
+							<td class="col-md-1" align="center"><c:if test="${list.pay_type ==1}">银联</c:if>
 								<c:if test="${list.pay_type ==2}">银联、龙币、电子币</c:if> <c:if
 									test="${list.pay_type ==3}">龙币、电子币</c:if></td>
 
-							<td class="col-md-1" align="right">${list.electronics_evidence}</td>
+							<td class="col-md-1" align="center">${list.electronics_evidence}</td>
 
 							<td class="col-md-2" align="center"><c:if
 									test="${not empty list.order_time}">

@@ -106,16 +106,6 @@
 		#{userLogin}
 	</select>
 
-	<!-- 登录 -->
-	<select id="getUserLogin" parameterType="java.util.Map"
-		resultType="com.platform.entity.MerchantInfo">
-		SELECT * FROM t_merchant_info tmi 
-		WHERE tmi.`userLogin`=#{userLogin}
-		AND tmi.`password`= #{userLogin}
-	</select>
-	
-
-
 	<select id="selectUser_merchant_account" parameterType="String"
 		resultType="String">
 
@@ -292,12 +282,66 @@
 		INSERT INTO
 		t_merchant_info
 		(user_id,merchant_desc,merchant_add_user,merchant_add_time,merchant_phone,
-		service_man,merchant_account,merchant_type,userLogin,user_type,user_state,passWord,createDate)
+		service_man,merchant_account,merchant_type,userLogin,user_type,user_state,passWord,updateDate,realName,user_email,login_state)
 		VALUES
 		(#{user_id},#{merchant_desc},#{merchant_add_user},now(),#{merchant_phone},
-		#{service_man},#{merchant_account},#{merchant_type},#{userLogin},#{user_type},#{user_state},#{passWord},now())
+		#{service_man},#{merchant_account},#{merchant_type},#{userLogin},#{user_type},#{user_state},#{passWord},now(),#{realName},#{user_email},#{login_state})
 	</insert>
 
 
+	<!--修改用户登录状态 -->
+	<update id="updateLoginState" parameterType="com.platform.entity.MerchantInfo">
+		UPDATE t_merchant_info SET
+		lastLoginDate = now() WHERE user_id = #{user_id}
+	</update>
+	
+	<!--修改用户登录密码 -->
+	<update id="updatePassword" parameterType="java.util.Map" >
+		UPDATE t_merchant_info SET
+		updateDate = now(),passWord=#{newPassWord}  WHERE `userLogin`=#{userLogin}
+		AND `password`= #{passWord}
+	</update>
+
+	<!-- 登录 -->
+	<select id="getUserLogin" parameterType="java.util.Map"
+		resultType="com.platform.entity.MerchantInfo">
+		SELECT * FROM t_merchant_info tmi 
+		WHERE tmi.`userLogin`=#{userLogin}
+		AND tmi.`password`= #{passWord}
+	</select>
+	
+	<!-- 查看用户名是否存在 -->
+	<select id="checkUserLoginIsExist" parameterType="String"
+		resultType="Integer">
+		SELECT COUNT(*) FROM t_merchant_info tmi 
+		WHERE tmi.`userLogin`=#{userLogin}
+		
+	</select>
+	<!-- 查询商人列表-->
+	<select id="getMerchantList" resultType="com.platform.entity.MerchantInfo">
+		SELECT * FROM t_merchant_info tmi 
+		WHERE tmi.user_type='2'
+		ORDER BY merchant_type DESC, merchant_add_time DESC
+	</select>
+	
+	<!-- 查询商人列表-->
+	<select id="findMerchantByUserLogin" parameterType="String" resultType="com.platform.entity.MerchantInfo">
+		SELECT * FROM t_merchant_info tmi 
+		WHERE tmi.user_type='2'
+		AND tmi.userLogin LIKE
+		CONCAT(CONCAT('%', #{userLogin}), '%')
+		ORDER BY merchant_type DESC, merchant_add_time DESC
+	</select>
+	
+	<!--用户锁定，解锁，删除 -->
+	<update id="updateUserState" parameterType="com.platform.entity.MerchantInfo">
+		UPDATE t_merchant_info
+		<set>
+			<if test="user_state != null and user_state !='' ">
+				user_state = #{user_state}
+			</if>
+		</set>
+		WHERE user_id = #{user_id}
+	</update>
 
 </mapper>

@@ -83,10 +83,10 @@
 							<td align="center"><img
 								src="${pageContext.request.contextPath}/resources/upload/goods/${list.goods_id}${list.goods_img}"
 								width="80px" height="80px" />
-							<td align="left">${list.goods_name}</td>
-							<td align="right">￥<fmt:formatNumber value="${list.goods_price/100}" pattern="#,##0.00#"/></td>
-							<td align="right">${list.goods_price_LB}</td>
-							<td align="left">${list.store_name}</td>
+							<td align="center">${list.goods_name}</td>
+							<td align="center">￥<fmt:formatNumber value="${list.goods_price/100}" pattern="#,##0.00#"/></td>
+							<td align="center">${list.goods_price_LB}</td>
+							<td align="center">${list.store_name}</td>
 							<td align="center">
 								<%-- <c:if test="${(vs.index>0)&&(page.pageNum!=1)}"> --%>
 								<c:choose>

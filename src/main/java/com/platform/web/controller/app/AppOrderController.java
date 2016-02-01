@@ -31,9 +31,9 @@ import com.chinaums.pay.api.entities.QueryEntity;
 import com.chinaums.pay.api.impl.DefaultSecurityService;
 import com.chinaums.pay.api.impl.UMSPayServiceImpl;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.platform.common.contants.Constants;
 import com.platform.common.utils.DateUtil;
+import com.platform.common.utils.ServiceAPI;
 import com.platform.common.utils.UUIDUtil;
 import com.platform.common.utils.Yanqian;
 import com.platform.entity.APP_Order;
@@ -46,8 +46,6 @@ import com.platform.service.OrderService;
 import com.platform.service.UserService;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 @Controller
 @RequestMapping("/app/order/")
@@ -302,13 +300,13 @@ public class AppOrderController {
 			BaseModelJson<String> bmj;
 			boolean flag = true;
 			if (order.getElectronics_money() > 0 && order.getLB_money() > 0) {
-				bmj = memberLongBiAndEPayment(token, ((double) order.getElectronics_money()) / 100, order.getLB_money(),
+				bmj = ServiceAPI.memberLongBiAndEPayment(token, ((double) order.getElectronics_money()) / 100, order.getLB_money(),
 						g1.getMerchant_account(), model.getPayPass());
 			} else if (order.getElectronics_money() > 0) {
-				bmj = memberElectronicMoneyPayment(token, ((double) order.getElectronics_money()) / 100,
+				bmj = ServiceAPI.memberElectronicMoneyPayment(token, ((double) order.getElectronics_money()) / 100,
 						g1.getMerchant_account(), model.getPayPass());
 			} else if (order.getLB_money() > 0) {
-				bmj = memberLongBiPayment(token, order.getLB_money(), g1.getMerchant_account(), model.getPayPass());
+				bmj = ServiceAPI.memberLongBiPayment(token, order.getLB_money(), g1.getMerchant_account(), model.getPayPass());
 			} else {
 				bmj = new BaseModelJson<>();
 				bmj.Successful = true;
@@ -333,13 +331,13 @@ public class AppOrderController {
 			GoodsForPay g1 = goodsService.findGoodsinfoForPay(order.getGoods_id());
 			BaseModelJson<String> bmj;
 			if (order.getElectronics_money() > 0 && order.getLB_money() > 0) {
-				bmj = memberLongBiAndEPayment(token, ((double) order.getElectronics_money()) / 100, order.getLB_money(),
+				bmj = ServiceAPI.memberLongBiAndEPayment(token, ((double) order.getElectronics_money()) / 100, order.getLB_money(),
 						g1.getMerchant_account(), model.getPayPass());
 			} else if (order.getElectronics_money() > 0) {
-				bmj = memberElectronicMoneyPayment(token, ((double) order.getElectronics_money()) / 100,
+				bmj = ServiceAPI.memberElectronicMoneyPayment(token, ((double) order.getElectronics_money()) / 100,
 						g1.getMerchant_account(), model.getPayPass());
 			} else {
-				bmj = memberLongBiPayment(token, order.getLB_money(), g1.getMerchant_account(), model.getPayPass());
+				bmj = ServiceAPI.memberLongBiPayment(token, order.getLB_money(), g1.getMerchant_account(), model.getPayPass());
 			}
 			if (!bmj.Successful) {
 				result.Successful = false;
@@ -762,112 +760,5 @@ public class AppOrderController {
 
 	}
 
-	/**
-	 * 电子币付款
-	 * 
-	 * @param token
-	 * @param money
-	 * @param recipientname
-	 * @param pw
-	 * @return
-	 */
-	public BaseModelJson<String> memberElectronicMoneyPayment(String token, double money, String recipientname,
-			String pw) {
-		String url = Constants.PATH + "Member/MemberElectronicMoneyPayment?money=" + money + "&recipientname=" + recipientname
-				+ "&pw=" + pw;
-		JSONObject param = new JSONObject();
-		com.squareup.okhttp.RequestBody body = com.squareup.okhttp.RequestBody.create(JSONTPYE, gson.toJson(param));
-		Request request = new Request.Builder().url(url).addHeader("Token", token).post(body).build();
-		BaseModelJson<String> bmj = null;
-		try {
-			Response response = client.newCall(request).execute();
-			if (response.isSuccessful()) {
-				bmj = gson.fromJson(response.body().string(),new TypeToken<BaseModelJson<String>>(){}.getType());
-			} else {
-				bmj = new BaseModelJson<>();
-				bmj.Successful = false;
-				bmj.Error = "服务器繁忙";
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			bmj = new BaseModelJson<>();
-			bmj.Successful = false;
-			bmj.Error = "服务器繁忙";
-		}
-		return bmj;
-	}
-
-	/**
-	 * 龙币付款
-	 * 
-	 * @param token
-	 * @param money
-	 * @param recipientname
-	 * @param pw
-	 * @return
-	 */
-	public BaseModelJson<String> memberLongBiPayment(String token, int money, String recipientname, String pw) {
-		String url = Constants.PATH + "Member/MemberLongBiPayment?money=" + money + "&recipientname=" + recipientname + "&pw="
-				+ pw;
-		JSONObject param = new JSONObject();
-		com.squareup.okhttp.RequestBody body = com.squareup.okhttp.RequestBody.create(JSONTPYE, gson.toJson(param));
-		Request request = new Request.Builder().url(url).addHeader("Token", token).post(body).build();
-		BaseModelJson<String> bmj = null;
-		try {
-			Response response = client.newCall(request).execute();
-			if (response.isSuccessful()) {
-				bmj = gson.fromJson(response.body().string(), new TypeToken<BaseModelJson<String>>(){}.getType());
-			} else {
-				bmj = new BaseModelJson<>();
-				bmj.Successful = false;
-				bmj.Error = "服务器繁忙";
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			bmj = new BaseModelJson<>();
-			bmj.Successful = false;
-			bmj.Error = "服务器繁忙";
-		}
-		return bmj;
-	}
-
-	/**
-	 * 龙币，电子币混合支付
-	 * 
-	 * @param token
-	 * @param money
-	 * @param lbcount
-	 * @param recipientname
-	 * @param pw
-	 * @return
-	 */
-	public BaseModelJson<String> memberLongBiAndEPayment(String token, double money, int lbcount, String recipientname,
-			String pw) {
-		String url = Constants.PATH + "Member/MemberLongBiAndEPayment?money=" + money + "&lbcount=" + lbcount + "&recipientname="
-				+ recipientname + "&pw=" + pw;
-		JSONObject param = new JSONObject();
-		com.squareup.okhttp.RequestBody body = com.squareup.okhttp.RequestBody.create(JSONTPYE, gson.toJson(param));
-		Request request = new Request.Builder().url(url).addHeader("Token", token).post(body).build();
-		BaseModelJson<String> bmj = null;
-		try {
-			Response response = client.newCall(request).execute();
-			if (response.isSuccessful()) {
-				bmj = gson.fromJson(response.body().string(), new TypeToken<BaseModelJson<String>>(){}.getType());
-			} else {
-				bmj = new BaseModelJson<>();
-				bmj.Successful = false;
-				bmj.Error = "服务器繁忙";
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			bmj = new BaseModelJson<>();
-			bmj.Successful = false;
-			bmj.Error = "服务器繁忙";
-		}
-		return bmj;
-	}
 
 }

@@ -16,9 +16,12 @@ public class MerchantInfo {
 	private String userLogin; // 用户名
 	private String passWord; // 密码
 	private Integer login_state;// 登录状态
-	private Date createDate;// 创建时间
 	private Date lastLoginDate;// 最后一次登录状态
 	private String user_id;
+	private Date merchant_add_time;
+	private Date updateDate;
+	private String realName;
+	private String user_email;
 
 	public Integer getMerchant_id() {
 		return merchant_id;
@@ -26,6 +29,14 @@ public class MerchantInfo {
 
 	public void setMerchant_id(Integer merchant_id) {
 		this.merchant_id = merchant_id;
+	}
+
+	public String getUser_id() {
+		return user_id;
+	}
+
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
 	}
 
 	public String getMerchant_desc() {
@@ -43,6 +54,7 @@ public class MerchantInfo {
 	public void setMerchant_add_user(String merchant_add_user) {
 		this.merchant_add_user = merchant_add_user;
 	}
+
 
 	public String getMerchant_phone() {
 		return merchant_phone;
@@ -68,30 +80,6 @@ public class MerchantInfo {
 		this.merchant_account = merchant_account;
 	}
 
-	public Integer getMerchant_type() {
-		return merchant_type;
-	}
-
-	public void setMerchant_type(Integer merchant_type) {
-		this.merchant_type = merchant_type;
-	}
-
-	public String getUser_type() {
-		return user_type;
-	}
-
-	public void setUser_type(String user_type) {
-		this.user_type = user_type;
-	}
-
-	public String getUser_state() {
-		return user_state;
-	}
-
-	public void setUser_state(String user_state) {
-		this.user_state = user_state;
-	}
-
 	public String getUserLogin() {
 		return userLogin;
 	}
@@ -108,6 +96,14 @@ public class MerchantInfo {
 		this.passWord = passWord;
 	}
 
+	public String getUser_type() {
+		return user_type;
+	}
+
+	public void setUser_type(String user_type) {
+		this.user_type = user_type;
+	}
+
 	public Integer getLogin_state() {
 		return login_state;
 	}
@@ -116,12 +112,12 @@ public class MerchantInfo {
 		this.login_state = login_state;
 	}
 
-	public Date getCreateDate() {
-		return createDate;
+	public Date getUpdateDate() {
+		return updateDate;
 	}
 
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
+	public void setUpdateDate(Date updateDate) {
+		this.updateDate = updateDate;
 	}
 
 	public Date getLastLoginDate() {
@@ -132,12 +128,43 @@ public class MerchantInfo {
 		this.lastLoginDate = lastLoginDate;
 	}
 
-	public String getUser_id() {
-		return user_id;
+	public String getUser_state() {
+		return user_state;
 	}
 
-	public void setUser_id(String user_id) {
-		this.user_id = user_id;
+	public void setUser_state(String user_state) {
+		this.user_state = user_state;
 	}
-	
+
+	public Date getMerchant_add_time() {
+		return merchant_add_time;
+	}
+
+	public void setMerchant_add_time(Date merchant_add_time) {
+		this.merchant_add_time = merchant_add_time;
+	}
+
+	public Integer getMerchant_type() {
+		return merchant_type;
+	}
+
+	public void setMerchant_type(Integer merchant_type) {
+		this.merchant_type = merchant_type;
+	}
+
+	public String getRealName() {
+		return realName;
+	}
+
+	public void setRealName(String realName) {
+		this.realName = realName;
+	}
+
+	public String getUser_email() {
+		return user_email;
+	}
+
+	public void setUser_email(String user_email) {
+		this.user_email = user_email;
+	}
 }

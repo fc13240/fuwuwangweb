@@ -21,7 +21,6 @@ import com.platform.common.utils.DateUtil;
 import com.platform.entity.MerchantInfo;
 import com.platform.entity.Order;
 import com.platform.entity.Store_state;
-import com.platform.entity.User;
 import com.platform.entity.vo.StoreForWeb;
 import com.platform.entity.vo.StoreVo;
 import com.platform.service.StoreService;

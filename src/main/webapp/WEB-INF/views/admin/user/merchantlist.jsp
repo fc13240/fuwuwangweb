@@ -73,13 +73,13 @@
 
 							<tr id="mer_${list.user_id}">
 								<td align="center">${vs.index+1}</td>
-								<td align="left">${list.userLogin}</td>
+								<td align="center">${list.userLogin}</td>
 								<td align="center">${list.merchant_phone}</td>
-	<td id="text_${list.user_id}" align="left">${list.merchant_account}</td>
-	<td id="text_${list.user_id}" align="left">${list.service_man}</td>
+	<td id="text_${list.user_id}" align="center">${list.merchant_account}</td>
+	<td id="text_${list.user_id}" align="center">${list.service_man}</td>
 
 								<td align="center">
-<fmt:formatDate value="${list.user_create_time}" pattern="yyyy-MM-dd HH:mm:ss" type="both" />
+<fmt:formatDate value="${list.merchant_add_time}" pattern="yyyy-MM-dd HH:mm:ss" type="both" />
 								</td>
 
 								<c:if test="${list.user_type!='4'}">

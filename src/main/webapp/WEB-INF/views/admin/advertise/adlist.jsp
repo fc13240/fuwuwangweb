@@ -85,12 +85,12 @@ function getADBycity_id() {
 								<td align="center"><img
 									src="${pageContext.request.contextPath}/resources/upload/ad/${list.ad_id}${list.ad_img}"
 									width="80px" height="80px" /></td>
-								<td align="left"><c:if test="${list.ad_state ==1}">正常</c:if> <c:if
+								<td align="center"><c:if test="${list.ad_state ==1}">正常</c:if> <c:if
 										test="${list.ad_state ==0}">未发布</c:if></td>
 
-								<td align="left"><c:if test="${list.ad_type ==1}">店铺</c:if> <c:if
+								<td align="center"><c:if test="${list.ad_type ==1}">店铺</c:if> <c:if
 										test="${list.ad_type ==2}">商品</c:if></td>
-								<td align="left">
+								<td align="center">
 									<c:if test="${list.ad_position ==1}">首页</c:if>
 									<c:if test="${list.ad_position ==2}">休闲娱乐页</c:if>
 									<c:if test="${list.ad_position ==3}">丽人页</c:if>
@@ -98,17 +98,17 @@ function getADBycity_id() {
 									<c:if test="${list.ad_position ==5}">龙币页</c:if>
 									<c:if test="${list.ad_position ==6}">美食页</c:if>
 								</td>
-								<td align="left">
+								<td align="center">
 									<c:if test="${list.ad_weight ==1}">第一排</c:if>
 									<c:if test="${list.ad_weight ==2}">第二排</c:if>
 									<c:if test="${list.ad_weight ==3}">第三排</c:if>
 								</td>
-								<td align="left">
+								<td align="center">
 									<c:if test="${list.ad_pd ==1}">第一位</c:if>
 									<c:if test="${list.ad_pd ==2}">第二位</c:if>
 									<c:if test="${list.ad_pd ==3}">第三位</c:if>
 								</td>
-								<td align="left">
+								<td align="center">
 									<c:if test="${list.ad_state ==0}">等待上线</c:if>
 									<c:if test="${list.ad_state ==1}">正在上线</c:if>
 									<c:if test="${list.ad_state ==3}">已经下线</c:if>
@@ -117,7 +117,7 @@ function getADBycity_id() {
 										<fmt:formatDate value="${list.ad_create_time}" pattern="yyyy-MM-dd HH:mm:ss" type="both" />
 									</c:if></td>
 
-								<td id="btn_${list.ad_id}" align="right">
+								<td id="btn_${list.ad_id}" align="center">
 									<c:if test="${list.ad_state ==1}">
 									<button class="btn btn-info" data-toggle="modal"
 											data-target="#stopModal"
