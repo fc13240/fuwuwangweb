@@ -387,7 +387,6 @@ SELECT * FROM(
 	<!-- （APP）user_id 查全部 订单 -->
 	<select id="findOrder_all" resultType="com.platform.entity.APP_Order"
 		parameterType="com.platform.entity.Order">
-
 		SELECT 
 		g.goods_img,g.goods_desc,g.goods_name,g.goods_id
 		,u.userLogin,
@@ -397,20 +396,17 @@ SELECT * FROM(
 		o.transId,o.dianzibi_pay_state ,o.longbi_pay_state ,o.yinlian_pay_state
 		,o.pay_type,o.merSign,o.return_number,o.return_number_state ,o.return_mz 
 		FROM t_order AS o 
-			JOIN t_store AS s ON  g.store_id =s.store_id
-			JOIN t_user AS u ON u.user_id=o.user_id
-			JOIN t_goods AS g ON o.goods_id=g.goods_id
+		JOIN t_user AS u ON u.user_id=o.user_id
+		JOIN t_goods AS g ON o.goods_id=g.goods_id
+		JOIN t_store AS s ON  g.store_id =s.store_id
 		WHERE o.user_id=#{user_id}
 		AND o.order_state != 4
 		ORDER BY o.order_time DESC
-
-
 	</select>
 
 	<!-- (APP)user_id and order_state查 “以支付（以消费 未消费 ）” 订单 -->
 	<select id="findOrderBy_state" resultType="com.platform.entity.APP_Order"
 		parameterType="com.platform.entity.Order">
-
 		SELECT 
 		g.goods_img,g.goods_desc,g.goods_name,g.goods_id,
 		u.userLogin,
@@ -426,7 +422,6 @@ SELECT * FROM(
 		WHERE o.user_id=#{user_id}
 		AND o.order_state= #{order_state}
 		ORDER BY o.order_time DESC
-
 	</select>
 
 

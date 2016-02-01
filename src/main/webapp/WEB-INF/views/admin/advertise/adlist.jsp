@@ -37,11 +37,14 @@ function getADBycity_id() {
 .table th {
 	text-align: center;
 }
+.myselect{
+	margin-top:8px;
+}
 </style>
 </head>
 <body>
 <div class=" searchform">
-	<div class="col-md-2">
+	<div class="col-md-2 myselect">
 		<select class="form-control" onchange="getADBycity_id()"
 			id="city_id">
 			<option value="0" selected="selected">根据城市查询广告</option>
