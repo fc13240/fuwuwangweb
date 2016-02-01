@@ -29,11 +29,16 @@
 		}
 	}
 </script>
+<style type="text/css">
+.myselect{
+	margin-top:8px;
+}
+</style>
 </head>
 
 <div class="wrapper">
-	<div class=" searchform">
-		<div class="col-md-3">
+	<div class=" searchform ">
+		<div class="col-md-3 myselect">
 			<select class="form-control" onchange="getOrderByReturn_num_state()"
 				id="return_number_state">
 				<c:choose>

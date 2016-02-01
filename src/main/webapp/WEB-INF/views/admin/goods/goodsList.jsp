@@ -6,6 +6,9 @@
 .table th {
 	text-align: center;
 }
+.myselect{
+	margin-top:8px;
+}
 </style>
 <script type="text/javascript">
 	function getgoodsid(id) {
@@ -40,6 +43,7 @@
 		}
 	}
 </script>
+
 <!--body wrapper start-->
 <div class="wrapper">
 
@@ -51,7 +55,7 @@
 			class="form-control btn btn-success" value="查找" />
 	</form>
 <div class=" searchform">
-	<div class="col-md-3">
+	<div class="col-md-3 myselect">
 		<select class="form-control" onchange="getGoodsByGoods_state()"
 			id="goods_state">
 			<c:if test="${goods_state==4}">

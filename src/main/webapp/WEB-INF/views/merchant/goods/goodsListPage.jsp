@@ -72,6 +72,9 @@
 .table th{
 	text-align: center;
 }
+.myselect{
+	margin-top:8px;
+}
 </style>
 <!--body wrapper start-->
 <%
@@ -85,20 +88,20 @@
 	id="merchant_type">
 <form class="searchform"
 	action="${pageContext.request.contextPath}/merchant/goods/searchbygoods_name"
-	method="GET" id="form1" onsubmit="return check1()">
+	method="GET" id="form1" onsubmit="return check1()" >
 	<input type="text" class="form-control" name="goods_name"
 		id="goods_name" placeholder="请输入商品名" /> <input type="submit"
 		class="form-control btn btn-success" value="查找" />
 </form>
 <div class=" searchform">
-	<div class="col-md-3">
+	<div class="col-md-3 myselect">
 		<select class="form-control" onchange="getGoodsByStore_id()"
 			id="storelist">
 		</select>
 	</div>
 </div>
 <div class=" searchform">
-	<div class="col-md-3">
+	<div class="col-md-3 myselect" >
 		<select class="form-control" onchange="getGoodsByGoods_state()"
 			id="goods_state">
 			<c:if test="${goods_state==4}">
