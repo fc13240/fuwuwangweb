@@ -391,10 +391,10 @@ SELECT * FROM(
 		g.goods_img,g.goods_desc,g.goods_name,g.goods_id
 		,u.userLogin,
 		s.store_name,s.store_phone,s.store_address,
-		o.order_id,o.electronics_money,o.electronics_evidence,o.LB_money,o.Unionpay_money,
-		o.pay_type,o.gooods_number,o.order_state,o.order_time ,o.pay_time,o.deal_time,o.chrCode,
-		o.transId,o.dianzibi_pay_state ,o.longbi_pay_state ,o.yinlian_pay_state
-		,o.pay_type,o.merSign,o.return_number,o.return_number_state ,o.return_mz 
+		o.order_id,o.electronics_money,o.electronics_evidence,
+		o.LB_money,o.Unionpay_money,o.pay_type,o.gooods_number,o.order_state,o.order_time ,
+		o.pay_time,o.deal_time,o.chrCode,o.transId,o.dianzibi_pay_state ,o.longbi_pay_state ,
+		o.yinlian_pay_state,o.pay_type,o.merSign,o.return_number,o.return_number_state ,o.return_mz 
 		FROM t_order AS o 
 		JOIN t_user AS u ON u.user_id=o.user_id
 		JOIN t_goods AS g ON o.goods_id=g.goods_id
@@ -404,7 +404,7 @@ SELECT * FROM(
 		ORDER BY o.order_time DESC
 	</select>
 
-	<!-- (APP)user_id and order_state查 “以支付（以消费 未消费 ）” 订单 -->
+	<!-- (APP)user_id and order_state查 “已支付（已消费 未消费 ）” 订单 -->
 	<select id="findOrderBy_state" resultType="com.platform.entity.APP_Order"
 		parameterType="com.platform.entity.Order">
 		SELECT 

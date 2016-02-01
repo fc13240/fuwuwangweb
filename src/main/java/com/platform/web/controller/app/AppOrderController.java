@@ -384,7 +384,6 @@ public class AppOrderController {
 			return result;
 		}
 		List<APP_Order> list = orderService.findOrder(u.getUser_id(), type);
-		
 		result.Successful=true;
 		result.Data=list;
 		return result;
