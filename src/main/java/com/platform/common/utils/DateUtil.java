@@ -290,6 +290,7 @@ public class DateUtil {
     	//方法 三
     	System.out.println(new Date().getTime());
     	System.out.println(getXiaoFeiMa());
+    	System.out.println(getFileName());
     }
 	/**
 	 * @author 李嘉伟
@@ -298,6 +299,16 @@ public class DateUtil {
 	public static String getXiaoFeiMa(){
 		return String.valueOf(Tools.getRandomThreeNum())+String.valueOf(System.currentTimeMillis())+"";
 	}
+	
+	/**
+	 * @author leo
+	 * 生成图片名称
+	 */
+	public static String getFileName(){
+		return String.valueOf(Tools.getRandomNum())+String.valueOf(System.currentTimeMillis())+"";
+	}
+	
+	
 	/**
      * YYYY-MM-dd
      */

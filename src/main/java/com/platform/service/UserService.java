@@ -68,6 +68,18 @@ public interface UserService {
 	public void add_merchant(User user);
 	
 
+	/**
+	 * 商人申请
+	 * 
+	 * @param merchantInfo
+	 */
+	public int addMerchantExtra(MerchantInfo merchantInfo);
+	/**
+	 * 商人申请
+	 * 
+	 * @param merchantInfo
+	 */
+	public int addMerchantInfo(MerchantInfo merchantInfo);
 	
 
 	/**** user_id找用户 ****/

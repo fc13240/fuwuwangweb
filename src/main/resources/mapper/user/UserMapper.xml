@@ -290,6 +290,29 @@
 	</insert>
 
 
+	<!-- 商人申请_t_merchant_info -->
+	<insert id="addMerchantInfo" parameterType="com.platform.entity.MerchantInfo"
+		keyProperty="merchant_id">
+		INSERT INTO
+		t_merchant_info
+		(user_id,merchant_desc,merchant_add_user,merchant_add_time,merchant_phone,
+		service_man,merchant_account,merchant_type,userLogin,user_type,user_state,passWord,updateDate,realName,user_email,login_state,qq)
+		VALUES
+		(#{user_id},#{merchant_desc},#{merchant_add_user},now(),#{merchant_phone},
+		#{service_man},#{merchant_account},#{merchant_type},#{userLogin},#{user_type},#{user_state},#{passWord},now(),#{realName},#{user_email},#{login_state},#{qq})
+	</insert>
+
+	<!-- 商人申请_t_merchant_extra -->
+	<insert id="addMerchantExtra" parameterType="com.platform.entity.MerchantInfo"
+		keyProperty="id">
+		INSERT INTO
+		t_merchant_extra
+		(user_id,license,corporation_pic,identification_obverse,identification_reverse)
+		VALUES
+		(#{user_id},#{license},#{corporation_pic},#{identification_obverse},
+		#{identification_reverse})
+	</insert>
+
 	<!--修改用户登录状态 -->
 	<update id="updateLoginState" parameterType="com.platform.entity.MerchantInfo">
 		UPDATE t_merchant_info SET

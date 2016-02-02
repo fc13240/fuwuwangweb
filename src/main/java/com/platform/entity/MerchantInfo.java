@@ -21,7 +21,13 @@ public class MerchantInfo {
 	private Date merchant_add_time;
 	private Date updateDate;
 	private String realName;
+	private String qq;
 	private String user_email;
+	private String licence; //营业执照
+	private String corporation_pic;//法人照片
+	private String identification_obverse;//身份证正面
+	private String identification_reverse;//身份证背面
+	
 
 	public Integer getMerchant_id() {
 		return merchant_id;
@@ -167,4 +173,47 @@ public class MerchantInfo {
 	public void setUser_email(String user_email) {
 		this.user_email = user_email;
 	}
+
+	public String getLicence() {
+		return licence;
+	}
+
+	public void setLicence(String licence) {
+		this.licence = licence;
+	}
+
+	public String getCorporation_pic() {
+		return corporation_pic;
+	}
+
+	public void setCorporation_pic(String corporation_pic) {
+		this.corporation_pic = corporation_pic;
+	}
+
+	public String getIdentification_obverse() {
+		return identification_obverse;
+	}
+
+	public void setIdentification_obverse(String identification_obverse) {
+		this.identification_obverse = identification_obverse;
+	}
+
+	public String getIdentification_reverse() {
+		return identification_reverse;
+	}
+
+	public void setIdentification_reverse(String identification_reverse) {
+		this.identification_reverse = identification_reverse;
+	}
+
+	public String getQq() {
+		return qq;
+	}
+
+	public void setQq(String qq) {
+		this.qq = qq;
+	}
+	
+	
+	
 }

@@ -533,6 +533,22 @@ public class UserServiceImpl implements UserService {
 	public int addMerchant(MerchantInfo merchantInfo) {
 		return mapper.addMerchant(merchantInfo);
 	}
+	/**
+	 * 商人申请
+	 * 
+	 * @param merchantInfo
+	 */
+	public int addMerchantExtra(MerchantInfo merchantInfo) {
+		return mapper.addMerchantExtra(merchantInfo);
+	}
+	/**
+	 * 商人申请
+	 * 
+	 * @param merchantInfo
+	 */
+	public int addMerchantInfo(MerchantInfo merchantInfo) {
+		return mapper.addMerchantInfo(merchantInfo);
+	}
 
 	/**
 	 * 更新登录时间

@@ -112,6 +112,8 @@ public class Constants {
 	public static final String UPLOAD_USER_IMG_PATH = "/resources/upload/user";
 
 	public static final String UPLOAD_AD_IMG_PATH = "/resources/upload/ad";
+	
+	public static final String UPLOAD_APPLY_IMG_PATH = "/resources/upload/merchant";
 
 	/**
 	 * 广告的权值
