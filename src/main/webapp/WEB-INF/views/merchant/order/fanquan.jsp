@@ -37,13 +37,8 @@
 </head>
 
 <div class="wrapper">
-<<<<<<< HEAD
-	<div class="searchform">
-		<div class="col-md-3">
-=======
 	<div class=" searchform ">
 		<div class="col-md-3 myselect">
->>>>>>> branch 'master' of https://github.com/zczczy/fuwuwangweb.git
 			<select class="form-control" onchange="getOrderByReturn_num_state()"
 				id="return_number_state">
 				<c:choose>

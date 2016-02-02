@@ -70,7 +70,9 @@ function getPhoto(){
 						success : function(data) {
 							var data1 = eval(data);
 							//var data1=JSON.parse(data);
-							
+							if(data1.list==0){
+								alert("很遗憾，没有找到");
+							}
 							if (data1.type == 1) {
 								//alert(data1.list[0].store_img);
 								$("#content_store_goods").html("");
@@ -151,7 +153,7 @@ function getPhoto(){
 		$("#ad_weightLabel").text("") ;
 		$("#store_goodsLabel").text(""); 
 		$("#ad_city_idLabel").text(""); 
-
+		$("#ad_pdLabel").text("");
 		var isSuccess = 0; 
 		if(txt_ad_img.length == 0) 
 		{ 

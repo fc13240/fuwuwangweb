@@ -92,6 +92,7 @@
 		FROM t_user , t_merchant_info
 		WHERE t_user.`user_id` = t_merchant_info.`user_id`
 		AND t_user.user_type = 2
+		AND t_merchant_info.user_state!=3
 		ORDER BY merchant_type desc, user_create_time desc
 
 	</select>
@@ -321,6 +322,7 @@
 	<select id="getMerchantList" resultType="com.platform.entity.MerchantInfo">
 		SELECT * FROM t_merchant_info tmi 
 		WHERE tmi.user_type='2'
+		AND tmi.user_state!=3
 		ORDER BY merchant_type DESC, merchant_add_time DESC
 	</select>
 	
@@ -328,6 +330,7 @@
 	<select id="findMerchantByUserLogin" parameterType="String" resultType="com.platform.entity.MerchantInfo">
 		SELECT * FROM t_merchant_info tmi 
 		WHERE tmi.user_type='2'
+		AND tmi.user_state!=3
 		AND tmi.userLogin LIKE
 		CONCAT(CONCAT('%', #{userLogin}), '%')
 		ORDER BY merchant_type DESC, merchant_add_time DESC

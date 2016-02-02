@@ -226,6 +226,7 @@ public class ADController {
 		//System.out.println("我进来了"+ ad_position +"   "+ ad_weight +"  "+ ad_img );
 		if(null==store_id&&null==goods_id){
 			request.setAttribute("info","所填信息不全，添加失败！");
+			model.addAttribute("citys", territoryService.findAllCitys());
 			return "admin/advertise/addAd" ;
 		}
 		AD ad = new AD();
