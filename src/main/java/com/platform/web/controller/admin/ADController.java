@@ -275,12 +275,13 @@ public class ADController {
 	/******修改广告*******/
 	@RequestMapping(value = "change_AD" , method = RequestMethod.POST)
 	public String  change_AD(Model model,String store_id,String  ad_id, String goods_id ,Integer city_id,Integer ad_type,
-			Integer ad_position, Integer ad_weight,Integer ad_pd,MultipartFile ad_img, HttpSession  session,HttpServletRequest request){
+			Integer ad_position, Integer ad_weight,Integer ad_pd,MultipartFile ad_img,Integer pageNum , HttpSession  session,HttpServletRequest request){
 		//System.out.println("我进来了"+ ad_position +"   "+ ad_weight +"  "+ ad_img );
 		System.out.println("修改广告："+ad_type);
 		ADForWeb ad_yuan=adservice.selectADByad_id(ad_id);
 		if(null==ad_yuan){
 			request.setAttribute("info","广告信息错误，修改广告失败！");
+			model.addAttribute("citys", territoryService.findAllCitys());
 			return "admin/advertise/updateAd" ;
 		}
 		AD ad = new AD();
@@ -360,7 +361,7 @@ public class ADController {
 		model.addAttribute("ads", ad1);
 		System.out.println("修改广告成功");
 		request.setAttribute("info","修改广告成功！");
-		return "admin/advertise/updateAd" ;
+		return "redirect:/admin/ad/adlist_activity?pageNum="+pageNum ;
 	}
 	
 	
@@ -386,7 +387,7 @@ public class ADController {
 	}
 	
 	@RequestMapping(value = "getad" , method = RequestMethod.GET)
-	public String  getad(Model model,String ad_id){
+	public String  getad(Model model,String ad_id,Integer pageNum){
 		
 		ADForWeb ad=new ADForWeb();
 		System.out.println(ad_id);
@@ -399,6 +400,7 @@ public class ADController {
 		}
 		model.addAttribute("citys", territoryService.findAllCitys());
 		model.addAttribute("ads", ad);
+		model.addAttribute("pageNum", pageNum);
 		return "admin/advertise/updateAd";
 	}
 	

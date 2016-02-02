@@ -125,7 +125,7 @@ function getADBycity_id() {
 									<button class="btn btn-info" data-toggle="modal"
 											data-target="#stopModal"
 											onclick="stop('${list.ad_id}');">下线</button>
-										<a class="btn btn-warning"  href="${pageContext.request.contextPath}/admin/ad/getad?ad_id=${list.ad_id}">修改</a>
+										<a class="btn btn-warning"  href="${pageContext.request.contextPath}/admin/ad/getad?ad_id=${list.ad_id}&pageNum=${page.pageNum}">修改</a>
 										<button class="btn btn-danger" data-toggle="modal"
 											data-target="#deleteModal" onclick="delAD('${list.ad_id}');">删除</button>
 									</c:if>
@@ -133,7 +133,7 @@ function getADBycity_id() {
 										<button class="btn btn-success" data-toggle="modal"
 											data-target="#releaseModal"
 											onclick="release('${list.ad_id}');">上线</button>
-										<a class="btn btn-warning"  href="${pageContext.request.contextPath}/admin/ad/getad?ad_id=${list.ad_id}">修改</a>
+										<a class="btn btn-warning"  href="${pageContext.request.contextPath}/admin/ad/getad?ad_id=${list.ad_id}&pageNum=${page.pageNum}">修改</a>
 										<button class="btn btn-danger" data-toggle="modal"
 											data-target="#deleteModal" onclick="delAD('${list.ad_id}');">删除</button>
 									</c:if>

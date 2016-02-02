@@ -231,6 +231,7 @@ function getPhoto(){
 				 action="${pageContext.request.contextPath}/admin/ad/change_AD"
 				method="post" enctype="multipart/form-data"  onsubmit = "return check('${ads.ad_type}');">
 					<input type="hidden" value="${ads.ad_id}" name="ad_id"/>
+					<input type="hidden" value="${pageNum}" name="pageNum"/>
 				<div class="row form-group">
 					<div class="col-md-2">
 						<label for="inputGoodsName" class=" control-label ">请选择图片</label>
