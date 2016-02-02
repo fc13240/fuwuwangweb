@@ -98,11 +98,11 @@ public class AppStoreController {
 		// 查询 区域下的1级分类
 		else if (region_id != null && store_type1_id != null) {
 			sHelp.setStore_type1_id(store_type1_id);
-			sHelp.setStreet_id(street_id);
+			sHelp.setRegion_id(region_id);
 		}
 		// 查询 区域下的2级分类
 		else if (region_id != null && store_type2_id != null) {
-			sHelp.setStreet_id(street_id);
+			sHelp.setRegion_id(region_id);
 			sHelp.setStore_type2_id(store_type2_id);
 		}
 		// 查询 街道下的1级分类
