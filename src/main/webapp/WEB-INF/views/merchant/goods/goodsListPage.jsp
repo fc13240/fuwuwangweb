@@ -184,10 +184,10 @@
 										test="${list.goods_check_state=='2'}">审核未通过</c:if></td>
 								<td align="center">
 								<c:if test="${list.goods_putaway_state=='1'}">
-									<a class="btn btn-success" href="${pageContext.request.contextPath}/merchant/goods/update_goods_putaway?goods_id=${list.goods_id}&goods_putaway_state=2">下架</a>
+									<a class="btn btn-success" href="${pageContext.request.contextPath}/merchant/goods/update_goods_putaway?goods_id=${list.goods_id}&goods_putaway_state=2&pageNum=${page.pageNum}">下架</a>
 								</c:if>
 								<c:if test="${list.goods_putaway_state=='2'}">
-									<a class="btn btn-success" href="${pageContext.request.contextPath}/merchant/goods/update_goods_putaway?goods_id=${list.goods_id}&goods_putaway_state=1">上架</a>
+									<a class="btn btn-success" href="${pageContext.request.contextPath}/merchant/goods/update_goods_putaway?goods_id=${list.goods_id}&goods_putaway_state=1&pageNum=${page.pageNum}">上架</a>
 								</c:if>
 								
 								
