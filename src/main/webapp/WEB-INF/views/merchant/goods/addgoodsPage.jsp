@@ -221,7 +221,7 @@ function getPhoto(){
 				"value"));
 		var txt_goods_purchase_notes = $.trim($("#goods_purchase_notes").attr("value"));
 		
-		
+		var fanquan=$("input[name='goods_return_mz']:checked").val();
 		
 
 		$("#store_nameLabel").text("");
@@ -237,7 +237,9 @@ function getPhoto(){
 	
 		var isSuccess = 1;
 	if (2 == merchant_type) {//判断是不是服务网商家
-			if (txt_goods_return_standard.length == 0) {
+		if(fanquan!=0){
+			
+		if (txt_goods_return_standard.length == 0) {
 				$("#goods_return_standardLabel").text("请填写返券标准")
 				$("#goods_return_standardLabel").css({
 					"color" : "red"
@@ -266,6 +268,7 @@ function getPhoto(){
 				
 				isSuccess = 0;
 			}
+		}	
 			if($('#goods_pay_type1').is(':checked')){
 				$("#goods_pay_type1").attr("value", 1);
 

@@ -1,13 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ include file="../../common/mheader.jsp"%>
-<%@ include file="../../common/cmenu.jsp"%>
+<%@ include file="../../common/header.jsp"%>
+<%@ include file="../../common/menu.jsp"%>
 <html>
 <head>
 <script type="text/javascript" type="text/javascript">
+window.onload = function() {
+	 $("#addButton").hide();
+}
+function getregionID(){
+	var id=$('#region').val();
+	$("#rid1").attr("value", '');//清空内容 
+	$("#rid1").attr("value",id);
+}
 function getstoreid(street_id,street_name) {
-	console.log(street_id);
-	console.log(street_name);
 	$("#sid1").attr("value", '');//清空内容 
 	$("#sid1").attr("value", street_id);
 
@@ -18,7 +24,7 @@ function changeCity(){
 	var id=$('#city').val();
 	var base = "${pageContext.request.contextPath}";
 	$.ajax({
-		url :base+"/merchant/store/territory/getRegion",
+		url :base+"/admin/address/findRegionByCity_Id",
 		type : "GET",
 		datatype : "text",
 		data : "city_id="+id,
@@ -34,7 +40,7 @@ function changeCity(){
 			var data1= eval(data.regions);
 			$("#region").empty();
 			$("#street").empty();
-			
+			 $("#addButton").hide();
 			$('#region')
 	          .append($("<option></option>")
 	          .attr("value",0)
@@ -53,8 +59,11 @@ function changeCity(){
 function changeRegion(){
 	var id=$('#region').val();
 	var base = "${pageContext.request.contextPath}";
+	if(id!=0){
+		
+	
 	$.ajax({
-		url :base+"/merchant/store/territory/getStreet",
+		url :base+"/admin/address/findStreetByRegion_Id",
 		type : "GET",
 		datatype : "text",
 		data : "region_id="+id,
@@ -69,7 +78,10 @@ function changeRegion(){
 			var data1=eval(data.streets);
 			console.log(data1);
 			 $("#t_body").empty();
-			
+			 $("#addButton").show();
+			if(data1.length==0){
+				alert('该区域没有商业圈，请添加');
+			}
 		 	for(var i=0; i<data1.length; i++)     
 	  		{    
 		 		$("#t_body")
@@ -82,7 +94,7 @@ function changeRegion(){
 						+"<td class=\"col-sm-2\">"
 						+data1[i].street_name
 						+"</td>"
-						+"<td class=\"col-sm-2\">"
+						+"<td class=\"col-sm-2\" align=\"center\">"
 +"<button class=\"btn btn-info\" data-toggle=\"modal\"data-target=\"#passModal\" onclick=\"getstoreid('"+data1[i].street_id+"','"+data1[i].street_name+"')\">"
 						+"修改"
 						+"</button>"
@@ -92,13 +104,17 @@ function changeRegion(){
 	  		}   
 		}
 		})
+	}else{
+		$("#addButton").hide();
+	}
 }
-function check(){ 
-	var isSuccess=0;
-	if (isSuccess == 0) {
+function check1(){ 
+	
+	var name=$('#stree_gai').val();
+	if (name.length == 0) {
+		alert("请填写商业圈名称");
 			return false;
 		} else {
-			show();
 			return true;
 		}
 	}
@@ -197,6 +213,10 @@ function show(){
 						<option value="0">请选择区域</option>
 						</select> 
 					</div>
+					<div class="col-sm-2">
+						<button class="btn btn-info" data-toggle="modal"
+								data-target="#addModal" id="addButton" onclick="getregionID()">添加街道</button>
+					</div>
 			</div>
 			<div class="form-group row">
 					<label for="streets" class="col-sm-2 control-label" style="text-align:right">商业圈：</label>
@@ -253,14 +273,47 @@ function show(){
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-					<button type="submit" class="btn btn-primary">确认</button>
+					<button type="submit" onclick="return check1()" class="btn btn-primary">确认</button>
+				</div>
+			</form>
+		</div>
+	</div>
+	</div>
+<!--添加模态框  -->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabel">添加商业圈</h4>
+			</div>
+			<form class="form-horizontal col-sm-offset-2"
+				action="${pageContext.request.contextPath}/admin/address/addStreet"
+				method="post" enctype="multipart/form-data">
+				<input type="text" id="rid1" hidden="true" name="region_id" />
+				<div class="modal-body">
+				<div class="form-group" >
+					<div class="col-md-6">
+						<input type="text" class="form-control" placeholder="商圈名称" name="street_name" id="add_street_name" />
+					</div>
+				</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					<button type="submit" onclick="return check()" class="btn btn-primary">确认</button>
 				</div>
 			</form>
 		</div>
 	</div>
 </div>
 </html>
+<div style="position:fixed;bottom:0px;width:100%;">
 <%@ include file="../../common/footer.jsp"%>
+</div>
 
 
 

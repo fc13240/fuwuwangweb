@@ -31,7 +31,7 @@
 
 	</select>
 	
-	<insert id="userrigester_user" parameterType="com.platform.entity.User"
+	<insert id="addStreet" parameterType="com.platform.entity.User"
 		keyProperty="id">
 		INSERT INTO
 		t_street
@@ -40,7 +40,6 @@
 		(#{street_name},#{region_id})
 	</insert>
 	
-	<!--用户锁定，解锁，删除 -->
 	<update id="updateStreet" parameterType="com.platform.entity.Street">
 		UPDATE t_street
 		<set>
