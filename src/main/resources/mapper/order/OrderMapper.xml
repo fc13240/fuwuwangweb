@@ -97,33 +97,36 @@
 	<!-- 财富管理,user_name time_start..end查 订单 -->
 	<select id="findOrderByUserName" resultType="com.platform.entity.Order"
 		parameterType="com.platform.entity.Order_time">
-
+		SELECT * FROM(
 		SELECT
-		u.`userLogin`,g.`goods_name`,o.`gooods_number`,o.`order_time`,o.`LB_money`,o.`electronics_money`,o.`Unionpay_money`,o.order_id
-		FROM t_store AS s,t_order AS o , t_goods AS g , t_user AS u
-		WHERE u.`userLogin`=#{user_name} 
-		AND s.`store_id` IN( SELECT store_id FROM
-		t_goods WHERE goods_id=o.`goods_id`)
-		AND o.`order_time`
+		u.userLogin,g.goods_name,o.gooods_number,o.order_time,o.LB_money,o.electronics_money,o.Unionpay_money,o.order_id
+		FROM t_order AS o 
+		JOIN t_goods AS g ON o.goods_id=g.goods_id 
+		JOIN t_store AS s ON g.store_id=s.store_id
+		JOIN t_user AS u ON u.user_id=o.user_id
+		WHERE u.userLogin=#{user_name} 
+		AND o.order_time
 		>=STR_TO_DATE(CONCAT(#{order_time_start},'0:0:0'),'%Y-%m-%d %H:%i:%s')
 		AND STR_TO_DATE(CONCAT(#{order_time_end},'23:59:59'),'%Y-%m-%d
-		%H:%i:%s')>=o.`order_time`
-		AND o.`goods_id` = g.`goods_id`
+		%H:%i:%s')>=o.order_time
 		ORDER BY o.order_time DESC
+		) t1
 		UNION
+		SELECT * FROM(
 		SELECT
-		u.`userLogin`,g.`goods_name`,o.`gooods_number`,o.`order_time`,SUM(o.`LB_money`)
-		LB_money,SUM(o.`electronics_money`)
-		electronics_money,SUM(o.`Unionpay_money`) Unionpay_money, o.order_id
-		FROM t_store AS s,t_order AS o ,t_goods AS g , t_user AS u
+		u.userLogin,g.goods_name,o.gooods_number,o.order_time,SUM(o.LB_money)
+		LB_money,SUM(o.electronics_money)
+		electronics_money,SUM(o.Unionpay_money) Unionpay_money, o.order_id
+		FROM t_order AS o 
+		JOIN t_goods AS g ON o.goods_id=g.goods_id 
+		JOIN t_store AS s ON g.store_id=s.store_id
+		JOIN t_user AS u ON u.user_id=o.user_id
 		WHERE
-		u.`userLogin`=#{user_name} AND s.`store_id` IN( SELECT store_id FROM
-		t_goods WHERE goods_id=o.`goods_id`)
-		AND o.`order_time`
-		>=STR_TO_DATE(CONCAT(#{order_time_start},'0:0:0'),'%Y-%m-%d %H:%i:%s')
-		AND STR_TO_DATE(CONCAT(#{order_time_end},'23:59:59'),'%Y-%m-%d
-		%H:%i:%s')>=o.`order_time`
-		AND o.`goods_id` = g.`goods_id`
+		u.userLogin=#{user_name} 
+		AND o.order_time>=STR_TO_DATE(CONCAT(#{order_time_start},'0:0:0'),'%Y-%m-%d %H:%i:%s')
+		AND STR_TO_DATE(CONCAT(#{order_time_end},'23:59:59'),'%Y-%m-%d %H:%i:%s')>=o.order_time
+		) t2
+		
 	</select>
 
 
