@@ -39,4 +39,15 @@ public interface TerritoryService {
      */
     public City getCityByName(String cityName);
     
+    /**
+     * 增加街道
+     * @param street
+     */
+    public  void addStreet(Street street);
+    
+    /**
+     * 修改街道
+     * @param street
+     */
+    public  void updateStreet(Street street);
 }

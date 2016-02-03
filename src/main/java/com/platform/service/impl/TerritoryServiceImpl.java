@@ -48,4 +48,25 @@ public class TerritoryServiceImpl implements TerritoryService{
 		return mapper.getCityByName(cityName);
 	}
 	
+	  /**
+     * 增加街道
+     * @param street
+     */
+    public  void addStreet(Street street){
+    
+    	mapper.addStreet(street);
+    	
+    }
+    	
+    
+    /**
+     * 修改街道
+     * @param street
+     */
+    public  void updateStreet(Street street){
+    	
+    	mapper.updateStreet(street);
+    	
+    }
+
 }

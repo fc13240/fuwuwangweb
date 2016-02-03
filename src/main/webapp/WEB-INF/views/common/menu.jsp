@@ -24,6 +24,8 @@
 						href="${pageContext.request.contextPath}/admin/store/list">店铺列表</a></li>
 					<li><a
 						href="${pageContext.request.contextPath}/admin/store/selectOrder_store">店铺订单</a></li>
+					<li><a
+						href="${pageContext.request.contextPath}/admin/address/executeADDstreet">商业圈管理</a></li>
 				</ul></li>
 		</ul>
 		<ul class="nav nav-pills nav-stacked custom-nav">

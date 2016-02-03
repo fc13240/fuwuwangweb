@@ -31,7 +31,25 @@
 
 	</select>
 	
+	<insert id="userrigester_user" parameterType="com.platform.entity.User"
+		keyProperty="id">
+		INSERT INTO
+		t_street
+		(street_name,region_id)
+		VALUES
+		(#{street_name},#{region_id})
+	</insert>
 	
+	<!--用户锁定，解锁，删除 -->
+	<update id="updateStreet" parameterType="com.platform.entity.Street">
+		UPDATE t_street
+		<set>
+			<if test="street_name != null and street_name !='' ">
+				street_name = #{street_name}
+			</if>
+		</set>
+		WHERE street_id = #{street_id}
+	</update>
 	
 
 </mapper>

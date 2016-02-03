@@ -19,5 +19,18 @@ public interface TerritoryMapper {
 	public List<Street>   selectStreet(Integer  region_id);  // 根据 地区 获得所有的对应的 街道 ；
 	
 	public City getCityByName(String cityName);
-	
+	  /**
+     * 增加街道
+     * @param street
+     */
+    public  void addStreet(Street street);
+    
+    /**
+     * 修改街道
+     * @param street
+     */
+    public  void updateStreet(Street street);
 }
+
+	
+
