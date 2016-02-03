@@ -246,13 +246,7 @@
 						</div>
 					</div>
 
-					<div class="form-group">
-						<label for="inputGoodsPriceLB" class="col-sm-3 control-label">商品龙币价格</label>
-						<div class="col-sm-7">
-							<input type="text" class="form-control" name="goods_price_LB"
-								placeholder="商品龙币价格" id="g_price_LB1" readonly="readonly">(单位：个)
-						</div>
-					</div>
+					
 					<div class="form-group">
 						<label for="inputGoodsDesc" class="col-sm-3 control-label">商品描述</label>
 						<div class="col-sm-7">
@@ -270,37 +264,15 @@
 								id="optionspay_type01" value="0">电子币支付 -->
 							</label>
 						</div>
-
-					</div>
+					</div>	
 					<div class="form-group">
-						<label for="inputGoodsDesc" class="col-sm-3 control-label">返券依据</label>
-						<div class="radio col-sm-7">
-							<label> <input type="radio" name="goods_return_type"
-								id="optionspay_type1" value="1" checked readonly="readonly"> 根据数量返券
-							</label> <label> <input type="radio" name="goods_return_type"
-								id="optionspay_type0" value="0" readonly="readonly"> 根据金额返券
-							</label>
-						</div>
-
-					</div>
-
-					<div class="form-group">
-						<label for="inputGoodsPrice" class="col-sm-3 control-label">返券标准</label>
+						<label for="inputGoodsPriceLB" class="col-sm-3 control-label">商品龙币价格</label>
 						<div class="col-sm-7">
-							<input type="text" class="form-control"
-								name="goods_return_standard" placeholder="返券标准" id="g_standard1"
-								readonly="readonly">
+							<input type="text" class="form-control" name="goods_price_LB"
+								placeholder="商品龙币价格" id="g_price_LB1" readonly="readonly">(单位：个)
 						</div>
 					</div>
-
-					<div class="form-group">
-						<label for="inputGoodsPrice" class="col-sm-3 control-label">返券数量</label>
-						<div class="col-sm-7">
-							<input type="text" class="form-control"
-								name="goods_return_ticket" placeholder="返券数量" id="g_count1"
-								readonly="readonly">
-						</div>
-					</div>
+					
 					<div class="form-group" >
 						<label for="inputGoodsDesc" class="col-sm-3 control-label"
 							style="text-align: right">返券面值</label>
@@ -320,6 +292,37 @@
 							</label>
 						</div>
 					</div>
+					</div>
+					<div class="form-group" id="fanquanyiju">
+						<label for="inputGoodsDesc" class="col-sm-3 control-label">返券依据</label>
+						<div class="radio col-sm-7">
+							<label> <input type="radio" name="goods_return_type"
+								id="optionspay_type1" value="1" checked readonly="readonly"> 根据数量返券
+							</label> <label> <input type="radio" name="goods_return_type"
+								id="optionspay_type0" value="0" readonly="readonly"> 根据金额返券
+							</label>
+						</div>
+
+					</div>
+
+					<div class="form-group" id="fanquanbiaozhun">
+						<label for="inputGoodsPrice" class="col-sm-3 control-label">返券标准</label>
+						<div class="col-sm-7">
+							<input type="text" class="form-control"
+								name="goods_return_standard" placeholder="返券标准" id="g_standard1"
+								readonly="readonly">
+						</div>
+					</div>
+
+					<div class="form-group" id="fanquanshuliang">
+						<label for="inputGoodsPrice" class="col-sm-3 control-label">返券数量</label>
+						<div class="col-sm-7">
+							<input type="text" class="form-control"
+								name="goods_return_ticket" placeholder="返券数量" id="g_count1"
+								readonly="readonly">
+						</div>
+					</div>
+					
 				</div>
 				<div class="modal-footer" id="info_footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
@@ -329,7 +332,6 @@
 			</div>
 		</div>
 	</div>
-</div>
 
 
 
@@ -409,6 +411,9 @@
 						if (data1.goods_return_mz == 0) {
 							$("#mzRadio0").attr("checked", '');//清空内容 
 							$("#mzRadio0").attr("checked", true);//清空内容 
+							$("#fanquanshuliang").hide();
+							$("#fanquanyiju").hide();
+							$("#fanquanbiaozhun").hide();
 							
 						}else if (data1.goods_return_mz == 7) {
 							$("#mzRadio1").attr("checked", '');//清空内容 
