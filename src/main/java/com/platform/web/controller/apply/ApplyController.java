@@ -29,11 +29,11 @@ public class ApplyController extends BaseController {
 
 	@ResponseBody
 	@RequestMapping(value = "apply", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	public BaseModelJson<String> apply(MultipartFile file_licence, MultipartFile file_corporation,
+	public BaseModelJson<String> apply(MultipartFile file_license, MultipartFile file_corporation,
 			MultipartFile file_identification_obverse, MultipartFile file_identification_reverse,
 			MerchantInfo merchantInfo, HttpSession session) {
 		BaseModelJson<String> result = new BaseModelJson<String>();
-		if (file_licence == null) {
+		if (file_license == null) {
 			result.Error = "请上传营业执照附件";
 		} else if (file_corporation == null) {
 			result.Error = "请上传法人手持身份证正面照";
@@ -59,9 +59,9 @@ public class ApplyController extends BaseController {
 			// 本地帐号是否重复
 			result.Error = "该帐号已存在";
 		} else {
-			String type1 = file_licence.getOriginalFilename().indexOf(".") != -1
-					? file_licence.getOriginalFilename().substring(file_licence.getOriginalFilename().lastIndexOf("."),
-							file_licence.getOriginalFilename().length())
+			String type1 = file_license.getOriginalFilename().indexOf(".") != -1
+					? file_license.getOriginalFilename().substring(file_license.getOriginalFilename().lastIndexOf("."),
+							file_license.getOriginalFilename().length())
 					: null;
 			String type2 = file_corporation.getOriginalFilename().indexOf(".") != -1 ? file_corporation
 					.getOriginalFilename().substring(file_corporation.getOriginalFilename().lastIndexOf("."),
@@ -89,17 +89,17 @@ public class ApplyController extends BaseController {
 			}else{
 				String filepath = session.getServletContext().getRealPath(Constants.UPLOAD_APPLY_IMG_PATH);
 				String fileName1=DateUtil.getFileName();
-				UploadUtil.saveFile(file_licence, filepath, fileName1);
-				merchantInfo.setLicence(filepath+fileName1+type1);
+				UploadUtil.saveFile(file_license, filepath, fileName1);
+				merchantInfo.setLicense(fileName1+type1);
 				String fileName2=DateUtil.getFileName();
 				UploadUtil.saveFile(file_corporation, filepath, fileName2);
-				merchantInfo.setCorporation_pic(filepath+fileName2+type2);
+				merchantInfo.setCorporation_pic(fileName2+type2);
 				String fileName3=DateUtil.getFileName();
 				UploadUtil.saveFile(file_identification_obverse, filepath, fileName3);
-				merchantInfo.setIdentification_obverse(filepath+fileName3+type3);
+				merchantInfo.setIdentification_obverse(fileName3+type3);
 				String fileName4=DateUtil.getFileName();
 				UploadUtil.saveFile(file_identification_reverse, filepath, fileName4);
-				merchantInfo.setIdentification_reverse(filepath+fileName4+type4);
+				merchantInfo.setIdentification_reverse(fileName4+type4);
 				
 				merchantInfo.setUser_state(Constants.USER_ACTIVE);
 				merchantInfo.setUser_id(UUIDUtil.getRandom32PK());

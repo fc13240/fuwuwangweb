@@ -303,8 +303,7 @@
 	</insert>
 
 	<!-- 商人申请_t_merchant_extra -->
-	<insert id="addMerchantExtra" parameterType="com.platform.entity.MerchantInfo"
-		keyProperty="id">
+	<insert id="addMerchantExtra" parameterType="com.platform.entity.MerchantInfo" >
 		INSERT INTO
 		t_merchant_extra
 		(user_id,license,corporation_pic,identification_obverse,identification_reverse)

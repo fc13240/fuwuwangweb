@@ -23,7 +23,7 @@ public class MerchantInfo {
 	private String realName;
 	private String qq;
 	private String user_email;
-	private String licence; //营业执照
+	private String license; //营业执照
 	private String corporation_pic;//法人照片
 	private String identification_obverse;//身份证正面
 	private String identification_reverse;//身份证背面
@@ -174,12 +174,14 @@ public class MerchantInfo {
 		this.user_email = user_email;
 	}
 
-	public String getLicence() {
-		return licence;
+
+
+	public String getLicense() {
+		return license;
 	}
 
-	public void setLicence(String licence) {
-		this.licence = licence;
+	public void setLicense(String license) {
+		this.license = license;
 	}
 
 	public String getCorporation_pic() {
