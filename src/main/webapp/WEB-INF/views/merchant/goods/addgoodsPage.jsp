@@ -271,7 +271,7 @@ function getPhoto(){
 		}	
 			if($('#goods_pay_type1').is(':checked')){
 				$("#goods_pay_type1").attr("value", 1);
-
+				$("#goods_pay_type1").val(1);
 				if(txt_goods_price_LB.length==0){
 					$("#goods_price_LBLabel").text("龙币商品，龙币价格不能为空");
 					$("#goods_price_LBLabel").css({

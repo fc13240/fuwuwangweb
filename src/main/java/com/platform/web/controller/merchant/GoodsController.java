@@ -174,8 +174,8 @@ public class GoodsController extends BaseController {
 			String filepath = session.getServletContext().getRealPath(Constants.UPLOAD_GOODS_IMG_PATH);
 			// MultipartFile a=(MultipartFile) goods_img;
 			UploadUtil.saveFile(goods_img, filepath, goods.getGoods_id());
-			UploadUtil.img_01(goods_img, filepath, goods.getGoods_id() + "-1", goods.getGoods_id());
-			UploadUtil.img_02(goods_img, filepath, goods.getGoods_id() + "-2", goods.getGoods_id());
+//			UploadUtil.img_01(goods_img, filepath, goods.getGoods_id() + "-1", goods.getGoods_id());
+//			UploadUtil.img_02(goods_img, filepath, goods.getGoods_id() + "-2", goods.getGoods_id());
 		} else {
 			request.setAttribute("info", "图片格式应为.jpg,.jpeg,.png！");
 			request.setAttribute("goods", goods);
@@ -256,8 +256,8 @@ public class GoodsController extends BaseController {
 			if (type.equals(".jpg") || type.equals(".jpeg") || type.equals(".png")) {
 				String filepath = session.getServletContext().getRealPath(Constants.UPLOAD_GOODS_IMG_PATH);
 				UploadUtil.saveFile(goods_img, filepath, goods.getGoods_id());
-				UploadUtil.img_01(goods_img, filepath, goods.getGoods_id() + "-1", goods.getGoods_id());
-				UploadUtil.img_02(goods_img, filepath, goods.getGoods_id() + "-2", goods.getGoods_id());
+//				UploadUtil.img_01(goods_img, filepath, goods.getGoods_id() + "-1", goods.getGoods_id());
+//				UploadUtil.img_02(goods_img, filepath, goods.getGoods_id() + "-2", goods.getGoods_id());
 				goods.setGoods_img(UploadUtil.fileName);
 				goods.setGoods_putaway_state(Constants.GOODS_PUTAWAY_WAIT);
 				goods.setGoods_check_state(Constants.GOODS_WAIT);

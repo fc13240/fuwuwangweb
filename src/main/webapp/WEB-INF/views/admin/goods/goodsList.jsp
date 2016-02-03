@@ -397,16 +397,15 @@
 							$("#optionspay_type0").attr("checked", '');//清空内容 
 							$("#optionspay_type0").attr("checked", true);
 						}
-						if (data.goods_pay_type == 1) {
+						if (data1.goods_pay_type == 1) {
 							$("#goods_pay_type").attr("checked", '');//清空内容 
 							$("#goods_pay_type").attr("checked", true);
-
+							
 						} else {
 							$("#goods_pay_type").attr("checked", '');//清空内容 
 							$("#goods_pay_type").attr("checked", false);
 							//$("#optionspay_type01").attr("checked", true);
 						}
-						
 						if (data1.goods_return_mz == 0) {
 							$("#mzRadio0").attr("checked", '');//清空内容 
 							$("#mzRadio0").attr("checked", true);//清空内容 

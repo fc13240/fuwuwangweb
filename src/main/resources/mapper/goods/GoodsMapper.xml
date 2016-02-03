@@ -33,9 +33,9 @@
 	<insert id="addGoods" parameterType="com.platform.entity.Goods"
 		keyProperty="goods_id">
 		INSERT INTO t_goods
-		(goods_id,goods_name,goods_desc,goods_img,goods_price_LB,goods_price,store_id,goods_return_ticket,goods_return_type,goods_return_standard,goods_create_time,goods_update_time,goods_type2_id,goods_check_state,goods_delete_state,goods_check_time,goods_purchase_notes,goods_putaway_state,goods_return_mz)
+		(goods_id,goods_name,goods_desc,goods_img,goods_price_LB,goods_pay_type,goods_price,store_id,goods_return_ticket,goods_return_type,goods_return_standard,goods_create_time,goods_update_time,goods_type2_id,goods_check_state,goods_delete_state,goods_check_time,goods_purchase_notes,goods_putaway_state,goods_return_mz)
 		VALUES
-		(#{goods_id},#{goods_name},#{goods_desc},#{goods_img},#{goods_price_LB},#{goods_price},#{store_id},#{goods_return_ticket},#{goods_return_type},#{goods_return_standard},now(),now(),#{goods_type2_id},#{goods_check_state},#{goods_delete_state},#{goods_check_time},#{goods_purchase_notes},#{goods_putaway_state},#{goods_return_mz})
+		(#{goods_id},#{goods_name},#{goods_desc},#{goods_img},#{goods_price_LB},#{goods_pay_type},#{goods_price},#{store_id},#{goods_return_ticket},#{goods_return_type},#{goods_return_standard},now(),now(),#{goods_type2_id},#{goods_check_state},#{goods_delete_state},#{goods_check_time},#{goods_purchase_notes},#{goods_putaway_state},#{goods_return_mz})
 	</insert>
 
 	<!-- 更新商品基本信息 -->
