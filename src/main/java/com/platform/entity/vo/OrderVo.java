@@ -10,14 +10,15 @@ public class OrderVo {
 	private Integer gooods_number; // 商品的数量
 	private Integer goods_price; // 价格
 	private Integer return_number; // 返券的 值
-	private String goods_return_mz;	//返券面值
 	private Integer order_state; // 订单状态
 	private Integer pay_type; // 支付方式
 	private Integer LB_money; // 龙币的数量
 	private Integer electronics_money; // 点子币
 	private Integer Unionpay_money; // 银联
 	private String electronics_evidence; // 点子凭证
-
+	private String return_mz;//返券面值
+	
+	
 	private Date order_time; // 下单时间
 	private Date pay_time; // 支付时间
 	private Date deal_time; //
@@ -38,13 +39,12 @@ public class OrderVo {
 	private String merSign;  // 签名  作为商户 app 调用全民付收银台客户端的参数，由商户后台传给商户客户端
 
 	public OrderVo() {
-		super();
 	}
 
 	public OrderVo(String order_id, String user_id, String goods_id, Integer gooods_number, Integer goods_price,
 			Integer return_number, Integer order_state, Integer pay_type, Integer lB_money, Integer electronics_money,
 			Integer unionpay_money, String electronics_evidence, String chrCode, String transId, Date order_time,
-			Date pay_time, Date deal_time,String goods_return_mz) {
+			Date pay_time, Date deal_time) {
 		this.order_id = order_id;
 		this.user_id = user_id;
 		this.goods_id = goods_id;
@@ -62,7 +62,6 @@ public class OrderVo {
 		this.order_time = order_time;
 		this.pay_time = pay_time;
 		this.deal_time = deal_time;
-		this.goods_return_mz=goods_return_mz;
 	}
 
 	public String getGoods_name() {
@@ -265,12 +264,12 @@ public class OrderVo {
 		this.merSign = merSign;
 	}
 
-	public String getGoods_return_mz() {
-		return goods_return_mz;
+	public String getReturn_mz() {
+		return return_mz;
 	}
 
-	public void setGoods_return_mz(String goods_return_mz) {
-		this.goods_return_mz = goods_return_mz;
+	public void setReturn_mz(String return_mz) {
+		this.return_mz = return_mz;
 	}
 	
 

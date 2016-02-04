@@ -69,8 +69,10 @@
 					<tr>
 						<th class="col-md-1" style="text-align: center;">#</th>
 						<th class="col-md-1" style="text-align: center;">商品价格</th>
-						<th class="col-md-1" style="text-align: center;">返券数量</th>
 						<th class="col-md-1" style="text-align: center;">返券面值</th>
+						<th class="col-md-1" style="text-align: center;">返券数量</th>
+						<th class="col-md-1" style="text-align: center;">返券类别</th>
+						<th class="col-md-1" style="text-align: center;">返券标准</th>
 						<th class="col-md-1" style="text-align: center;">订单状态</th>
 						<th class="col-md-1" style="text-align: center;">支付类型</th>
 						<th class="col-md-2" style="text-align: center;">消费码</th>
@@ -84,12 +86,12 @@
 							<td class="col-md-1" align="center">1</td>
 							<td class="col-md-1" align="center">￥<fmt:formatNumber
 									value="${list.goods_price/100}" pattern="#,###,##0.00#" /></td>
-							<td class="col-md-1" align="center">${list.return_number}张</td>
 							<td class="col-md-1" align="center"><c:if
 									test="${list.return_mz ==7}">100</c:if> <c:if
 									test="${list.return_mz ==8}">200</c:if> <c:if
 									test="${list.return_mz ==9}">500</c:if> <c:if
 									test="${list.return_mz ==10}">400</c:if></td>
+							<td class="col-md-1" align="center">${list.return_number}张</td>
 							<td class="col-md-1" align="center"><c:if
 									test="${list.order_state ==1}">已消费</c:if> <c:if
 									test="${list.order_state ==2}">未支付</c:if> <c:if

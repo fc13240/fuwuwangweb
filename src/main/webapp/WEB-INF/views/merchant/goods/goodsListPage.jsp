@@ -60,9 +60,9 @@
 								"请根据店铺查询商品"));
 				for (var i = 0; i < data1.list.length; i++) {
 					$('#storelist').append(
-							$("<option></option>").attr("value",
-									data1.list[i].store_id).text(
-									data1.list[i].store_name));
+							$("<option></option>")
+							.attr("value",data1.list[i].store_id)
+							.text(data1.list[i].store_name));
 				}
 			}
 		})
@@ -355,6 +355,26 @@
 								id="goods_priceLBLabel"></label>
 						</div>
 					</div>
+					<div class="form-group" id="fanquanmianzhi1">
+						<label for="inputGoodsDesc" class="col-sm-3 control-label"
+							style="text-align: right">返券面值</label>
+						<div class="radio col-sm-7" onchange="showfanquan()">
+						
+							<label> <input type="radio" name="goods_return_mz"
+								id="mzRadio20" value="0" > 不返券
+							</label> 
+							<label> <input type="radio" name="goods_return_mz"
+								id="mzRadio21" value="7" > 100面值
+							</label> 
+							<label> <input type="radio" name="goods_return_mz"
+								id="mzRadio22" value="8"> 200面值
+							</label> <label> <input type="radio" name="goods_return_mz"
+								id="mzRadio23" value="10"> 400面值
+							</label> <label> <input type="radio" name="goods_return_mz"
+								id="mzRadio24" value="9"> 500面值
+							</label>
+						</div>
+					</div>
 					<div class="form-group" id="fanquanyiju1">
 						<label for="inputGoodsDesc" class="col-sm-3 control-label">返券依据</label>
 						<div class="radio col-sm-7">
@@ -386,26 +406,7 @@
 								id="goods_return_ticketLabel"></label>
 						</div>
 					</div>
-					<div class="form-group" id="fanquanmianzhi1">
-						<label for="inputGoodsDesc" class="col-sm-3 control-label"
-							style="text-align: right">返券面值</label>
-						<div class="radio col-sm-7">
-						
-							<label> <input type="radio" name="goods_return_mz"
-								id="mzRadio20" value="0" > 不返券
-							</label> 
-							<label> <input type="radio" name="goods_return_mz"
-								id="mzRadio21" value="7" > 100面值
-							</label> 
-							<label> <input type="radio" name="goods_return_mz"
-								id="mzRadio22" value="8"> 200面值
-							</label> <label> <input type="radio" name="goods_return_mz"
-								id="mzRadio23" value="10"> 400面值
-							</label> <label> <input type="radio" name="goods_return_mz"
-								id="mzRadio24" value="9"> 500面值
-							</label>
-						</div>
-					</div>
+					
 					<div class="form-group">
 						<label for="inputGoodsDesc" class="col-sm-3 control-label">购买须知</label>
 						<div class="col-sm-7">
@@ -490,6 +491,24 @@
 								placeholder="商品龙币价格" id="g_price_LB1" readonly="readonly">(单位：个)
 						</div>
 					</div>
+					<div class="form-group" id="fanquanmianzhi">
+						<label for="inputGoodsDesc" class="col-sm-3 control-label"
+							style="text-align: right">返券面值</label>
+						<div class="radio col-sm-7" >
+							<label> <input type="radio" name="goods_return_mz"
+								id="mzRadio10" value="0" > 不返券
+							</label>
+							 <label> <input type="radio"
+								name="goods_return_mz" id="mzRadio11" value="7"> 100面值
+							</label> <label> <input type="radio"
+								name="goods_return_mz" id="mzRadio12" value="8"> 200面值
+							</label> <label> <input type="radio"
+								name="goods_return_mz" id="mzRadio13" value="10"> 400面值
+							</label> <label> <input type="radio"
+								name="goods_return_mz" id="mzRadio14" value="9"> 500面值
+							</label>
+						</div>
+					</div>
 					<div class="form-group" id="fanquanyiju">
 						<label for="inputGoodsDesc" class="col-sm-3 control-label">返券依据</label>
 						<div class="radio col-sm-7">
@@ -521,24 +540,7 @@
 								readonly="readonly">
 						</div>
 					</div>
-					<div class="form-group" id="fanquanmianzhi">
-						<label for="inputGoodsDesc" class="col-sm-3 control-label"
-							style="text-align: right">返券面值</label>
-						<div class="radio col-sm-7">
-							<label> <input type="radio" name="goods_return_mz"
-								id="mzRadio10" value="0" > 不返券
-							</label>
-							 <label> <input type="radio"
-								name="goods_return_mz" id="mzRadio11" value="7"> 100面值
-							</label> <label> <input type="radio"
-								name="goods_return_mz" id="mzRadio12" value="8"> 200面值
-							</label> <label> <input type="radio"
-								name="goods_return_mz" id="mzRadio13" value="10"> 400面值
-							</label> <label> <input type="radio"
-								name="goods_return_mz" id="mzRadio14" value="9"> 500面值
-							</label>
-						</div>
-					</div>
+					
 					<div class="form-group">
 						<label for="inputGoodsDesc" class="col-sm-3 control-label">购买须知</label>
 						<div class="col-sm-7">
@@ -560,6 +562,19 @@
 
 <!-- js不能起名为modify，为敏感关键字 -->
 <script>
+function showfanquan(){
+
+	var fanquan = $("input[name='goods_return_mz']:checked").val();
+		if (0 != fanquan) {
+			$("#fanquanbiaozhun1").show();
+			$("#fanquanshuliang1").show();
+			$("#fanquanyiju1").show();
+		} else {
+			$("#fanquanbiaozhun1").hide();
+			$("#fanquanshuliang1").hide();
+			$("#fanquanyiju1").hide();
+		}
+	}
 	function clearNoNum(obj) {
 		obj.value = obj.value.replace(/[^\d.]/g, ""); //清除“数字”和“.”以外的字符
 		obj.value = obj.value.replace(/^\./g, ""); //验证第一个字符是数字而不是.
@@ -640,6 +655,9 @@
 							if (data.goods_return_mz == 0) {
 								$("#mzRadio20").attr("checked", '');//清空内容 
 								$("#mzRadio20").attr("checked", true);//清空内容 
+								$("#fanquanyiju1").hide();
+								$("#fanquanbiaozhun1").hide();
+								$("#fanquanshuliang1").hide();
 								
 							}else if (data.goods_return_mz == 7) {
 								$("#mzRadio21").attr("checked", '');//清空内容 
@@ -751,6 +769,9 @@
 
 								$("#mzRadio10").attr("checked", '');//清空内容 
 								$("#mzRadio10").attr("checked", true);//清空内容 
+								$("#fanquanyiju").hide();
+								$("#fanquanbiaozhun").hide();
+								$("#fanquanshuliang").hide();
 
 							} else if (data.goods_return_mz == 7) {
 								$("#mzRadio11").attr("checked", '');//清空内容 
@@ -917,6 +938,13 @@
 				$("#goods_pay_type1").val(1);
 				if (txt_goods_priceLB.length == 0) {
 					$("#goods_priceLBLabel").text("龙币商品，龙币价格不能为空");
+					$("#goods_priceLBLabel").css({
+						"color" : "red"
+					});
+					isSuccess = 0;
+				}
+				if(txt_goods_priceLB>10000){
+					$("#goods_priceLBLabel").text("龙币商品，龙币价格不能超过10000");
 					$("#goods_priceLBLabel").css({
 						"color" : "red"
 					});

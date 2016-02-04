@@ -62,13 +62,10 @@ public class GoodsController extends BaseController {
 			goods = goodsService.findGoodsByUserId(u_id);
 		} else if (type.equals("searchbygoods_name")) {
 			System.out.println("用户搜索的商品名：" + goods_name);
-			if ("".equals(goods_name) || null == goods_name) {
-				goods = goodsService.findGoodsByStoreId(storeService.findstoreByid(u_id).get(0).getStore_id());
-
-			} else {
+			
 
 				goods = goodsService.findGoodsByName_UserId(goods_name, u_id);
-			}
+			
 			List<String> params = new ArrayList<String>();
 			if (null != goods_name && goods_name.length() != 0) {
 				String param1 = "goods_name=" + goods_name + "&";
