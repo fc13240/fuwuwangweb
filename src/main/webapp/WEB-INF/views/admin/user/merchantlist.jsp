@@ -46,7 +46,7 @@
 		action="${pageContext.request.contextPath}/admin/user/merchant/search"
 		method="GET" onsubmit="return check();">
 		<input type="text" class="form-control" name="merchant_name" value="${merchant_name}"
-			id="phone" placeholder="请输入用户名称" /> <input type="submit"
+			id="phone" placeholder="请输入商人名称" /> <input type="submit"
 			class="form-control btn btn-success" value="查找" />
 	</form>
 	<div class="container-fluid">

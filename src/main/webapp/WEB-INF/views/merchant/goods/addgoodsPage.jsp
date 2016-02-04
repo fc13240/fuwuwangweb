@@ -169,43 +169,45 @@
 
 <script type="text/javascript">
 function showfanquan(){
-var fanquan=$("input[name='goods_return_mz']:checked").val();
-if(0!=fanquan){
-	$("#fanquanbiaozhun").show();
-	$("#fanquanshuliang").show();
-	$("#fanquanyiju").show();
-}else{
-	$("#fanquanbiaozhun").hide();
-	$("#fanquanshuliang").hide();
-	$("#fanquanyiju").hide();
-}
-}
-function clearNoNum(obj)
-{
-   obj.value = obj.value.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符
-   obj.value = obj.value.replace(/^\./g,"");  //验证第一个字符是数字而不是.
-   obj.value = obj.value.replace(/\.{2,}/g,"."); //只保留第一个. 清除多余的.
-   obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
-}
 
-function getPhoto(){
-	
-	var video_src_file = $("#goods_img").val();
-	//alert(video_src_file);
-	var result =/\.[^\.]+/.exec(video_src_file);
-	//var result1=result.tolocaleUpperCase();
-	//alert(result);
-	var fileTypeFlag = 0;
-	if(".jpg"== result||".JPG"==result||".jpeg"==result||".JPEG"==result||".png"==result||".PNG"==result){
+	var fanquan = $("input[name='goods_return_mz']:checked").val();
+		if (0 != fanquan) {
+			$("#fanquanbiaozhun").show();
+			$("#fanquanshuliang").show();
+			$("#fanquanyiju").show();
+		} else {
+			$("#fanquanbiaozhun").hide();
+			$("#fanquanshuliang").hide();
+			$("#fanquanyiju").hide();
+		}
+	}
+	function clearNoNum(obj) {
+		obj.value = obj.value.replace(/[^\d.]/g, ""); //清除“数字”和“.”以外的字符
+		obj.value = obj.value.replace(/^\./g, ""); //验证第一个字符是数字而不是.
+		obj.value = obj.value.replace(/\.{2,}/g, "."); //只保留第一个. 清除多余的.
+		obj.value = obj.value.replace(".", "$#$").replace(/\./g, "").replace(
+				"$#$", ".");
+	}
+
+	function getPhoto() {
+
+		var video_src_file = $("#goods_img").val();
+		//alert(video_src_file);
+		var result = /\.[^\.]+/.exec(video_src_file);
+		//var result1=result.tolocaleUpperCase();
+		//alert(result);
+		var fileTypeFlag = 0;
+		if (".jpg" == result || ".JPG" == result || ".jpeg" == result
+				|| ".JPEG" == result || ".png" == result || ".PNG" == result) {
 			fileTypeFlag = 1;
-	}
-	if(fileTypeFlag == 0){
-		$("#goods_imgLabel").text("上传图片后缀应为.jpg,.jpeg,.png！")
-		$("#goods_imgLabel").css({
-			"color" : "red"
-		});
-	     $("#goods_img").val("");
-	}
+		}
+		if (fileTypeFlag == 0) {
+			$("#goods_imgLabel").text("上传图片后缀应为.jpg,.jpeg,.png！")
+			$("#goods_imgLabel").css({
+				"color" : "red"
+			});
+			$("#goods_img").val("");
+		}
 	}
 	function check() { /* passWord newpass */
 		var txt_store_name = $.trim($("#store_name").attr("value"));
@@ -214,15 +216,15 @@ function getPhoto(){
 		var txt_goods_desc = $.trim($("#goods_desc").attr("value"));
 		var txt_goods_price = $.trim($("#goods_price").attr("value"));
 		//var txt_goods_pay_type1 = $.trim($("#goods_pay_type1").attr("value")); 
-		var txt_goods_price_LB  = $.trim($("#goods_price_LB").attr("value"));
+		var txt_goods_price_LB = $.trim($("#goods_price_LB").attr("value"));
 		var txt_goods_return_standard = $.trim($("#goods_return_standard")
 				.attr("value"));
 		var txt_goods_return_ticket = $.trim($("#goods_return_ticket").attr(
 				"value"));
-		var txt_goods_purchase_notes = $.trim($("#goods_purchase_notes").attr("value"));
-		
-		var fanquan=$("input[name='goods_return_mz']:checked").val();
-		
+		var txt_goods_purchase_notes = $.trim($("#goods_purchase_notes").attr(
+				"value"));
+
+		var fanquan = $("input[name='goods_return_mz']:checked").val();
 
 		$("#store_nameLabel").text("");
 		$("#goods_nameLabel").text("");
@@ -234,62 +236,58 @@ function getPhoto(){
 		$("#goods_return_standardLabel").text("");
 		$("#goods_return_ticketLabel").text("");
 		var merchant_type = $('#merchant_type').val();
-	
+
 		var isSuccess = 1;
-	if (2 == merchant_type) {//判断是不是服务网商家
-		if(fanquan!=0){
-			
-		if (txt_goods_return_standard.length == 0) {
-				$("#goods_return_standardLabel").text("请填写返券标准")
-				$("#goods_return_standardLabel").css({
-					"color" : "red"
-				});
-				isSuccess = 0;
+		if (2 == merchant_type) {//判断是不是服务网商家
+			if (fanquan != 0) {
+
+				if (txt_goods_return_standard.length == 0) {
+					$("#goods_return_standardLabel").text("请填写返券标准")
+					$("#goods_return_standardLabel").css({
+						"color" : "red"
+					});
+					isSuccess = 0;
+				}
+				if (txt_goods_return_standard > 10000) {
+					$("#goods_return_standardLabel").text("返券标准不能大于10000")
+					$("#goods_return_standardLabel").css({
+						"color" : "red"
+					});
+					isSuccess = 0;
+				}
+				if (txt_goods_return_ticket.length == 0) {
+					$("#goods_return_ticketLabel").text("请填写返券数量")
+					$("#goods_return_ticketLabel").css({
+						"color" : "red"
+					});
+					isSuccess = 0;
+				}
+				if (txt_goods_return_ticket > 10000) {
+					$("#goods_return_ticketLabel").text("请填写返券数量不能超过10000张")
+					$("#goods_return_ticketLabel").css({
+						"color" : "red"
+					});
+
+					isSuccess = 0;
+				}
 			}
-			if (txt_goods_return_standard >10000) {
-				$("#goods_return_standardLabel").text("返券标准不能大于10000")
-				$("#goods_return_standardLabel").css({
-					"color" : "red"
-				});
-				isSuccess = 0;
-			}
-			if (txt_goods_return_ticket.length == 0) {
-				$("#goods_return_ticketLabel").text("请填写返券数量")
-				$("#goods_return_ticketLabel").css({
-					"color" : "red"
-				});
-				isSuccess = 0;
-			}
-			if (txt_goods_return_ticket>10000) {
-				$("#goods_return_ticketLabel").text("请填写返券数量不能超过10000张")
-				$("#goods_return_ticketLabel").css({
-					"color" : "red"
-				});
-				
-				isSuccess = 0;
-			}
-		}	
-			if($('#goods_pay_type1').is(':checked')){
+			if ($('#goods_pay_type1').is(':checked')) {
 				$("#goods_pay_type1").attr("value", 1);
 				$("#goods_pay_type1").val(1);
-				if(txt_goods_price_LB.length==0){
+				if (txt_goods_price_LB.length == 0) {
 					$("#goods_price_LBLabel").text("龙币商品，龙币价格不能为空");
 					$("#goods_price_LBLabel").css({
 						"color" : "red"
 					});
-					
+
 					isSuccess = 0;
 				}
-			}else{
-				$("#goods_pay_type1").attr("value",0);
+			} else {
+				$("#goods_pay_type1").attr("value", 0);
 
 			}
 		}
-	
 
-
-
-	
 		if (txt_store_name == 0) {
 			$("#store_nameLabel").text("请选择店铺名！")
 			$("#store_nameLabel").css({
@@ -298,22 +296,22 @@ function getPhoto(){
 			isSuccess = 0;
 		}
 
-		if (txt_goods_name.length == 0||txt_goods_name.length>20) {
+		if (txt_goods_name.length == 0 || txt_goods_name.length > 20) {
 			$("#goods_nameLabel").text("请填写商品名称！")
 			$("#goods_nameLabel").css({
 				"color" : "red"
 			});
 			isSuccess = 0;
 		}
-		
-		if (txt_goods_name.length>20) {
+
+		if (txt_goods_name.length > 20) {
 			$("#goods_nameLabel").text("商品名称不能超过20个汉字！")
 			$("#goods_nameLabel").css({
 				"color" : "red"
 			});
 			isSuccess = 0;
 		}
-		if (txt_goods_img.length==0) {
+		if (txt_goods_img.length == 0) {
 			$("#goods_imgLabel").text("请选择商品图片！")
 			$("#goods_imgLabel").css({
 				"color" : "red"
@@ -327,7 +325,7 @@ function getPhoto(){
 			});
 			isSuccess = 0;
 		}
-		if (txt_goods_desc.length>300) {
+		if (txt_goods_desc.length > 300) {
 			$("#goods_descLabel").text("商品描述字数不能超过300个汉字！")
 			$("#goods_descLabel").css({
 				"color" : "red"
@@ -341,7 +339,7 @@ function getPhoto(){
 			});
 			isSuccess = 0;
 		}
-		if (txt_goods_purchase_notes.length>300) {
+		if (txt_goods_purchase_notes.length > 300) {
 			$("#goods_purchase_notesLabel").text("购买须知字数不能超过300个汉字！")
 			$("#goods_purchase_notesLabel").css({
 				"color" : "red"
@@ -355,7 +353,7 @@ function getPhoto(){
 			});
 			isSuccess = 0;
 		}
-		
+
 		if (isSuccess == 0) {
 			return false;
 		} else {
@@ -374,7 +372,7 @@ function getPhoto(){
 		if (2 != merchant_type) {
 			$("#longbi_name").hide();
 			$("#longbi_number").hide();
-		
+
 			$("#fanquanmianzhi").hide();
 		}
 
@@ -400,31 +398,32 @@ function getPhoto(){
 				for (var i = 0; i < data1.list.length; i++) {
 					$('#store_name').append(
 							$("<option></option>").attr("value",
-									data1.list[i].store_id)
-									.text(data1.list[i].store_name));
+									data1.list[i].store_id).text(
+									data1.list[i].store_name));
 				}
 			}
 		})
 	}
-	function show(){  
-		   
-		  var docHeight = $(document).height(); //获取窗口高度  
-		     
-		  $('body').append('<div id="overlay"><div class="spinner"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div></div>');  
-		  $('#overlay')  
-		    .height(docHeight)  
-		    .css({  
-		      'opacity': .5, //透明度  
-		      'position': 'absolute',  
-		      'top': 0,  
-		      'left': 0,  
-		      'background-color': 'black',  
-		      'width': '100%',  
-		      'z-index': 5000 //保证这个悬浮层位于其它内容之上  
-		    });  
-		       
-		   //setTimeout(function(){$('#overlay').fadeOut('slow')}, 5000); //设置3秒后覆盖层自动淡出  
-		}  
+	function show() {
+
+		var docHeight = $(document).height(); //获取窗口高度  
+
+		$('body')
+				.append(
+						'<div id="overlay"><div class="spinner"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div></div>');
+		$('#overlay').height(docHeight).css({
+			'opacity' : .5, //透明度  
+			'position' : 'absolute',
+			'top' : 0,
+			'left' : 0,
+			'background-color' : 'black',
+			'width' : '100%',
+			'z-index' : 5000
+		//保证这个悬浮层位于其它内容之上  
+		});
+
+		//setTimeout(function(){$('#overlay').fadeOut('slow')}, 5000); //设置3秒后覆盖层自动淡出  
+	}
 </script>
 <style type="text/css">
 .spinner {
