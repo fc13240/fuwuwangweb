@@ -27,6 +27,7 @@ import com.platform.common.utils.UUIDUtil;
 import com.platform.common.utils.UploadUtil;
 import com.platform.entity.AD;
 import com.platform.entity.City;
+import com.platform.entity.Province;
 import com.platform.entity.vo.ADForWeb;
 import com.platform.entity.vo.GoodsVo;
 import com.platform.entity.vo.StoreForWeb;
@@ -123,7 +124,7 @@ public class ADController {
 	
 	@RequestMapping(value = "{type}" , method = RequestMethod.GET)
 	public String  adlist_position_weight(Model model , @PathVariable String type, Integer pageNum, Integer pageSize,
-			                              String actionType,String curADId,Integer city_id ){
+			                              String actionType,String curADId,Integer city_id,Integer province_id){
 		
 		       //System.out.println(actionType +"方法类型  And  用户ID"+ curADId);
 		       
@@ -141,13 +142,16 @@ public class ADController {
 				if(("adlist_activity").equals(type)){
 					lAD = adservice.selectAD_state(Constants.AD_STATE_DEL);   // 默认查找未发布  和 已发布  的广告
 					model.addAttribute("page", new PageInfo<AD>(lAD));
-					model.addAttribute("citys", territoryService.findAllCitys());
+					model.addAttribute("provinces", territoryService.findAllProvince());
+					//model.addAttribute("citys", territoryService.findAllCitys());
 				}
 				if(("adlistByCity_id").equals(type)){
 					lAD = adservice.findADlistByCity_id(city_id);   
 					model.addAttribute("page", new PageInfo<AD>(lAD));
+					model.addAttribute("provinces", territoryService.findAllProvince());
 					model.addAttribute("citys", territoryService.findAllCitys());
 					model.addAttribute("city_id", city_id);
+					model.addAttribute("province_id", province_id);
 				}
 				
 				if("updateAD".equals(type)){           // 删除 广告
@@ -374,7 +378,7 @@ public class ADController {
 	public String  execute(Model  model ){
 		
 		System.out.println("广告定位");
-		model.addAttribute("citys", territoryService.findAllCitys());
+		model.addAttribute("provinces", territoryService.findAllProvince());
 		return "admin/advertise/addAd" ;
 	}
 	
@@ -384,6 +388,20 @@ public class ADController {
 	public List<City>  getAllCity(){
 		
 		return territoryService.findAllCitys() ;
+	}
+	
+	@RequestMapping(value = "getAllCityByProvince" , method = RequestMethod.GET)
+	@ResponseBody
+	public List<City>  getAllCityByProvince(Integer province_id){
+		
+		return territoryService.selectCity(province_id) ;
+	}
+	
+	@RequestMapping(value = "getAllProvince" , method = RequestMethod.GET)
+	@ResponseBody
+	public List<Province>  getAllProvince(){
+		
+		return territoryService.findAllProvince() ;
 	}
 	
 	@RequestMapping(value = "getad" , method = RequestMethod.GET)
@@ -398,6 +416,7 @@ public class ADController {
 		}else{
 			ad.setGoods(goodsservice.findGoodsinfoByGoodsId(ad.getAd_pid()));
 		}
+		model.addAttribute("provinces", territoryService.findAllProvince());
 		model.addAttribute("citys", territoryService.findAllCitys());
 		model.addAttribute("ads", ad);
 		model.addAttribute("pageNum", pageNum);

@@ -224,6 +224,41 @@ function getPhoto(){
 		}
 		
 		} 
+	function changeProvince(){
+		var id=$('#ad_province_id').val();
+		$("#ad_city_id").empty();
+		$('#ad_city_id')
+	      .append($("<option></option>")
+	      .attr("value",0)
+	      .text("请选择广告所在城市"));
+		if(id!=0){
+		var base = "${pageContext.request.contextPath}";
+		$.ajax({
+			url :base+"/address/findCityByProvince_Id",
+			type : "GET",
+			datatype : "text",
+			data : "province_id="+id,
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+			/* 	 alert(XMLHttpRequest.status);
+				alert(XMLHttpRequest.readyState);
+				alert(textStatus);  */
+			},
+			success : function(data) {
+				//console.log("获得区域数据："+data);
+				//var data = eval("("+data+")");
+				//var data = eval("("+data+")");
+				var data1= eval(data.citys);
+				
+			 	for(var i=0; i<data1.length; i++){
+			 		console.log(data1[i].city_name);
+			 		$('#ad_city_id')
+			          .append($("<option></option>")
+			          .attr("value",data1[i].city_id)
+			          .text(data1[i].city_name));
+		  		}  
+			}
+			})}
+	}
 </script>
 <h1>
 	<label class="text-info">添加广告</label>
@@ -304,6 +339,21 @@ function getPhoto(){
 						<label id="ad_pdLabel"></label>
 					</div>
 
+				</div>
+				<div class="row form-group">
+					<div class="col-md-2">
+						<label for="inputGoodsName" class="control-label">请选择省份</label>
+					</div>
+					<div class="col-md-4">
+						<select class="form-control" id="ad_province_id" onchange="changeProvince()">
+									<option value="0">请选择广告所在的省份</option>
+							<c:forEach items="${provinces}" var="list" >
+									<option value='${list.province_id}'>${list.province_name}</option>
+							</c:forEach>
+							 
+							
+						</select>
+					</div>
 				</div>
 				<div class="row form-group">
 					<div class="col-md-2">

@@ -6,10 +6,22 @@
 <mapper namespace="com.platform.mapper.TerritoryMapper">
 
 
+	<!-- 获得所有省 -->
+	<select id="findAllProvince" resultType="com.platform.entity.Province">
+		SELECT * from t_province
+	</select>
+	
+		<!-- 根据地区获取 “街道” 信息 -->
+	<select id="selectCity" parameterType="Integer"
+		resultType="com.platform.entity.City">
+		SELECT * FROM t_city WHERE province_id=#{province_id}
+	</select>
+	
 	<!-- 获得所有城市 -->
 	<select id="findAllCity" resultType="com.platform.entity.City">
 		SELECT * from t_city
 	</select>
+	
 	<!-- 获得所有城市 -->
 	<select id="getCityByName" parameterType="java.lang.String" resultType="com.platform.entity.City">
 		SELECT * from t_city tc where tc.city_name =#{city_name} 

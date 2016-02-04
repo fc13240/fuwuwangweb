@@ -15,7 +15,7 @@ import com.platform.service.TerritoryService;
 
 
 @Controller
-@RequestMapping("/admin/address/")
+@RequestMapping("/address/")
 public class AddressController {
 	
 	@Autowired
@@ -24,8 +24,16 @@ public class AddressController {
 	
 	@RequestMapping(value = "executeADDstreet", method = RequestMethod.GET)
 	public String addStreet(Model model) {
-		model.addAttribute("citys", territoryService.findAllCitys());
+		model.addAttribute("provinces", territoryService.findAllProvince());
 		return "admin/store/maintainStreet";
+	}
+	
+	@RequestMapping(value = "findCityByProvince_Id", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object>  findCityByProvince_Id(Model model,Integer province_id) {
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("citys", territoryService.selectCity(province_id));
+		return  map;
 	}
 	
 	@RequestMapping(value = "findRegionByCity_Id", method = RequestMethod.GET)
@@ -46,7 +54,7 @@ public class AddressController {
 	
 	@RequestMapping(value = "addStreet", method = RequestMethod.POST)
 	public String addStreet(Model model,String street_name,Integer region_id) {
-		model.addAttribute("citys", territoryService.findAllCitys());
+		model.addAttribute("provinces", territoryService.findAllProvince());
 		if(null==street_name||("").equals(street_name)){
 		
 			model.addAttribute("info", "所填信息不全,添加失败");
@@ -66,7 +74,6 @@ public class AddressController {
 		}else{
 		
 			model.addAttribute("info", "所填信息不全，添加失败");
-			System.out.println(2);
 			return "admin/store/maintainStreet";
 		
 		}
@@ -74,7 +81,7 @@ public class AddressController {
 	
 	@RequestMapping(value = "updateStreet", method = RequestMethod.POST)
 	public String updateStreet(Model model,Integer street_id,String street_name) {
-		model.addAttribute("citys", territoryService.findAllCitys());
+		model.addAttribute("provinces", territoryService.findAllProvince());
 		if(null==street_name||("").equals(street_name)){
 			model.addAttribute("info", "所填信息不全，修改失败");
 			return "admin/store/maintainStreet";

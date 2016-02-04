@@ -3,6 +3,7 @@ package com.platform.service;
 import java.util.List;
 
 import com.platform.entity.City;
+import com.platform.entity.Province;
 import com.platform.entity.Region;
 import com.platform.entity.Street;
 
@@ -12,6 +13,11 @@ import com.platform.entity.Street;
  *
  */
 public interface TerritoryService {
+	
+	
+	public List<Province> findAllProvince();				//查找所有省
+	
+	public List<City> selectCity(Integer province_id);		//根据省的id查找所有的城市
 
 	/**
 	 * 查找所有城市

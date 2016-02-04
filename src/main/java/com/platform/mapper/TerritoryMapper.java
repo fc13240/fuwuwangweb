@@ -3,14 +3,19 @@ package com.platform.mapper;
 import java.util.List;
 
 import com.platform.entity.City;
+import com.platform.entity.Province;
 import com.platform.entity.Region;
 import com.platform.entity.Street;
 /**
- * 商家管理-商品管理
+ * 地址管理
  * @author 李嘉伟
  *
  */
 public interface TerritoryMapper {
+	
+	public List<Province> findAllProvince();				//查找所有省
+	
+	public List<City> selectCity(Integer province_id);		//根据省的id查找所有的城市
 	
 	public List<City> findAllCity();						//查找所有城市
 	

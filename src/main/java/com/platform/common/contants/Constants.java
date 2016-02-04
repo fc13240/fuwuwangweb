@@ -196,7 +196,7 @@ public class Constants {
     public static final String VERIFYKEY_EXP ="000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010001";
     public static final String SIGNKEY_MOD ="83beb97d3aa44b696b2e1633d6d6fe5ec2b86d2d8ba8437c5c4bcac0530b7d50f03af18dee28f7ebd8859d7063254f3751c1c3594a6146e430ea442489b8fb46dc38c34f42241b0783044b459ce8b377006bc7b1a3b58f41ad772ff65846f4946e9d68e1d78564f89b70b2c713c0e6efbb03100e317eb3214d9ed072fbee3a07";//测试环境商户签名私钥
     public static final String SIGNKEY_EXP="1e4c5e9c4e403a97a3ee956c969c1b23efe43a379f46b33e867b67c59353b11e4c21422c41f96a0af360c7347198c2ff15ee59decf1c50116aae75bd716ef95a9dffd055bc872dc840a53f1d8fdbf08430efa394f8fe7ffc708ccbf4b9d46f6c833a415e57abd811d4b2b1aee64f59e1b87a74986fc7bd04514f924b5550a901";
-    public static final String NO_INTERCEPTOR_PATH = ".*/((checkCode)|(territory/getCity)|(territory/getRegion)|(territory/getStreet)|(storetype/getType1)|(storetype/getType2)|(execute)|(login)|(logout)|(userinfo)).*";	//不对匹配该值的访问路径拦截（正则）
+    public static final String NO_INTERCEPTOR_PATH = ".*/((checkCode)|(territory/getProvince)|(territory/getCityByCity_id)|(territory/getCity)|(territory/getRegion)|(territory/getStreet)|(storetype/getType1)|(storetype/getType2)|(execute)|(login)|(logout)|(userinfo)).*";	//不对匹配该值的访问路径拦截（正则）
     public static final String MERID="898000093990001";//商户号
     public static final String MERTERMID="99999999";//终端编号
     

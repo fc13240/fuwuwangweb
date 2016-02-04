@@ -1,6 +1,5 @@
 package com.platform.web.controller.merchant;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +23,7 @@ import com.platform.common.utils.UUIDUtil;
 import com.platform.common.utils.UploadUtil;
 import com.platform.entity.City;
 import com.platform.entity.MerchantInfo;
+import com.platform.entity.Province;
 import com.platform.entity.Region;
 import com.platform.entity.Store;
 import com.platform.entity.Store_state;
@@ -225,14 +225,24 @@ public class StoreController {
 	 */
 	@RequestMapping(value = "/territory/{type}", method = RequestMethod.GET)
 	@ResponseBody
-	public Map<String, Object> findTerritory(Model model, @PathVariable String type, String city_id, String region_id) {
+	public Map<String, Object> findTerritory(Model model, @PathVariable String type,String province_id, String city_id, String region_id) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<Region> regions = null;
 		List<Street> streets = null;
 		List<City> citys = null;
+		List<Province> provinces = null;
+		if (type.equals("getProvince")) {
+			provinces = tService.findAllProvince();
+			map.put("provinces", provinces);
+		}
 		if (type.equals("getCity")) {
 
 			citys = tService.findAllCitys();
+			map.put("citys", citys);
+		}
+		if (type.equals("getCityByCity_id")) {
+			
+			citys = tService.selectCity(Integer.valueOf(province_id));
 			map.put("citys", citys);
 		}
 		if (type.equals("getRegion")) {

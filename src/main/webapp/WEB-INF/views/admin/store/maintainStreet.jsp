@@ -20,11 +20,58 @@ function getstoreid(street_id,street_name) {
 	$("#stree_gai").attr("value", '');//清空内容 
 	$("#stree_gai").attr("value", street_name);
 }
-function changeCity(){
-	var id=$('#city').val();
+function changeProvince(){
+	var id=$('#province').val();
+	$("#city").empty();
+	$("#region").empty();
+	$("#addButton").hide();
+	$('#city')
+      .append($("<option></option>")
+      .attr("value",0)
+      .text("请选择城市"));
+	$('#region')
+      .append($("<option></option>")
+      .attr("value",0)
+      .text("请选择区域"));
+	if(id!=0){
 	var base = "${pageContext.request.contextPath}";
 	$.ajax({
-		url :base+"/admin/address/findRegionByCity_Id",
+		url :base+"/address/findCityByProvince_Id",
+		type : "GET",
+		datatype : "text",
+		data : "province_id="+id,
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+		/* 	 alert(XMLHttpRequest.status);
+			alert(XMLHttpRequest.readyState);
+			alert(textStatus);  */
+		},
+		success : function(data) {
+			//console.log("获得区域数据："+data);
+			//var data = eval("("+data+")");
+			//var data = eval("("+data+")");
+			var data1= eval(data.citys);
+			
+		 	for(var i=0; i<data1.length; i++){
+		 		$('#city')
+		          .append($("<option></option>")
+		          .attr("value",data1[i].city_id)
+		          .text(data1[i].city_name));
+	  		}  
+		}
+		})}
+}
+function changeCity(){
+	var id=$('#city').val();
+	$("#region").empty();
+	$("#addButton").hide();
+	$('#region')
+     .append($("<option></option>")
+     .attr("value",0)
+     .text("请选择区域"));
+	if(id!=0){
+	var base = "${pageContext.request.contextPath}";
+	$.ajax({
+		url :base+"/address/findRegionByCity_Id",
 		type : "GET",
 		datatype : "text",
 		data : "city_id="+id,
@@ -38,15 +85,7 @@ function changeCity(){
 			//var data = eval("("+data+")");
 			//var data = eval("("+data+")");
 			var data1= eval(data.regions);
-			$("#region").empty();
-			$("#street").empty();
-			 $("#addButton").hide();
-			$('#region')
-	          .append($("<option></option>")
-	          .attr("value",0)
-	          .text("请选择区域"));
-		
-	  		   
+			
 		 	for(var i=0; i<data1.length; i++){
 		 		$('#region')
 		          .append($("<option></option>")
@@ -55,15 +94,14 @@ function changeCity(){
 	  		}  
 		}
 		})
+	}
 }
 function changeRegion(){
 	var id=$('#region').val();
 	var base = "${pageContext.request.contextPath}";
 	if(id!=0){
-		
-	
 	$.ajax({
-		url :base+"/admin/address/findStreetByRegion_Id",
+		url :base+"/address/findStreetByRegion_Id",
 		type : "GET",
 		datatype : "text",
 		data : "region_id="+id,
@@ -196,13 +234,21 @@ function show(){
 	<label style="color:red">&nbsp;&nbsp;${info}</label>
 	
 			<div class="form-group row">
+					<label for="citys" class="col-sm-offset-1 col-sm-1 control-label" style="text-align:right">省：</label>
+					<div class="col-sm-2">
+						<select class="form-control" id="province" onchange="changeProvince()">
+						<option value="0">请选择省</option>
+						<c:forEach items="${provinces}" var="list" varStatus="vs">
+						<option value="${list.province_id}">${list.province_name}</option>
+						</c:forEach>
+						</select> 
+					</div>
+			</div>
+			<div class="form-group row">
 					<label for="citys" class="col-sm-offset-1 col-sm-1 control-label" style="text-align:right">城市：</label>
 					<div class="col-sm-2">
 						<select class="form-control" id="city" onchange="changeCity()">
 						<option value="0">请选择城市</option>
-						<c:forEach items="${citys}" var="list" varStatus="vs">
-						<option value="${list.city_id}">${list.city_name}</option>
-						</c:forEach>
 						</select> 
 					</div>
 			</div>
@@ -261,7 +307,7 @@ function show(){
 				<h4 class="modal-title" id="myModalLabel">修改商业圈</h4>
 			</div>
 			<form class="form-horizontal col-sm-offset-2"
-				action="${pageContext.request.contextPath}/admin/address/updateStreet"
+				action="${pageContext.request.contextPath}/address/updateStreet"
 				method="post" enctype="multipart/form-data">
 				<input type="text" id="sid1" hidden="true" name="street_id" />
 				<div class="modal-body">
@@ -292,7 +338,7 @@ function show(){
 				<h4 class="modal-title" id="myModalLabel">添加商业圈</h4>
 			</div>
 			<form class="form-horizontal col-sm-offset-2"
-				action="${pageContext.request.contextPath}/admin/address/addStreet"
+				action="${pageContext.request.contextPath}/address/addStreet"
 				method="post" enctype="multipart/form-data">
 				<input type="text" id="rid1" hidden="true" name="region_id" />
 				<div class="modal-body">

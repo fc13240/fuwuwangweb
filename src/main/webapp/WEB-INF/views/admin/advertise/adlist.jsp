@@ -20,7 +20,43 @@ function stop(paramstoreId){
 	document.getElementById("curADId2").value=paramstoreId;
 
 }
+function changeProvince(){
+	var id=$('#province').val();
+	$("#city_id").empty();
+	$("#region").empty();
+	$("#addButton").hide();
+	$('#city_id')
+      .append($("<option></option>")
+      .attr("value",0)
+      .text("请选择城市"));
 
+	if(id!=0){
+	var base = "${pageContext.request.contextPath}";
+	$.ajax({
+		url :base+"/address/findCityByProvince_Id",
+		type : "GET",
+		datatype : "text",
+		data : "province_id="+id,
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+		/* 	 alert(XMLHttpRequest.status);
+			alert(XMLHttpRequest.readyState);
+			alert(textStatus);  */
+		},
+		success : function(data) {
+			//console.log("获得区域数据："+data);
+			//var data = eval("("+data+")");
+			//var data = eval("("+data+")");
+			var data1= eval(data.citys);
+			
+		 	for(var i=0; i<data1.length; i++){
+		 		$('#city_id')
+		          .append($("<option></option>")
+		          .attr("value",data1[i].city_id)
+		          .text(data1[i].city_name));
+	  		}  
+		}
+		})}
+}
 function getADBycity_id() {
 	var base = "${pageContext.request.contextPath}";
 	var city_id = $('#city_id').val();
@@ -44,6 +80,22 @@ function getADBycity_id() {
 </head>
 <body>
 <div class=" searchform">
+	<div class="col-md-2 myselect">
+		<select class="form-control" onchange="changeProvince()"
+			id="province">
+			<option value="0" selected="selected">广告所在省份</option>
+			<c:forEach items="${provinces}" var="list" varStatus="vs">
+			<c:choose>
+<c:when test="${list.province_id==province_id}">
+			<option value="${list.province_id}" selected="selected">${list.province_name}</option>
+</c:when>
+<c:otherwise>
+			<option value="${list.province_id}" >${list.province_name}</option>
+</c:otherwise>
+</c:choose>
+			</c:forEach>
+		</select>
+	</div>
 	<div class="col-md-2 myselect">
 		<select class="form-control" onchange="getADBycity_id()"
 			id="city_id">

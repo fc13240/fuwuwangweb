@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.platform.entity.City;
+import com.platform.entity.Province;
 import com.platform.entity.Region;
 import com.platform.entity.Street;
 import com.platform.mapper.TerritoryMapper;
@@ -17,6 +18,22 @@ public class TerritoryServiceImpl implements TerritoryService{
 	@Autowired
 	private TerritoryMapper mapper;
 	
+	
+	
+	/**
+	 * 查找所有省
+	 */
+	public List<Province> findAllProvince() {
+		return mapper.findAllProvince();
+	}
+	
+	/**
+	 * 根据省的id查找所有的城市
+	 */
+	public List<City> selectCity(Integer province_id){
+		return mapper.selectCity(province_id);
+	}
+	
 	/**
 	 * 找到所有城市
 	 * 
@@ -26,6 +43,7 @@ public class TerritoryServiceImpl implements TerritoryService{
 		return mapper.findAllCity();
 		
 	}
+	
     /****查找地区****/
 	public List<Region> selectRegion(Integer city_id) {
 		
