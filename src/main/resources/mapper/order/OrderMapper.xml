@@ -14,6 +14,7 @@
 		WHERE 
 			o.return_number_state = #{return_number_state}
 			AND ts.user_id=#{user_id}
+			AND o.order_state=1
 			ORDER BY o.order_time DESC
 	</select>
 
