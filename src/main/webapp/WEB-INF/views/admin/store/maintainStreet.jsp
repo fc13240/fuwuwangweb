@@ -117,9 +117,9 @@ function changeRegion(){
 			console.log(data1);
 			 $("#t_body").empty();
 			 $("#addButton").show();
-			if(data1.length==0){
-				alert('该区域没有商业圈，请添加');
-			}
+// 			if(data1.length==0){
+// 				alert('该区域没有商业圈，请添加');
+// 			}
 		 	for(var i=0; i<data1.length; i++)     
 	  		{    
 		 		$("#t_body")
