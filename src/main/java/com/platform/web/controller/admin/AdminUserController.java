@@ -262,6 +262,14 @@ public class AdminUserController {
 			merchant.setUser_state(Constants.USER_DELETE);
 			userService.updateUserState(merchant);
 			return "redirect:/admin/user/merchant/mlist";
+		}else if (("agreement").equals(merchanttype)) {
+			System.out.println("传回的请求类别：" + merchanttype + "传回的userid:" + curUserId);
+			merchant.setUser_id(curUserId);
+			merchant.setUser_state(Constants.USER_ACTIVE);
+			userService.updateUserState(merchant);
+			System.out.println("申请通过成功");
+			return "redirect:/admin/user/merchant/mlist";
+
 		}
 		List<String> params = new ArrayList<String>();
 		if (merchant_name != null && merchant_name.length() != 0) {
@@ -273,6 +281,21 @@ public class AdminUserController {
 
 		return "/admin/user/merchantlist";
 	}
+	
+	/**
+	 * 查看商人
+	 * 
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "merchantInfo", method = RequestMethod.GET)
+	public String merchantInfo(Model model, String id) {
+		
+		model.addAttribute("merchant", userService.getMerchantInfo(id));
+
+		return "/admin/user/merchantInfo";
+	}
+	
 
 	/***** 修改密码* @throws Exception *****/
 	@RequestMapping(value = "userinfo", method = RequestMethod.POST)

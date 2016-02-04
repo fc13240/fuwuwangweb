@@ -101,7 +101,7 @@ public class ApplyController extends BaseController {
 				UploadUtil.saveFile(file_identification_reverse, filepath, fileName4);
 				merchantInfo.setIdentification_reverse(fileName4+type4);
 				
-				merchantInfo.setUser_state(Constants.USER_ACTIVE);
+				merchantInfo.setUser_state("0");
 				merchantInfo.setUser_id(UUIDUtil.getRandom32PK());
 				merchantInfo.setUser_type(Constants.USER_STORE);
 				merchantInfo.setLogin_state(1);

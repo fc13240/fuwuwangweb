@@ -225,14 +225,14 @@ public interface UserService {
 	 * 修改密码
 	 * @param map
 	 */
-	public int updatePassword(Map<String,String> map);
+	int updatePassword(Map<String,String> map);
 	
 	/**
 	 * 判断用户是否存在
 	 * @param userLogin
 	 * @return
 	 */
-	public int checkUserLoginIsExist(String userLogin);
+	int checkUserLoginIsExist(String userLogin);
 
 	/**
 	 * 获取商人列表
@@ -254,4 +254,11 @@ public interface UserService {
 	 * @return
 	 */
 	int updateUserState(MerchantInfo merchantInfo);
+	
+	/**
+	 * 查询 商家 信息和 申请信息
+	 * @param user_id
+	 * @return
+	 */
+	MerchantInfo getMerchantInfo(String user_id);
 }

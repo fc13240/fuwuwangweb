@@ -89,11 +89,15 @@ public class LoginController {
 					session.setAttribute("bean", resultUser);
 					session.setAttribute("UrlList", resourceService.findResource_idByUser_Role_Type(2));
 					return "redirect:/merchant/store/selStoreByUser_id";
-				} else if ("2".equals(resultUser.getUser_type()) && !"2".equals(resultUser.getUser_state())) {
+				} else if ("2".equals(resultUser.getUser_type()) && !"1".equals(resultUser.getUser_state())) {
 					// 违规用户
 					model.addAttribute("result", "该用户已被暂停使用");
 					return "login";
-				} else {
+				} else if ("2".equals(resultUser.getUser_type()) && !"0".equals(resultUser.getUser_state())) {
+					// 违规用户
+					model.addAttribute("result", "该用户还未通过审核");
+					return "login";
+				}else {
 					model.addAttribute("result", "该用户无法使用后台管理平台");
 					return "login";
 				}

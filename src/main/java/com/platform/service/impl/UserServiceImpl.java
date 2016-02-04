@@ -603,4 +603,13 @@ public class UserServiceImpl implements UserService {
 	public int updateUserState(MerchantInfo merchantInfo){
 		return mapper.updateUserState(merchantInfo);
 	}
+	
+	/**
+	 * 查询 商家 信息和 申请信息
+	 * @param user_id
+	 * @return
+	 */
+	public MerchantInfo getMerchantInfo(String user_id){
+		return mapper.getMerchantInfo(user_id);
+	}
 }

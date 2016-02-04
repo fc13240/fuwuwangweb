@@ -368,5 +368,14 @@
 		</set>
 		WHERE user_id = #{user_id}
 	</update>
+<!-- 查询商人列表-->
+	<select id="getMerchantInfo" resultType="com.platform.entity.MerchantInfo"  parameterType="String" >
+		SELECT * FROM t_merchant_info tmi 
+		LEFT JOIN t_merchant_extra tme  
+		ON tmi.user_id= tme.user_id
+		WHERE tmi.user_id =#{user_id}
+	</select>
+
+
 
 </mapper>

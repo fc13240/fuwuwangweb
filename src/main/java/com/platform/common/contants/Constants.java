@@ -80,6 +80,7 @@ public class Constants {
 	/**
 	 * user_state用户 1.删除 2.锁定 3.解锁
 	 */
+	public static final String APPLY = "0";// 用户锁定，不显示
 	public static final String USER_LOCK = "1";// 用户锁定，不显示
 	public static final String USER_ACTIVE = "2";// 用户活跃
 	public static final String USER_DELETE = "3";// 用户删除

@@ -11,10 +11,7 @@
         </footer>
         <!--footer section end-->
 
-
-    </div>
     <!-- main content end-->
-</section>
 
 
 <script src="${pageContext.request.contextPath}/resources/js/jquery-1.9.1.js" charset="UTF-8"></script>

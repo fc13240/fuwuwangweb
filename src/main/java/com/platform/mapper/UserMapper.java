@@ -188,10 +188,17 @@ public interface UserMapper {
 	public List<MerchantInfo> findMerchantByUserLogin(String userLogin);
 	
 	/**
-	 * 用户锁定，解锁，删除 
+	 * 用户同意,锁定，解锁，删除 
 	 * @param merchantInfo
 	 * @return
 	 */
 	public int updateUserState(MerchantInfo merchantInfo);
+	
+	/**
+	 * 查询 商家 信息和 申请信息
+	 * @param user_id
+	 * @return
+	 */
+	public MerchantInfo getMerchantInfo(String user_id);
 	
 }
