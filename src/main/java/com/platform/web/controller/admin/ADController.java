@@ -147,9 +147,13 @@ public class ADController {
 				}
 				if(("adlistByCity_id").equals(type)){
 					lAD = adservice.findADlistByCity_id(city_id);   
+					City city=territoryService.findCityByCity_id(city_id);
+					if(null!=city){
+						model.addAttribute("citys", territoryService.selectCity(city.getProvince_id()));
+					}
 					model.addAttribute("page", new PageInfo<AD>(lAD));
 					model.addAttribute("provinces", territoryService.findAllProvince());
-					model.addAttribute("citys", territoryService.findAllCitys());
+					//model.addAttribute("citys", territoryService.selectCity(province_id));
 					model.addAttribute("city_id", city_id);
 					model.addAttribute("province_id", province_id);
 				}
@@ -278,14 +282,16 @@ public class ADController {
 	
 	/******修改广告*******/
 	@RequestMapping(value = "change_AD" , method = RequestMethod.POST)
-	public String  change_AD(Model model,String store_id,String  ad_id, String goods_id ,Integer city_id,Integer ad_type,
+	public String  change_AD(Model model,String store_id,String  ad_id, String goods_id ,Integer province_id,Integer city_id,Integer ad_type,
 			Integer ad_position, Integer ad_weight,Integer ad_pd,MultipartFile ad_img,Integer pageNum , HttpSession  session,HttpServletRequest request){
 		//System.out.println("我进来了"+ ad_position +"   "+ ad_weight +"  "+ ad_img );
 		System.out.println("修改广告："+ad_type);
 		ADForWeb ad_yuan=adservice.selectADByad_id(ad_id);
 		if(null==ad_yuan){
 			request.setAttribute("info","广告信息错误，修改广告失败！");
-			model.addAttribute("citys", territoryService.findAllCitys());
+			model.addAttribute("citys", territoryService.selectCity(province_id));
+			model.addAttribute("provinces", territoryService.findAllProvince());
+			model.addAttribute("province_id", province_id);
 			return "admin/advertise/updateAd" ;
 		}
 		AD ad = new AD();
@@ -369,10 +375,6 @@ public class ADController {
 	}
 	
 	
-	
-	
-	
-	
 	/******定位*******/
 	@RequestMapping(value = "execute" , method = RequestMethod.GET)
 	public String  execute(Model  model ){
@@ -416,9 +418,13 @@ public class ADController {
 		}else{
 			ad.setGoods(goodsservice.findGoodsinfoByGoodsId(ad.getAd_pid()));
 		}
+		City city=territoryService.findCityByCity_id(ad.getCity_id());
+		if(null!=city){
+			model.addAttribute("citys", territoryService.selectCity(city.getProvince_id()));
+		}
 		model.addAttribute("provinces", territoryService.findAllProvince());
-		model.addAttribute("citys", territoryService.findAllCitys());
 		model.addAttribute("ads", ad);
+		model.addAttribute("province_id", city.getProvince_id());
 		model.addAttribute("pageNum", pageNum);
 		return "admin/advertise/updateAd";
 	}

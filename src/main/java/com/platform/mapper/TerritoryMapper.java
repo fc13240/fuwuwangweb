@@ -35,6 +35,14 @@ public interface TerritoryMapper {
      * @param street
      */
     public  void updateStreet(Street street);
+    
+    
+    /**
+     * 根据城市id查找城市
+     * @param city_id
+     * @return
+     */
+    public City findCityByCity_id(Integer city_id);
 }
 
 	

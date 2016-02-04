@@ -224,7 +224,7 @@ public class StoreController {
 	 * 
 	 */
 	@RequestMapping(value = "/territory/{type}", method = RequestMethod.GET)
-	@ResponseBody
+	@ResponseBody   
 	public Map<String, Object> findTerritory(Model model, @PathVariable String type,String province_id, String city_id, String region_id) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<Region> regions = null;

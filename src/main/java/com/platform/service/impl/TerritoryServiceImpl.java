@@ -27,6 +27,15 @@ public class TerritoryServiceImpl implements TerritoryService{
 		return mapper.findAllProvince();
 	}
 	
+    /**
+     * 根据城市id查找城市
+     * @param city_id
+     * @return
+     */
+    public City findCityByCity_id(Integer city_id){
+    	return mapper.findCityByCity_id(city_id);
+    }
+    
 	/**
 	 * 根据省的id查找所有的城市
 	 */

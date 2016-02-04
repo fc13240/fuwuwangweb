@@ -12,7 +12,7 @@ public class City {
 	
 	private String city_name;
 	
-	
+	private Integer province_id;
 
 	public City(){
 		
@@ -20,6 +20,12 @@ public class City {
 	public City(Integer city_id,String city_name){
 		this.city_id=city_id;
 		this.city_name=city_name;
+		
+	}
+	public City(Integer city_id,String city_name,Integer province_id){
+		this.city_id=city_id;
+		this.city_name=city_name;
+		this.setProvince_id(province_id);
 		
 	}
 
@@ -41,12 +47,15 @@ public class City {
 	public void setCity_name(String city_name) {
 		this.city_name = city_name;
 	}
+	public Integer getProvince_id() {
+		return province_id;
+	}
+	public void setProvince_id(Integer province_id) {
+		this.province_id = province_id;
+	}
 	@Override
 	public String toString() {
-		return "City [city_id=" + city_id + ", city_name=" + city_name + "]";
+		return "City [city_id=" + city_id + ", city_name=" + city_name + ", province_id=" + province_id + "]";
 	}
-	
-
-	
 	
 }

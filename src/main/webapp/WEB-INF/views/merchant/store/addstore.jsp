@@ -26,7 +26,7 @@ function getPhoto(){
 window.onload = function(){ 
 	var base = "${pageContext.request.contextPath}";
 	$.ajax({
-		url : base+"/merchant/store/territory/getCity",
+		url : base+"/merchant/store/territory/getProvince",
 		type : "GET",
 		datatype : "text",
 		data : "",
@@ -37,7 +37,11 @@ window.onload = function(){
 		},
 		success : function(data) {
 		//var data = eval("("+data+")");
-		var data1=eval(data.citys);
+		var data1=eval(data.provinces);
+			$('#province')
+	          .append($("<option></option>")
+	          .attr("value",0)
+	          .text("请选择省"));
 			$('#city')
 	          .append($("<option></option>")
 	          .attr("value",0)
@@ -49,13 +53,13 @@ window.onload = function(){
 			$('#street')
 	          .append($("<option></option>")
 	          .attr("value",0)
-	          .text("请选择街道"));
+	          .text("请选择商业圈"));
 	 	for(var i=0; i<data1.length; i++)     
   		{     
-	 		  $('#city')
+	 		  $('#province')
 	          .append($("<option></option>")
-	          .attr("value",data1[i].city_id)
-	          .text(data1[i].city_name));
+	          .attr("value",data1[i].province_id)
+	          .text(data1[i].province_name));
   		}   
 		}
 	})
@@ -131,6 +135,52 @@ function changeType1(){
 		}
 		})
 }
+function changeProvince(){
+	var id=$('#province').val();
+	$("#city").empty();
+	$("#region").empty();
+	$("#street").empty();
+	$('#city')
+      .append($("<option></option>")
+      .attr("value",0)
+      .text("请选择城市"));
+	$('#region')
+    .append($("<option></option>")
+    .attr("value",0)
+    .text("请选择区"));
+	$('#street')
+    .append($("<option></option>")
+    .attr("value",0)
+    .text("请选择商业圈"));
+
+	if(id!=0){
+	var base = "${pageContext.request.contextPath}";
+	$.ajax({
+		url :base+"/address/findCityByProvince_Id",
+		type : "GET",
+		datatype : "text",
+		data : "province_id="+id,
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+		/* 	 alert(XMLHttpRequest.status);
+			alert(XMLHttpRequest.readyState);
+			alert(textStatus);  */
+		},
+		success : function(data) {
+			//console.log("获得区域数据："+data);
+			//var data = eval("("+data+")");
+			//var data = eval("("+data+")");
+			var data1= eval(data.citys);
+			
+		 	for(var i=0; i<data1.length; i++){
+		 		$('#city')
+		          .append($("<option></option>")
+		          .attr("value",data1[i].city_id)
+		          .text(data1[i].city_name));
+	  		}  
+		}
+		})
+		}
+	}
 function changeCity(){
 	var id=$('#city').val();
 	var base = "${pageContext.request.contextPath}";
@@ -159,7 +209,7 @@ function changeCity(){
 			$('#street')
 	          .append($("<option></option>")
 	          .attr("value",0)
-	          .text("请选择街道"));
+	          .text("请选择商业圈"));
 	  		   
 		 	for(var i=0; i<data1.length; i++){
 		 		$('#region')
@@ -191,7 +241,7 @@ function changeRegion(){
 			$('#street')
 		          .append($("<option></option>")
 		          .attr("value",0)
-		          .text("请选择街道"));
+		          .text("请选择商业圈"));
 		 	for(var i=0; i<data1.length; i++)     
 	  		{    
 		 		  $('#street')
@@ -235,7 +285,7 @@ function check(){
 	} 
 	if(street==0) 
 	{ 
-	$("#streetLabel").text("店铺街道不能为空！") 
+	$("#streetLabel").text("店铺商业圈不能为空！") 
 	$("#streetLabel").css({"color":"red"}); 
 	isSuccess = 0; 
 	} 
@@ -426,6 +476,9 @@ function show(){
 		<div class="form-group">
 			<label for="inputGoodsPrice" class="col-sm-offset-1 col-sm-1 control-label" style="text-align:right">店铺区域</label>
 			<div class="col-sm-3">
+				<select class="form-control" id="province" onchange="changeProvince()">
+
+				</select> 
 				<select class="form-control" id="city" onchange="changeCity()">
 
 				</select> 

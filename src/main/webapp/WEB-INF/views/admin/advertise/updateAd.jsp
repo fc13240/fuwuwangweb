@@ -134,6 +134,41 @@ function getPhoto(){
 					ad_p_state=1;
 		}
 	}
+	function changeProvince(){
+		var id=$('#ad_province_id').val();
+		$("#ad_city_id").empty();
+		$('#ad_city_id')
+	      .append($("<option></option>")
+	      .attr("value",0)
+	      .text("根据城市查询广告"));
+
+		if(id!=0){
+		var base = "${pageContext.request.contextPath}";
+		$.ajax({
+			url :base+"/address/findCityByProvince_Id",
+			type : "GET",
+			datatype : "text",
+			data : "province_id="+id,
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+			/* 	 alert(XMLHttpRequest.status);
+				alert(XMLHttpRequest.readyState);
+				alert(textStatus);  */
+			},
+			success : function(data) {
+				//console.log("获得区域数据："+data);
+				//var data = eval("("+data+")");
+				//var data = eval("("+data+")");
+				var data1= eval(data.citys);
+				
+			 	for(var i=0; i<data1.length; i++){
+			 		$('#ad_city_id')
+			          .append($("<option></option>")
+			          .attr("value",data1[i].city_id)
+			          .text(data1[i].city_name));
+		  		}  
+			}
+			})}
+	}
 	function check(ad_type_yuan){ 
 		var txt_ad_position = $.trim($("#ad_position").attr("value")) ;
 		var txt_ad_weight = $.trim($("#ad_weight").attr("value")) ;
@@ -148,48 +183,40 @@ function getPhoto(){
 		}else{
 			 txt_store_goods = $("input[name='goods_id']:checked").val();
 		}
-		if(ad_type_yuan!=txt_store_value){
-			console.log(txt_store_goods);
-			isSuccess=0;
-			
-		}
+		
 		$("#ad_imgLabel").text("") ;
 		$("#ad_positionLabel").text(""); 
 		$("#ad_weightLabel").text("") ;
 		$("#store_goodsLabel").text(""); 
 		$("#ad_city_idLabel").text(""); 
-
-
-		if(city_id== 0) 
-		{ 
+		if(ad_type_yuan!=txt_store_value){
+			console.log(txt_store_goods);
+			isSuccess=0;
+			
+		}else if(city_id== 0){
+			
 		$("#ad_city_idLabel").text("请选择广告所在的城市！") 
 		$("#ad_city_idLabel").css({"color":"red"}); 
 		isSuccess = 0; 
-		}else{
-			isSuccess=1;
-		}
 		
-		if(txt_ad_position == 0) 
-		{ 
+		}else if(txt_ad_position == 0){
+			
 		$("#ad_positionLabel").text("请选择广告位置！") 
 		$("#ad_positionLabel").css({"color":"red"}); 
-		isSuccess = 0; 
-		}else{
-			isSuccess=1;
-		}
-		if(txt_ad_weight == 0) 
-		{ 
+		isSuccess = 0;
+		
+		}else if(txt_ad_weight == 0){
+			
 		$("#ad_weightLabel").text("请选择广告具体位置！") 
 		$("#ad_weightLabel").css({"color":"red"}); 
 		isSuccess = 0; 
-		}else{
-			isSuccess=1;
-		}
-		if(txt_ad_pd == 0) 
-		{ 
+		
+		}else if(txt_ad_pd == 0){
+			
 		$("#ad_pdLabel").text("请选择广告具体位置！") 
 		$("#ad_pdLabel").css({"color":"red"}); 
 		isSuccess = 0; 
+		
 		}else{
 			isSuccess=1;
 		}
@@ -206,11 +233,10 @@ function getPhoto(){
 		//alert(isSuccess);
 		if(isSuccess == 0) 
 		{ 
-			console.log("123");
 			//alert('失败');
 			return false; 
-		}else{
-			//alert('c成功');
+		}
+		if(isSuccess==1){
 			return true; 
 		}
 		
@@ -277,7 +303,7 @@ function getPhoto(){
 									<option value='2'>休闲娱乐页</option>
 								</c:otherwise>
 							</c:choose> --%>
-							<c:if test="${ads.ad_position ==1}">
+						<c:if test="${ads.ad_position ==1}">
 							<option value='1' selected="selected">首页</option>
 							<option value='2'>休闲娱乐页</option>
 							<option value='3'>丽人页</option>
@@ -391,6 +417,33 @@ function getPhoto(){
 						<label id="ad_pdLabel"></label>
 					</div>
 
+				</div>
+				<div class="row form-group">
+					<div class="col-md-2">
+						<label for="inputGoodsName" class="control-label">请选择省</label>
+					</div>
+					<div class="col-md-1">
+					</div>
+					<div class="col-md-3">
+						<select name="province_id" class="form-control" id="ad_province_id" onchange="changeProvince()">
+									<option value="0">请选择广告所在的省</option>
+							<c:forEach items="${provinces}" var="list" >
+									<c:choose>
+									<c:when test="${list.province_id==province_id}">
+									<option value='${list.province_id}' selected="selected">${list.province_name}</option>
+									</c:when>
+									<c:otherwise>
+									<option value='${list.province_id}'>${list.province_name}</option>
+									</c:otherwise>
+									</c:choose>
+							</c:forEach>
+							 
+							
+						</select>
+					</div>
+					<div class="col-md-3">
+						 <label id="ad_province_idLabel"></label>
+					</div>
 				</div>
 				<div class="row form-group">
 					<div class="col-md-2">

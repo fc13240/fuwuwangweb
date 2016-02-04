@@ -28,7 +28,7 @@ function changeProvince(){
 	$('#city_id')
       .append($("<option></option>")
       .attr("value",0)
-      .text("请选择城市"));
+      .text("根据城市查询广告"));
 
 	if(id!=0){
 	var base = "${pageContext.request.contextPath}";
@@ -60,12 +60,13 @@ function changeProvince(){
 function getADBycity_id() {
 	var base = "${pageContext.request.contextPath}";
 	var city_id = $('#city_id').val();
+	var id=$('#province').val();
 	if (city_id == 0) {
 		return false;
 	} else {
 
 		window.location.href = base
-				+ '/admin/ad/adlistByCity_id?city_id=' + city_id;
+				+ '/admin/ad/adlistByCity_id?city_id=' + city_id+'&province_id='+id;
 	}
 }
 </script>
@@ -84,13 +85,13 @@ function getADBycity_id() {
 		<select class="form-control" onchange="changeProvince()"
 			id="province">
 			<option value="0" selected="selected">广告所在省份</option>
-			<c:forEach items="${provinces}" var="list" varStatus="vs">
+			<c:forEach items="${provinces}" var="provinces" varStatus="vs">
 			<c:choose>
-<c:when test="${list.province_id==province_id}">
-			<option value="${list.province_id}" selected="selected">${list.province_name}</option>
+<c:when test="${provinces.province_id==province_id}">
+			<option value="${provinces.province_id}" selected="selected">${provinces.province_name}</option>
 </c:when>
 <c:otherwise>
-			<option value="${list.province_id}" >${list.province_name}</option>
+			<option value="${provinces.province_id}" >${provinces.province_name}</option>
 </c:otherwise>
 </c:choose>
 			</c:forEach>

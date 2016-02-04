@@ -11,10 +11,16 @@
 		SELECT * from t_province
 	</select>
 	
-		<!-- 根据地区获取 “街道” 信息 -->
+		<!-- 根据省获取 城市 信息 -->
 	<select id="selectCity" parameterType="Integer"
 		resultType="com.platform.entity.City">
 		SELECT * FROM t_city WHERE province_id=#{province_id}
+	</select>
+	
+	<!-- 根据城市id获取城市信息 -->
+	<select id="findCityByCity_id" parameterType="Integer"
+		resultType="com.platform.entity.City">
+		SELECT * FROM t_city WHERE city_id=#{city_id}
 	</select>
 	
 	<!-- 获得所有城市 -->
