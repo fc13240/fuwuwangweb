@@ -92,10 +92,16 @@ public class GoodsController extends BaseController {
 
 		Page<GoodsForWeb> goods = new Page<GoodsForWeb>();
 
+		PageHelper.startPage(pageNum, pageSize);
 		goods = goodsService.findGoodsByStoreId(store_id);
 		System.out.println("结果 ：" + goods);
-		PageHelper.startPage(pageNum, pageSize);
 		PageInfo<GoodsForWeb> page = new PageInfo<GoodsForWeb>(goods);
+		List<String> params = new ArrayList<String>();
+		if (null != store_id && store_id.length() != 0) {
+			String param1 = "store_id=" + store_id + "&";
+			params.add(param1);
+		}
+		model.addAttribute("params", params);
 		model.addAttribute("page", page);
 		model.addAttribute("goods_state", 4);
 		return "merchant/goods/goodsListPage";
