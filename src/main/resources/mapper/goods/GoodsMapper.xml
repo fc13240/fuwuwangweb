@@ -581,8 +581,9 @@
 		ts.store_state=3
 		AND
 		tm.user_state=2
-		AND
-		tc.city_name=#{cityName}
+		<if test="city_name !='全国'">
+			AND tc.city_name=#{city_name}
+		</if>
 	</sql>
 
 	<!-- 根据支付类别获取龙币商品 -->

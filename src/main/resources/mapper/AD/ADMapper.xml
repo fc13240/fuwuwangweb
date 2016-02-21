@@ -13,7 +13,12 @@
 	</select>
 	<select id="select_adByCity_id" parameterType="com.platform.entity.AD" resultType="com.platform.entity.vo.ADVo">
 		
-		SELECT *  FROM t_ad   WHERE  ad_position= #{ad_position} AND ad_state = #{ad_state} AND city_id=#{city_id} ORDER BY ad_weight  ,ad_create_time desc
+		SELECT *  FROM t_ad   WHERE  ad_position= #{ad_position} 
+		AND ad_state = #{ad_state}
+		<if test="city_id > 0">
+			AND city_id=#{city_id} 
+		</if> 
+		ORDER BY ad_weight  ,ad_create_time desc
 	</select>
 	
 	<select id="selectADByad_id"  resultType="com.platform.entity.vo.ADForWeb">

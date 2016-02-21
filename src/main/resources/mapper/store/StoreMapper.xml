@@ -396,7 +396,9 @@
 		WHERE ts.store_state=3 and tu.user_state=2
 		AND ts.store_name LIKE
 		CONCAT(CONCAT('%', #{searchName}),'%')
-		AND tc.city_name=#{city_name}
+		<if test="city_name !='全国'">
+			AND tc.city_name=#{city_name}
+		</if>
 
 	</sql>
 

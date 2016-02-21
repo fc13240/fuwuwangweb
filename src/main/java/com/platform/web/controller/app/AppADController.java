@@ -55,8 +55,12 @@ public class AppADController {
 			return result;
 		}
 		City city = territoryService.getCityByName(cityName);
-		if (city == null) {
+		if (city == null && !"全国".equals(cityName)) {
 			result.Error = "不支持该城市";
+			return result;
+		}else if("全国".equals(cityName)){
+			city=new City();
+			city.setCity_id(0);
 		}
 		AD ad_1 = new AD(ad_position, Constants.AD_STATE_RUN, city.getCity_id());
 		List<ADVo> lAD_1 = adService.select_adByCity_id(ad_1);
