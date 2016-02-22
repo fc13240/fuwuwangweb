@@ -658,8 +658,11 @@
 		tgr.goods_recommend_state=1
 		AND tg.goods_putaway_state=1
 		AND tm.user_state=2
-		AND
-		tc.city_name=#{cityName}
+
+		<if test="city_name !='全国'">
+			AND tc.city_name=#{city_name}
+		</if>
+
 		<if test="store_type1_id != null">
 		 AND tsto.store_type1_id=#{store_type1_id}
 		</if>

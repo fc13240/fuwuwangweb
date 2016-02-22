@@ -36,8 +36,11 @@ window.onload = function(){
 			alert(textStatus);  */
 		},
 		success : function(data) {
+		console.log(data);
 		//var data = eval("("+data+")");
 		var data1=eval(data.provinces);
+		console.log(data1);
+		
 			$('#province')
 	          .append($("<option></option>")
 	          .attr("value",0)

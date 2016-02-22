@@ -122,7 +122,7 @@ public class AppGoodsController extends BaseController {
 		}
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("searchName", searchName);
-		map.put("cityName", cityName);
+		map.put("city_name", cityName);
 		map.put("pageSize", PageSize);
 		map.put("offset", (PageIndex - 1) * PageSize);
 		result.Successful = true;
@@ -160,7 +160,7 @@ public class AppGoodsController extends BaseController {
 			return result;
 		}
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("cityName", cityName);
+		map.put("city_name", cityName);
 		map.put("pageSize", PageSize);
 		map.put("offset", (PageIndex - 1) * PageSize);
 		result.Successful = true;
@@ -203,7 +203,7 @@ public class AppGoodsController extends BaseController {
 			return result;
 		}
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("cityName", cityName);
+		map.put("city_name", cityName);
 		map.put("store_type1_id", store_type1_id);
 		map.put("pageSize", PageSize);
 		map.put("offset", (PageIndex - 1) * PageSize);
