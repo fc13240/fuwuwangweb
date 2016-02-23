@@ -17,7 +17,9 @@ public class Constants {
 	//正式环境
 	public static final String PATH="http://appapib.86fuwuwang.com/api/";
 	
-
+	public static final String YU="redirect:/";
+//	public static final String YU="redirect:http://localhost:8080/fuwuwangshop/";
+	
 	/**
 	 * 商家状态 1:待审核 2：锁定 3：审核成功、活跃、解锁状态、 4：审核失败 
 	 */

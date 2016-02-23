@@ -604,7 +604,7 @@
 	</select>
 	
 	<!-- 根据支付类别获取龙币商品 -->
-	<select id="getLongBiGoodsCountByCityName" parameterType="java.lang.String"
+	<select id="getLongBiGoodsCountByCityName" parameterType="java.util.HashMap"
 		resultType="java.lang.Integer">
 		
 		SELECT COUNT(*)

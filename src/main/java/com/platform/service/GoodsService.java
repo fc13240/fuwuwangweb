@@ -254,7 +254,7 @@ public interface GoodsService {
 	 * @param map
 	 * @return
 	 */
-	Integer getLongBiGoodsCountByCityName(String cityName);
+	Integer getLongBiGoodsCountByCityName(HashMap<String,Object> map);
 	
 	
 	

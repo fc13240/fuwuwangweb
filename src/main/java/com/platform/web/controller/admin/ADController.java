@@ -164,7 +164,7 @@ public class ADController {
 					ad.setAd_state(Constants.AD_STATE_DEL);
 					 adservice.updateAD(ad);
 					
-					 return "redirect:/admin/ad/adlist_activity?pageNum="+pageNum ;   // 重定向到。。活跃的广告
+					 return Constants.YU+"admin/ad/adlist_activity?pageNum="+pageNum ;   // 重定向到。。活跃的广告
 					
 				}
 				if("release".equals(type)){
@@ -172,7 +172,7 @@ public class ADController {
 					ad.setAd_id(curADId);
 					ad.setAd_state(Constants.AD_STATE_RUN);
 					adservice.updateAD(ad);  
-					return "redirect:/admin/ad/adlist_activity?pageNum="+pageNum ;   
+					return Constants.YU+"admin/ad/adlist_activity?pageNum="+pageNum ;   
 					
 				}
 				if("stop".equals(type)){
@@ -180,7 +180,7 @@ public class ADController {
 					ad.setAd_id(curADId);
 					ad.setAd_state(Constants.AD_STATE_STOP);
 					adservice.updateAD(ad);  
-					return "redirect:/admin/ad/adlist_activity?pageNum="+pageNum ;   
+					return Constants.YU+"admin/ad/adlist_activity?pageNum="+pageNum ;   
 					
 				}
 
@@ -371,7 +371,7 @@ public class ADController {
 		model.addAttribute("ads", ad1);
 		System.out.println("修改广告成功");
 		request.setAttribute("info","修改广告成功！");
-		return "redirect:/admin/ad/adlist_activity?pageNum="+pageNum ;
+		return Constants.YU+"admin/ad/adlist_activity?pageNum="+pageNum ;
 	}
 	
 	

@@ -219,16 +219,30 @@ public class AppOrderController {
 //			String merId = respOrder.getMerId(); // 商户号
 //			String signtrue = respOrder.getMerSign(); // 签名
 			String content = ss.sign(transId + chrcode); // content 作为商户 app
-															// 调用全民付收银台客户端的参数，由商户后台传给商户客户端
+													// 调用全民付收银台客户端的参数，由商户后台传给商户客户端
 			/*
 			 * + "|" + chrcode + "|" + transId + "|" + merId;
 			 */
-			System.out.println("Content :" + content);
+			System.out.println("Content====:" + content);
+			
+			System.out.println("transId===="+transId);
+			System.out.println("chrcode===="+chrcode);
+			System.out.println("merorderId===="+merorderId);
+			System.out.println("RespMsg===="+RespMsg);
+			System.out.println("RespCode===="+RespCode);
+			System.out.println("Reserve===="+Reserve);
+			
+			
+			
 			// 验签
 			StringBuffer buf = new StringBuffer();
 			buf.append(merorderId).append(chrcode);
 			buf.append(transId).append(Reserve).append(RespCode).append(RespMsg);
-			boolean falg = Yanqian.merSignVerify(buf.toString());
+			System.out.println("buf======="+buf.toString());
+			
+			boolean falg =ss.verify(buf.toString(), respOrder.getSignature());
+			
+//			boolean falg = Yanqian.merSignVerify(buf.toString());
 			if (!falg) {
 				System.out.println("验签失败");
 				result.Successful = false;
@@ -460,7 +474,8 @@ public class AppOrderController {
 		buf.append(OrderTime).append(OrderDate).append(MerOrderId).append(TransType);
 		buf.append(TransAmt).append(MerId).append(MerTermId).append(TransId);
 		buf.append(TransState).append(RefId).append(Account).append(TransDesc).append(Reserve);
-		boolean falg = Yanqian.merSignVerify(buf.toString());
+//		boolean falg = Yanqian.merSignVerify(buf.toString());
+		boolean falg =ss.verify(buf.toString(), noticeEntity.getSignature());
 		if (!falg) {
 			System.out.println("验签失败");
 			return;
@@ -576,7 +591,8 @@ public class AppOrderController {
 					.append(respOrder.getTransType()).append(respOrder.getMerId()).append(respOrder.getMerTermId())
 					.append(respOrder.getTransId()).append(respOrder.getTransState()).append(respOrder.getRefId())
 					.append(respOrder.getRespCode()).append(respOrder.getRespMsg());
-			boolean success = Yanqian.merSignVerify(sb.toString());
+//			boolean success = Yanqian.merSignVerify(sb.toString());
+			boolean success =ss.verify(sb.toString(), respOrder.getSignature());
 			if (!success) {
 				System.out.println("验签失败");
 				result.Error = "非法订单";

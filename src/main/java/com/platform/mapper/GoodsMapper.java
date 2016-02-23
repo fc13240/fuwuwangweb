@@ -144,7 +144,7 @@ public interface GoodsMapper {
 	 * @param map
 	 * @return
 	 */
-	Integer getLongBiGoodsCountByCityName(String cityName);
+	Integer getLongBiGoodsCountByCityName(HashMap<String,Object> map);
 	
 	
 	List<GoodsVo> getGoodsRecommendByCityNameAndCategory(HashMap<String,Object> map);

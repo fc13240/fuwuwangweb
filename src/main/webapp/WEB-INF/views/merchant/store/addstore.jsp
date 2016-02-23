@@ -323,7 +323,7 @@ function check(){
 	$("#txtstore_phoneLabel").css({"color":"red"}); 
 	isSuccess = 0; 
 	} else{
-		if(!(new RegExp("^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(17([5-8]))|(18[0,5-9]))\\d{8}$")).test(txtstore_phone)
+		if(!(new RegExp("^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(17([5-8]))|(18[0,2-9]))\\d{8}$")).test(txtstore_phone)
 				&& !(new RegExp("^[0-9]{3,4}-[0-9]{7,8}$")).test(txtstore_phone)){
 			$("#txtstore_phoneLabel").text("店铺电话格式有误！") 
 			$("#txtstore_phoneLabel").css({"color":"red"}); 

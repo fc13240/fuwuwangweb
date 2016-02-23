@@ -167,7 +167,7 @@ public class AppGoodsController extends BaseController {
 		pr.ListData = goodsService.getLongBiGoodsByCityName(map);
 		pr.PageIndex = PageIndex;
 		pr.PageSize = PageSize;
-		Integer count = goodsService.getLongBiGoodsCountByCityName(cityName);
+		Integer count = goodsService.getLongBiGoodsCountByCityName(map);
 		pr.PageCount = (count % PageSize) == 0 ? count / PageSize : (count / PageSize) + 1;
 		pr.RowCount=count;
 		result.Data = pr;

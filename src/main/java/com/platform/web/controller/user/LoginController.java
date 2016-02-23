@@ -24,6 +24,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.platform.common.contants.Constants;
 import com.platform.common.utils.Md5;
 import com.platform.entity.MerchantInfo;
 import com.platform.entity.User;
@@ -79,16 +80,16 @@ public class LoginController {
 				if ("0".equals(resultUser.getUser_type())) { // 管理员
 					session.setAttribute("bean", resultUser);
 					session.setAttribute("UrlList", resourceService.findResource_idByUser_Role_Type(1));
-					return "redirect:/admin/store/list";
+					return Constants.YU+"admin/store/list";
 				} else if ("1".equals(resultUser.getUser_type())) {// 管理员
 					session.setAttribute("bean", resultUser);
 					session.setAttribute("UrlList", resourceService.findResource_idByUser_Role_Type(1));
-					return "redirect:/admin/store/list";
+					return Constants.YU+"admin/store/list";
 				} else if ("2".equals(resultUser.getUser_type()) && "2".equals(resultUser.getUser_state())) {// 商家
 					// 正常用户
 					session.setAttribute("bean", resultUser);
 					session.setAttribute("UrlList", resourceService.findResource_idByUser_Role_Type(2));
-					return "redirect:/merchant/store/selStoreByUser_id";
+					return Constants.YU+"merchant/store/selStoreByUser_id";
 				} else if ("2".equals(resultUser.getUser_type()) && !"1".equals(resultUser.getUser_state())) {
 					// 违规用户
 					model.addAttribute("result", "该用户已被暂停使用");
@@ -107,6 +108,69 @@ public class LoginController {
 			}
 		}
 	}
+	
+	
+//	/**
+//	 * 
+//	 * web 登录
+//	 */
+//	@RequestMapping(value = "/login", method = RequestMethod.POST)
+//	public ModelAndView login(RedirectAttributes model, String checkcode, String userLogin, String passWord, HttpSession session) {
+//		if (checkcode == null || "".equals(checkcode.trim())) {
+//			model.addAttribute("result", "验证码不能为空！");
+//			return new ModelAndView("/login");
+//		} else if (userLogin == null || "".equals(userLogin.trim())) {
+//			model.addAttribute("result", "用户名不能为空！");
+//			return new ModelAndView("/login");
+//		} else if (passWord == null || "".equals(passWord.trim())) {
+//			model.addAttribute("result", "密码不能为空！");
+//			return new ModelAndView("/login");
+//		}
+//		//getAttribute("bean")
+//		MerchantInfo resultUser = new MerchantInfo();
+//		String generateCheckCode = (String) session.getAttribute("CheckCode");
+//		Map<String, String> map = new HashMap<String, String>();
+//		map.put("userLogin", userLogin);
+//		map.put("passWord", Md5.getVal_UTF8(passWord));
+//		if (generateCheckCode == null || !generateCheckCode.equalsIgnoreCase(checkcode)) {
+//			model.addAttribute("result", "验证码不正确！");// info_checkcode
+//			return new ModelAndView("/login");
+//		} else {
+//			resultUser = userService.getUserLogin(map);
+//			if (null != resultUser) {
+//				if ("0".equals(resultUser.getUser_type())) { // 管理员
+//					session.setAttribute("bean", resultUser);
+//					session.setAttribute("UrlList", resourceService.findResource_idByUser_Role_Type(1));
+//					return new ModelAndView("redirect:http://store.86shoping.com:8080/admin/store/list");
+//				} else if ("1".equals(resultUser.getUser_type())) {// 管理员
+//					session.setAttribute("bean", resultUser);
+//					session.setAttribute("UrlList", resourceService.findResource_idByUser_Role_Type(1));
+//					return new ModelAndView("redirect:http://store.86shoping.com:8080/admin/store/list");
+//				} else if ("2".equals(resultUser.getUser_type()) && "2".equals(resultUser.getUser_state())) {// 商家
+//					// 正常用户
+//					session.setAttribute("bean", resultUser);
+//					session.setAttribute("UrlList", resourceService.findResource_idByUser_Role_Type(2));
+//					return new ModelAndView("redirect:http://store.86shoping.com:8080/merchant/store/selStoreByUser_id");
+//				} else if ("2".equals(resultUser.getUser_type()) && !"1".equals(resultUser.getUser_state())) {
+//					// 违规用户
+//					model.addAttribute("result", "该用户已被暂停使用");
+//					return new ModelAndView("/login");
+//				} else if ("2".equals(resultUser.getUser_type()) && !"0".equals(resultUser.getUser_state())) {
+//					// 违规用户
+//					model.addAttribute("result", "该用户还未通过审核");
+//					return new ModelAndView("/login");
+//				}else {
+//					model.addAttribute("result", "该用户无法使用后台管理平台");
+//					return new ModelAndView("/login");
+//				}
+//			} else {
+//				model.addAttribute("result", "账号或密码错误，请重试");
+//				return new ModelAndView("/login");
+//			}
+//		}
+//	}
+	
+	
 
 	/**
 	 * 用户退出
@@ -114,7 +178,7 @@ public class LoginController {
 	@RequestMapping(value = "logout", method = RequestMethod.GET)
 	public String logout(HttpSession session) {
 		session.invalidate();
-		return "redirect:execute";
+		return "forward:execute";
 	}
 
 	/***** 修改密码* @throws Exception *****/

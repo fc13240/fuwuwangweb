@@ -62,6 +62,9 @@ public class Yanqian {
 			ss.setVerifyKeyExpHex(verifyKeyExp);// 验签公钥 exp
 			// 签名
 			String sign = ss.sign(data);
+			System.out.println("签名数据：" + sign);
+			System.out.println("getVerifyKeyModHex：" + ss.getVerifyKeyModHex());
+			System.out.println("getVerifyKeyExpHex：" + ss.getVerifyKeyExpHex());
 			// 验签
 			verifyResult = ss.verify(data, sign);
 		} catch (Exception e) {

@@ -27,6 +27,9 @@ public class LoginHandlerInterceptor extends HandlerInterceptorAdapter{
 		}else{
 			HttpSession session = request.getSession();
 			MerchantInfo user = (MerchantInfo)session.getAttribute("bean");
+			
+			System.out.println(request.getContextPath());
+			
 			if(user==null){
 				response.sendRedirect(request.getContextPath()+"/admin/execute");
 				System.out.println("没有登录，请登录");

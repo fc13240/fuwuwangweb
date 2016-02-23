@@ -109,9 +109,9 @@
 			<label for="inputGoodsDesc" class="col-sm-offset-1 col-sm-1 control-label"  style="text-align:right" >返券依据</label>
 			<div class="radio col-sm-3">
 				<label> <input type="radio" name="goods_return_type"
-					id="optionsRadios1" value="0" checked> 根据数量返券
+					id="optionsRadios1" value="1" checked> 根据数量返券
 				</label> <label> <input type="radio" name="goods_return_type"
-					id="optionsRadios2" value="1"> 根据金额返券
+					id="optionsRadios2" value="0"> 根据金额返券
 				</label>
 			</div>
 		</div>

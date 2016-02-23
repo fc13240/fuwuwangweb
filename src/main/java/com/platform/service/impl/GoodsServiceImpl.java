@@ -380,8 +380,8 @@ public class GoodsServiceImpl implements GoodsService {
 	 * @param map
 	 * @return
 	 */
-	public Integer getLongBiGoodsCountByCityName(String cityName) {
-		return mapper.getLongBiGoodsCountByCityName(cityName);
+	public Integer getLongBiGoodsCountByCityName(HashMap<String,Object> map) {
+		return mapper.getLongBiGoodsCountByCityName(map);
 	}
 
 	/**

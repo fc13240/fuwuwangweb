@@ -81,7 +81,7 @@ public class AdminUserController {
 			user.setUser_state(Constants.USER_LOCK);
 			userService.updateuser_state(user);
 			System.out.println("锁定用户成功");
-			return "redirect:/admin/user/ulist";
+			return Constants.YU+"admin/user/ulist";
 
 		} else if (("activityuser").equals(type)) {
 			System.out.println("传回的请求类别：" + type + "传回的userid:" + curUserId);
@@ -89,7 +89,7 @@ public class AdminUserController {
 			user.setUser_state(Constants.USER_ACTIVE);
 			userService.updateuser_state(user);
 			System.out.println("解锁用户成功");
-			return "redirect:/admin/user/ulist";
+			return Constants.YU+"admin/user/ulist";
 
 		} else if (("deluser").equals(type)) {
 			System.out.println("传回的请求类别：" + type + "传回的userid:" + curUserId);
@@ -97,7 +97,7 @@ public class AdminUserController {
 			user.setUser_state(Constants.USER_DELETE);
 			userService.updateuser_state(user);
 			System.out.println("删除用户成功");
-			return "redirect:/admin/user/ulist";
+			return Constants.YU+"admin/user/ulist";
 
 		}
 
@@ -249,26 +249,26 @@ public class AdminUserController {
 			merchant.setUser_id(curUserId);
 			merchant.setUser_state(Constants.USER_LOCK);
 			userService.updateUserState(merchant);
-			return "redirect:/admin/user/merchant/mlist";
+			return Constants.YU+"admin/user/merchant/mlist";
 
 		} else if (("activityuser").equals(merchanttype)) {
 			merchant.setUser_id(curUserId);
 			merchant.setUser_state(Constants.USER_ACTIVE);
 			userService.updateUserState(merchant);
-			return "redirect:/admin/user/merchant/mlist";
+			return Constants.YU+"admin/user/merchant/mlist";
 
 		} else if (("deluser").equals(merchanttype)) {
 			merchant.setUser_id(curUserId);
 			merchant.setUser_state(Constants.USER_DELETE);
 			userService.updateUserState(merchant);
-			return "redirect:/admin/user/merchant/mlist";
+			return Constants.YU+"admin/user/merchant/mlist";
 		}else if (("agreement").equals(merchanttype)) {
 			System.out.println("传回的请求类别：" + merchanttype + "传回的userid:" + curUserId);
 			merchant.setUser_id(curUserId);
 			merchant.setUser_state(Constants.USER_ACTIVE);
 			userService.updateUserState(merchant);
 			System.out.println("申请通过成功");
-			return "redirect:/admin/user/merchant/mlist";
+			return Constants.YU+"admin/user/merchant/mlist";
 
 		}
 		List<String> params = new ArrayList<String>();

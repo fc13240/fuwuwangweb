@@ -209,7 +209,7 @@ public class OrderController {
 			order.setReturn_number_state(Constants.ORDER_RETURN_NUMBER_STATE_03);
 			orderService.updateorder_return_number_state(order);
 			request.setAttribute("info", "返券成功");
-			return "redirect:/merchant/order/fanquan";
+			return Constants.YU+"merchant/order/fanquan";
 		} else {
 			request.setAttribute("info", "返券错误，" + result.Error);
 			return "/merchant/order/fanquan";

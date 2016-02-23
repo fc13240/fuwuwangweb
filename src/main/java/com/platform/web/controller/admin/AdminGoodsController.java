@@ -118,7 +118,7 @@ public class AdminGoodsController extends BaseController {
 		goods.setGoods_delete_state(Constants.GOODS_NORMAL);
 		goods.setGoods_putaway_state(Constants.GOODS_PUTAWAY_FAIL);
 		goodsService.updatecheckgoods(goods);
-		return "redirect:/admin/goods/list";
+		return Constants.YU+"admin/goods/list";
 	}
 	@RequestMapping(value="checkgoods_fail", method= RequestMethod.POST)
 	public String checkgoods_fail(Model model, String goods_id,HttpSession session)
@@ -131,7 +131,7 @@ public class AdminGoodsController extends BaseController {
 		goods.setGoods_delete_state(Constants.GOODS_NORMAL);
 		goods.setGoods_putaway_state(Constants.GOODS_PUTAWAY_WAIT);
 		goodsService.updatecheckgoods(goods);
-		return "redirect:/admin/goods/list";
+		return Constants.YU+"admin/goods/list";
 	}
 	
 	
@@ -170,7 +170,7 @@ public class AdminGoodsController extends BaseController {
 		}
 		//vo.get(vo.size()-1).getGoods_position();获得最后一个可显示的推荐商品的位置
 		System.out.println("添加推荐商品");
-		return "redirect:/admin/goods/list";
+		return Constants.YU+"admin/goods/list";
 	}
 	
 	@RequestMapping(value="deletegoods_recommend", method= RequestMethod.POST)
@@ -181,9 +181,9 @@ public class AdminGoodsController extends BaseController {
 		System.out.println("取消推荐后根据类型重定向："+type1);
 		if(1==type1){
 			
-			return "redirect:/admin/goods/list";
+			return Constants.YU+"admin/goods/list";
 		}else{
-			return "redirect:/admin/goods/findAllGoodsrecommend";
+			return Constants.YU+"admin/goods/findAllGoodsrecommend";
 		}
 	}
 	@RequestMapping(value="findAllGoodsrecommend", method= RequestMethod.GET)

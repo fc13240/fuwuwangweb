@@ -93,7 +93,7 @@ public class AdminStoreController {
 		state.setCheck_user_id(u.getUserLogin());
 		storeService.updateStoreState(state);
 		System.out.println("执行审核通过"+"  "+"状态："+state+" "+"店铺："+store_id+"  "+"用户："+u);
-		return "redirect:/admin/store/list";
+		return Constants.YU+"admin/store/list";
 		// 默认显示待审核状态
 		}
 	@RequestMapping(value = "auditfail", method = RequestMethod.POST)
@@ -105,7 +105,7 @@ public class AdminStoreController {
 		state.setCheck_user_id(u.getUserLogin());
 		storeService.updateStoreState(state);
 		System.out.println("执行拒绝审核"+"  "+"状态："+state+" "+"店铺："+store_id+"  "+"用户："+u);
-		return "redirect:/admin/store/list";
+		return Constants.YU+"admin/store/list";
 		// 默认显示待审核状态
 	}
 	@RequestMapping(value = "lockstore", method = RequestMethod.POST)
@@ -117,7 +117,7 @@ public class AdminStoreController {
 		state.setCheck_user_id(u.getUserLogin());
 		storeService.updateStoreState(state);
 		System.out.println("执行锁定店铺"+"  "+"状态："+state+" "+"店铺："+store_id+"  "+"用户："+u);
-		return "redirect:/admin/store/list";
+		return Constants.YU+"admin/store/list";
 		// 默认显示待审核状态
 	}
 	@RequestMapping(value = "activitystore", method = RequestMethod.POST)
@@ -129,7 +129,7 @@ public class AdminStoreController {
 		state.setStore_state(Constants.STORE_ACTIVE);
 		storeService.updateStoreState(state);
 		System.out.println("执行解锁店铺"+"  "+"状态："+state+" "+"店铺："+store_id+"  "+"用户："+u);
-		return "redirect:/admin/store/list";
+		return Constants.YU+"admin/store/list";
 		// 默认显示待审核状态
 	}
 
