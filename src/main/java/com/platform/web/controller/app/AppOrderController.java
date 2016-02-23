@@ -35,7 +35,6 @@ import com.platform.common.contants.Constants;
 import com.platform.common.utils.DateUtil;
 import com.platform.common.utils.ServiceAPI;
 import com.platform.common.utils.UUIDUtil;
-import com.platform.common.utils.Yanqian;
 import com.platform.entity.APP_Order;
 import com.platform.entity.Order;
 import com.platform.entity.User;
@@ -145,13 +144,13 @@ public class AppOrderController {
 		order.setReturn_mz("0");
 		order.setOrder_time(new Date());
 		if (Constants.USER_VIP.equals(u.getUser_type())) {
-			if (gfw.getGoods_return_type() == 0) { // 根据数量返券
+			if (gfw.getGoods_return_type() == 1) { // 根据数量返券
 				if (gfw.getGoods_return_standard() <= order.getGooods_number()) {
 					order.setReturn_number_state(Constants.ORDER_RETURN_NUMBER_STATE_02); // 未返券
 					order.setReturn_number(gfw.getGoods_return_ticket());
 					order.setReturn_mz(gfw.getGoods_return_mz());
 				}
-			} else if (gfw.getGoods_return_type() == 1) { // 根据金额返券
+			} else if (gfw.getGoods_return_type() == 0) { // 根据金额返券
 				if (gfw.getGoods_return_standard() <= order.getGooods_number() * (gfw.getGoods_price() * 1.00 / 100)) {
 					order.setReturn_number_state(Constants.ORDER_RETURN_NUMBER_STATE_02); // 未返券
 					order.setReturn_number(gfw.getGoods_return_ticket());
