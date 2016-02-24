@@ -209,44 +209,10 @@ public class OrderController {
 			order.setReturn_number_state(Constants.ORDER_RETURN_NUMBER_STATE_03);
 			orderService.updateorder_return_number_state(order);
 			request.setAttribute("info", "返券成功");
-			return Constants.YU+"merchant/order/fanquan";
+			return "/merchant/order/fanquan";
 		} else {
 			request.setAttribute("info", "返券错误，" + result.Error);
 			return "/merchant/order/fanquan";
 		}
 	}
-
-	/***** 给公司发送发送返券信息 *****/
-	public static String send_ticketInfo(Return_ticket orTicket) {
-
-		String successful = null;
-		String url = "http://124.254.56.58:8007/api/Content/ToMemberElectronicVoucher?mz=" + orTicket.getReturn_mz()
-				+ "&num=" + orTicket.getReturn_number() + "&ulogin=" + orTicket.getUserLogin() + "&comName="
-				+ orTicket.getMerchant_name() + "&compw=" + orTicket.getPay_password();
-
-		HttpResponse httpResponse = null;
-		try {
-			HttpPost httpPost = new HttpPost(url);
-
-			// httpPost.addHeader("Token", token );
-
-			httpResponse = new DefaultHttpClient().execute(httpPost);
-			System.out.println(httpResponse.getStatusLine().getStatusCode());
-
-			if (200 == httpResponse.getStatusLine().getStatusCode()) {
-				String result = EntityUtils.toString(httpResponse.getEntity());
-				result = result.replaceAll("\r", "");
-
-				JSONObject aObject = JSON.parseObject(result);
-				successful = aObject.get("Successful").toString();
-				System.out.println("给公司发送返券信息        返回 结果是：" + result);
-
-			}
-		} catch (Exception e) {
-			e.getMessage();
-		}
-
-		return successful;
-	}
-
 }
