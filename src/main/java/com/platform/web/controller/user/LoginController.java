@@ -178,7 +178,7 @@ public class LoginController {
 	@RequestMapping(value = "logout", method = RequestMethod.GET)
 	public String logout(HttpSession session) {
 		session.invalidate();
-		return "forward:execute";
+		return "redirect:execute";
 	}
 
 	/***** 修改密码* @throws Exception *****/
