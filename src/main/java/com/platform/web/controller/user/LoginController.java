@@ -80,7 +80,7 @@ public class LoginController {
 				if ("0".equals(resultUser.getUser_type())) { // 管理员
 					session.setAttribute("bean", resultUser);
 					session.setAttribute("UrlList", resourceService.findResource_idByUser_Role_Type(1));
-					return Constants.YU+"admin/store/list";
+					return "redirect:/admin/store/list";
 				} else if ("1".equals(resultUser.getUser_type())) {// 管理员
 					session.setAttribute("bean", resultUser);
 					session.setAttribute("UrlList", resourceService.findResource_idByUser_Role_Type(1));
