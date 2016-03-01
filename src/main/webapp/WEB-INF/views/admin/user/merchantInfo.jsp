@@ -10,7 +10,79 @@
 </head>
 <body>
 	
+	<div class="wrapper">
+	<h1>
+		<label class="text-info">商人信息</label>
+	</h1>
 	
+	
+		
+		<div class="form-group row">
+			<label for="inputGoodsName" class="col-sm-offset-1 col-sm-2 control-label" style="text-align:right">真实姓名：</label>
+			<div class="col-sm-3">
+				${merchant.realName }
+			</div>
+		</div>
+	
+		<div class="form-group row">
+			<label for="inputGoodsName" class="col-sm-offset-1 col-sm-2 control-label" style="text-align:right">QQ：</label>
+			<div class="col-sm-3">
+				${merchant.qq }
+			</div>
+		</div>
+		<div class="form-group row">
+			<label for="inputGoodsName" class="col-sm-offset-1 col-sm-2 control-label" style="text-align:right">电话：</label>
+			<div class="col-sm-3">
+				${merchant.merchant_phone }
+			</div>
+		</div>
+		<div class="form-group row">
+			<label for="inputGoodsName" class="col-sm-offset-1 col-sm-2 control-label" style="text-align:right">邮箱：</label>
+			<div class="col-sm-3">
+				${merchant.user_email }
+			</div>
+		</div>
+		<div class="form-group row">
+			<label for="inputGoodsName" class="col-sm-offset-1 col-sm-2 control-label" style="text-align:right">描述：</label>
+			<div class="col-sm-3">
+			<textarea name="goods_desc" cols="50" id="goods_desc"
+					placeholder="商家描述" class="form-control">${merchant.merchant_desc }</textarea>
+				
+			</div>
+		</div>
+		<div class="form-group row">
+			<label for="inputGoodsName" class="col-sm-offset-1 col-sm-2 control-label" style="text-align:right">图片1</label>
+			<div class="col-sm-3">
+			<img 
+				src="${pageContext.request.contextPath}/resources/upload/merchant/${merchant.license}"
+									 />
+			</div>
+		</div>
+		<div class="form-group row">
+			<label for="inputGoodsName" class="col-sm-offset-1 col-sm-2 control-label" style="text-align:right">图片2</label>
+			<div class="col-sm-3">
+			<img 
+				src="${pageContext.request.contextPath}/resources/upload/merchant/${merchant.corporation_pic}"
+									 />
+			</div>
+		</div>
+		<div class="form-group row">
+			<label for="inputGoodsName" class="col-sm-offset-1 col-sm-2 control-label" style="text-align:right">图片3</label>
+			<div class="col-sm-3">
+			<img 
+				src="${pageContext.request.contextPath}/resources/upload/merchant/${merchant.identification_obverse}"
+									 />
+			</div>
+		</div>
+		<div class="form-group row">
+			<label for="inputGoodsName" class="col-sm-offset-1 col-sm-2 control-label" style="text-align:right">图片4</label>
+			<div class="col-sm-3">
+			<img 
+				src="${pageContext.request.contextPath}/resources/upload/merchant/${merchant.identification_reverse}"
+									 />
+			</div>
+		</div>
+	</div>
 	
 		
 </body>
