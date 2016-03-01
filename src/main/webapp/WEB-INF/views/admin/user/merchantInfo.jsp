@@ -45,13 +45,15 @@
 		<div class="form-group row">
 			<label for="inputGoodsName" class="col-sm-offset-1 col-sm-2 control-label" style="text-align:right">描述：</label>
 			<div class="col-sm-3">
-			<textarea name="goods_desc" cols="50" id="goods_desc"
-					placeholder="商家描述" class="form-control">${merchant.merchant_desc }</textarea>
+			<textarea name="goods_desc" cols="50" id="goods_desc" readonly="readonly"
+					 class="form-control">${merchant.merchant_desc}</textarea>
 				
 			</div>
 		</div>
+		<c:if test="${merchant.type==0}">
+		
 		<div class="form-group row">
-			<label for="inputGoodsName" class="col-sm-offset-1 col-sm-2 control-label" style="text-align:right">图片1</label>
+			<label for="inputGoodsName" class="col-sm-offset-1 col-sm-2 control-label" style="text-align:right">营业执照</label>
 			<div class="col-sm-3">
 			<img 
 				src="${pageContext.request.contextPath}/resources/upload/merchant/${merchant.license}"
@@ -59,7 +61,7 @@
 			</div>
 		</div>
 		<div class="form-group row">
-			<label for="inputGoodsName" class="col-sm-offset-1 col-sm-2 control-label" style="text-align:right">图片2</label>
+			<label for="inputGoodsName" class="col-sm-offset-1 col-sm-2 control-label" style="text-align:right">法人照片</label>
 			<div class="col-sm-3">
 			<img 
 				src="${pageContext.request.contextPath}/resources/upload/merchant/${merchant.corporation_pic}"
@@ -67,7 +69,7 @@
 			</div>
 		</div>
 		<div class="form-group row">
-			<label for="inputGoodsName" class="col-sm-offset-1 col-sm-2 control-label" style="text-align:right">图片3</label>
+			<label for="inputGoodsName" class="col-sm-offset-1 col-sm-2 control-label" style="text-align:right">身份证正面</label>
 			<div class="col-sm-3">
 			<img 
 				src="${pageContext.request.contextPath}/resources/upload/merchant/${merchant.identification_obverse}"
@@ -75,13 +77,14 @@
 			</div>
 		</div>
 		<div class="form-group row">
-			<label for="inputGoodsName" class="col-sm-offset-1 col-sm-2 control-label" style="text-align:right">图片4</label>
+			<label for="inputGoodsName" class="col-sm-offset-1 col-sm-2 control-label" style="text-align:right">身份证反面</label>
 			<div class="col-sm-3">
 			<img 
 				src="${pageContext.request.contextPath}/resources/upload/merchant/${merchant.identification_reverse}"
 									 />
 			</div>
 		</div>
+		</c:if>
 	</div>
 	
 		
