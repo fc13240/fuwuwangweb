@@ -296,10 +296,10 @@
 		INSERT INTO
 		t_merchant_info
 		(user_id,merchant_desc,merchant_add_user,merchant_add_time,merchant_phone,
-		service_man,merchant_account,merchant_type,userLogin,user_type,user_state,passWord,updateDate,lastLoginDate,realName,user_email,login_state,qq)
+		service_man,merchant_account,merchant_type,userLogin,user_type,user_state,passWord,updateDate,lastLoginDate,realName,user_email,login_state,qq,type)
 		VALUES
 		(#{user_id},#{merchant_desc},#{merchant_add_user},now(),#{merchant_phone},
-		#{service_man},#{merchant_account},#{merchant_type},#{userLogin},#{user_type},#{user_state},#{passWord},now(),now(),#{realName},#{user_email},#{login_state},#{qq})
+		#{service_man},#{merchant_account},#{merchant_type},#{userLogin},#{user_type},#{user_state},#{passWord},now(),now(),#{realName},#{user_email},#{login_state},#{qq},#{type})
 	</insert>
 
 	<!-- 商人申请_t_merchant_extra -->

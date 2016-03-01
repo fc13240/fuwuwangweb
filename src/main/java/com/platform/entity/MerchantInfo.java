@@ -19,6 +19,7 @@ public class MerchantInfo {
 	private Date lastLoginDate;// 最后一次登录状态
 	private String user_id;
 	private Date merchant_add_time;
+	private Integer type;//是否需要上传资质   0是，1否
 	private Date updateDate;
 	private String realName;
 	private String qq;
@@ -215,7 +216,13 @@ public class MerchantInfo {
 	public void setQq(String qq) {
 		this.qq = qq;
 	}
-	
-	
+
+	public Integer getType() {
+		return type;
+	}
+
+	public void setType(Integer type) {
+		this.type = type;
+	}
 	
 }
