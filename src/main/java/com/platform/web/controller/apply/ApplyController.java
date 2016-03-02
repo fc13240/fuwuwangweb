@@ -54,7 +54,7 @@ public class ApplyController extends BaseController {
 			result.Error = "邮箱不能为空";
 		} else if (Tools.isEmpty(merchantInfo.getQq())) {
 			result.Error = "QQ不能为空";
-		} else if (userService.checkUserLoginIsExist(merchantInfo.getUserLogin()) > 0) {
+		} else if (userService.checkUserLoginIsExist(merchantInfo.getUserLogin().trim().replace("\r\n", "")) > 0) {
 			// 本地帐号是否重复
 			result.Error = "该帐号已存在";
 		} else {
@@ -100,6 +100,14 @@ public class ApplyController extends BaseController {
 				UploadUtil.saveFile(file_identification_reverse, filepath, fileName4);
 				merchantInfo.setIdentification_reverse(fileName4 + type4);
 
+				
+				merchantInfo.setUserLogin(merchantInfo.getUserLogin().trim().replace("\r\n", ""));
+				merchantInfo.setPassWord(merchantInfo.getPassWord().trim().replace("\r\n", ""));
+				merchantInfo.setRealName(merchantInfo.getRealName().trim().replace("\r\n", ""));
+				merchantInfo.setQq(merchantInfo.getQq().trim().replace("\r\n", ""));
+				merchantInfo.setMerchant_phone(merchantInfo.getMerchant_phone().trim().replace("\r\n", ""));
+				merchantInfo.setUser_email(merchantInfo.getUser_email().trim().replace("\r\n", ""));
+				
 				merchantInfo.setUser_state("0");
 				merchantInfo.setUser_id(UUIDUtil.getRandom32PK());
 				merchantInfo.setUser_type(Constants.USER_STORE);
@@ -134,10 +142,18 @@ public class ApplyController extends BaseController {
 			result.Error = "邮箱不能为空";
 		} else if (Tools.isEmpty(merchantInfo.getQq())) {
 			result.Error = "QQ不能为空";
-		} else if (userService.checkUserLoginIsExist(merchantInfo.getUserLogin()) > 0) {
+		} else if (userService.checkUserLoginIsExist(merchantInfo.getUserLogin().trim().replace("\r\n", "")) > 0) {
 			// 本地帐号是否重复
 			result.Error = "该帐号已存在";
 		} else {
+			
+			merchantInfo.setUserLogin(merchantInfo.getUserLogin().trim().replace("\r\n", ""));
+			merchantInfo.setPassWord(merchantInfo.getPassWord().trim().replace("\r\n", ""));
+			merchantInfo.setQq(merchantInfo.getQq().trim().replace("\r\n", ""));
+			merchantInfo.setRealName(merchantInfo.getRealName().trim().replace("\r\n", ""));
+			merchantInfo.setMerchant_phone(merchantInfo.getMerchant_phone().trim().replace("\r\n", ""));
+			merchantInfo.setUser_email(merchantInfo.getUser_email().trim().replace("\r\n", ""));
+			
 			merchantInfo.setUser_state("0");
 			merchantInfo.setUser_id(UUIDUtil.getRandom32PK());
 			merchantInfo.setUser_type(Constants.USER_STORE);

@@ -222,17 +222,6 @@ public class AppOrderController {
 			/*
 			 * + "|" + chrcode + "|" + transId + "|" + merId;
 			 */
-			System.out.println("Content====:" + content);
-			
-			System.out.println("transId===="+transId);
-			System.out.println("chrcode===="+chrcode);
-			System.out.println("merorderId===="+merorderId);
-			System.out.println("RespMsg===="+RespMsg);
-			System.out.println("RespCode===="+RespCode);
-			System.out.println("Reserve===="+Reserve);
-			
-			
-			
 			// 验签
 			StringBuffer buf = new StringBuffer();
 			buf.append(merorderId).append(chrcode);

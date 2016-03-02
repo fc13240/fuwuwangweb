@@ -188,16 +188,14 @@ public class Constants {
     public static final Integer ORDER_STATE_04 = 4;      //  已失效
     
     
-    
-    
     /**
-     *银联请求地址
+     * 测试
+     * 银联密钥
+     * 银联请求地址
      */
 //    public static final String creatOrderUrl = "https://116.228.21.162:8603/merFrontMgr/orderBusinessServlet";      // 下单地址
 //    public static final String queryOrderUrl ="https://116.228.21.162:8603/merFrontMgr/orderQueryServlet";//  订单查询地址
-    /**
-     * 银联密钥
-     */
+//    public static final String NOTIFYURL= "http://124.254.56.58:8080/app/order/receiveOrder";
 //    public static final String VERIFYKEY_MOD ="cff6f75dfb7b3f32aca8c81442d142512684ad55372bf965512e337d47f785fb0e247f11d91f0c2517ebf3a4d456693c6a994eb39b3456102889818fd26f3732e3595e4f22ba3f4e0e77969d25a793d0eb00d011e7982d57f663a81463a0efce5ccdf8dc4534e70bdbfe2e961ab9edfcb373c72b6343400c838ecb4347c88911";//测试环境银商验签公钥
 //    public static final String VERIFYKEY_EXP ="000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010001";
 //    public static final String SIGNKEY_MOD ="83beb97d3aa44b696b2e1633d6d6fe5ec2b86d2d8ba8437c5c4bcac0530b7d50f03af18dee28f7ebd8859d7063254f3751c1c3594a6146e430ea442489b8fb46dc38c34f42241b0783044b459ce8b377006bc7b1a3b58f41ad772ff65846f4946e9d68e1d78564f89b70b2c713c0e6efbb03100e317eb3214d9ed072fbee3a07";//测试环境商户签名私钥
@@ -206,16 +204,12 @@ public class Constants {
 //    public static final String MERID="898000093990001";//商户号
 //    public static final String MERTERMID="99999999";//终端编号
     
-    //测试环境
-//    public static final String NOTIFYURL= "http://124.254.56.58:8080/app/order/receiveOrder";
-    
-    //正式环境
-    public static final String NOTIFYURL= "http://123.196.126.38:8080/app/order/receiveOrder";
-    
     
     /**
+     * 正式环境
      *银联请求地址
      */
+    public static final String NOTIFYURL= "http://123.196.126.38:8080/app/order/receiveOrder";
     public static final String creatOrderUrl = "https://mpos.quanminfu.com:6004/merFrontMgr/orderBusinessServlet";      // 下单地址
     public static final String queryOrderUrl = "https://mpos.quanminfu.com:6004/merFrontMgr/orderQueryServlet";      //  订单查询地址
     public static final String VERIFYKEY_MOD ="e186dec2f5995596a8c7f98e22686216f21b9eff254665bc0f7612eea2dd8b661da47e9a64df9773523b55418225dd766bda21a5599c09711ec63fd6c45477eda3bed077402d16369111634199836e955e7a1bc7fa6e6981c5b9d94fc0d632b99550bc91bb821661aff4de29306cd86a758389015c2bdd32bbcb985d999b08df";//生成环境银商验签公钥
@@ -226,15 +220,12 @@ public class Constants {
     public static final String MERID="898210248165286";//商户号
     public static final String MERTERMID="15112273";//终端编号
     
-    
 
 	/**
 	 *用户登录状态 1.已登录  0.未登录
 	 */
 	public static final Integer USER_LOGIN = 1; // 用户已登录
 	public static final Integer USER_LOGOUT = 0; // 用户未登录
-	
-	
 	
 	
 	
