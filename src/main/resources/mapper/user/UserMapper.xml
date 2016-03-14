@@ -253,7 +253,7 @@
 		<include refid="userInfoSql" />
 		AND tu.userLogin=#{userLogin}
 		AND tui.user_email=#{user_email}
-		AND tu.user_type='3'
+		AND (tu.user_type='3' OR tu.user_type='4')
 	</select>
 
 	<!-- 根据 用户名和验证码查询用户 -->

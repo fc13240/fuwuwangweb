@@ -390,6 +390,9 @@ public class AppUserController {
 		if (u == null) {
 			result.Error = "用户名和邮箱不正确";
 			return result;
+		}else if(Constants.USER_VIP.equals(u.getUser_type())){
+			result.Error = "请用VIP通道找回密码";
+			return result;
 		}
 		int yzm = Tools.getRandomNum();
 		String sender = "fuwuwang86@126.com";// fuwuwangapp@163.com

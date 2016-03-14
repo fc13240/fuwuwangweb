@@ -35,6 +35,7 @@ import com.platform.common.contants.Constants;
 import com.platform.common.utils.DateUtil;
 import com.platform.common.utils.ServiceAPI;
 import com.platform.common.utils.UUIDUtil;
+import com.platform.common.utils.Yanqian;
 import com.platform.entity.APP_Order;
 import com.platform.entity.Order;
 import com.platform.entity.User;
@@ -228,9 +229,8 @@ public class AppOrderController {
 			buf.append(transId).append(Reserve).append(RespCode).append(RespMsg);
 			System.out.println("buf======="+buf.toString());
 			
-			boolean falg =ss.verify(buf.toString(), respOrder.getSignature());
-			
 //			boolean falg = Yanqian.merSignVerify(buf.toString());
+			boolean falg =ss.verify(buf.toString(), respOrder.getSignature());
 			if (!falg) {
 				System.out.println("验签失败");
 				result.Successful = false;
@@ -543,7 +543,7 @@ public class AppOrderController {
 			result.Error = "该订单不存在";
 			return result;
 		}
-		if (Constants.ORDER_STATE_03 != order.getOrder_state()) {
+		if (Constants.ORDER_STATE_02 == order.getOrder_state()) {
 			DefaultSecurityService ss = new DefaultSecurityService();
 			// 设置签名的商户私钥，验签的银商公钥
 			ss.setSignKeyModHex(Constants.SIGNKEY_MOD);// 签名私钥Mod
@@ -576,9 +576,10 @@ public class AppOrderController {
 			// ss.sign(respOrder.buildVerifyString()));
 			StringBuffer sb = new StringBuffer();
 			sb.append(respOrder.getOrderTime()).append(respOrder.getOrderDate()).append(respOrder.getMerOrderId())
-					.append(respOrder.getTransType()).append(respOrder.getMerId()).append(respOrder.getMerTermId())
-					.append(respOrder.getTransId()).append(respOrder.getTransState()).append(respOrder.getRefId())
+					.append(respOrder.getTransType()).append(respOrder.getTransAmt()).append(respOrder.getMerId()).append(respOrder.getMerTermId())
+					.append(respOrder.getTransId()).append(respOrder.getTransState()).append(respOrder.getRefId()).append(respOrder.getReserve())
 					.append(respOrder.getRespCode()).append(respOrder.getRespMsg());
+			
 //			boolean success = Yanqian.merSignVerify(sb.toString());
 			boolean success =ss.verify(sb.toString(), respOrder.getSignature());
 			if (!success) {
