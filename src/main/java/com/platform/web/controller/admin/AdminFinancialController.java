@@ -55,6 +55,7 @@ public class AdminFinancialController {
 		if (order_time_start.length() > 0 && order_time_end.length() == 0) {
 			order_time_end = DateUtil.getDay();
 		} else if (order_time_start.length() == 0 && order_time_end.length() == 0) {
+			System.out.println("日期没进来");
 			Calendar cal = Calendar.getInstance();// 获取一个Claender实例
 			cal.set(1900, 01, 01);
 			order_time_start = DateUtil.getyy_mm_dd(cal.getTime());

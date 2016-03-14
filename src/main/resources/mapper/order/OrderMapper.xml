@@ -90,6 +90,8 @@
 									WHERE store_name=#{store_name}
 									)
 									)
+			AND o.order_state!=2 
+            AND o.order_state!=4	
 			ORDER BY o.order_time DESC
 	</select>
 
@@ -110,6 +112,8 @@
 		>=STR_TO_DATE(CONCAT(#{order_time_start},'0:0:0'),'%Y-%m-%d %H:%i:%s')
 		AND STR_TO_DATE(CONCAT(#{order_time_end},'23:59:59'),'%Y-%m-%d
 		%H:%i:%s')>=o.order_time
+			AND o.order_state!=2 
+            AND o.order_state!=4	
 		ORDER BY o.order_time DESC
 		) t1
 		UNION
@@ -126,6 +130,8 @@
 		u.userLogin=#{user_name} 
 		AND o.order_time>=STR_TO_DATE(CONCAT(#{order_time_start},'0:0:0'),'%Y-%m-%d %H:%i:%s')
 		AND STR_TO_DATE(CONCAT(#{order_time_end},'23:59:59'),'%Y-%m-%d %H:%i:%s')>=o.order_time
+			AND o.order_state!=2 
+            AND o.order_state!=4	
 		) t2
 		
 	</select>
@@ -143,6 +149,8 @@
 		WHERE s.store_name=#{store_name} 
 			AND o.order_time >=STR_TO_DATE(CONCAT(#{order_time_start},'0:0:0'),'%Y-%m-%d %H:%i:%s')
 			AND STR_TO_DATE(CONCAT(#{order_time_end},'23:59:59'),'%Y-%m-%d %H:%i:%s')>=o.order_time
+			AND o.order_state!=2 
+            AND o.order_state!=4	
 		ORDER BY o.order_time DESC) t1
 		UNION
 		SELECT * FROM (
@@ -154,6 +162,8 @@
 		 WHERE s.`store_name`=#{store_name}
 			AND o.order_time>=STR_TO_DATE(CONCAT(#{order_time_start},'0:0:0'),'%Y-%m-%d %H:%i:%s')
 			AND STR_TO_DATE(CONCAT(#{order_time_end},'23:59:59'),'%Y-%m-%d %H:%i:%s')>=o.order_time
+			AND o.order_state!=2 
+            AND o.order_state!=4	
 		) t2
 	</select>
 
@@ -170,6 +180,8 @@
 		WHERE
 			o.order_time>=STR_TO_DATE(CONCAT(#{order_time_start},'0:0:0'),('%Y-%m-%d %H:%i:%s'))
 			AND STR_TO_DATE(CONCAT(#{order_time_end},'23:59:59'),('%Y-%m-%d %H:%i:%s'))>=o.order_time	
+			AND o.order_state!=2 
+            AND o.order_state!=4	
 		ORDER BY o.order_time DESC) t1
 		UNION
 		SELECT * FROM (
@@ -181,6 +193,8 @@
 		WHERE 
 			o.order_time>=STR_TO_DATE(CONCAT(#{order_time_start},'0:0:0'),('%Y-%m-%d %H:%i:%s'))
 		AND STR_TO_DATE(CONCAT(#{order_time_end},'23:59:59'),('%Y-%m-%d %H:%i:%s'))>=o.`order_time`
+			AND o.order_state!=2 
+            AND o.order_state!=4	
 		) t2
 	</select>
 
@@ -196,6 +210,8 @@
 				JOIN t_user AS u 	ON o.user_id=u.user_id
 		WHERE o.order_time>=STR_TO_DATE(CONCAT(#{order_time_start},'0:0:0'),('%Y-%m-%d %H:%i:%s'))
 			AND STR_TO_DATE(CONCAT(#{order_time_end},'23:59:59'),('%Y-%m-%d %H:%i:%s'))>=o.order_time
+			AND o.order_state!=2 
+            AND o.order_state!=4	
 		ORDER BY o.order_time DESC) t1
 		UNION
 		SELECT * FROM(
@@ -206,6 +222,8 @@
 				JOIN t_user AS u 	ON o.user_id=u.user_id
 		WHERE o.order_time>=STR_TO_DATE(CONCAT(#{order_time_start},'0:0:0'),('%Y-%m-%d %H:%i:%s'))
 		AND STR_TO_DATE(CONCAT(#{order_time_end},'23:59:59'),('%Y-%m-%d %H:%i:%s'))>=o.order_time
+			AND o.order_state!=2 
+            AND o.order_state!=4	
 		) t2
 	</select>
 
@@ -252,6 +270,8 @@ SELECT * FROM(
 		g.goods_name=#{goods_name} 
 		AND o.order_time>=STR_TO_DATE(CONCAT(#{order_time_start},'0:0:0'),'%Y-%m-%d %H:%i:%s')
 		AND STR_TO_DATE(CONCAT(#{order_time_end},'23:59:59'),'%Y-%m-%d %H:%i:%s')>=o.order_time
+		AND o.order_state!=2 
+            AND o.order_state!=4	
 		ORDER BY o.order_time DESC) t1
 		UNION
 		SELECT * FROM(
@@ -264,6 +284,8 @@ SELECT * FROM(
 		g.goods_name=#{goods_name}
 		AND o.order_time>=STR_TO_DATE(CONCAT(#{order_time_start},'0:0:0'),'%Y-%m-%d %H:%i:%s')
 		AND STR_TO_DATE(CONCAT(#{order_time_end},'23:59:59'),'%Y-%m-%d %H:%i:%s')>=o.order_time
+		AND o.order_state!=2 
+        AND o.order_state!=4	
 		) t2
 	</select>
 
@@ -281,6 +303,8 @@ SELECT * FROM(
 			JOIN t_goods AS g ON g.goods_id=o.goods_id
 		WHERE o.order_time>=STR_TO_DATE(CONCAT(#{order_time_start},'0:0:0'),('%Y-%m-%d %H:%i:%s'))
 			AND STR_TO_DATE(CONCAT(#{order_time_end},'23:59:59'),('%Y-%m-%d %H:%i:%s'))>=o.order_time
+			AND o.order_state!=2 
+            AND o.order_state!=4	
 		ORDER BY o.order_time DESC) t1
 		UNION
 		SELECT * FROM (
@@ -290,6 +314,8 @@ SELECT * FROM(
 			JOIN t_goods AS g ON g.goods_id=o.goods_id
 		WHERE o.order_time>=STR_TO_DATE(CONCAT(#{order_time_start},'0:0:0'),('%Y-%m-%d %H:%i:%s'))
 		AND STR_TO_DATE(CONCAT(#{order_time_end},'23:59:59'),('%Y-%m-%d %H:%i:%s'))>=o.order_time
+		AND o.order_state!=2 
+            AND o.order_state!=4	
 		) t2
 	</select>
 
@@ -306,6 +332,8 @@ SELECT * FROM(
 			o.order_time>=STR_TO_DATE(CONCAT(#{order_time_start},'0:0:0'),('%Y-%m-%d %H:%i:%s'))
 			AND
 				STR_TO_DATE(CONCAT(#{order_time_end},'23:59:59'),('%Y-%m-%d %H:%i:%s'))>=o.order_time
+				AND o.order_state!=2 
+            AND o.order_state!=4	
 		ORDER BY o.order_time DESC) t1
 		UNION
 		SELECT * FROM(
@@ -315,6 +343,8 @@ SELECT * FROM(
 			o.order_time>=STR_TO_DATE(CONCAT(#{order_time_start},'0:0:0'),('%Y-%m-%d %H:%i:%s'))
 			AND 
 				STR_TO_DATE(CONCAT(#{order_time_end},'23:59:59'),('%Y-%m-%d %H:%i:%s'))>=o.order_time
+				AND o.order_state!=2 
+            AND o.order_state!=4	
 		) t2
 	</select>
 
@@ -329,6 +359,8 @@ SELECT * FROM(
 		WHERE 
 			o.order_time>=STR_TO_DATE(CONCAT(#{order_time_start},'0:0:0'),('%Y-%m-%d %H:%i:%s'))
 		AND STR_TO_DATE(CONCAT(#{order_time_end},'23:59:59'),('%Y-%m-%d %H:%i:%s'))>=o.order_time
+			AND o.order_state!=2 
+            AND o.order_state!=4	
 		ORDER BY o.order_time DESC) t1
 		UNION
 		SELECT * FROM
@@ -336,6 +368,8 @@ SELECT * FROM(
 		FROM 	t_user AS u JOIN t_order AS o ON o.user_id =u.user_id	JOIN t_goods AS g ON o.goods_id = g.goods_id
 		WHERE o.order_time>=STR_TO_DATE(CONCAT(#{order_time_start},'0:0:0'),('%Y-%m-%d %H:%i:%s'))
 		AND STR_TO_DATE(CONCAT(#{order_time_end},'23:59:59'),('%Y-%m-%d %H:%i:%s'))>=o.order_time
+			AND o.order_state!=2 
+            AND o.order_state!=4	
 		) t2
 	</select>
 
