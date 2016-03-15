@@ -116,6 +116,8 @@ public interface StoreService {
       * admin 模糊查找店铺
       */
      public Page<StoreForWeb>  findstoreByname(String store_name);
+     
+     public Page<StoreForWeb>  findstoreByMerchant_name(String merchant_name);
      public Page<StoreForWeb>  findstoreByname(String store_name,Integer city_id);
      public List<StoreForApp>  selectstoreByNameAndCity_id(String likename,Integer city_id);
      

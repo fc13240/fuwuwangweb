@@ -44,7 +44,9 @@ public interface GoodsMapper {
 	 */
 	Page<GoodsForWeb> findGoodsByNameForAdmin(String goods_name);
 	
+	Page<GoodsForWeb> findGoodsByStore_NameForAdmin(String store_name);
 	
+	Page<GoodsForWeb> findGoodsByMerchant_NameForAdmin(String merchant_name);
 	
 	Page<GoodsForWeb> findGoodsByStoreId(String store_id);//根据商铺id查询
 	

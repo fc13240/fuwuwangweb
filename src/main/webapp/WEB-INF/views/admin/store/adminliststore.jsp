@@ -42,7 +42,24 @@
 	action="${pageContext.request.contextPath}/admin/store/search"
 	method="GET" onsubmit="return check()">
 	<input type="text" class="form-control" name="phone" value="${phone}"
-		id="phone" placeholder="请输入店铺名称" /> <input type="submit"
+		id="phone" placeholder="请输入店铺名称或商家用户名" /> 
+		
+		<div class="col-md-3">
+			<select class="form-control" onchange="getGoodsByGoods_state()"
+			id="searchBy" name="searchBy" style="margin-top:6px;">
+			<c:choose>
+			<c:when test="${searchBy==1}">
+			<option value="0" >根据店铺名称查找</option>
+			<option value="1" selected>根据商家用户名查找</option>
+			</c:when>
+			<c:otherwise>
+			<option value="0" selected>根据店铺名称查找</option>
+			<option value="1" >根据商家用户名查找</option>
+			</c:otherwise>
+			</c:choose>
+			</select>
+			</div>
+		<input type="submit"
 		class="form-control btn btn-success" value="查找" />
 
 </form>

@@ -40,7 +40,7 @@ public class AdminStoreController {
 	 */
 	@RequestMapping(value = "{type}", method = RequestMethod.GET)
 	public String liststore(Model model, @PathVariable String type, Integer pageNum, Integer pageSize, String phone,
-			 HttpSession session) throws Exception {
+			String searchBy ,HttpSession session) throws Exception {
 		// 默认显示待审核状态
 		if (pageNum == null)
 			pageNum = 1;
@@ -56,8 +56,13 @@ public class AdminStoreController {
 			lStores = storeService.findStoreOrderByStatus();
 		}
 		else if (type.equals("search")) {
+			if (("0").equals(searchBy)) {//店铺名
 
-			lStores = storeService.findstoreByname(phone);
+				lStores = storeService.findstoreByname(phone);
+			}
+			if(("1").equals(searchBy)){//商户用户名
+				lStores = storeService.findstoreByMerchant_name(phone);
+			}
 
 		}
 	
@@ -65,6 +70,11 @@ public class AdminStoreController {
 		if (phone != null && phone.length() != 0) {
 			String param1 = "phone=" + phone + "&";
 			params.add(param1);
+		}
+		if (searchBy != null && searchBy.length() != 0) {
+			String param1 = "searchBy=" + searchBy + "&";
+			params.add(param1);
+			model.addAttribute("searchBy", searchBy);
 		}
 
 		model.addAttribute("params", params);

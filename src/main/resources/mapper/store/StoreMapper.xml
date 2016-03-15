@@ -135,6 +135,16 @@
 		WHERE ts.store_name LIKE CONCAT(CONCAT('%', #{store_name}), '%')
 		and ts.user_id=tm.user_id
 	</select>
+	
+	<!-- web根据merchant_name获取模糊查找 “店铺” 信息 -->
+	<select id="findstoreByMerchant_name" parameterType="String"
+		resultType="com.platform.entity.vo.StoreForWeb">
+		select ts.*,tm.userLogin 
+		from t_store as ts 
+			join t_merchant_info as tm
+				on	ts.user_id=tm.user_id
+		WHERE tm.userLogin LIKE CONCAT(CONCAT('%', #{merchant_name}), '%')
+	</select>
 	<select id="findstoreByNameAndCity_id" resultType="com.platform.entity.vo.StoreForWeb">
 		select ts.*,tm.userLogin from t_store as ts
 		join t_merchant_info as tm on ts.user_id=tm.user_id

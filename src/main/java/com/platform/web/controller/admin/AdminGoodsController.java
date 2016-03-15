@@ -42,7 +42,7 @@ public class AdminGoodsController extends BaseController {
 	// pc端
 	@RequestMapping(value = "{type}", method = RequestMethod.GET)
 	public String goodslist(Model model, @PathVariable String type, Integer pageNum, Integer pageSize, String store_id,
-			String goods_name,String store_name) throws Exception {
+			String goods_name,String store_name,String searchBy) throws Exception {
 		// 默认显示待审核状态
 		if (pageNum == null)
 			pageNum = 1;
@@ -58,15 +58,27 @@ public class AdminGoodsController extends BaseController {
 		} else if (type.equals("searchbygoods_name")) {
 			if("".equals(goods_name)||null==goods_name){
 				goods=goodsService.findAllGoods();
-				
+				//goods_name 为商品名或商家名
 			}else{
-				
-				goods =  goodsService.findGoodsByNameForAdmin(goods_name);
+				if(("0").equals(searchBy)){//根据商品名查找
+					goods =  goodsService.findGoodsByNameForAdmin(goods_name);
+				}
+				if(("1").equals(searchBy)){//根据商品店铺查找
+					goods =  goodsService.findGoodsByStore_NameForAdmin(goods_name);
+				}
+				if(("2").equals(searchBy)){//商家用户名
+					goods =  goodsService.findGoodsByMerchant_NameForAdmin(goods_name);
+				}
 			}
 					List<String> params = new ArrayList<String>();
 					if (goods_name != null && goods_name.length() != 0) {
 						String param1 = "goods_name=" + goods_name + "&";
 						params.add(param1);
+					}
+					if (searchBy != null && searchBy.length() != 0) {
+						String param1 = "searchBy=" + searchBy + "&";
+						params.add(param1);
+						model.addAttribute("searchBy", searchBy);
 					}
 					model.addAttribute("params", params);
 				}

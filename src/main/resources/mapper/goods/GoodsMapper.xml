@@ -150,6 +150,31 @@
 		tg.store_id=ts.store_id
 		order by tg.goods_check_state
 	</select>
+	<!-- 根据店铺名获取商品列表 (限制删除状态和审核状态，不限制用户)提供给管理员 商品管理 -->
+	<select id="findGoodsByStore_NameForAdmin" parameterType="String"
+		resultType="com.platform.entity.vo.GoodsForWeb">
+		SELECT tg.*,ts.store_name 
+		from t_goods as tg 
+		join t_store as ts
+		on tg.store_id=ts.store_id
+		WHERE
+		ts.store_name LIKE CONCAT(CONCAT('%', #{store_name}), '%')
+		order by tg.goods_check_state
+	</select>
+
+	<!-- 根据商人用户名获取商品列表 (限制删除状态和审核状态，不限制用户)提供给管理员 商品管理 -->
+	<select id="findGoodsByMerchant_NameForAdmin" parameterType="String"
+		resultType="com.platform.entity.vo.GoodsForWeb">
+		SELECT tg.*,ts.store_name 
+		from t_goods as tg 
+		join t_store as ts
+		on tg.store_id=ts.store_id
+		join t_merchant_info as tm
+		on ts.user_id=tm.user_id
+		WHERE
+		tm.userLogin LIKE CONCAT(CONCAT('%', #{merchant_name}), '%')
+		order by tg.goods_check_state
+	</select>
 
 
 	<!-- 根据店铺Id获取商品列表 -->

@@ -121,6 +121,12 @@ public class StoreServiceImpl implements StoreService{
 		
 		return lsList;
 	}
+	public Page<StoreForWeb> findstoreByMerchant_name(String merchant_name) {
+		
+		Page<StoreForWeb>  lsList = mapper.findstoreByMerchant_name(merchant_name); 
+		
+		return lsList;
+	}
 	public Page<StoreForWeb> findstoreByname(String store_name,Integer city_id) {
 		
 		Page<StoreForWeb>  lsList = mapper.findstoreByNameAndCity_id(store_name, city_id); 

@@ -51,7 +51,30 @@
 		action="${pageContext.request.contextPath}/admin/goods/searchbygoods_name"
 		method="GET" id="form1" onsubmit="return check()">
 		<input type="text" class="form-control" name="goods_name"
-			placeholder="请输入商品名" id="goods_name" /> <input type="submit"
+			placeholder="请输入商品名或店铺名或商家用户名" id="goods_name" /> 
+			<div class="col-md-2 myselect">
+			<select class="form-control" 
+			id="searchBy" name="searchBy" >
+			<c:choose>
+			<c:when test="${searchBy==1}">
+				<option value="0" >根据商品名</option>
+				<option value="1" selected>根据店铺名</option>
+				<option value="2">根据商家用户名</option>
+			</c:when>
+			<c:when test="${searchBy==2}">
+				<option value="0" >根据商品名</option>
+				<option value="1">根据店铺名</option>
+				<option value="2" selected>根据商家用户名</option>
+			</c:when>
+			<c:otherwise>
+			<option value="0" selected>根据商品名</option>
+			<option value="1">根据店铺名</option>
+			<option value="2">根据商家用户名</option>
+			</c:otherwise>
+			</c:choose>
+			</select>
+			</div>
+			<input type="submit"
 			class="form-control btn btn-success" value="查找" />
 	</form>
 <div class=" searchform">

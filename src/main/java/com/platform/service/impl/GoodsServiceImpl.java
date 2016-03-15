@@ -114,6 +114,12 @@ public class GoodsServiceImpl implements GoodsService {
 	public Page<GoodsForWeb> findGoodsByNameForAdmin(String goods_name) {
 		return mapper.findGoodsByNameForAdmin(goods_name);
 	}
+	public Page<GoodsForWeb> findGoodsByStore_NameForAdmin(String goods_name) {
+		return mapper.findGoodsByStore_NameForAdmin(goods_name);
+	}
+	public Page<GoodsForWeb> findGoodsByMerchant_NameForAdmin(String merchant_name) {
+		return mapper.findGoodsByMerchant_NameForAdmin(merchant_name);
+	}
 
 	/**
 	 * 根据商品ID名查找商品信息

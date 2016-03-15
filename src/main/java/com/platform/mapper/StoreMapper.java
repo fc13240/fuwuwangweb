@@ -89,6 +89,8 @@ public interface StoreMapper {
 
 	// web端
 	public Page<StoreForWeb> findstoreByname(String store_name); // 根据名字模糊查找所有的店铺
+	
+	public Page<StoreForWeb> findstoreByMerchant_name(String merchant_name); // 根据名字模糊查找所有的店铺
 
 	public Page<StoreForWeb> findstoreByNameAndCity_id(@Param(value = "store_name") String store_name,
 			@Param(value = "city_id") Integer city_id); // 根据名字模糊查找所有的店铺

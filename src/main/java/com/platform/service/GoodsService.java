@@ -96,6 +96,8 @@ public interface GoodsService {
 	 * @return
 	 */
 	Page<GoodsForWeb> findGoodsByNameForAdmin(String goods_name);
+	Page<GoodsForWeb> findGoodsByStore_NameForAdmin(String store_name);//根据店铺名
+	Page<GoodsForWeb> findGoodsByMerchant_NameForAdmin(String merchant_name);//根据店铺名
 	
 	
 	 /**
