@@ -270,6 +270,14 @@ public class AdminUserController {
 			System.out.println("申请通过成功");
 			return Constants.YU+"admin/user/merchant/mlist";
 
+		}else if (("refuse").equals(merchanttype)) {
+			System.out.println("传回的请求类别：" + merchanttype + "传回的userid:" + curUserId);
+			merchant.setUser_id(curUserId);
+			merchant.setUser_state(Constants.USER_REFUSE);
+			userService.updateUserState(merchant);
+			System.out.println("申请通过成功");
+			return Constants.YU+"admin/user/merchant/mlist";
+
 		}
 		List<String> params = new ArrayList<String>();
 		if (merchant_name != null && merchant_name.length() != 0) {

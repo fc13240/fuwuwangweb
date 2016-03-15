@@ -89,6 +89,7 @@ public class Constants {
 	public static final String USER_LOCK = "1";// 用户锁定，不显示
 	public static final String USER_ACTIVE = "2";// 用户活跃
 	public static final String USER_DELETE = "3";// 用户删除
+	public static final String USER_REFUSE = "4";// 用户被拒绝
 
 	/**
 	 * user_type 用户的种类 1.管理员 2.管理员 3.普通用户  4.vip会员

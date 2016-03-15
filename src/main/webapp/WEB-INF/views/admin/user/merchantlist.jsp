@@ -97,23 +97,36 @@
 												<button class="btn btn-info" data-toggle="modal"
 													data-target="#lockModal"
 													onclick="lockuser('${list.user_id}');">锁定</button>	
-				&nbsp;&nbsp;		<button class="btn btn-danger " data-toggle="modal"
+																&nbsp;&nbsp;		<button class="btn btn-danger " data-toggle="modal"
 													data-target="#deleteModal"
 													onclick="deluser('${list.user_id}');">删除</button>
-											</c:if> <c:if test="${list.user_state=='0'}">
+											</c:if> 
+											<c:if test="${list.user_state=='0'}">
 												<button class="btn btn-success" data-toggle="modal"
 													data-target="#agreeModal"
 													onclick="agreement('${list.user_id}');">同意</button>	
-				&nbsp;&nbsp;		<button class="btn btn-danger " data-toggle="modal"
+													&nbsp;&nbsp;		<button class="btn btn-danger " data-toggle="modal"
+													data-target="#refuseModal"
+													onclick="refuse('${list.user_id}');">拒绝</button>
+													&nbsp;&nbsp;		<button class="btn btn-warning "
+													onclick="detail('${list.user_id}');">详情</button>
+											</c:if> 
+											<c:if test="${list.user_state=='4'}">
+												<button class="btn btn-success" data-toggle="modal"
+													data-target="#agreeModal"
+													onclick="agreement('${list.user_id}');">同意</button>	
+													&nbsp;&nbsp;		<button class="btn btn-danger " data-toggle="modal"
+													data-target="#refuseModal"
+													onclick="refuse('${list.user_id}');">拒绝</button>
+													&nbsp;&nbsp;		<button class="btn btn-danger " data-toggle="modal"
 													data-target="#deleteModal"
 													onclick="deluser('${list.user_id}');">删除</button>
-				&nbsp;&nbsp;		<button class="btn btn-warning "
-													onclick="detail('${list.user_id}');">详情</button>
-											</c:if> <c:if test="${list.user_state=='1'}">
+											</c:if> 
+											<c:if test="${list.user_state=='1'}">
 												<button class="btn btn-success" data-toggle="modal"
 													data-target="#releaseModal"
 													onclick="activityuser('${list.user_id}');">解锁</button>
-				&nbsp;&nbsp;	 	<button class="btn btn-danger " data-toggle="modal"
+													&nbsp;&nbsp;	 	<button class="btn btn-danger " data-toggle="modal"
 													data-target="#deleteModal"
 													onclick="deluser('${list.user_id}');">删除</button>
 											</c:if></td>
@@ -245,6 +258,33 @@
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 						<button type="submit" class="btn btn-primary">同意</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+	<!--同意模态框  -->
+	<div class="modal fade" id="refuseModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">拒绝申请</h4>
+				</div>
+
+				<form class="form-horizontal col-sm-offset-2"
+					action="${pageContext.request.contextPath}/admin/user/merchant/refuse"
+					method="get" enctype="multipart/form-data">
+					<input id="curUserId0" name="curUserId" type="hidden">
+					<div class="modal-body">是否同意该商家入驻？</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+						<button type="submit" class="btn btn-primary">拒绝</button>
 					</div>
 				</form>
 			</div>
