@@ -32,6 +32,11 @@
 		document.getElementById("curUserId0").value = paramstoreId;
 
 	}
+	
+	function refuse(paramstoreId) {
+		document.getElementById("curUserId4").value = paramstoreId;
+
+	}
 	function detail(paramstoreId) {
 		window.location.href="${pageContext.request.contextPath}/admin/user/merchantInfo?id="+paramstoreId;
 
@@ -115,10 +120,8 @@
 												<button class="btn btn-success" data-toggle="modal"
 													data-target="#agreeModal"
 													onclick="agreement('${list.user_id}');">同意</button>	
-													&nbsp;&nbsp;		<button class="btn btn-danger " data-toggle="modal"
-													data-target="#refuseModal"
-													onclick="refuse('${list.user_id}');">拒绝</button>
-													&nbsp;&nbsp;		<button class="btn btn-danger " data-toggle="modal"
+													&nbsp;&nbsp;			
+													<button class="btn btn-danger " data-toggle="modal"
 													data-target="#deleteModal"
 													onclick="deluser('${list.user_id}');">删除</button>
 											</c:if> 
@@ -280,7 +283,7 @@
 				<form class="form-horizontal col-sm-offset-2"
 					action="${pageContext.request.contextPath}/admin/user/merchant/refuse"
 					method="get" enctype="multipart/form-data">
-					<input id="curUserId0" name="curUserId" type="hidden">
+					<input id="curUserId4" name="curUserId" type="hidden">
 					<div class="modal-body">是否同意该商家入驻？</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
