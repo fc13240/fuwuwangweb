@@ -66,7 +66,7 @@ public class OrderController {
 		} else if (type.equals("untreated")) { // 当天未处理的订单
 			System.out.println("当天wei处理订单");
 			order.setUser_id(u.getUser_id());
-			order.setOrder_state(Constants.ORDER_STATE_02);
+			order.setOrder_state(Constants.ORDER_STATE_03);
 			lOrders = orderService.findOrderBystate(order);
 		}
 		System.out.println(lOrders);

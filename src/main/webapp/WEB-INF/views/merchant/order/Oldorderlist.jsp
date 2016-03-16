@@ -70,6 +70,7 @@ function checkdate(){
 							<th>#</th>
 							<th>商品名称</th>
 							<th>商品价格</th>
+							<th>商品龙币价格</th>
 							<th>返券数量</th>
 							<th>状态</th>
 							<th>支付类型</th>
@@ -87,6 +88,8 @@ function checkdate(){
 
 								<td class="col-md-1" align="center">${list.goods_name}</td>
 								<td class="col-md-1" align="center">￥<fmt:formatNumber value="${list.goods_price/100}"
+										pattern="#,###,##0.00#" /></td>
+								<td class="col-md-1" align="center"><fmt:formatNumber value="${list.LB_money/list.gooods_number}"
 										pattern="#,###,##0.00#" /></td>
 								<td class="col-md-1" align="center">${list.return_number}</td>
 								<td class="col-md-1" align="center"><c:if test="${list.order_state ==1}">已消费</c:if>

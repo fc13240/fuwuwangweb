@@ -87,7 +87,7 @@
 									value="${list.goods_price/100}" pattern="#,###,##0.00#" /></td>
 							<td class="col-md-1" align="center">
 							<fmt:formatNumber
-									value="${list.LB_money/list.gooods_number}" pattern="#,###,##0" />
+									value="${list.LB_money/list.gooods_number}" pattern="#,###,##0.00#" />
 							</td>
 							<td class="col-md-1" align="center"><c:if
 									test="${list.return_mz ==7}">100</c:if> <c:if

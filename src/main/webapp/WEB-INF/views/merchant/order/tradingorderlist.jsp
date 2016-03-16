@@ -34,6 +34,7 @@ function check(){
 						<th class="col-md-1">#</th>
 						<th class="col-md-1">商品名称</th>
 						<th class="col-md-1">商品价格</th>
+						<th class="col-md-1">商品龙币价格</th>
 						<th class="col-md-1">返券数量</th>
 						<th class="col-md-1">状态</th>
 						<th class="col-md-1">支付类型</th>
@@ -47,7 +48,9 @@ function check(){
 					<tr id="mer_${order.order_id}">
 						<td class="col-md-1" align="center">1</td>
 						<td class="col-md-1" align="center">${order.goods_name}</td>
-						<td class="col-md-1" align="center">￥<fmt:formatNumber value="${order.goods_price}"
+						<td class="col-md-1" align="center">￥<fmt:formatNumber value="${order.goods_price/100}"
+										pattern="#,###,##0.00#" /></td>
+						<td class="col-md-1" align="center"><fmt:formatNumber value="${order.LB_money/order.gooods_number}"
 										pattern="#,###,##0.00#" /></td>
 						<td class="col-md-1" align="center">${order.return_number}</td>
 						<td class="col-md-1" align="center">
