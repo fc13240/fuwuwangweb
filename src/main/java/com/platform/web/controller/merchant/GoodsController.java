@@ -152,9 +152,9 @@ public class GoodsController extends BaseController {
 		goods.setGoods_purchase_notes(goods_purchase_notes);
 		goods.setGoods_price((int) (Double.valueOf(goods_price) * 100));
 		goods.setStore_id(store_id);
-		goods.setGoods_return_ticket(goods_return_ticket);
+		goods.setGoods_return_ticket(goods_return_ticket==null?0:goods_return_ticket);
+		goods.setGoods_return_standard(goods_return_standard==null?0:goods_return_standard);
 		goods.setGoods_return_type(goods_return_type);
-		goods.setGoods_return_standard(goods_return_standard);
 		goods.setGoods_return_mz(goods_return_mz);
 		if (null == goods_pay_type || ("").equals(goods_pay_type)) {
 

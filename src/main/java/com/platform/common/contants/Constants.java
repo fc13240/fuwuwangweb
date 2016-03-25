@@ -13,7 +13,6 @@ public class Constants {
 	public static final Integer PAGE_SIZE = 10;
 	//测试环境
 //	public static final String PATH="http://124.254.56.58:8007/api/";
-	
 	//正式环境
 	public static final String PATH="http://appapib.86fuwuwang.com/api/";
 	
