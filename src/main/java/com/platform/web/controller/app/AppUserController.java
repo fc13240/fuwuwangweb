@@ -230,6 +230,97 @@ public class AppUserController {
 		return result;
 	}
 
+	
+	
+	/**
+	 * 功能：用户登录
+	 * 
+	 * @param userLogin
+	 *            用户名
+	 * @param passWord
+	 *            密码
+	 * @param type
+	 *            用户类别 参数 3.普通用户 4.vip会员
+	 * @return
+	 */
+	@RequestMapping(value = "loginA", method = RequestMethod.GET)
+	@ResponseBody
+	public BaseModelJson<User> loginA(String userLogin, String passWord, String type) {
+		BaseModelJson<User> result = new BaseModelJson<User>();
+		if (null == userLogin || null == passWord || null == type) {
+			result.Error = "登录信息不全";
+			return result;
+		}
+		if (Constants.USER_VIP.equals(type)) {
+			BaseModelJson<String> bmj = ServiceAPI.sigInA(userLogin, passWord);
+			if (bmj.Successful) {
+				User uu = userService.findUser(userLogin);
+				if (uu == null) {
+					uu = new User();
+					uu.setUser_id(UUIDUtil.getRandom32PK()); // id
+					uu.setUserLogin(userLogin); // 帐号
+					uu.setPassWord(Md5.getVal_UTF8(passWord)); // 密码md5
+					uu.setUser_type(Constants.USER_VIP); // 会员用户
+					uu.setUser_state(Constants.USER_ACTIVE); // 活跃
+					mapper.userrigester_user(uu); // 注册的会员插入到
+					BaseModelJson<FwwUser> fww = ServiceAPI.getFwwUserInfoA(bmj.Data);
+					
+					if (fww.Successful) {
+						FwwUser fu= fww.Data;
+						uu.setRealName(fu.getM_realrName());
+						uu.setIdCard(fu.getM_idCard());
+						uu.setDq("--");
+						uu.setUser_email(fu.getM_Email());
+					}
+					uu.setUser_img(".jpg");
+					mapper.userrigester_userinfo(uu);
+					uu.setToken(bmj.Data);
+					userService.add_token(uu); // 插入token
+				} else {
+					User_token lTokens = userService.select_UsertokenByUserid(uu.getUser_id());
+					if(lTokens==null){
+						lTokens= new User_token();
+						lTokens.setUser_id(uu.getUser_id());
+					}
+					lTokens.setToken(bmj.Data);
+					userService.update_token(lTokens);
+				}
+				result.Data = uu;
+				result.Data.setToken(bmj.Data);
+				result.Successful = true;
+			} else {
+				result.Error = bmj.Error;
+			}
+			return result;
+		}
+		if (Constants.USER_.equals(type)) {
+			Map<String, String> map = new HashMap<>();
+			map.put("userLogin", userLogin);
+			map.put("passWord", Md5.getVal_UTF8(passWord));
+			User uu = userService.login(map);
+			if (uu == null) {
+				result.Error = "用户名或者密码错误";
+			} else if (Constants.USER_LOCK.equals(uu.getUser_state())) {
+				result.Error = "用户名已被锁定";
+			} else {
+				String txt = uu.getUserLogin() + uu.getPassWord() + DateUtil.getDays();
+				String token = New_token.newToken(txt);
+				uu.setToken(token);
+				User_token lTokens = new User_token();
+				lTokens.setToken(token);
+				lTokens.setUser_id(uu.getUser_id());
+				userService.select_UsertokenByUserid(uu.getUser_id());
+				userService.update_token(lTokens);
+				result.Successful = true;
+				result.Data = uu;
+			}
+		}
+		return result;
+	}
+
+	
+	
+	
 	/**
 	 * 获取用户信息
 	 * 

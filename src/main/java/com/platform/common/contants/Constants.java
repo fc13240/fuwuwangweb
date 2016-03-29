@@ -15,6 +15,8 @@ public class Constants {
 //	public static final String PATH="http://124.254.56.58:8007/api/";
 	//正式环境
 	public static final String PATH="http://appapib.86fuwuwang.com/api/";
+	public static final String PATHA="http://appapia.86fuwuwang.com/api/";
+	
 	
 	public static final String YU="redirect:/";
 //	public static final String YU="redirect:http://localhost:8080/fuwuwangshop/";

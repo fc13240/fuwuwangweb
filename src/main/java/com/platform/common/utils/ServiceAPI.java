@@ -135,6 +135,42 @@ public class ServiceAPI {
 		}
 		return bmj;
 	}
+	
+	/**
+	 * 登录
+	 * 
+	 * @param userLogin
+	 *            帐号
+	 * @param passWord
+	 *            密码
+	 * @return
+	 */
+	public static BaseModelJson<String> sigInA(String userLogin, String passWord) {
+		OkHttpClient client = new OkHttpClient();
+		Gson gson = new Gson();
+		String url = Constants.PATHA + "Content/SignIn?userLogin=" + userLogin + "&userPass=" + passWord;
+		JSONObject param = new JSONObject();
+		com.squareup.okhttp.RequestBody body = com.squareup.okhttp.RequestBody.create(JSONTPYE, gson.toJson(param));
+		Request request = new Request.Builder().url(url).post(body).build();
+		BaseModelJson<String> bmj = null;
+		try {
+			Response response = client.newCall(request).execute();
+			if (response.isSuccessful()) {
+				bmj = gson.fromJson(response.body().string(),  new TypeToken<BaseModelJson<String>>(){}.getType());
+			} else {
+				bmj = new BaseModelJson<>();
+				bmj.Successful = false;
+				bmj.Error = "服务器繁忙";
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			bmj = new BaseModelJson<>();
+			bmj.Successful = false;
+			bmj.Error = "服务器繁忙";
+		}
+		return bmj;
+	}
 
 	/**
 	 * 根据token获取 会员信息
@@ -146,6 +182,38 @@ public class ServiceAPI {
 		OkHttpClient client = new OkHttpClient();
 		Gson gson = new Gson();
 		String url = Constants.PATH + "Member/GetZcUserById";
+		Request request = new Request.Builder().url(url).addHeader("Token", token).get().build();
+		BaseModelJson<FwwUser> bmj = null;
+		try {
+			Response response = client.newCall(request).execute();
+			if (response.isSuccessful()) {
+				bmj = gson.fromJson(response.body().string(), new TypeToken<BaseModelJson<FwwUser>>(){}.getType());
+			} else {
+				bmj = new BaseModelJson<>();
+				bmj.Successful = false;
+				bmj.Error = "服务器繁忙";
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			bmj = new BaseModelJson<>();
+			bmj.Successful = false;
+			bmj.Error = "服务器繁忙";
+		}
+		return bmj;
+	}
+	
+	
+	/**
+	 * 根据token获取 会员信息
+	 * 
+	 * @param token
+	 * @return
+	 */
+	public static BaseModelJson<FwwUser> getFwwUserInfoA(String token) {
+		OkHttpClient client = new OkHttpClient();
+		Gson gson = new Gson();
+		String url = Constants.PATHA + "Member/GetZcUserById";
 		Request request = new Request.Builder().url(url).addHeader("Token", token).get().build();
 		BaseModelJson<FwwUser> bmj = null;
 		try {
