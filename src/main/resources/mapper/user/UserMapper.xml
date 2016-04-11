@@ -16,6 +16,7 @@
 
 
 
+
 	<!-- 根据userLogin获取登陆人——基本信息 -->
 	<select id="findByUsername" parameterType="String"
 		resultType="com.platform.entity.User">
