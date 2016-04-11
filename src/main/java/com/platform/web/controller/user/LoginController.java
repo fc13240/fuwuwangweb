@@ -85,7 +85,11 @@ public class LoginController {
 					session.setAttribute("bean", resultUser);
 					session.setAttribute("UrlList", resourceService.findResource_idByUser_Role_Type(1));
 					return Constants.YU+"admin/store/list";
-				} else if ("2".equals(resultUser.getUser_type()) && "2".equals(resultUser.getUser_state())) {// 商家
+				}else if ("9".equals(resultUser.getUser_type())) {// 管理员
+					session.setAttribute("bean", resultUser);
+					session.setAttribute("UrlList", resourceService.findResource_idByUser_Role_Type(9));
+					return Constants.YU+"checkadmin/store/list";
+				}else if ("2".equals(resultUser.getUser_type()) && "2".equals(resultUser.getUser_state())) {// 商家
 					// 正常用户
 					session.setAttribute("bean", resultUser);
 					session.setAttribute("UrlList", resourceService.findResource_idByUser_Role_Type(2));

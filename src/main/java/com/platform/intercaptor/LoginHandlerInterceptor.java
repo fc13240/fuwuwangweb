@@ -41,7 +41,6 @@ public class LoginHandlerInterceptor extends HandlerInterceptorAdapter{
 				List<String> resourceslist=(List<String>) session.getAttribute("UrlList");
 				for(String resourceUrl : resourceslist){
 						if(path.contains(resourceUrl)){
-							System.out.println("满足条件的路径"+path);
 							return true;
 						}
 				}
