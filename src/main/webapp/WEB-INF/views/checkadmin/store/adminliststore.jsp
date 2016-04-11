@@ -39,7 +39,7 @@
 
 
 <form class="searchform"
-	action="${pageContext.request.contextPath}/admin/store/search"
+	action="${pageContext.request.contextPath}/checkadmin/store/search"
 	method="GET" onsubmit="return check()">
 	<input type="text" class="form-control" name="phone" value="${phone}"
 		id="phone" placeholder="请输入店铺名称或商家用户名" /> 
@@ -164,7 +164,7 @@
 				<h4 class="modal-title" id="myModalLabel">审核确认</h4>
 			</div>
 			<form class="form-horizontal col-sm-offset-2"
-				action="${pageContext.request.contextPath}/admin/store/auditsuccess"
+				action="${pageContext.request.contextPath}/checkadmin/store/auditsuccess"
 				method="post" enctype="multipart/form-data">
 				<input type="text" id="sid1" hidden="true" name="store_id" />
 				<div class="modal-body">是否确认该店铺审核通过？</div>
@@ -189,7 +189,7 @@
 				<h4 class="modal-title" id="myModalLabel">审核确认</h4>
 			</div>
 			<form class="form-horizontal col-sm-offset-2"
-				action="${pageContext.request.contextPath}/admin/store/auditfail"
+				action="${pageContext.request.contextPath}/checkadmin/store/auditfail"
 				method="post" enctype="multipart/form-data">
 				<input type="text" id="sid2" hidden="true" name="store_id" />
 				<div class="modal-body">是否确认该店铺审核未通过？</div>
@@ -214,7 +214,7 @@
 				<h4 class="modal-title" id="myModalLabel">审核确认</h4>
 			</div>
 			<form class="form-horizontal col-sm-offset-2"
-				action="${pageContext.request.contextPath}/admin/store/lockstore"
+				action="${pageContext.request.contextPath}/checkadmin/store/lockstore"
 				method="post" enctype="multipart/form-data">
 				<input type="text" id="sid3" hidden="true" name="store_id" />
 				<div class="modal-body">是否确认锁定该店铺审核？</div>
@@ -239,7 +239,7 @@
 				<h4 class="modal-title" id="myModalLabel">解锁确认</h4>
 			</div>
 			<form class="form-horizontal col-sm-offset-2"
-				action="${pageContext.request.contextPath}/admin/store/activitystore"
+				action="${pageContext.request.contextPath}/checkadmin/store/activitystore"
 				method="post" enctype="multipart/form-data">
 				<input type="text" id="sid4" hidden="true" name="store_id" />
 				<div class="modal-body">是否确认解锁该店铺？</div>
@@ -334,7 +334,7 @@
 		//alert(paramstoreId);
 		var base = "${pageContext.request.contextPath}";
 		$.ajax({
-			url : base + "/admin/store/findstroeinfobystore_id",
+			url : base + "/checkadmin/store/findstroeinfobystore_id",
 			type : "GET",
 			datatype : "text",
 			data : "store_id=" + findstroeinfobystore_id + "&type=" + type,

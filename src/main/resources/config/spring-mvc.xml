@@ -41,6 +41,7 @@
 				<mvc:mapping path="/admin/**"/>
 			<!-- 	<mvc:mapping path="/app/**"/> -->
 				<mvc:mapping path="/merchant/**"/>
+				<mvc:mapping path="/checkadmin/**"/>
 			<bean class="com.platform.intercaptor.LoginHandlerInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>
